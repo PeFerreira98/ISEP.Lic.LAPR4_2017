@@ -1,0 +1,133 @@
+/*
+ * Alexandre Braganca (atb@isep.ipp.pt)
+ * 
+ */
+
+/*
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath 'net.sourceforge.plantuml:plantuml:8051'
+        classpath 'commons-io:commons-io:2.4'
+    }
+}
+*/
+
+apply plugin: 'java'
+apply plugin: 'application'
+apply plugin: 'jacoco'
+apply plugin: 'antlr'
+apply plugin: 'build-dashboard'
+
+mainClassName = 'csheets.CleanSheets'
+
+group = 'csheets'
+version = '1.0-SNAPSHOT'
+
+description = "CleanSheets"
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+repositories { mavenCentral() }
+
+dependencies {
+	antlr "org.antlr:antlr:3.4" // use ANTLR version 3
+// 	antlr "org.antlr:antlr4:4.5" // use ANTLR version 4
+
+	testCompile 'junit:junit:4.12'
+
+//	compile 'org.antlr:antlr-runtime:3.4'
+        
+        compile 'org.eclipse.persistence:eclipselink:2.6.1'
+	compile 'org.eclipse.persistence:org.eclipse.persistence.jpa.modelgen.processor:2.6.1'
+	compile 'com.h2database:h2:1.4.191'
+	compile 'org.beanshell:bsh:2.0b5'
+	compile 'jfree:jfreechart:1.0.13'
+	compile 'org.bouncycastle:bcprov-jdk15on:1.54'
+	compile 'org.bouncycastle:bcpkix-jdk15on:1.54'
+	compile 'com.itextpdf.tool:xmlworker:5.5.9'
+	compile 'javax.mail:javax.mail-api:1.5.2'
+	compile 'javax.mail:mail:1.4.7'
+	compile 'com.itextpdf:itextpdf:5.5.9'
+}
+
+sourceSets.main.output.resourcesDir = sourceSets.main.output.classesDir
+sourceSets.main.antlr.srcDirs = [ 'src/main/antlr3/']
+
+compileJava.dependsOn(processResources)
+
+//compileJava {
+//	sourceCompatibility = '1.8'
+//}
+
+jacoco {
+	applyTo run
+}
+
+task runCoverageReport(type:JacocoReport){
+	executionData run
+	sourceSets sourceSets.main
+
+	afterEvaluate {
+		classDirectories = files(classDirectories.files.collect {
+			fileTree(dir: it, exclude: '**/test/**')
+		})
+	}
+}
+
+
+// run.finalizedBy runCoverageReport
+
+task renderPlantUml (type: RenderPlantUmlTask);
+
+//task cleanPlantUml (type: CleanPlantUmlTask);
+
+/*
+def paths = [:]
+def listOfPaths = []
+
+def access = {d, path ->
+    if (d[path] == null) {
+        d[path] = [:]
+    } 
+    return d[path]        
+}
+
+task listar  {
+    new File('./src/main/java').eachFileRecurse( FileType.DIRECTORIES, 
+        { file ->
+            file.eachFileMatch(~/.*.puml/) 
+            { pumlFile ->
+                listOfPaths << pumlFile.toString().tokenize('/') 
+            }
+        }
+    )
+
+    println listOfPaths
+    
+    /*
+    listOfPaths.each{ path ->
+            def currentPath = paths
+            path.each { step ->
+                currentPath = access(currentPath, step)
+            }
+    }
+    
+}
+*/
+
+javadoc { 
+    source = sourceSets.main.allJava
+    options.overview = "src/main/javadoc/overview.html" // relative to source root
+    options.groups.put ('Application Core', ['csheets', 'csheets.core*', 'csheets.io*'])
+    options.groups.put ('User Interface', ['csheets.ui*'])
+    options.groups.put ('Extension Mechanism', ['csheets.ext', 'csheets.ui.ext*'])
+    options.groups.put ('Extensions', ['csheets.ext*'])
+    options.groups.put ('Work Log', ['csheets.worklog*'])
+}
+
+javadoc.dependsOn(renderPlantUml)
