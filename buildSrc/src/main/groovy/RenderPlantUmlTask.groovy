@@ -40,6 +40,7 @@ import org.gradle.api.tasks.TaskAction
 // For File
 import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import groovy.io.FileType
 
 /**
@@ -52,24 +53,47 @@ class RenderPlantUmlTask extends DefaultTask {
     def Path assetsPathOutput = project.projectDir.toPath().resolve('build/docs/javadoc/')
    
     RenderPlantUmlTask() {
-        new File('./src/main/java/').eachFileRecurse( FileType.DIRECTORIES, 
+        Path projectPath = project.projectDir.toPath()
+        
+        new File(assetsPathInput.toString()).eachFileRecurse( FileType.DIRECTORIES,     
             { file ->
                 file.eachFileMatch(~/.*.puml/) 
                 { pumlFile -> 
                     inputs.file pumlFile
-                    outputs.file getDestination(pumlFile, '.png').toFile()
+
+                    def outFile=getDestination(pumlFile, '.png')
+                    //println "Output=${outFile}"
+                    
+                    outputs.file outFile
                 }
             }
         )
     }
     
-    Path getDestination(File puml, String extension) {
-        String baseName = FilenameUtils.getBaseName(puml.name)
+    File getDestination(File puml, String extension) {
+        // eg: puml = /workspaces/lapr4-2017/csheets17/src/main/java/csheets/application_start_image1.puml
+        String baseName = FilenameUtils.getBaseName(puml.name)    // eg: application_start_image1
         String destName = "${baseName}"
-        String basePath = FilenameUtils.getFullPath(puml.path)
-        def Path newPath = project.projectDir.toPath().resolve(basePath + destName + extension)
-        Path relPath = assetsPathInput.relativize(newPath)
-        assetsPathOutput.resolve(relPath)
+        String basePath = FilenameUtils.getFullPath(puml.path)    // eg: /workspaces/lapr4-2017/csheets17/src/main/java/csheets/
+        
+        String assetsPathInputString=assetsPathInput.toString()
+        //println "assetsPathInput="+assetsPathInputString
+        
+        String assetsPathOutputString=assetsPathOutput.toString()
+        //println "assetsPathOutput="+assetsPathOutputString
+        
+        String relativePath=basePath.substring(assetsPathInputString.length())
+        //println "relativePath=${relativePath}"
+        
+        String newRelativePathString = relativePath + destName + extension
+        //println "newRelativePathString="+newRelativePathString
+        
+        String newAbsolutePathString = assetsPathOutputString+newRelativePathString
+        //println "newAbsolutePathString="+newAbsolutePathString
+        
+        Path destPathPng=Paths.get(newAbsolutePathString)
+        
+        destPathPng.toFile()
     }
 
     String getDirectory(File file) {
@@ -78,49 +102,29 @@ class RenderPlantUmlTask extends DefaultTask {
     
     @TaskAction
     def render() {
-
         Path projectPath = project.projectDir.toPath()
-        for (File puml : inputs.files) {
+        for (int i=0; i<inputs.files.size(); i=i+1) {
+            File puml = inputs.files[i]
+            File png = outputs.files[i]
+            
             String relPumlPath = projectPath.relativize(puml.toPath()).toString()
             String pumlContent = new String(Files.readAllBytes(puml.toPath()), 'UTF-8')
-           
-            // IMPORTANT:
-            // It is necessary to create the directory if it does not existe yet!
             
             // Now, generate the file
             SourceStringReader reader = new SourceStringReader(pumlContent)
-            Path destPathPng = getDestination(puml, '.png')
 
-            if (!destPathPng.toFile().exists())
+            // IMPORTANT:
+            // It is necessary to create the directory if it does not existe yet!
+            if (!png.exists())
             {
-                def dir=getDirectory(destPathPng.toFile())
+                def dir=getDirectory(png)
                 // println "Directory=${dir}"
                 def subdir = new File(dir)
                 subdir.mkdirs()
             }
             
-            println "Rendering ${relPumlPath} to ${projectPath.relativize(destPathPng)}"
-            reader.generateImage(new FileOutputStream(destPathPng.toFile()), new FileFormatOption(FileFormat.PNG))
+            //println "Rendering ${relPumlPath} to ${projectPath.relativize(png.toPath()).toString()}"
+            reader.generateImage(new FileOutputStream(png), new FileFormatOption(FileFormat.PNG))
         }
     }
 }
-
-/*
-class CleanPlantUmlTask extends Delete {
-
-    def Path assetsPath = project.projectDir.toPath().resolve('assets/')
-
-    CleanPlantUmlTask() {
-        for (Path puml : Files.newDirectoryStream(assetsPath, '*.puml')) {
-            //delete getDestination(puml.toFile(), '.svg').toFile()
-            delete getDestination(puml.toFile(), '.png').toFile()
-        }
-    }
-
-    Path getDestination(File puml, String extension) {
-        String baseName = FilenameUtils.getBaseName(puml.name)
-        String destName = "${baseName}"
-        assetsPath.resolve(destName + extension)
-    }
-}
-*/

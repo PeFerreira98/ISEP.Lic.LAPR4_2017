@@ -82,7 +82,9 @@ task runCoverageReport(type:JacocoReport){
 
 // run.finalizedBy runCoverageReport
 
-task renderPlantUml (type: RenderPlantUmlTask);
+task renderPlantUml (type: RenderPlantUmlTask) { }
+
+// task cleanPlantUml (type: CleanPlantUmlTask) { }
 
 //task cleanPlantUml (type: CleanPlantUmlTask);
 
@@ -128,6 +130,20 @@ javadoc {
     options.groups.put ('Extension Mechanism', ['csheets.ext', 'csheets.ui.ext*'])
     options.groups.put ('Extensions', ['csheets.ext*'])
     options.groups.put ('Work Log', ['csheets.worklog*'])
+    options.groups.put ('Team White / Sprint 1', ['lapr4.white.s1.*']) 
+
+    options.groups.put ('Team Red / Sprint 1', ['lapr4.red.s1.*']) 
+    options.groups.put ('Team Red / Sprint 2', ['lapr4.red.s2.*']) 
+    options.groups.put ('Team Red / Sprint 3', ['lapr4.red.s3.*']) 
+
+    options.groups.put ('Team Green / Sprint 1', ['lapr4.green.s1.*']) 
+    options.groups.put ('Team Green / Sprint 2', ['lapr4.green.s2.*']) 
+    options.groups.put ('Team Green / Sprint 3', ['lapr4.green.s3.*']) 
+
+    options.groups.put ('Team Blue / Sprint 1', ['lapr4.blue.s1.*']) 
+    options.groups.put ('Team Blue / Sprint 2', ['lapr4.blue.s2.*']) 
+    options.groups.put ('Team Blue / Sprint 3', ['lapr4.blue.s3.*']) 
+    
 }
 
 javadoc.dependsOn(renderPlantUml)
