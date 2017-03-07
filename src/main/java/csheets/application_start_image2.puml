@@ -1,4 +1,4 @@
- @startuml doc-files/application_start_image2.png
+ @startuml application_start_image2.png
 participant CleanSheets as CS
 participant "app : CleanSheets" as aCS
 participant "Frame.Creator" as FC

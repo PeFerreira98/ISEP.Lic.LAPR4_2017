@@ -25,6 +25,7 @@ import java.util.TreeSet;
 
 import csheets.core.formula.Expression;
 import csheets.core.formula.Reference;
+import lapr4.gray.s1.lang.n3456789.formula.NaryOperation;
 
 /**
  * An expression visitor that collects the references from an expression.
@@ -59,4 +60,14 @@ public class ReferenceFetcher extends AbstractExpressionVisitor {
 		references.add(reference);
 		return reference;
 	}
+        
+        @Override
+        public Object visitNaryOperation(NaryOperation operation) {
+            Expression[] operands=operation.getOperands();
+        
+            for (Expression expr: operands) {
+                expr.accept(this);
+            }
+            return operation;
+        }
 }

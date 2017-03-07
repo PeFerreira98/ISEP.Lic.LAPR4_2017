@@ -73,8 +73,10 @@ public class FormulaCompiler {
 				Class elementClass;
 				Object element;
 				try {
-					elementClass = Class.forName(getClass().getPackage()
-						.getName() + "." + (String)className);
+					//elementClass = Class.forName(getClass().getPackage()
+					//	.getName() + "." + (String)className);
+					elementClass = Class.forName((String)className);
+                                        
 					element = elementClass.newInstance();
 				} catch (Exception e) {
 					// Skip this element, regardless of what went wrong

@@ -61,6 +61,8 @@ class RenderPlantUmlTask extends DefaultTask {
                 { pumlFile -> 
                     inputs.file pumlFile
 
+                    //println "Input=${pumlFile}"
+                    
                     def outFile=getDestination(pumlFile, '.png')
                     //println "Output=${outFile}"
                     
@@ -105,7 +107,8 @@ class RenderPlantUmlTask extends DefaultTask {
         Path projectPath = project.projectDir.toPath()
         for (int i=0; i<inputs.files.size(); i=i+1) {
             File puml = inputs.files[i]
-            File png = outputs.files[i]
+            //File png = outputs.files[i]
+            File png=getDestination(puml, '.png')
             
             String relPumlPath = projectPath.relativize(puml.toPath()).toString()
             String pumlContent = new String(Files.readAllBytes(puml.toPath()), 'UTF-8')

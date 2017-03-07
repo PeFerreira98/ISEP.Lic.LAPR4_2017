@@ -1,4 +1,4 @@
- @startuml doc-files/domain_model_formulas_image1.png
+ @startuml domain_model_formulas_image1.png
 class Formula {
 	+Formula(Cell cell, Expression expression) 
 }

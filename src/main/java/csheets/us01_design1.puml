@@ -1,4 +1,4 @@
-  @startuml doc-files/us01_design1.png
+  @startuml us01_design1.png
   participant "uic : UIController" as UIC
   participant ExtensionManager as ExtM
   participant "extension : CommentsExtension" as EExample

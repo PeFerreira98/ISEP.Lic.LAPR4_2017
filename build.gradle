@@ -74,11 +74,68 @@ task runCoverageReport(type:JacocoReport){
 
 	afterEvaluate {
 		classDirectories = files(classDirectories.files.collect {
-			fileTree(dir: it, exclude: '**/test/**')
+			//fileTree(dir: it, exclude: '**/test/**')
+                        fileTree(dir: it, include: 'lapr4/white/s1/n1234567/**')
 		})
 	}
 }
 
+task testCoverageReport(type:JacocoReport){
+	executionData test
+	sourceSets sourceSets.main
+
+	afterEvaluate {
+		classDirectories = files(classDirectories.files.collect {
+			//fileTree(dir: it, exclude: '**/test/**')
+                        fileTree(dir: it, include: 'lapr4/**', exclude: '**/ui')
+		})
+	}
+}
+
+task individualCoverageReport(type:JacocoReport){
+	executionData test
+	sourceSets sourceSets.main
+        
+        ext.path = 'lapr4/white/s1/n1234567/**'
+
+	afterEvaluate {
+		classDirectories = files(classDirectories.files.collect {
+			//fileTree(dir: it, exclude: '**/test/**')
+                        //fileTree(dir: it, include: 'lapr4/white/s1/n1234567/**')
+                        fileTree(dir: it, include: path)
+		})
+	}
+}
+
+
+task generateAllCoverageReport << {
+    
+    ['lapr4/white/s1/n1234567/**',
+     'csheets/ext/**'].collect {
+        it
+    }.eachWithIndex {dirName, index -> 
+        
+        println dirName
+        
+        tasks.individualCoverageReport.path=dirName
+        tasks.individualCoverageReport.execute()
+        
+//        task indCoverageReport2(type:JacocoReport){
+//            executionData test
+//            sourceSets sourceSets.main
+//
+//            afterEvaluate {
+//		classDirectories = files(classDirectories.files.collect {
+//			//fileTree(dir: it, exclude: '**/test/**')
+//                        fileTree(dir: it, include: "${dirName}")
+//		})
+//            }
+//        }
+    }
+        //task "copyFlavor${index}"(type: Copy) {
+        // from "${srcDir}/${flavorName}"
+        // and so on
+}
 
 // run.finalizedBy runCoverageReport
 
@@ -130,7 +187,10 @@ javadoc {
     options.groups.put ('Extension Mechanism', ['csheets.ext', 'csheets.ui.ext*'])
     options.groups.put ('Extensions', ['csheets.ext*'])
     options.groups.put ('Work Log', ['csheets.worklog*'])
+    
     options.groups.put ('Team White / Sprint 1', ['lapr4.white.s1.*']) 
+    options.groups.put ('Team Black / Sprint 1', ['lapr4.black.s1.*']) 
+    options.groups.put ('Team Gray / Sprint 1', ['lapr4.gray.s1.*']) 
 
     options.groups.put ('Team Red / Sprint 1', ['lapr4.red.s1.*']) 
     options.groups.put ('Team Red / Sprint 2', ['lapr4.red.s2.*']) 

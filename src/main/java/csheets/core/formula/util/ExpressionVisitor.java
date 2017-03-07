@@ -25,6 +25,7 @@ import csheets.core.formula.FunctionCall;
 import csheets.core.formula.Literal;
 import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
+import lapr4.gray.s1.lang.n3456789.formula.NaryOperation;
 
 /**
  * An interface for using the Visitor pattern for traversing expressions.
@@ -52,6 +53,13 @@ public interface ExpressionVisitor {
 	 * @return an arbitrary object
 	 */
 	public Object visitBinaryOperation(BinaryOperation operation);
+        
+      	/**
+	 * Visits the given n-ary expression.
+	 * @param operation the operation to visit
+	 * @return an arbitrary object
+	 */
+	public Object visitNaryOperation(NaryOperation operation);
 
 	/**
 	 * Visits the given cell reference.

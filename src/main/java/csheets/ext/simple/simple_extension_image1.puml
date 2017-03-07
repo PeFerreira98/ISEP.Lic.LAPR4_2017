@@ -1,4 +1,4 @@
-  @startuml doc-files/simple_extension_image1.png
+  @startuml simple_extension_image1.png
   class ExampleAction {
    }
   class ExampleMenu
