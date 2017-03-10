@@ -53,8 +53,6 @@ dependencies {
 	compile 'javax.mail:javax.mail-api:1.5.2'
 	compile 'javax.mail:mail:1.4.7'
 	compile 'com.itextpdf:itextpdf:5.5.9'
-        
-        compile project(':framework')
 }
 
 sourceSets.main.output.resourcesDir = sourceSets.main.output.classesDir
