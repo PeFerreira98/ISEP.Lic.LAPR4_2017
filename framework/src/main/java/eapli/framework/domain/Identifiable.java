@@ -11,7 +11,7 @@ package eapli.framework.domain;
  * @param <T>
  *            the type of the entity's identity. e.g., if an object Person is
  *            identified by an IdCardNumber, the class Person should implement
- *            interface Identifiable<IdCardNumber>
+ *            {@code interface Identifiable<IdCardNumber>}
  */
 public interface Identifiable<T> {
 

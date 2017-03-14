@@ -42,10 +42,11 @@ dependencies {
 
 //	compile 'org.antlr:antlr-runtime:3.4'
         
-        compile 'org.eclipse.persistence:eclipselink:2.6.1'
-	compile 'org.eclipse.persistence:org.eclipse.persistence.jpa.modelgen.processor:2.6.1'
+        compile 'org.eclipse.persistence:eclipselink:2.6.2'
+	compile 'org.eclipse.persistence:org.eclipse.persistence.jpa.modelgen.processor:2.6.2'
 	compile 'com.h2database:h2:1.4.191'
-	compile 'org.beanshell:bsh:2.0b5'
+        
+        compile 'org.beanshell:bsh:2.0b5'
 	compile 'jfree:jfreechart:1.0.13'
 	compile 'org.bouncycastle:bcprov-jdk15on:1.54'
 	compile 'org.bouncycastle:bcpkix-jdk15on:1.54'

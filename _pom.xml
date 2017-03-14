@@ -17,7 +17,11 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
-
+    <modules>
+        <module>util</module>
+        <module>framework</module>
+    </modules>
+ 
     <dependencies>
 
         <!--
@@ -34,6 +38,24 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>eclipselink</artifactId>
+            <version>2.6.2</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>1.4.191</version>
+        </dependency>
+        
+        <dependency>
+            <groupId>csheets</groupId>
+            <artifactId>framework</artifactId>
+            <version>1.0-SNAPSHOT</version>
         </dependency>
         
     </dependencies>

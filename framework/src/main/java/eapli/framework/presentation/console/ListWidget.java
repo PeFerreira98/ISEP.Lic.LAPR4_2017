@@ -13,9 +13,10 @@ import java.util.Collection;
  *
  * e.g., create a widget for User
  *
- * Collection<User> itens = controller.all(); <br/>
+ * {@code 
+ * Collection<User> itens = controller.all(); 
  * ListWidget<User> wg = new ListWidget<>(itens, new ShowUserVisitor());
- *
+ * }
  *
  *
  * @author Paulo Gandra Sousa
