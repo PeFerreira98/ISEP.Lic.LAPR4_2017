@@ -5,23 +5,35 @@
     skinparam defaultFontName FG Virgil
     skinparam shadowing false
 
-    class Contact {
+    title Domain Model
+
+    hide methods
+
+    class CRMUser << (E, lightgray) >>{
+    }
+
+    class Contact << (E, lightgray) >>{
         firstName
         lastName
         photo
     }
 
-    class Agenda {
+    class Agenda << (E, lightgray) >>{
     }
 
-    class Event {
+    class Event << (E, lightgray) >>{
         description
         dueDate
     }
 
-    Contact *-> "1" Agenda : agenda
+    CRMUser -> "*" Contact : manages
 
-    Agenda *-> "*" Event : events
+    Contact --> "1" Agenda : has
 
+    Agenda -left-> "*" Event : has
+
+    Event --> CRMUser : notifies
+
+    CRMUser --> "*" Event : records
 
 @enduml

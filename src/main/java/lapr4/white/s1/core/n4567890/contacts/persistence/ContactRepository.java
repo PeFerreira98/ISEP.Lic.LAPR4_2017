@@ -11,6 +11,6 @@ import eapli.framework.persistence.repositories.Repository;
 /**
  * Created by nuno on 21/03/16.
  */
-public interface ContactRepository extends Repository<Contact, Long> {
+public interface ContactRepository extends Repository<Contact, String> {
 
 }

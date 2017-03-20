@@ -37,23 +37,24 @@ public class ContactsExtension extends Extension {
 	 */
 	public UIExtension getUIExtension(UIController uiController) {
  
-                // A small test to see if JPA is working
-                          
-                // Register Contact
-                final String firstName = "john";
-                final String lastName = "doe";
-
-                final AddContactController contactController = new AddContactController(uiController.getUserProperties());
-                try {
-                    contactController.addContact(firstName, lastName);
-                } catch (final Exception e) {
-                    // ignoring exception. assuming it is justa primiray key violation
-                    // due to the tentative of inserting a duplicated user
-                    
-                    // Lets log the exception...
-                    // FIXME handle exception properly
-                    Logger.getLogger(ContactsExtension.class.getName()).log(Level.WARNING, null, e);
-                }
+//                // A small test to see if JPA is working
+//                          
+//                // Register Contact
+//                final String name = "john doe";
+//                final String firstName = "john";
+//                final String lastName = "doe";
+//
+//                final AddContactController contactController = new AddContactController(uiController.getUserProperties());
+//                try {
+//                    contactController.addContact(name, firstName, lastName);
+//                } catch (final Exception e) {
+//                    // ignoring exception. assuming it is justa primiray key violation
+//                    // due to the tentative of inserting a duplicated user
+//                    
+//                    // Lets log the exception...
+//                    // FIXME handle exception properly
+//                    Logger.getLogger(ContactsExtension.class.getName()).log(Level.WARNING, null, e);
+//                }
             
                 return null;
 		//return new UIExtensionComments(this, uiController);

@@ -39,4 +39,9 @@ public class ExtensionSettings {
 	public String getRepositoryFactory() {
 		return this.extensionProperties.getProperty(REPOSITORY_FACTORY_KEY);
 	}
+        
+        // Test if this will work in acceptance tests...
+        public Properties properties() {
+            return extensionProperties;
+        }
 }
