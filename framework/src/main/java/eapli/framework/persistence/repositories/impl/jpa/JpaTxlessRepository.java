@@ -50,13 +50,15 @@ public class JpaTxlessRepository<T, K extends Serializable>
         implements Repository<T, K>, IterableRepository<T, K>, DeleteableRepository<T, K> {
     private static final int DEFAULT_PAGESIZE = 20;
 
-    private final String persistenceUnitName;
+    //(ATB)private final String persistenceUnitName;
+    protected final String persistenceUnitName;
 
     protected final Class<T> entityClass;
 
     // will be injected by Spring
     @PersistenceUnit
-    private EntityManagerFactory emFactory;
+    //(ATB)private EntityManagerFactory emFactory;
+    protected EntityManagerFactory emFactory;
     private EntityManager entityManager;
 
     /**
