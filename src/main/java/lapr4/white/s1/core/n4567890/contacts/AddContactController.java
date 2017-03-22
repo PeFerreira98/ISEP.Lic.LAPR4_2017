@@ -58,10 +58,19 @@ public class AddContactController implements Controller {
         Event ev=new Event(eventDescription, dueDate);
         
         contact.agenda().add(ev);
- 
+        
+        // TODO: When do we save?...
+        this.contactsRepository.save(contact);
+        
         return ev; 
     }
         
+    public boolean removeContact(Contact contact) throws DataConcurrencyException, DataIntegrityViolationException {
+        
+        return this.contactsRepository.removeContact(contact);
+        //return this.contactsRepository..save(new Contact(name, firstName, lastName));
+        // return false; 
+    }
     /*
     public SystemUser addUser(String username, String password, String firstName, String lastName, String email,
             Set<RoleType> roles) throws DataIntegrityViolationException, DataConcurrencyException {

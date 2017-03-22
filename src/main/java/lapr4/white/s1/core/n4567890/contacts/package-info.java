@@ -23,7 +23,7 @@
  * 
  * <b>US1.</b> As a CRM User I want to be able to manage Contacts.<br>
  *     Story Acceptance Criteria 1: No contact name duplicates<br>
- *     Story Acceptance Criteria 2: No deletion of contacts with future events<br>
+ *     Story Acceptance Criteria 2: No deletion of contacts with events<br>
  * <b>US2.</b> As a CRM User I want to add events to the agenda of Contacts.<br>
  * <b>US3.</b> As a CRM User I want to be notified when the due date of an event occurs.<br>
  * 

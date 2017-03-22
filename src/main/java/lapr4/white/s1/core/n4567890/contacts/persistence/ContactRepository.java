@@ -5,6 +5,7 @@
  */
 package lapr4.white.s1.core.n4567890.contacts.persistence;
 
+import eapli.framework.persistence.DataIntegrityViolationException;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 import eapli.framework.persistence.repositories.Repository;
 
@@ -13,4 +14,6 @@ import eapli.framework.persistence.repositories.Repository;
  */
 public interface ContactRepository extends Repository<Contact, String> {
 
+    boolean removeContact(Contact c) throws DataIntegrityViolationException;
+    
 }
