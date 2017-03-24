@@ -19,7 +19,7 @@ import lapr4.white.s1.core.n4567890.contacts.persistence.ContactRepository;
  *
  * Created by nuno on 20/03/16.
  */
-class JpaContactRepository extends CrmJpaRepositoryBase<Contact, String> implements ContactRepository {
+class JpaContactRepository extends CrmJpaRepositoryBase<Contact, Long> implements ContactRepository {
 
     JpaContactRepository(ExtensionSettings settings) {
         super(settings);

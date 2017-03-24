@@ -27,9 +27,8 @@ public class ExtensionSettings {
         }
 
 	private void setDefaultProperties() {
-		this.extensionProperties.setProperty(REPOSITORY_FACTORY_KEY,
-				"JpaRepositoryFactory");
-		this.extensionProperties.setProperty(PERSISTENCE_UNIT_KEY, "eapli.demo-application-PU");
+		this.extensionProperties.setProperty(REPOSITORY_FACTORY_KEY, "JpaRepositoryFactory");
+		this.extensionProperties.setProperty(PERSISTENCE_UNIT_KEY, "lapr4.csheets-crm-extension-PU");
 	}
 
 	public String getPersistenceUnitName() {

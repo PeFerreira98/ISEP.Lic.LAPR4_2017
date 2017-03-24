@@ -24,6 +24,11 @@ apply plugin: 'build-dashboard'
 
 mainClassName = 'csheets.CleanSheets'
 
+// Needed for netbeans
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'csheets.CleanSheets'
+}
+
 group = 'csheets'
 version = '1.0-SNAPSHOT'
 

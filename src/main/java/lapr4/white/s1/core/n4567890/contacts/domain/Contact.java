@@ -12,15 +12,13 @@ package lapr4.white.s1.core.n4567890.contacts.domain;
 //import eapli.framework.domain.AggregateRoot;
 import eapli.framework.domain.AggregateRoot;
 import java.io.Serializable;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
-import javax.persistence.Version;
 
 /**
  * Contact
@@ -29,25 +27,25 @@ import javax.persistence.Version;
  *
  */
 @Entity
-public class Contact implements AggregateRoot<String>, Serializable { 
+public class Contact implements AggregateRoot<Long>, Serializable { 
    
     // ORM primary key
     @Id
     @GeneratedValue
-    private Long pk;    
+    private Long pk=null;    
     
     // This should be the Business ID
     @Column(unique = true)
-    private String name;
+    private String name=null;
     
-    private String firstName;
+    private String firstName=null;
     
-    private String lastName;
+    private String lastName=null;
     
-    private String photo;
+    private String photo=null;
     
     @OneToOne(cascade = CascadeType.ALL) //(cascade = CascadeType.MERGE)
-    private Agenda agenda;
+    private Agenda agenda=null;
 
     protected Contact() {
         // for ORM
@@ -62,6 +60,14 @@ public class Contact implements AggregateRoot<String>, Serializable {
         // Create a the contact Agenda
         this.agenda=agenda;
     }
+    
+    @Override
+    public String toString() {
+        if (this.name==null)
+            return super.toString();
+        else
+            return this.name()+" ("+this.lastName+", "+this.firstName+")";
+    }
         
     public Contact(final String name, final String firstName, final String lastName) {
 
@@ -71,6 +77,26 @@ public class Contact implements AggregateRoot<String>, Serializable {
     
     public String name() {
         return this.name;
+    }
+    
+    public String setName(String name) {
+        return this.name=name;
+    }
+
+    public String firstName() {
+        return this.firstName;
+    }
+
+    public String setFirstName(String firstName) {
+        return this.firstName=firstName;
+    }
+    
+    public String lastName() {
+        return this.lastName;
+    }
+    
+    public String setLastName(String lastName) {
+        return this.lastName=lastName;
     }
     
     public Agenda agenda() {
@@ -84,12 +110,12 @@ public class Contact implements AggregateRoot<String>, Serializable {
     }
 
     @Override
-    public boolean is(String id) {
-        return id.equalsIgnoreCase(this.name);
+    public boolean is(Long id) {
+        return (this.pk.compareTo(id)==0);
     }
 
     @Override
-    public String id() {
-        return this.name;
+    public Long id() {
+        return this.pk;
     }
 }

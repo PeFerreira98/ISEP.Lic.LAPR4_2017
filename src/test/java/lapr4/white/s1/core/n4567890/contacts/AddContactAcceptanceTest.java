@@ -5,6 +5,7 @@
  */
 package lapr4.white.s1.core.n4567890.contacts;
 
+import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
 import eapli.framework.persistence.DataConcurrencyException;
 import eapli.framework.persistence.DataIntegrityViolationException;
 import java.util.Calendar;
@@ -30,7 +31,7 @@ import org.junit.Test;
 public class AddContactAcceptanceTest {
     
     private static Properties appProps=null;
-    private static AddContactController controller=null;
+    private static ContactController controller=null;
     private static Contact aContact=null;
     private static Event aEvent=null;
    
@@ -59,8 +60,10 @@ public class AddContactAcceptanceTest {
     @BeforeClass
     public static void setUp() throws DataIntegrityViolationException, DataConcurrencyException {
         
+        // Setup for testing (JPA in Memory)
         setupProperties();
-        controller=new AddContactController(appProps);
+        
+        controller=new ContactController(appProps);
         
         // Populate the repository
         aContact=controller.addContact("John Doe", "John", "Doe");

@@ -6,140 +6,196 @@
 package lapr4.white.s1.core.n4567890.contacts.ui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.border.TitledBorder;
 
 import csheets.ui.ctrl.UIController;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
 import lapr4.white.s1.core.n4567890.contacts.ContactsExtension;
+import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 
 /**
  * A panel for adding or editing a comment for a cell
  * @author Alexandre Braganca
  */
 @SuppressWarnings("serial")
-public class ContactPanel extends JPanel {
+public class ContactPanel extends JPanel implements ActionListener {
 
-	/** The assertion controller */
-	//private CommentController controller;
-
+        // Controller for Contacts
+	private ContactController controller=null;
 
 	/** The text field in which the comment of the cell is displayed.*/
         private JTextArea commentField = new JTextArea();
 
         
         // Controls for the contact panel
-        JLabel labelContacts=null;
-        JTextField contactsFilterField=new JTextField();
-        JList contactsList=new JList();
-        JButton contactsAddButton=new JButton();
-        JButton contactsRemoveButton=new JButton();
-        JButton contactsEditButton=new JButton();
+        private JLabel labelContacts=null;
+        private JTextField contactsFilterField=null;
+        private JList<Contact> contactsList=null;
+        private DefaultListModel<Contact> model=null;
+        private JButton contactsAddButton=null;
+        private JButton contactsRemoveButton=null;
+        private JButton contactsEditButton=null;
 
-        JPanel labelPane = null;
+        private JPanel contactsPane= null;
+        private JPanel filterPane = null;
+        private JPanel buttonPane = null;
+        
+        // Action commands
+        private final static String addAction="add";
+        private final static String removeAction="remove";
+        private final static String editAction="edit";
                 
         private void setupContactsWidgets() {
 
             labelContacts=new JLabel("Filtro: ");
             
-            //Lay out the labels in a panel.
-            labelPane = new JPanel(new GridLayout(0,1));
-            labelPane.add(labelContacts);
+            // First Pane: The "filter", FlowLayout (from left to right)
+            filterPane = new JPanel(new FlowLayout(FlowLayout.LEADING));
+            contactsFilterField=new JTextField();
+            contactsFilterField.setColumns(10);
+            
+            filterPane.add(labelContacts);
+            filterPane.add(contactsFilterField); 
+
+            model = new DefaultListModel();
+            Iterable<Contact> contacts=controller.allContacts();
+            for(Contact c: contacts) {
+                model.addElement(c);
+            }
+
+            contactsList = new JList(model);
+            
+            contactsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            JScrollPane centerPane=new JScrollPane(contactsList);
+
+            // Last Pane: A row of buttons and the end
+            buttonPane = new JPanel(new FlowLayout(FlowLayout.LEADING));
+            contactsAddButton=new JButton("Add");
+            contactsAddButton.setActionCommand(ContactPanel.addAction);
+            contactsAddButton.addActionListener(this);
+            contactsRemoveButton=new JButton("Remove");
+            contactsRemoveButton.setActionCommand(ContactPanel.removeAction);
+            contactsRemoveButton.addActionListener(this);
+            contactsEditButton=new JButton("Edit");
+            contactsEditButton.setActionCommand(ContactPanel.editAction);
+            contactsEditButton.addActionListener(this);
+            buttonPane.add(contactsAddButton);
+            buttonPane.add(contactsRemoveButton);
+            buttonPane.add(contactsEditButton);
+            
+            // The parent Pane is of type BorderLayout so that the center list occupies all the "empty" canvas
+            contactsPane = new JPanel(new BorderLayout());
+            contactsPane.add(filterPane, BorderLayout.PAGE_START);
+            contactsPane.add(centerPane, BorderLayout.CENTER);
+            contactsPane.add(buttonPane, BorderLayout.PAGE_END);
         }
         
-	/**
-	 * Creates a new comment panel.
-	 * @param uiController the user interface controller
-	 */
-	public ContactPanel(UIController uiController) {
-		// Configures panel
-		super(new BorderLayout());
-		setName(ContactsExtension.NAME);
+    /**
+     * Creates a new comment panel.
+     *
+     * @param uiController the user interface controller
+     */
+    public ContactPanel(UIController uiController) {
+        // Configures panel
+        super(new BorderLayout());
+        setName(ContactsExtension.NAME);
 
-		// Creates controller
-		//controller = new CommentController(uiController, this);
-		//uiController.addSelectionListener(this);
+        // Creates controller
+        this.controller = new ContactController(uiController.getUserProperties());
 
-		// Creates comment components
-		ApplyAction applyAction = new ApplyAction();
-		
-//		commentField.setPreferredSize(new Dimension(120, 240));		// width, height
-//		commentField.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));		// width, height
-//		commentField.addFocusListener(applyAction);
-//		commentField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        setupContactsWidgets();
 
-                setupContactsWidgets();
-                
-		JPanel mainPanel = new JPanel(new GridLayout(2, 1));
-			
-                JPanel contactsPane = new JPanel(new GridLayout(0, 1));
+        JPanel mainPanel = new JPanel(new GridLayout(2, 1));
 
-                
-                JPanel agendaPane = new JPanel(new GridLayout(0, 1));
-                
-			// Adds borders
-			TitledBorder border = BorderFactory.createTitledBorder("Contacts");
-			border.setTitleJustification(TitledBorder.CENTER);
-			contactsPane.setBorder(border);
+        JPanel agendaPane = new JPanel(new GridLayout(0, 1));
+
+        // Adds borders
+        TitledBorder border = BorderFactory.createTitledBorder("Contacts");
+        border.setTitleJustification(TitledBorder.CENTER);
+        contactsPane.setBorder(border);
+
+        border = BorderFactory.createTitledBorder("Agenda");
+        border.setTitleJustification(TitledBorder.CENTER);
+        agendaPane.setBorder(border);
+
+        // Creates side bar
+        mainPanel.add(contactsPane);
+        mainPanel.add(agendaPane);
+
+        add(mainPanel);
+    }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        int index=-1;
+        
+        switch (e.getActionCommand()) {
+            case ContactPanel.addAction:
+                {
+                    Contact c=null;
+                    ContactDialog.showDialog(this, contactsAddButton, this.controller,
+                                        ContactDialog.ContactDialogMode.ADD, "New Contact");
+                    if (ContactDialog.successResult()) {
+                        c=ContactDialog.contact();
+                        // Update the model of the JList
+                        model.addElement(c);
+                    }
+                }
+                break;
+
+            case ContactPanel.removeAction:
+                index=contactsList.getSelectedIndex();
+                if (index!=-1) {
+                    Contact c;
+                    //c = (Contact)(contactsList.getModel().getElementAt(index));
+                    c = model.getElementAt(index);
+
+                    ContactDialog.showDialog(this, contactsRemoveButton, this.controller,
+                                        ContactDialog.ContactDialogMode.DELETE, "Delete Contact", c);
+                    if (ContactDialog.successResult()) {
+                        // Update the model of the JList
+                        model.remove(index);
+                    }
+                }
+                break;
+
+            case ContactPanel.editAction:
+                index=contactsList.getSelectedIndex();
+                if (index!=-1) {
+                    Contact c;
+                    //c = (Contact)(contactsList.getModel().getElementAt(index));
+                    c = model.getElementAt(index);
+                    
+                    ContactDialog.showDialog(this, contactsEditButton, this.controller,
+                                        ContactDialog.ContactDialogMode.EDIT, "Edit Contact", c);
+                    if (ContactDialog.successResult()) {
+                        // Update the model of the JList
+                        model.set(index, c);
+                    }
+                    else {
+                        // Maybe the user tried to update but failed and canceled. We need to "refresh" the contact object
+                        Contact updatedContact=this.controller.getContactById(c.id());
+                        // Update the model of the JList
+                        model.set(index, updatedContact);
+                    }
                         
-			border = BorderFactory.createTitledBorder("Agenda");
-			border.setTitleJustification(TitledBorder.CENTER);
-			agendaPane.setBorder(border);
-	
-			// Creates side bar
-			mainPanel.add(contactsPane);
-			mainPanel.add(agendaPane);                
-                
-                
-                
-		// Lays out comment components
-		//JPanel contactPanel = new JPanel();
-		//contactPanel.setLayout(new BoxLayout(contactPanel, BoxLayout.PAGE_AXIS));
-		//contactPanel.setPreferredSize(new Dimension(130, 336));
-		//contactPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));		// width, height
-		
-                contactsPane.add(labelPane);
-
-		// Adds borders
-//		TitledBorder border = BorderFactory.createTitledBorder("Contact");
-//		border.setTitleJustification(TitledBorder.CENTER);
-//		contactPanel.setBorder(border);
-
-		// Adds panels
-		//JPanel northPanel = new JPanel(new BorderLayout());
-		//northPanel.add(contactPanel, BorderLayout.NORTH);
-		//add(northPanel, BorderLayout.NORTH);
-                add(mainPanel);
-                //this.repaint();
-
+                }
+                break;
         }
-	
-	protected class ApplyAction implements FocusListener {
-
-		@Override
-		public void focusGained(FocusEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public void focusLost(FocusEvent e) {
-			// TODO Auto-generated method stub
-//			if (cell != null) {
-//				controller.setComment(cell, commentField.getText().trim());
-//			}
-		}
-	}
+    }
 }
