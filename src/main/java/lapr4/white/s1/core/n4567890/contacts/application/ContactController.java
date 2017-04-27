@@ -45,7 +45,6 @@ public class ContactController implements Controller {
     }
     
     public Contact updateContact(Contact contact, String fullName, String firstName, String lastName) throws DataConcurrencyException, DataIntegrityViolationException {
-        // FIXME: If the update fails the object still has the new values in the fiels!!! - Implement clone()?!
         contact.setName(fullName);
         contact.setFirstName(firstName);
         contact.setLastName(lastName);
@@ -75,11 +74,4 @@ public class ContactController implements Controller {
         
         return ev; 
     }
-        
-    /*
-    public SystemUser addUser(String username, String password, String firstName, String lastName, String email,
-            Set<RoleType> roles) throws DataIntegrityViolationException, DataConcurrencyException {
-        return addUser(username, password, firstName, lastName, email, roles, DateTime.now());
-    }
-    */
 }

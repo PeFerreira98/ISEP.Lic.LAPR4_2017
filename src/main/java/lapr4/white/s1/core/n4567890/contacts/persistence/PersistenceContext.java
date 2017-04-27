@@ -9,7 +9,6 @@ package lapr4.white.s1.core.n4567890.contacts.persistence;
  *
  * @author alexandrebraganca
  */
-//import eapli.demoapplication.Application;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

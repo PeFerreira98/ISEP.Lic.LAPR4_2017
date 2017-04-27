@@ -5,6 +5,7 @@
  */
 package lapr4.white.s1.core.n4567890.contacts.ui;
 
+import csheets.CleanSheets;
 import eapli.framework.persistence.DataConcurrencyException;
 import eapli.framework.persistence.DataIntegrityViolationException;
 import java.awt.BorderLayout;
@@ -114,21 +115,21 @@ public class ContactDialog extends JDialog implements ActionListener {
             formPanel = new JPanel(new SpringLayout());
 
             // FullName
-            fullNameLabel=new JLabel("Full name: ", JLabel.TRAILING);           
+            fullNameLabel=new JLabel(CleanSheets.getString("full_name_label"), JLabel.TRAILING);           
             fullNameField=new JTextField(30);
             fullNameLabel.setLabelFor(fullNameField);
             formPanel.add(fullNameLabel);
             formPanel.add(fullNameField);
             
             // FirstName
-            firstNameLabel=new JLabel("First name: ", JLabel.TRAILING);           
+            firstNameLabel=new JLabel(CleanSheets.getString("first_name_label"), JLabel.TRAILING);           
             firstNameField=new JTextField(10);
             firstNameLabel.setLabelFor(firstNameField);
             formPanel.add(firstNameLabel);
             formPanel.add(firstNameField);
             
             // LastName
-            lastNameLabel=new JLabel("Last name: ", JLabel.TRAILING);           
+            lastNameLabel=new JLabel(CleanSheets.getString("last_name_label"), JLabel.TRAILING);           
             lastNameField=new JTextField(10);
             lastNameLabel.setLabelFor(lastNameField);
             formPanel.add(lastNameLabel);
@@ -141,10 +142,10 @@ public class ContactDialog extends JDialog implements ActionListener {
 
             // Last Pane: A row of buttons and the end
             buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
-            confirmButton=new JButton("Confirm");
+            confirmButton=new JButton(CleanSheets.getString("confirm_button"));
             confirmButton.setActionCommand("confirm");
             confirmButton.addActionListener(this);
-            cancelButton=new JButton("Cancel");
+            cancelButton=new JButton(CleanSheets.getString("cancel_button"));
             cancelButton.setActionCommand("cancel");
             cancelButton.addActionListener(this);
             buttonPanel.add(confirmButton);
@@ -156,10 +157,10 @@ public class ContactDialog extends JDialog implements ActionListener {
             
             switch (this.mode) {
                 case ADD:
-                    statusLabel.setText("Please enter data for the new contact...");
+                    statusLabel.setText(CleanSheets.getString("status_please_enter_data_for_new_contcat"));
                     break;
                 case DELETE:
-                    statusLabel.setText("Please confirm if this is the contact you wish to delete...");
+                    statusLabel.setText(CleanSheets.getString("status_please_confirm_contact_to_delete"));
  
                     // All fields in read-only mode
                     this.fullNameField.setEditable(false);
@@ -167,10 +168,7 @@ public class ContactDialog extends JDialog implements ActionListener {
                     this.lastNameField.setEditable(false);                    
                     break;
                 case EDIT:
-                    statusLabel.setText("Please update the data of the contact...");
-
-                    // The field FullName is read-only
-                    //this.fullNameField.setEditable(false);                    
+                    statusLabel.setText(CleanSheets.getString("status_please_update_data_of_contcat"));
                     break;
             }
             
@@ -224,11 +222,11 @@ public class ContactDialog extends JDialog implements ActionListener {
                         } catch (DataConcurrencyException ex) {
                             Logger.getLogger(ContactDialog.class.getName()).log(Level.SEVERE, null, ex);
                             statusLabel.setForeground(Color.red);
-                            statusLabel.setText("Data Concurrency Error. Please try again or Cancel.");
+                            statusLabel.setText(CleanSheets.getString("status_data_concurrency_error"));
                         } catch (DataIntegrityViolationException ex) {
                             Logger.getLogger(ContactDialog.class.getName()).log(Level.SEVERE, null, ex);
                             statusLabel.setForeground(Color.red);
-                            statusLabel.setText("Data Integrity Error. Please try again or Cancel.");                            
+                            statusLabel.setText(CleanSheets.getString("status_data_integrity_error"));                            
                         }                        
                     }
                     break;
@@ -245,11 +243,11 @@ public class ContactDialog extends JDialog implements ActionListener {
                         } catch (DataConcurrencyException ex) {
                             Logger.getLogger(ContactDialog.class.getName()).log(Level.SEVERE, null, ex);
                             statusLabel.setForeground(Color.red);
-                            statusLabel.setText("Data Concurrency Error. Please try again or Cancel.");
+                            statusLabel.setText(CleanSheets.getString("status_data_concurrency_error"));
                         } catch (DataIntegrityViolationException ex) {
                             Logger.getLogger(ContactDialog.class.getName()).log(Level.SEVERE, null, ex);
                             statusLabel.setForeground(Color.red);
-                            statusLabel.setText("Data Integrity Error. Please try again or Cancel.");                            
+                            statusLabel.setText(CleanSheets.getString("status_data_integrity_error"));                            
                         }                        
                     }
                     break;
@@ -265,11 +263,11 @@ public class ContactDialog extends JDialog implements ActionListener {
                         } catch (DataConcurrencyException ex) {
                             Logger.getLogger(ContactDialog.class.getName()).log(Level.SEVERE, null, ex);
                             statusLabel.setForeground(Color.red);
-                            statusLabel.setText("Data Concurrency Error. Please try again or Cancel.");
+                            statusLabel.setText(CleanSheets.getString("status_data_concurrency_error"));
                         } catch (DataIntegrityViolationException ex) {
                             Logger.getLogger(ContactDialog.class.getName()).log(Level.SEVERE, null, ex);
                             statusLabel.setForeground(Color.red);
-                            statusLabel.setText("Data Integrity Error. Please try again or Cancel.");                            
+                            statusLabel.setText(CleanSheets.getString("status_data_integrity_error"));                            
                         }                        
                     }
                     break;
