@@ -24,11 +24,6 @@ apply plugin: 'build-dashboard'
 
 mainClassName = 'csheets.CleanSheets'
 
-// Needed for netbeans
-if (!hasProperty('mainClass')) {
-    ext.mainClass = 'csheets.CleanSheets'
-}
-
 group = 'csheets'
 version = '1.0-SNAPSHOT'
 
@@ -39,6 +34,23 @@ targetCompatibility = 1.8
 
 repositories { mavenCentral() }
 
+// Para os testes de aceitacao estarem numa pasta separada
+sourceSets {
+    acceptanceTest {
+        java {
+            compileClasspath += main.output + test.output
+            runtimeClasspath += main.output + test.output
+            srcDir file('src/acceptance-test/java')
+        }
+        resources.srcDir file('src/acceptance-test/resources')
+    }
+}
+
+configurations {
+    acceptanceTestCompile.extendsFrom testCompile
+    acceptanceTestRuntime.extendsFrom testRuntime
+}
+
 dependencies {
 	antlr "org.antlr:antlr:3.4" // use ANTLR version 3
 // 	antlr "org.antlr:antlr4:4.5" // use ANTLR version 4
@@ -47,11 +59,10 @@ dependencies {
 
 //	compile 'org.antlr:antlr-runtime:3.4'
         
-        compile 'org.eclipse.persistence:eclipselink:2.6.2'
-	compile 'org.eclipse.persistence:org.eclipse.persistence.jpa.modelgen.processor:2.6.2'
+    compile 'org.eclipse.persistence:eclipselink:2.6.1'
+	compile 'org.eclipse.persistence:org.eclipse.persistence.jpa.modelgen.processor:2.6.1'
 	compile 'com.h2database:h2:1.4.191'
-        
-        compile 'org.beanshell:bsh:2.0b5'
+	compile 'org.beanshell:bsh:2.0b5'
 	compile 'jfree:jfreechart:1.0.13'
 	compile 'org.bouncycastle:bcprov-jdk15on:1.54'
 	compile 'org.bouncycastle:bcpkix-jdk15on:1.54'
@@ -59,8 +70,8 @@ dependencies {
 	compile 'javax.mail:javax.mail-api:1.5.2'
 	compile 'javax.mail:mail:1.4.7'
 	compile 'com.itextpdf:itextpdf:5.5.9'
-        
-        compile project(':framework')
+	
+	compile project(':framework')
 }
 
 sourceSets.main.output.resourcesDir = sourceSets.main.output.classesDir
@@ -72,84 +83,8 @@ compileJava.dependsOn(processResources)
 //	sourceCompatibility = '1.8'
 //}
 
-jacoco {
-	applyTo run
-}
 
-task runCoverageReport(type:JacocoReport){
-	executionData run
-	sourceSets sourceSets.main
-
-	afterEvaluate {
-		classDirectories = files(classDirectories.files.collect {
-			//fileTree(dir: it, exclude: '**/test/**')
-                        fileTree(dir: it, include: 'lapr4/white/s1/n1234567/**')
-		})
-	}
-}
-
-task testCoverageReport(type:JacocoReport){
-	executionData test
-	sourceSets sourceSets.main
-
-	afterEvaluate {
-		classDirectories = files(classDirectories.files.collect {
-			//fileTree(dir: it, exclude: '**/test/**')
-                        fileTree(dir: it, include: 'lapr4/**', exclude: '**/ui')
-		})
-	}
-}
-
-task individualCoverageReport(type:JacocoReport){
-	executionData test
-	sourceSets sourceSets.main
-        
-        ext.path = 'lapr4/white/s1/n1234567/**'
-
-	afterEvaluate {
-		classDirectories = files(classDirectories.files.collect {
-			//fileTree(dir: it, exclude: '**/test/**')
-                        //fileTree(dir: it, include: 'lapr4/white/s1/n1234567/**')
-                        fileTree(dir: it, include: path)
-		})
-	}
-}
-
-
-task generateAllCoverageReport << {
-    
-    ['lapr4/white/s1/n1234567/**',
-     'csheets/ext/**'].collect {
-        it
-    }.eachWithIndex {dirName, index -> 
-        
-        println dirName
-        
-        tasks.individualCoverageReport.path=dirName
-        tasks.individualCoverageReport.execute()
-        
-//        task indCoverageReport2(type:JacocoReport){
-//            executionData test
-//            sourceSets sourceSets.main
-//
-//            afterEvaluate {
-//		classDirectories = files(classDirectories.files.collect {
-//			//fileTree(dir: it, exclude: '**/test/**')
-//                        fileTree(dir: it, include: "${dirName}")
-//		})
-//            }
-//        }
-    }
-        //task "copyFlavor${index}"(type: Copy) {
-        // from "${srcDir}/${flavorName}"
-        // and so on
-}
-
-// run.finalizedBy runCoverageReport
-
-task renderPlantUml (type: RenderPlantUmlTask) { }
-
-// task cleanPlantUml (type: CleanPlantUmlTask) { }
+task renderPlantUml (type: RenderPlantUmlTask);
 
 //task cleanPlantUml (type: CleanPlantUmlTask);
 
@@ -194,24 +129,128 @@ javadoc {
     options.groups.put ('User Interface', ['csheets.ui*'])
     options.groups.put ('Extension Mechanism', ['csheets.ext', 'csheets.ui.ext*'])
     options.groups.put ('Extensions', ['csheets.ext*'])
-    options.groups.put ('Work Log', ['csheets.worklog*'])
+
+	// Black    
+    options.groups.put ('Black Team/Sprint 1/IPC', ['lapr4.black.s1.ipc.*'])
     
-    options.groups.put ('Team White / Sprint 1', ['lapr4.white.s1.*']) 
-    options.groups.put ('Team Black / Sprint 1', ['lapr4.black.s1.*']) 
-    options.groups.put ('Team Gray / Sprint 1', ['lapr4.gray.s1.*']) 
-
-    options.groups.put ('Team Red / Sprint 1', ['lapr4.red.s1.*']) 
-    options.groups.put ('Team Red / Sprint 2', ['lapr4.red.s2.*']) 
-    options.groups.put ('Team Red / Sprint 3', ['lapr4.red.s3.*']) 
-
-    options.groups.put ('Team Green / Sprint 1', ['lapr4.green.s1.*']) 
-    options.groups.put ('Team Green / Sprint 2', ['lapr4.green.s2.*']) 
-    options.groups.put ('Team Green / Sprint 3', ['lapr4.green.s3.*']) 
-
-    options.groups.put ('Team Blue / Sprint 1', ['lapr4.blue.s1.*']) 
-    options.groups.put ('Team Blue / Sprint 2', ['lapr4.blue.s2.*']) 
-    options.groups.put ('Team Blue / Sprint 3', ['lapr4.blue.s3.*']) 
+    // Gray
+    options.groups.put ('Gray Team/Sprint 1/Lang', ['lapr4.gray.s1.lang.*'])
     
+    // White
+    options.groups.put ('White Team/Sprint 1/Core', ['lapr4.white.s1.core.*'])
+
+    // RED
+    options.groups.put ('Red Team/Sprint 1/Core', ['lapr4.red.s1.core.*'])
+    options.groups.put ('Red Team/Sprint 1/Lang', ['lapr4.red.s1.lang.*'])
+    options.groups.put ('Red Team/Sprint 1/IPC', ['lapr4.red.s1.ipc.*'])
+    options.groups.put ('Red Team/Sprint 2/Core', ['lapr4.red.s2.core.*'])
+    options.groups.put ('Red Team/Sprint 2/Lang', ['lapr4.red.s2.lang.*'])
+    options.groups.put ('Red Team/Sprint 2/IPC', ['lapr4.red.s2.ipc.*'])
+    options.groups.put ('Red Team/Sprint 3/Core', ['lapr4.red.s3.core.*'])
+    options.groups.put ('Red Team/Sprint 3/Lang', ['lapr4.red.s3.lang.*'])
+    options.groups.put ('Red Team/Sprint 3/IPC', ['lapr4.red.s3.ipc.*'])
+
+    // GREEN
+    options.groups.put ('Green Team/Sprint 1/Core', ['lapr4.green.s1.core.*'])
+    options.groups.put ('Green Team/Sprint 1/Lang', ['lapr4.green.s1.lang.*'])
+    options.groups.put ('Green Team/Sprint 1/IPC', ['lapr4.green.s1.ipc.*'])
+    options.groups.put ('Green Team/Sprint 2/Core', ['lapr4.green.s2.core.*'])
+    options.groups.put ('Green Team/Sprint 2/Lang', ['lapr4.green.s2.lang.*'])
+    options.groups.put ('Green Team/Sprint 2/IPC', ['lapr4.green.s2.ipc.*'])
+    options.groups.put ('Green Team/Sprint 3/Core', ['lapr4.green.s3.core.*'])
+    options.groups.put ('Green Team/Sprint 3/Lang', ['lapr4.green.s3.lang.*'])
+    options.groups.put ('Green Team/Sprint 3/IPC', ['lapr4.green.s3.ipc.*'])
+    
+    // BLUE
+    options.groups.put ('Blue Team/Sprint 1/Core', ['lapr4.blue.s1.core.*'])
+    options.groups.put ('Blue Team/Sprint 1/Lang', ['lapr4.blue.s1.lang.*'])
+    options.groups.put ('Blue Team/Sprint 1/IPC', ['lapr4.blue.s1.ipc.*'])
+    options.groups.put ('Blue Team/Sprint 2/Core', ['lapr4.blue.s2.core.*'])
+    options.groups.put ('Blue Team/Sprint 2/Lang', ['lapr4.blue.s2.lang.*'])
+    options.groups.put ('Blue Team/Sprint 2/IPC', ['lapr4.blue.s2.ipc.*'])
+    options.groups.put ('Blue Team/Sprint 3/Core', ['lapr4.blue.s3.core.*'])
+    options.groups.put ('Blue Team/Sprint 3/Lang', ['lapr4.blue.s3.lang.*'])
+    options.groups.put ('Blue Team/Sprint 3/IPC', ['lapr4.blue.s3.ipc.*'])
+    
+    //options.groups.put ('Work Log', ['csheets.worklog*'])
 }
 
 javadoc.dependsOn(renderPlantUml)
+
+// A task to run the acceptance tests
+task acceptanceTest(type: Test) {
+    testClassesDir = sourceSets.acceptanceTest.output.classesDir
+    classpath = sourceSets.acceptanceTest.runtimeClasspath
+    outputs.upToDateWhen { false }		// to insure acceptance tests always run!
+}
+
+check.dependsOn acceptanceTest
+acceptanceTest.mustRunAfter test
+
+// We can ensure that the HTML reports of unit and integration tests are created to different
+// report directories by adding the following snippet to our build.gradle file:
+tasks.withType(Test) {
+    reports.html.destination = file("${reporting.baseDir}/${name}")
+}
+
+//-------
+// JACOCO
+jacoco {
+	applyTo run
+	// applyTo acceptanceTest 
+}
+
+//task runCoverageReport(type:JacocoReport){
+//	executionData run
+//	sourceSets sourceSets.main
+//
+//	afterEvaluate {
+//		classDirectories = files(classDirectories.files.collect {
+//			fileTree(dir: it, exclude: '**/test/**')
+//		})
+//	}
+//}
+
+task acceptanceTestCoverageReport(type:JacocoReport){
+	executionData acceptanceTest
+	sourceSets sourceSets.main
+
+//	afterEvaluate {
+//		classDirectories = files(classDirectories.files.collect {
+//			fileTree(dir: it, exclude: '**/test/**')
+//		})
+//	}
+}
+
+// run.finalizedBy runCoverageReport
+
+// Para o jacoco sobre testes unitarios
+//jacocoTestReport {
+//    reports {
+//        xml.enabled false
+//        csv.enabled false
+//        html.destination "${buildDir}/jacocoHtml"
+//    }
+//}
+
+// INSTRUCOES
+
+// To run only unit tests:
+// gradle clean test 
+
+// To run only acceptance tests:
+// gradle clean acceptanceTest 
+
+// To run all tests:
+// gradle clean test acceptanceTest
+// or:
+// gradle clean build
+
+// Para produzir relatorio de cobertura jacoco para os testes unitarios (antes executar os testes unitarios)
+// gradle jacocoTestReport 
+
+// Para produzir relatorio de cobertura jacoco para os testes de aceitacao (antes executar os testes de aceitacao)
+// gradle acceptanceTestCoverageReport 
+
+
+
