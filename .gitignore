@@ -190,3 +190,6 @@ csheets.xml
 # Special files of the project
 !/tools/**
 
+# Include gradle wrapper
+!/gradle/wrapper/gradle-wrapper.jar
+
