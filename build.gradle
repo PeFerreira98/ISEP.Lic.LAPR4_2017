@@ -233,6 +233,12 @@ task acceptanceTestCoverageReport(type:JacocoReport){
 //    }
 //}
 
+jar {
+    manifest {
+        attributes 'Main-Class': 'csheets.CleanSheets'
+    }
+}
+
 // INSTRUCOES
 
 // To run only unit tests:
@@ -252,5 +258,10 @@ task acceptanceTestCoverageReport(type:JacocoReport){
 // Para produzir relatorio de cobertura jacoco para os testes de aceitacao (antes executar os testes de aceitacao)
 // gradle acceptanceTestCoverageReport 
 
+// Para construir o jar (o jar fica na pasta build/libs)
+// gradle jar
+
+// Para construir uma "distribuicao" (em build/distributions e build/scripts
+// gradle assemble
 
 
