@@ -16,11 +16,16 @@ buildscript {
 }
 */
 
+plugins {
+    id "org.sonarqube" version "2.3"
+}
+
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'jacoco'
 apply plugin: 'antlr'
 apply plugin: 'build-dashboard'
+apply plugin: 'org.sonarqube'
 
 mainClassName = 'csheets.CleanSheets'
 
@@ -233,9 +238,20 @@ task acceptanceTestCoverageReport(type:JacocoReport){
 //    }
 //}
 
+jacocoTestReport.dependsOn test
+
+acceptanceTestCoverageReport.dependsOn acceptanceTest
+
 jar {
     manifest {
         attributes 'Main-Class': 'csheets.CleanSheets'
+    }
+}
+
+// Sonarqube
+sonarqube {
+    properties {
+        property "sonar.host.url",  "http://sonarqube.dei.isep.ipp.pt:9000"   // The url of the sonarqube server
     }
 }
 
