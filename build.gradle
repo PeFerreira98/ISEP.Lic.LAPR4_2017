@@ -18,6 +18,7 @@ buildscript {
 
 plugins {
     id "org.sonarqube" version "2.3"
+    id "argelbargel.gradle.plugins.sonarqube-multiproject-plugin" version "1.2"
 }
 
 apply plugin: 'java'
@@ -26,6 +27,7 @@ apply plugin: 'jacoco'
 apply plugin: 'antlr'
 apply plugin: 'build-dashboard'
 apply plugin: 'org.sonarqube'
+apply plugin: "argelbargel.gradle.plugins.sonarqube-multiproject-plugin"
 
 mainClassName = 'csheets.CleanSheets'
 
