@@ -254,9 +254,12 @@ jar {
 sonarqube {
     properties {
         property "sonar.host.url",  "http://sonarqube.dei.isep.ipp.pt:9000"   // The url of the sonarqube server
-        properties["sonar.tests"] += sourceSets.acceptanceTest.allSource.srcDirs
+        property "sonar.jacoco.reportPath", "$buildDir/jacoco/test.exec"
+        property "sonar.jacoco.itReportPath", "$buildDir/jacoco/acceptanceTest.exec"
     }
 }
+
+
 
 // INSTRUCOES
 
