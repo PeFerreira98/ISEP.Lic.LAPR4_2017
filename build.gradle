@@ -259,7 +259,15 @@ sonarqube {
     }
 }
 
-
+// To execute formula console:
+task runCompilerConsole (type: JavaExec, dependsOn: classes){
+    /* Can pass all the properties: */
+    systemProperties System.getProperties()
+    standardInput = System.in
+    description = "Testing Compiler Formulas"
+    main = "csheets.core.formula.compiler.Console"
+    classpath = sourceSets.main.runtimeClasspath
+}
 
 // INSTRUCOES
 
