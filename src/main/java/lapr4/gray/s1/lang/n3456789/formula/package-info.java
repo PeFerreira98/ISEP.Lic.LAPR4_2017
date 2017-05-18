@@ -1,21 +1,25 @@
 /**
- * Technical documentation regarding the user story macros01.1: ciclos e funcoes. 
+ * Technical documentation regarding the user story Lang01.1: Block of Instructions. 
  * <p>
  * 
+ * <b>Attention: This feature increment and this documentation are work in progress! You should question what is already done!</b><p>
+ *
  * <b>Requirement</b><p>
- * Bloco de instruções. Acrescentar a possibilidade de se escrever um bloco (ou sequência) de instruções. Um bloco deve ser delimitado por chavetas e as suas instruções separadas por “;". As instruções de um bloco são executadas sequencialmente e o resultado do bloco é o resultado da última instrução do bloco. Por exemplo, a fórmula “={1+2; sum(A1:A10); B3+4}” deve resultar na execução sequencial de todas as expressões e o resultado será o valor da expressão “B3+4”. Fazer o ciclo FOR usando os blocos. <p>Operador de Atribuição. Acrescentar o operator “:=“ para atribuição. Este operador deve atribuir à esquerda o resultado da expressão à direita do operador. Para já à esquerda deve ser possivel colocar o nome de uma célula. <p>
- *  
- * <b>Attention:</b><p> 
- * In package csheets.core.formula.util,ExpressionVisitor it is necessary to add a new method to support visiting the new type of operator "naryoperator". 
- * This will add an "uncommon" dependency between the core code and the lapr4 code!
+ * Add the possibility of writing blocks (or sequences) of instructions. A block must be delimited by curly braces and its instructions must be separated by ";". The instructions of a block are executed sequentially and the block "result" is the result of the last statement of the block. For example, the formula "= {1+ 2; sum (A1:A10); B3 + 4 }" must result in the sequential execution of all expressions and the result is the value of the expression "B3 + 4". <p>
+ * Add the assign operator (its symbol is ":="). This operator assigns to its left the result of the right expression. At the moment the left of the assign operator can only be a cell reference. <p>
+ * The FOR loop should also be implemented based on instruction blocks. For example, the formula <pre>{@code "= FOR {A1: = 1 ; A1 < 10; A2: = A2 + A1; A1: = A1 + 1 }"}</pre> executes a for loop in which: the first expression is the initialization, the second term is the boundary condition, all other expressions are performed for each iteration of the loop.<p>
  * 
- * <b>macros01.1a: Analysis</b><p>
+ * <b>Attention:</b><p> 
+ * In the class csheets.core.formula.util.ExpressionVisitor it was necessary to add a new method to support visiting the new type of operator "naryoperator" (it did not exist in the original code of Cleansheets). 
+ * This will add an "uncommon" dependency between the core code and the lapr4 code!<p>
+ * 
+ * <b>Analysis</b><p>
  * 
  * <b>Notes</b><p>
  * - This use case regards essentially the formula compiler and executer. It does not seem to have any impact in other areas of the application.<p> 
  * - The entry point for the execution of the formula compiler is the method setContent of the interface Cell.<p>
  * - The setContent method basically does three things:<p>
- *      -- storeContent(content);    = this compiles de content and produces a Formula object and update cell dependencies based on the Formula<p>
+ *      -- storeContent(content);    = this compiles the content and produces a Formula object and updates cell dependencies based on the Formula<p>
  *	-- fireContentChanged();     = this notifies listenners about content changes<p>
  *      -- reevaluate();             = this executes the Formula and notifies listenners about value changes
  * <p>
@@ -38,21 +42,21 @@
  * For the assignment the idea is to implement it as a binary operator<p>
  * <img src="domain_model_formulas.png" alt="image"> 
  * <p>
- * <b>macros01.1t: Tests</b><p>
+ * <b>Tests</b><p>
  * Formulas can be tested interactively using <b>{@link csheets.core.formula.compiler.Console}</b><p>
  * Example of formulas that should be supported by this use case:<p>
  * <b>={ 1+2; sum(a1:a10); b3+4 }</b><p>
- * The following formula will set the value of the cell to the result of the attribution expression. An attribution expression will result always in the value of the expression to the right of the attribution operator.<p>
+ * The following formula will set the value of the its cell to the result of the complete expression (i.e., the result of a3+1+23). An assignment expression will result always in the value of the expression to the right of the assignment operator. Therefore, the execution of this formula also results in the assignement of the result of the expression a3+1 to the a1 cell.<p>
  * We propose to surround the assignment operator with curly brackets so that the impact in the grammar is minor.<p>
  * <b>=(a1:=a3+1)+23</b><p>
  * In the following proposal for the cycle FOR, the first expression is the initialization, the second expression is the limit condition and all the other expressions are to be executed for each iteration of the cycle.<p>
  * <b>=FOR{ a1:=1; a1&lt;10; a2:=a2+a1; a1:=a1+1 }</b><p>
- * See Package csheets.core.formula:<p>
- * FormulaLoopTest<p>
+ * See Package lapr4.gray.s1.lang.n3456789.formula:<p>
+ * FormulaLoopTest (Should we move/refactor this test to Acceptance Test?)<p>
  * 
- * <b>macros01.1d: Design</b><p>
+ * <b>Design</b><p>
  *
- * <b>macros01.1c: Code</b><p>
+ * <b>Code</b><p>
  * 
  * @author alexandrebraganca
  */
