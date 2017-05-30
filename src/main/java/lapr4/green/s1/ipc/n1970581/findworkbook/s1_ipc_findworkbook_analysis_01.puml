@@ -1,0 +1,35 @@
+@startuml s1_ipc_findworkbook_analysis_01.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+  actor User 
+  participant "<<analysis>>\nSystem" as Sy  
+
+  'activate Sy
+  User -> Sy : run usecase  
+  Sy --> User : show a new sidewindow window on worksheet
+  'deactivate Sy
+
+  'activate Sy
+  User -> Sy : indicates root search directory and activates search
+  Sy --> User : shows a list of found workbooks filenames
+  'deactivate Sy
+
+  'activate Sy
+  User -> Sy : selects on filename and activates (double-click)
+  Sy --> User : opens selected workbook
+  'deactivate Sy
+
+
+
+/'
+'-- The user select the use case to run. A new sidebar appears on the worksheet.
+'-- The user indicates the root search directory  and activates the search for cleansheet workbook files.
+'-- The sidebar shows a list of found workbooks. The user selects one of them (double-clicks on it).
+'-- The system opens the selected workbook and makes it active.
+'/
+
+@enduml
