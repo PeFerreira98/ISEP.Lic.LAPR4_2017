@@ -1,0 +1,12 @@
+@startuml ipc05.1_design.png
+
+participant "ChatExtension"
+participant "CommServer" <<singleton>>
+
+create CommServer
+ChatExtension -> CommServer : getCommServer()
+
+
+
+
+@enduml
