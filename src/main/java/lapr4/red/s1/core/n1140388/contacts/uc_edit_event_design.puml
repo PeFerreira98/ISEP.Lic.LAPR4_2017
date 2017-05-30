@@ -1,0 +1,55 @@
+@startuml uc_create_event.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+title Use Case: Add Event
+
+actor "CRM User" as Actor  
+participant AddEventUI as UI <<presentation>>
+participant AddEventController as Controller <<application>>
+participant "event:Event" as Domain <<domain>>
+participant "contact:Contact" as DomainContact <<domain>>
+database ContactRepository as Repository <<repository>>
+
+Actor --> UI: Edit Event
+activate UI
+
+    UI -> Controller: create
+    Controller -> Repository: getContactsList()
+    Controller -> UI: contactsList
+    UI -> Actor: contactsList
+    Actor --> UI: Select a contact
+    UI -> Controller: setContact(contact)
+
+
+    Controller -> DomainContact: getEventsList(contact)
+    Controller -> UI: eventsList
+    UI -> Actor: eventsList
+    Actor --> UI: Select a event
+    UI -> Controller: setEvent(event)
+    UI -> Actor: event
+    
+    Actor --> UI: Time,\nDescription
+    activate Controller
+
+        opt
+            UI->Controller: setTime(Time)
+            Controller->Domain:setTime(Time)
+
+            UI->Controller: setDescription(Description)
+            Controller->Domain:setDescription(Description)
+        end
+
+        activate Domain
+            Domain -> Domain: validate
+            Domain -> Controller: event
+        deactivate Domain
+        Controller -> Repository: update(event)
+        Controller -> UI: event
+    deactivate Controller
+    UI --> Actor: Display Event Info
+deactivate UI
+@enduml

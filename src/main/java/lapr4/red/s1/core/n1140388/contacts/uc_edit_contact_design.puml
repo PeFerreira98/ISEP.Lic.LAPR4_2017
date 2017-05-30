@@ -1,0 +1,53 @@
+@startuml uc_edit_contact.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+title Use Case: Edit Contact
+
+actor "CRM User" as Actor  
+participant EditContactUI as UI <<presentation>>
+participant EditContactController as Controller <<application>>
+participant "contact:Contact" as Domain <<domain>>
+database ContactRepository as Repository <<repository>>
+
+Actor --> UI: Edit Contact
+activate UI
+    UI -> Controller: create
+    Controller -> Repository: getContactsList()
+    Controller -> UI: contactsList
+    UI -> Actor: contactsList
+    Actor --> UI: Select a contact
+    UI -> Controller: setContact(contact)
+    UI -> Actor: contact
+
+    Actor --> UI: Name,\nFirst Name,\nLast Name,\nPhotograph
+    activate Controller
+
+        opt
+            UI->Controller: setName(Name)
+            Controller->Domain:setName(Name)
+
+            UI->Controller: setFirstName(First Name)
+            Controller->Domain:setFirstName(First Name)
+
+            UI->Controller: setLastName(Last Name)
+            Controller->Domain:setLastName(Last Name)
+
+            UI->Controller: setPhotograph (Photograph)
+            Controller->Domain:setPhotograph(Photograph)
+        end
+
+        activate Domain
+            Domain -> Domain: validate
+            Domain -> Controller: contact
+        deactivate Domain
+        Controller -> Repository: update(contact)
+        Controller -> UI: contact
+    deactivate Controller
+    UI --> Actor: Display Contact Info
+deactivate UI
+
+@enduml
