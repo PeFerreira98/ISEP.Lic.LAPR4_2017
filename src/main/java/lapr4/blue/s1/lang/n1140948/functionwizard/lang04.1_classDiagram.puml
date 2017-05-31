@@ -1,0 +1,29 @@
+@startuml lang04.1_classDiagram.png
+
+    skinparam monochrome true
+    hide methods
+
+    title Class Diagram
+
+    class FunctionWizard << (C, white) >>{
+    }
+
+    interface Function << (I, lightgray) >>{
+    }
+
+    class Language << (C, lightgray) >>{
+        unaryOperators
+        binaryOperators
+        functions
+    }
+
+    class FunctionCall << (C, lightgray) >>{
+    }
+
+    FunctionCall --> Function : getParameters()
+
+    Language -up-> FunctionCall : getFunctions()
+
+    FunctionWizard -left-> Language : getFunction(identifier)
+
+@enduml
