@@ -6,31 +6,10 @@ skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
   actor User 
-  participant "<<analysis>>\nCommentUI" as UI
-  participant "<<analysis>>\nCommentCtrl" as ctrl
-  participant "<<analysis>>\nSpreadsheet" as sheet
-  participant "<<analysis>>\nCell" as cell
-  User -> UI : selectCell()
-  activate UI 
-  UI -> ctrl : getCellComment()
-  activate ctrl
-  ctrl -> sheet : getCell()
-  ctrl -> cell : getComment()
-  ctrl -> User : getUserName()
-  deactivate ctrl
-  UI -> UI : displayTooltip()
-  deactivate UI
-  User -> UI : enterCommentText()
-  activate UI
-  
-  UI -> ctrl : setCellComment()
-  UI -> ctrl : setCellCommentUser()
-  activate ctrl
-  
-  ctrl -> cell : setComment()
-  ctrl -> cell : setUser()
-  deactivate ctrl
-  deactivate UI 
-  @enduml
+  participant "<<analysis>>\nSystem" as Sys
+  User -> Sys : Makes a comment in a cell
+  Sys -> User : Saves the user name and the comment made on the cell.
+  User -> Sys : Places the mouse over a commented cell.
+  Sys -> User : Shows who commented and the content of the comment, on the cell.
 
 @enduml

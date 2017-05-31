@@ -23,7 +23,7 @@ public class CommentableCell extends CellExtension {
 	private static final long serialVersionUID = 1L;
 
 	/** The cell's user-specified comment */
-    private String userComment;
+        private String userComment;
 
 	/** The listeners registered to receive events from the comentable cell */
 	private transient List<CommentableCellListener> listeners
