@@ -1,0 +1,30 @@
+@startuml uc_analysis_contacts.png
+
+actor User
+
+participant "System" as Sys
+
+User ->  Sys: The user selects the option that will show contacts.  
+Sys --> User: The sidebar will show existing contacts and allows the creation, editing and removal of contacts.
+  
+
+alt the user selects the creating contact option
+User -> Sys: The user enter the data of a contact.
+Sys --> User: The system saves the contact.
+end
+
+alt the user selects the edit contact option
+Sys --> User: The system shows a list of contact.
+User -> Sys: The user choose a contact to edit and enter the new data.
+Sys --> User: The system saves the contact.
+end
+
+alt the user selects the remove contact option
+Sys --> User: The system shows a list of contact.
+User -> Sys: The user choose a contact to remove.
+Sys --> User: The system saves the contact.
+end
+
+Sys->User: sucess of the operation
+
+@enduml

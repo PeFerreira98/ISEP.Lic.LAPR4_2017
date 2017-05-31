@@ -1,0 +1,34 @@
+@startuml uc_analysis_events.png
+
+actor User
+
+participant "System" as Sys
+
+User ->  Sys: The user selects the option that will show events.  
+Sys --> User: The sidebar will show existing contacts.
+
+alt User -> Sys: The user choose a contact to associate, edit or remove events.
+
+    alt the user selects the creating event option
+    User -> Sys: The user enter the data of a event.
+    Sys --> User: The system saves the event.
+    end
+
+    alt the user selects the editing event option
+    Sys --> User: The system shows a list of events.
+    User -> Sys: The user choose a event to edit and enter the new data.
+    Sys --> User: The system saves the event.
+    end
+
+    alt the user selects the remove event option
+    Sys --> User: The system shows a list of events.
+    User -> Sys: The user choose a event to remove.
+    Sys --> User: The system saves the event.
+    end
+
+Sys --> User: The system saves the contact.
+end
+
+s->User: sucess of the operation
+
+@enduml
