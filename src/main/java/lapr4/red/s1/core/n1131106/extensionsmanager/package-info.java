@@ -41,18 +41,19 @@
  * <img src="core01_01_uc_realization1.png" alt="image"> 
  * <p>
  * From the previous diagram we see that we need to load extensions.
- * 
- * <h3>Analysis of Core Technical Problem</h3>
  * <p>
- * <img src="core02_01_analysis_cell_delegate.png" alt="image"> 
- * 
- * <p>
- * <pre>
-// COLOCAR O CODIGO AQUI
- * </pre>
- * 
- * 
  * <h2>4. Design</h2>
+ * <p>
+ * For this problem I have to create a window so that will be added to the sidebar consequently your shortcut will have to be added in view field in toolbars.
+ * The application must load all extensions to the window, and integrate the window so that is possible to enable or disable any extension.
+ * It is necessary to note that the concept of enabling and disabling is not the same to modify the properties that the extension adds to our work, 
+ * just as it indicates if the extension is disabled and stop being linked to Cleansheet or if it is activated and bind to the Cleansheet.
+ * Although it is an extension's manager it can also be considered as an extension because it can also be enabled and disabled in the View menu.
+ * <p>
+ * <h3>Sequence diagrams:</h3>
+ * <p>
+ * <img src="core01_01_showSideBar.png" alt="image"> 
+ * 
  *
  * <h3>4.1. Functional Tests</h3>
  * //TODO

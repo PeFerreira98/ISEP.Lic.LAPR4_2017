@@ -1,0 +1,30 @@
+@startuml core01_01_showSideBar.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+    title Show Extension Navigator SideBar
+    participant "uic : UIController" as UIC
+    participant ExtensionManager as ExtM
+    participant "extension : NavigatorExtension" as EW
+    participant "uiExtension : UIExtensionNavigator" as UIExt
+    participant "ExtensionNavigatorPanel : JPanel" as cp
+
+ 
+    UIC->ExtM:extensions.getextensions()
+    loop for Extension ext : extensions
+    UIC->EW : uiExtension = getUIextension(this)
+    activate EW
+    create UIExt
+    EW->UIExt:new(extension,uic)
+    deactivate EW
+    UIExt->UIExt:getSideBar()
+    activate UIExt
+    create cp
+    UIExt -> cp :  new (uic)
+    deactivate UIExt 
+    UIC->UIC : uiExtension.add(uiExtension);
+    end
+@enduml
