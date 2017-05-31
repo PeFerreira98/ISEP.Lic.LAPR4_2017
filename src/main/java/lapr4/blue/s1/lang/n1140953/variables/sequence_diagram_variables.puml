@@ -1,0 +1,14 @@
+@startuml
+actor system
+participant "<<compiler>>\nExcelExpressionCompiler" as Compiler
+participant "<<variable>>\nTemporary" as Variable
+activate Compiler
+system-> Compiler :compile(Cell cell, String source)
+Compiler->Compiler:convert(Cell cell, Tree node)
+activate Variable
+Compiler->Variable: Temporary(Cell cell, String name)
+Compiler->Variable:aplyTo(String name, Cell cell)
+Variable->Variable:value = new Value((Number)v)
+Variable->Compiler:value
+deactivate Variable
+@enduml

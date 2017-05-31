@@ -1,0 +1,22 @@
+@startuml domain_model_variables.png
+
+class ExcelExpressionCompiler <<Compiler>> {
+    +compile(Cell cell, String source)
+    +convert(Cell cell, Tree node)
+}
+
+interface Variable <extends Expression> {
+    +Value applyTo(String name)
+    +Value.Type getOperandValueType()
+}
+interface Expression {
+}
+
+class Temporary <implements Variable> {
+    +applyTo(String name, Cell cell)
+}
+
+Temporary --> Variable
+ExcelExpressionCompiler <|-- Temporary
+Expression <|-- Variable
+@enduml
