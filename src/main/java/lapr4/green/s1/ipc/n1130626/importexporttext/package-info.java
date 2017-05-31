@@ -13,7 +13,7 @@
  * <p>
  * Notes:
  * <p>
- * If the user selects the import option, he must write a valid text file name
+ * If the user selects the import option, he must select a location of the text file he wants to import
  * <p>
  * If the user selects the export option, the system creates a text file with a name created by the user
  * <p>
@@ -40,7 +40,7 @@
  * 4. Press the "Import from a text file" option to open the feature<p>
  * 5. A window named "Import from a text file" should appear with data to be filled by the user<p>
  * 6. Press the "Find" button to search a text file to import from<p>
- * 7. On the label "Special character" the user writes in the textbox located at the right side of the label, the character which will be used to separate columns<p>
+ * 7. On the label "Special character" the user writes in the textbox located at the right side of the label, the character that will be used to separate columns<p>
  * 8. Check/Uncheck the option if the first line of the text should be treated as containing the header of the columns<p>
  * 9. Press the "Import" button to import the data<p>
  * 10. The cells selected by the user should have the data from the imported text file<p>

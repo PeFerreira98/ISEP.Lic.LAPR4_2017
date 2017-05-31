@@ -6,7 +6,8 @@
 package lapr4.green.s1.ipc.n1130626.importexporttext;
 
 /**
- *
+ * This class is only for javadoc purposes, this will be deleted when
+ * appear other important classes
  * @author Pedro Pereira
  */
 public class TestClass {
