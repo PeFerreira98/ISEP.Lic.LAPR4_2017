@@ -1,0 +1,29 @@
+@startuml
+
+skinparam sequenceMessageAlign center
+skinparam monochrome true
+
+actor User
+participant "System" as s
+
+User->s: Selects the function wizard option
+note left
+    **Opening**
+end note
+s-->User: Launches function wizard
+s-->User: Displays list of possible functions
+
+User->s: Selects a function
+note left
+    **Function Selection**
+end note
+s-->User: Shows function syntax in edit box [function name, parameteres]
+s-->User: Shows help text describing selected function
+
+User->s: Selects 'Apply' button
+s-->User: Writtes function syntax in the formula bar
+s-->s: Closes Function Wizard
+note right
+    **End of Use Case**
+end note
+@enduml
