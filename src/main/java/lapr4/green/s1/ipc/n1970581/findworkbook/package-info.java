@@ -24,8 +24,9 @@
  *
  ** Work notes/log: S1 31-05-2017 (4ª quarta)
  * Analysis: rough Class diagram
- * DailyScrum:
- * 
+ * Continuation of analysis. Created a class diagram and a description of how the code should be roughtly extruturated.
+ * DailyScrum: 15 min
+ * Helping team-mate to create package, package javadoc and Jira subtasks.
  * 
  * 
  * -In this section you should register important notes regarding your work during the sprint.
@@ -64,6 +65,46 @@
  * <h3>First "Analysis" class diagram</h3>
  * <img src="s1_ipc_findworkbook_analysis_02.png" alt="image">
  *  
+ * 
+ * <h2>4. Design</h2>
+ *
+ * <h3>4.1. Functional Tests</h3>
+ * Basically, from requirements and also analysis, we see that the core functionality of this use case is to be able to search and show a list of workbooks.
+ * Then allowing one of them to be opened.
+ * What should we test:<p>
+ * <ul>
+ * <li> That we can indicate a filename and a root directory. That a file is found, that it doesn't breaks if no file is found.</li> 
+ * <li> That the files are found correctly. </li> 
+ * <li> That once a file is found it shows up in the list shown to the User.</li> 
+ * <li> That we can open a workbook file.</li> 
+ * <li> That double clicking on the filename opens the workbook.</li> 
+ * </ul>
+ * 
+ * Blockages:
+ *  We can't code a unit test using the file structure due to Jenkings / the way the project is veryfied uppon commit. But we can code an manual test.<p>
+ *  We can't code a test for the double clicking, but we can use the functional test with the user to test this.
+ *  
+ * <h3>4.2 Main Functional Test </h3>
+ * 
+ *  This test represent a user following the use case. It describes the user actions and the expected outcome.<p>
+ *  
+ *  <b>Pre conditions:</b><p>
+ *  There should be several workbooks with the ".cls" extension in the disk. These can be created by saving workbooks in the main program.
+ *  These workbooks should not be in the same directory.<p>
+ * 
+ *  <b>Test:</b><p>
+ *  <ul>
+ *  <li>The user opens the Cleansheets program and select the View Menu item at the top.</li>
+ *  <li>Them inside the View menu select the Sidebars option.</li>
+ *  <li>A new sidebar should appear in the right most side of the worksheet.</li>
+ *  <li>The user should select a root directory to the search by pressing the root button.</li>
+ *  <li>Then the user should press the search button to initiate the search.</li>
+ *  <li>The list in the side bar should gradually show several workbook names that were found.</li>
+ *  <li>The user next double clicks in one of the workbooks name in the list.</li>
+ *  <li>A new workbook should be opened and made active.</li>
+ *  </ul>
+ * 
+ * 
  * 
  * @author Hugo Bento 1970581
  */
