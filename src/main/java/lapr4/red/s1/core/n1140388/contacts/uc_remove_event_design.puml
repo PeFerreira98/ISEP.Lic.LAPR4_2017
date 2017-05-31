@@ -1,20 +1,20 @@
-@startuml uc_edit_event_design.png
+@startuml uc_remove_event_design.png
 skinparam handwritten true
 skinparam monochrome true
 skinparam packageStyle rect
 skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
-title Use Case: Edit Event
+title Use Case: Remove Event
 
 actor "CRM User" as Actor  
-participant EditEventUI as UI <<presentation>>
-participant EditEventController as Controller <<application>>
+participant RemoveEventUI as UI <<presentation>>
+participant RemoveEventController as Controller <<application>>
 participant "event:Event" as Domain <<domain>>
 participant "contact:Contact" as DomainContact <<domain>>
 database ContactRepository as Repository <<repository>>
 
-Actor --> UI: Edit Event
+Actor --> UI: Remove Event
 activate UI
 
     UI -> Controller: create
@@ -30,26 +30,13 @@ activate UI
     UI -> Actor: eventsList
     Actor --> UI: Select a event
     UI -> Controller: setEvent(event)
-    UI -> Actor: event
-    
-    Actor --> UI: Time,\nDescription
-    activate Controller
-
-        opt
-            UI->Controller: setTime(Time)
-            Controller->Domain:setTime(Time)
-
-            UI->Controller: setDescription(Description)
-            Controller->Domain:setDescription(Description)
-        end
-
-        activate Domain
-            Domain -> Domain: validate
-            Domain -> Controller: event
-        deactivate Domain
-        Controller -> Repository: update(event)
-        Controller -> UI: event
-    deactivate Controller
     UI --> Actor: Display Event Info
+
+    activate Controller
+        Controller -> Repository: remove(event)
+        Controller -> UI: Success
+    deactivate Controller
+    UI --> Actor: Success
 deactivate UI
+
 @enduml

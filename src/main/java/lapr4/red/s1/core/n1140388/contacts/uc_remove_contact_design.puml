@@ -1,0 +1,32 @@
+@startuml uc_remove_contact_design.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+title Use Case: Remove Contact
+
+actor "CRM User" as Actor  
+participant RemoveContactUI as UI <<presentation>>
+participant RemoveContactController as Controller <<application>>
+database ContactRepository as Repository <<repository>>
+
+Actor --> UI: Remove Contact
+activate UI
+    UI -> Controller: create
+    Controller -> Repository: getContactsList()
+    Controller -> UI: contactsList
+    UI -> Actor: contactsList
+    Actor --> UI: Select a contact
+    UI -> Controller: setContact(contact)
+    UI --> Actor: Display Contact Info
+
+    activate Controller
+        Controller -> Repository: remove(contact)
+        Controller -> UI: Success
+    deactivate Controller
+    UI --> Actor: Success
+deactivate UI
+
+@enduml

@@ -1,4 +1,4 @@
-@startuml uc_create_event.png
+@startuml uc_create_event_design.png
 skinparam handwritten true
 skinparam monochrome true
 skinparam packageStyle rect

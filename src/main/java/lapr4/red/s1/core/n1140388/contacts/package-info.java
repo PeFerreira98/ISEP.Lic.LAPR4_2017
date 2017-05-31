@@ -84,16 +84,30 @@
  * <img src="uc_analysis_contacts.png" alt="image">
  * <p>
  *
- * From the previous diagram we see that we need to create a new contact, for
- * that, we just need to create an object and persist it.
+ * From the previous diagram we see that we need to create a new contact.
+ * Therefore, at this point we just need to create an object and persist it.
+ * <p>
+ * To edit a contact we need to change the attributes of the object. For
+ * changing this news attributes on the object, we just need to set the new
+ * attributes and update the contact.
+ * <p>
+ * To remove a contact we need to remove the object from the persistence.
  *
  * <p>
  * <img src="uc_analysis_events.png" alt="image">
  * <p>
  *
- * To edit a contact we need to change the attributes of the object. Therefore,
- * at this point, we need to study how to change this news attributes on the
- * object.
+ * From the previous diagram we see that we need to create, edit or remove an event.
+ * Therefore, we just need to get the list of all contacts and select one, where we
+ * want to manage the events.
+ * <p>
+ * To create a new event we need to create an event object and persist it.
+ * <p>
+ * To edit an event we need to change the attributes of the object. For
+ * changing this news attributes on the object, we just need to set the new
+ * attributes and update the event of the contact.
+ * <p>
+ * To remove an event we need to remove the object from the agenda of the contact.
  *
  * <p>
  * We don't have core technical problems regarding this issue.
@@ -259,7 +273,7 @@
  *
  * <b>UC1.1 Create Contact (from US1)</b>
  * <p>
- * <img src="uc_create_contact.png" alt="image">
+ * <img src="lapr4.white.s1.core.n4567890.contacts.uc_create_contact.png" alt="image">
  * <p>
  *
  * <b>UC1.2 Edit Contact (from US1)</b>
@@ -270,7 +284,7 @@
  *
  * <b>UC1.1 Remove Contact (from US1)</b>
  * <p>
- * <img src="" alt="image">
+ * <img src="uc_remove_contact_design.png" alt="image">
  * <p>
  *
  *
@@ -288,12 +302,12 @@
  *
  * <b>UC2.2 Edit Event (from US2)</b>
  * <p>
- * <img src="uc_create_event_design.png" alt="image">
+ * <img src="uc_edit_event_design.png" alt="image">
  * <p>
  *
  * <b>UC2.3 Remove Event (from US2)</b>
  * <p>
- * <img src="" alt="image">
+ * <img src="uc_remove_event_design.png" alt="image">
  * <p>
  *
  *

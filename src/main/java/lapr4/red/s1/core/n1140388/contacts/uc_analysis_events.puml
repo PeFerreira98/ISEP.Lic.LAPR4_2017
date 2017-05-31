@@ -7,7 +7,7 @@ participant "System" as Sys
 User ->  Sys: The user selects the option that will show events.  
 Sys --> User: The sidebar will show existing contacts.
 
-alt User -> Sys: The user choose a contact to associate, edit or remove events.
+alt The user choose a contact to associate, edit or remove events.
 
     alt the user selects the creating event option
     User -> Sys: The user enter the data of a event.
@@ -29,6 +29,6 @@ alt User -> Sys: The user choose a contact to associate, edit or remove events.
 Sys --> User: The system saves the contact.
 end
 
-s->User: sucess of the operation
+Sys->User: Success of the operation
 
 @enduml
