@@ -1,0 +1,39 @@
+@startuml s1_ipc_findworkbook_analysis_02.png
+
+class SearchWorkbookExtension <<Analysis>>{
+  
+ }
+
+class SearchWorkbookUIExtension <<Analysis>>{
+  
+ }
+
+class SearchWorkbookController <<Analysis>>{
+  
+ }
+
+class Container <<Analysis>>{
+  + Add(FileDTO)
+  + ListDTO()
+}
+
+class FileDTO <<Analysis>>{
+  - File_info
+}
+
+class FileSearch <<Analysis>><<? Interface ?>><<Runnable>>{
+}
+
+
+
+SearchWorkbookUIExtension <-- SearchWorkbookExtension
+SearchWorkbookController <-- SearchWorkbookUIExtension
+FileSearch <-- SearchWorkbookController
+Container <-- SearchWorkbookController
+Container o-- FileDTO
+Container <-- FileSearch
+'Event <.. Container
+'SearchWorkbookUIExtension <.. Event
+SearchWorkbookUIExtension <.. Container :   _[EVENT ???]
+
+@enduml
