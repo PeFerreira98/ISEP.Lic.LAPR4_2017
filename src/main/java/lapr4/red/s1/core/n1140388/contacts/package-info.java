@@ -1,7 +1,7 @@
 /**
  *  Technical documentation regarding the user story Core10.1.1: Contact Edition
  *  and the work of the team member (1140388) Alexandra Ferreira during week1.
- * <p>
+ *
  * <p>
  * <b>Scrum Master: -(yes/no)- no</b>
  *
@@ -17,7 +17,7 @@
  * chose a use case. Created the Jira Issues related to my use case. Started the
  * Analysis of the case.
  *
- *
+ * <p>
  * Issue in Jira:
  * <a href="https://jira.dei.isep.ipp.pt:8443/browse/LAPR4E17DL-30">LAPR4E17DL-30</a>
  *
@@ -39,13 +39,20 @@
  *
  * <p>
  * <b>Use Case "Contact Edition":</b>
- *
- * The user selects the option that will show contacts. The sidebar will show
- * existing contacts and allows the creation, editing and removal of contacts.
+ * <p>
+ * The user selects the option that will show contacts.
+ * <p>
+ * The sidebar will show existing contacts and allows the creation, editing and
+ * removal of contacts.
+ * <p>
  * If the user wants to create or edit a contact, will be opened a window that
- * will ask all data required for a contact. The user enter the data of a
- * contact. The system saves the contact. Also have an option that will allow
- * associate events to the selected contact.
+ * will ask all data required for a contact.
+ * <p>
+ * The user enter the data of a contact.
+ * <p>
+ * The system saves the contact.
+ * <p>
+ * Also have an option that will allow associate events to the selected contact.
  *
  *
  *
@@ -97,24 +104,25 @@
  * <img src="uc_analysis_events.png" alt="image">
  * <p>
  *
- * From the previous diagram we see that we need to create, edit or remove an event.
- * Therefore, we just need to get the list of all contacts and select one, where we
- * want to manage the events.
+ * From the previous diagram we see that we need to create, edit or remove an
+ * event. Therefore, we just need to get the list of all contacts and select
+ * one, where we want to manage the events.
  * <p>
  * To create a new event we need to create an event object and persist it.
  * <p>
- * To edit an event we need to change the attributes of the object. For
- * changing this news attributes on the object, we just need to set the new
- * attributes and update the event of the contact.
+ * To edit an event we need to change the attributes of the object. For changing
+ * this news attributes on the object, we just need to set the new attributes
+ * and update the event of the contact.
  * <p>
- * To remove an event we need to remove the object from the agenda of the contact.
+ * To remove an event we need to remove the object from the agenda of the
+ * contact.
  *
- * <p>
- * We don't have core technical problems regarding this issue.
+ *
  *
  *
  * <h3>Analysis of Core Technical Problem</h3>
- *
+ * <p>
+ * We don't have core technical problems regarding this issue.
  *
  *
  *
@@ -149,13 +157,15 @@
  *
  * <b>Attention: This test should be moved and refactored to Acceptance Tests so
  * that it is in accordance with the 2017 edition guidelines.</b>
- *
+ * <p>
  * Basically, from requirements and also analysis, we see that the core
  * functionality of this use case is to be able to create, edit or remove a
- * contact object and a event object to an agenda. As usual, in a test driven
- * development approach tests normally fail in the beginning. The idea is that
- * the tests will pass in the end.
+ * contact object and a event object to an agenda.
+ * <p>
+ * As usual, in a test driven development approach tests normally fail in the
+ * beginning. The idea is that the tests will pass in the end.
  *
+ * <p>
  * <b>UC1 Create/Edit/Remove Contact (from US1)</b>
  * <p>
  * To create a new contact we have to make sure that a contact object has to
@@ -168,7 +178,8 @@
  * test can be to set this attributes with a simple string and to verify if the
  * get method returns the same string.
  * <p>
- * To remove a contact we
+ * To remove a contact we have to make sure that a contact that we chose has no
+ * events.
  *
  *
  *
@@ -176,10 +187,10 @@
  * see: <code>lapr4.red.s1.core.n1140388.contacts.domain.ContactTest</code>
  *
  *
- *
+ * <p>
  * Alternative and Exception Scenarios<br>
  * Exception 1: There is already a user with the same Name. Repeat use case.
- *
+ * Exception 2: User has events. Repeat use case.
  *
  * <h3>Acceptance Tests</h3>
  *
@@ -195,26 +206,24 @@
  * }
  * </pre>
  *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
- *
+ * <b>Exception 2</b><br>
+ * <pre>
+ * {@code
+ * Given
+ *   Contact with Name "John Doe" and Event != null
+ * When
+ *   CRM User removes Contact with Name "John Doe"
+ * Then
+ *   System throws Exception
+ * }
+ * </pre>
  *
  *
  *
  *
  * <p>
- * Agenda has no information at this point. From our view of the requirements
- * there is no business rule to apply on this concept.
- * </p>
- *
+ * <b>UC2 Create/Edit/Remove Event (from US1)</b>
+ * <p>
  * Event must have a time and a description. So we have created a test that
  * represents this business rule.
  *
@@ -224,7 +233,10 @@
  *
  *
  *
- *
+ * <p>
+ * Agenda has no information at this point. From our view of the requirements
+ * there is no business rule to apply on this concept.
+ * </p>
  *
  *
  *
@@ -273,7 +285,7 @@
  *
  * <b>UC1.1 Create Contact (from US1)</b>
  * <p>
- * <img src="lapr4.white.s1.core.n4567890.contacts.uc_create_contact.png" alt="image">
+ * <img src="../../../../lapr4.white.s1.core.n4567890.contacts.uc_create_contact.png" alt="image">
  * <p>
  *
  * <b>UC1.2 Edit Contact (from US1)</b>
@@ -282,10 +294,10 @@
  * <p>
  *
  *
- * <b>UC1.1 Remove Contact (from US1)</b>
+ * <b>UC1.3 Remove Contact (from US1)</b>
  * <p>
  * <img src="uc_remove_contact_design.png" alt="image">
- * <p>
+ *
  *
  *
  *
@@ -308,12 +320,6 @@
  * <b>UC2.3 Remove Event (from US2)</b>
  * <p>
  * <img src="uc_remove_event_design.png" alt="image">
- * <p>
- *
- *
- *
- *
- *
  *
  *
  *
@@ -383,20 +389,19 @@
  *
  * -Insert here a log of you daily work. This is in essence the log of your
  * daily standup meetings.-
- * <p>
- * Example
+ *
  * <p>
  * <b>Monday</b>
  * <p>
- * Yesterday I worked on: 1. Meeting with our supervisor and decided who were
- * the Aea Leaders as well who was going to be Scrum Master.
- *
+ * Yesterday I worked on:
  * <p>
  * 1. -nothing-
  * <p>
  * Today
  * <p>
- * 1. Analysis of the...
+ * 1. Analysis of the manual of lapr4.
+ * <p>
+ * 2. Build teams.
  * <p>
  * Blocking:
  * <p>
@@ -404,18 +409,48 @@
  * <p>
  * <b>Tuesday</b>
  * <p>
- * Yesterday I worked on: 1. Analysis of the UC, testing, designing and start
- * the implementation
+ * Yesterday I worked on:
  * <p>
- * 1. ...
+ * 1. Analysis of the manual of lapr4.
  * <p>
  * Today
  * <p>
- * 1. ...
+ * 1. Meeting with our supervisor and decided who were the Aea Leaders as well
+ * who was going to be Scrum Master.
+ * <p>
+ * 2. Chosen the issue to deal.
+ * <p>
+ * 3. Created sub-tasks to that issue.
  * <p>
  * Blocking:
  * <p>
- * 1. ...
+ * 1. -nothing-
+ * <p>
+ * <b>Wednesday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Analysis of the existing javadoc.
+ * <p>
+ * 2. Started the analysis of core 10.1
+ * <p>
+ * Today
+ * <p>
+ * 1. Completed the analysis.
+ * <p>
+ * 2. Started the design of core 10.1
+ * <p>
+ * 3. Started the planning of tests implementation.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. We generated the javadoc, but it did not appear in the index, we find out
+ * that we have to create an empty class to appeared
+ * <p>
+ * 2. Know how the evidence analysis works.
+ *
+ *
+ *
  *
  * <h2>9. Self Assessment</h2>
  *
