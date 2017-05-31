@@ -13,20 +13,18 @@ User->s: Selects a range of cells to be used as source for the operation
 end
 
 User->s: Selects the import/export text extension
-s->User: checks if the cells the user selected are valid
 User->s: writes the name of the text file he wants to import/export
 User->s: configures a special character to separate columns
 User->s: check if he want the first line of the text be treated as containing the header of the columns or as regular row
-s->User: checks if the file exists
 
 alt the user had selected the import data from a text file option
-s->User: modify the cells selected by the user with the data from the imported text file
+s->User: updates the cells selected by the user with the data from the imported text file
 end
 
 alt the user had selected the export data to a text file option
-User->s: creates the text file with the data on the cells selected by the user
+s->User: creates the text file with the data on the cells selected by the user
 end
 
-s->User: sucess of the operation
+s->User: sucess
 
 @enduml

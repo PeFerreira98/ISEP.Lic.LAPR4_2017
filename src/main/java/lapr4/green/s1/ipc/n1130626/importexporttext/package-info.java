@@ -25,15 +25,19 @@
  * <b>Notes:</b><p>
  * In this analysis section, it was created a SSD to simulate a scenario between the system and the user<p>
  * in this respective use case.<p>
- * It is simulating a best case scenario.<p>
+ * It is simulating a scenario without errors.<p>
  * 
  *
  * <b>Tests</b><p>
  * This should include not only unit tests (e.g., class-oriented tests) but also
- * use case tests (e.g., like in the TDD approach).
+ * use case tests (e.g., like in the TDD approach).<p>
  *
+ * Import data from a text file Functional/Integration Test:<p>
+ *      1. The user should start the CleanSheets Application<p>
+ * <p>
  *
- *
+ * Export data to a text file Functional/Integration Test:<p>
+ * <p>
  *
  * <b>Design</b><p>
  *
