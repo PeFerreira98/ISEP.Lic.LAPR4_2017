@@ -1,0 +1,22 @@
+@startuml ipc04.1_analysis.png
+
+actor User
+
+participant "System" as s
+
+alt Select the user pretended to send the message
+User->s: Selects one user over all the possible cases to send a message
+s->User: A window pop-up so the user can write the message pretended
+User->s: Writes the message on the window
+s->User: success
+end
+
+alt Select extension to be open to receive messages
+User->s: Selects the extension that allow him to be visible and receive messages from other users
+s->User: When someone message the user, the system pop-up a window with the message during 5seconds
+User->s: By double-clicking on the message the system allow to repply the message
+s->User: success
+end
+
+
+@enduml

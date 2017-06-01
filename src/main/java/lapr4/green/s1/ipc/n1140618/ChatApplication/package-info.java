@@ -53,4 +53,4 @@
  *
  * @author alexandrebraganca
  */
-package lapr4.green.s1.ipc.n1140618;
+package lapr4.green.s1.ipc.n1140618.ChatApplication;
