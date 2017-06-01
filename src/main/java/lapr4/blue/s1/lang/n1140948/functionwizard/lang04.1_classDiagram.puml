@@ -5,7 +5,7 @@
 
     title Class Diagram
 
-    class FunctionWizard << (C, white) >>{
+    class FunctionWizardGUI << (C, white) >>{
     }
 
     interface Function << (I, lightgray) >>{
@@ -24,6 +24,6 @@
 
     Language -up-> FunctionCall : getFunctions()
 
-    FunctionWizard -left-> Language : getFunction(identifier)
+    FunctionWizardGUI -left-> Language : getFunction(identifier)
 
 @enduml
