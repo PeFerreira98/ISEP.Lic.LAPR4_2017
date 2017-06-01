@@ -18,7 +18,7 @@
  * Issue in Jira:
  * <a href="https://jira.dei.isep.ipp.pt:8443/browse/LAPR4E17DL-4">Core01.1- Enable and Disable Extensions</a>
  *
- * <p>
+ * 
  * <h2>2. Requirement</h2>
  * Provide a window to allow enable and disable cleansheets extensions.
  * 
@@ -41,7 +41,7 @@
  * <img src="core01_01_uc_realization1.png" alt="image"> 
  * <p>
  * From the previous diagram we see that we need to load extensions.
- * <p>
+ * 
  * <h2>4. Design</h2>
  * <p>
  * For this problem I have to create a window so that will be added to the sidebar consequently your shortcut will have to be added in view field in toolbars.
@@ -49,22 +49,17 @@
  * It is necessary to note that the concept of enabling and disabling is not the same to modify the properties that the extension adds to our work, 
  * just as it indicates if the extension is disabled and stop being linked to Cleansheet or if it is activated and bind to the Cleansheet.
  * Although it is an extension's manager it can also be considered as an extension because it can also be enabled and disabled in the View menu.
- * <p>
+ * 
  * <h3>Sequence diagrams:</h3>
  * <p>
  * <img src="core01_01_showSideBar.png" alt="image"> 
  * <p>
  * <img src="core01_01_activeDesactive.png" alt="image"> 
- * <p>
- * 
- * <h3>Class diagram:</h3>
- * <img src="core01_01_design_dc.png" alt="image"> 
  * 
  *
  * <h3>4.1. Functional Tests</h3>
  * Such as this task is only to enable and disable other extensions using only components of the graphical part we will only test
  * the class ExtensionNavigatorController.
- * <p>
  * 
  * <h3>4.2. Classes</h3>
  *  <img src="core01_01_design_dc.png" alt="image"> 
