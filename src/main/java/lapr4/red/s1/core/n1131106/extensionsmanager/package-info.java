@@ -53,24 +53,21 @@
  * <h3>Sequence diagrams:</h3>
  * <p>
  * <img src="core01_01_showSideBar.png" alt="image"> 
+ * <p>
+ * <img src="core01_01_activeDesactive.png" alt="image"> 
+ * <p>
+ * 
+ * <h3>Class diagram:</h3>
+ * <img src="core01_01_design_dc.png" alt="image"> 
  * 
  *
  * <h3>4.1. Functional Tests</h3>
- * //TODO
- * 
+ * Such as this task is only to enable and disable other extensions using only components of the graphical part we will only test
+ * the class ExtensionNavigatorController.
  * <p>
  * 
- * <h3>4.2. UC Realization</h3>
- * /TODO
- * <p>
- * 
- * <h3>Extension Setup</h3>
- * TODO
- * <p>
- * <img src="core02_01_design.png" alt="image">
- * 
- * 
- * <h3>4.3. Classes</h3>
+ * <h3>4.2. Classes</h3>
+ *  <img src="core01_01_design_dc.png" alt="image"> 
  * 
  * 
  * <h2>5. Implementation</h2>
@@ -92,40 +89,36 @@
  * 
  * <h2>8. Work Log</h2> 
  * 
- * -Insert here a log of you daily work. This is in essence the log of your daily standup meetings.-
  * <p>
+ * <b>Monday:</b>
+ * </p>
  * <p>
- * <b>Monday</b>
+ * 1. Team organization and discussion about the project
+ * </p>
+ * 
  * <p>
- * Yesterday I worked on:
+ * <b>Tuesday:</b>
+ * </p>
+ * <p>
+ * 1. Start the analysis of my UC
+ * 2. Debug the application, and analyze the generated javaDoc
+ * </p>
+ * <p>
+ * <u>Blocking:</u>
+ * </p>
  * <p>
  * 1. -nothing-
+ * </p>
+ * 
  * <p>
- * Today
+ * <b>Wednesday:</b>
+ * </p>
  * <p>
- * 1. Analysis of the Core01.1
- * <p>
- * Blocking:
- * <p>
- * 1. -nothing-
- * <p>
- * <b>Tuesday</b>
- * <p>
- * Yesterday I worked on: 
- * <p>
- * 1. ...
- * <p>
- * Today
- * <p>
- * 1. ...
- * <p>
- * Blocking:
- * <p>
- * 1. ...
+ * 1. Completed the analysis.
+ * 2. Start the design.
+ * </p>
  * 
  * <h2>9. Self Assessment</h2> 
- * 
- * -Insert here your self-assessment of the work during this sprint regarding Rubrics R3, R6 and R7.-
  * 
  * <h3>R3. Rubric Requirements Fulfilment: 3</h3>
  * 

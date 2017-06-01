@@ -12,7 +12,6 @@ skinparam shadowing false
     participant "uiExtension : UIExtensionNavigator" as UIExt
     participant "ExtensionNavigatorPanel : JPanel" as cp
 
- 
     UIC->ExtM:extensions.getextensions()
     loop for Extension ext : extensions
     UIC->EW : uiExtension = getUIextension(this)

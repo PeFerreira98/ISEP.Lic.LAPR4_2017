@@ -1,0 +1,45 @@
+@startuml core01_01_activeDesactive.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+title Enable / Disable extension
+participant "uic: UIController" as uic
+    participant "uiExtension : UIExtensionNavigator" as UIExt
+    participant "ExtensionNavigatorPanel : JPanel" as cp
+    participant "ExtensionNavigatorController" as ctrl
+    participant "extension : JCheckBox" as check
+    participant "applyAction: ApplyAction" as applyAction
+
+    create cp
+    UIExt -> cp :  new(uic) 
+    
+    cp -> uic : addSelectionListener(this)
+
+    create ctrl
+    cp -> ctrl : new(uic)
+
+    create check
+    cp -> check : new()
+
+    create applyAction
+    cp -> applyAction : new()
+
+    note right of applyAction
+        ApplyAction is a innerclass 
+        of ExtensionNavigatorPanel.
+        As such, it can access the 
+        members of ExtensionNavigatorPanel,
+        for instance, the
+        current extension.
+    end note
+
+    cp -> check : addActionListener(applyAction)
+
+    == meanwhile a extension is enabled or disabled ==
+
+    check -> applyAction : actionPerformed(ActionEvent e)
+    applyAction -> ctrl : changeState(int i, boolean flag)
+@enduml
