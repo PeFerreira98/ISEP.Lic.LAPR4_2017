@@ -17,23 +17,22 @@ import lapr4.white.s1.core.n4567890.contacts.domain.Event;
 import lapr4.white.s1.core.n4567890.contacts.persistence.ContactRepository;
 import lapr4.white.s1.core.n4567890.contacts.persistence.PersistenceContext;
 
-
 /**
  *
  * @author alexandrebraganca
  */
 public class ContactController implements Controller {
-    
+
     private Properties appProps;
     private final ContactRepository contactsRepository;
     private final PersistenceContext persistenceContext;
     private final ExtensionSettings extensionSettings;
-    
+
     public ContactController(Properties props) {
-        this.appProps=props;
-        this.extensionSettings=new ExtensionSettings(this.appProps);
-        this.persistenceContext=new PersistenceContext(this.extensionSettings);
-        this.contactsRepository=this.persistenceContext.repositories().contacts();
+        this.appProps = props;
+        this.extensionSettings = new ExtensionSettings(this.appProps);
+        this.persistenceContext = new PersistenceContext(this.extensionSettings);
+        this.contactsRepository = this.persistenceContext.repositories().contacts();
     }
 
     public Contact addContact(String name, String firstName, String lastName) throws DataConcurrencyException, DataIntegrityViolationException {
@@ -43,35 +42,64 @@ public class ContactController implements Controller {
     public boolean removeContact(Contact contact) throws DataConcurrencyException, DataIntegrityViolationException {
         return this.contactsRepository.removeContact(contact);
     }
-    
+
     public Contact updateContact(Contact contact, String fullName, String firstName, String lastName) throws DataConcurrencyException, DataIntegrityViolationException {
         contact.setName(fullName);
         contact.setFirstName(firstName);
         contact.setLastName(lastName);
         return this.contactsRepository.save(contact);
-    }    
+    }
 
     public Iterable<Contact> allContacts() {
         return this.contactsRepository.findAll();
     }
-    
+
     public Contact getContactById(Long id) {
-        Optional<Contact> c=this.contactsRepository.findOne(id);
-        if (c.isPresent()) return c.get();
-        else return null;
+        Optional<Contact> c = this.contactsRepository.findOne(id);
+        if (c.isPresent()) {
+            return c.get();
+        } else {
+            return null;
+        }
     }
 
     public Event addEvent(Contact contact, String eventDescription, Calendar dueDate) throws DataConcurrencyException, DataIntegrityViolationException {
-        
+
         // Create a new Event for this contact...
         // FIXME: We should change this to use a Builder 
-        Event ev=new Event(eventDescription, dueDate);
-        
+        Event ev = new Event(eventDescription, dueDate);
+
         contact.agenda().add(ev);
+
+        // TODO: When do we save?...
+        this.contactsRepository.save(contact);
+
+        return ev;
+    }
+    
+    public Event editEvent(Contact contact, Event event, String eventDescription, Calendar dueDate) throws DataConcurrencyException, DataIntegrityViolationException {
+
+        // Create a new Event for this contact...
+        // FIXME: We should change this to use a Builder 
+        Event ev = new Event(eventDescription, dueDate);
+
+        contact.agenda().add(ev);
+
+        // TODO: When do we save?...
+        this.contactsRepository.save(contact);
+
+        return ev;
+    }
+    
+    public boolean removeEvent(Contact contact, Event event) throws DataConcurrencyException, DataIntegrityViolationException {
+
+        // Create a new Event for this contact...
+        // FIXME: We should change this to use a Builder 
         
         // TODO: When do we save?...
         this.contactsRepository.save(contact);
-        
-        return ev; 
+
+        return true;
     }
+    
 }

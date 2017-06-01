@@ -42,4 +42,8 @@ public class Event {
     public String description() {
         return this.description;
     }
+    
+    public Calendar time() {
+        return this.dueDate;
+    }
 }
