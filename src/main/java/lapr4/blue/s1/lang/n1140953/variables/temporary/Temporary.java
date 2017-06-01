@@ -17,18 +17,27 @@ import lapr4.blue.s1.lang.n1140953.variables.Variable;
  */
 public class Temporary implements Variable {
 
-    private String name;
     private Cell cell;
-    private double v;
+    private String name;
+    private double value;
 
-    public Temporary(Cell c, String name) {
-        this.cell = c;
+    public Temporary(Cell cell, String name, double value) {
+        this.cell = cell;
         this.name = name;
+        this.value = value;
+    }
+
+    public Temporary(Cell cell, String name) {
+        this(cell, name, 0);
+    }
+
+    public Temporary(Temporary temporary, double value) {
+        this(temporary.cell, temporary.name, value);
     }
 
     @Override
     public Value applyTo(String name) throws IllegalValueTypeException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return new Value(value);
     }
 
     @Override
@@ -43,7 +52,18 @@ public class Temporary implements Variable {
 
     @Override
     public Object accept(ExpressionVisitor visitor) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return visitor.visitVariable(this);
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public Cell getCell() {
+        return cell;
+    }
 }

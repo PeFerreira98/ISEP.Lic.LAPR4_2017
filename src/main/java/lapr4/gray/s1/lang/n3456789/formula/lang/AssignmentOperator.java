@@ -15,6 +15,8 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lapr4.blue.s1.lang.n1140953.variables.temporary.Temporary;
+import lapr4.blue.s1.lang.n1140953.variables.temporary.TemporaryStorage;
 
 /**
  *
@@ -26,36 +28,56 @@ public class AssignmentOperator implements BinaryOperator {
     public Value applyTo(Expression leftOperand, Expression rightOperand) throws IllegalValueTypeException {
         if (leftOperand instanceof CellReference) {
             // do the assignment
-            Value value = rightOperand.evaluate(); 
-            CellReference left=(CellReference) leftOperand;
-            String content="";
-            try { 
+            Value value = rightOperand.evaluate();
+            CellReference left = (CellReference) leftOperand;
+            String content = "";
+            try {
                 // Need to handle all possible types because the set of a cell only accepts "text" or "formula"!!!
                 switch (value.getType()) {
-                    case NUMERIC: 
-                        content=value.toString(new DecimalFormat());
+                    case NUMERIC:
+                        content = value.toString(new DecimalFormat());
                         break;
                     case TEXT:
-                        content=value.toText();
+                        content = value.toText();
                         break;
                     case BOOLEAN:
-                        content=value.toBoolean().toString();
+                        content = value.toBoolean().toString();
                         break;
                     case DATE:
-                        content=value.toDate().toString();
+                        content = value.toDate().toString();
                         break;
                     default:
                         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                } 
+                }
                 left.getCell().setContent(content);
             } catch (FormulaCompilationException ex) {
                 Logger.getLogger(AssignmentOperator.class.getName()).log(Level.SEVERE, null, ex);
             }
             return value;
-        } else {
-            // error!!!!
-            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+        if (leftOperand instanceof Temporary) {
+            System.out.println("HERE!");
+            Value value = rightOperand.evaluate();
+            Temporary left = ((Temporary) leftOperand);
+            if (TemporaryStorage.exists(left.toString())) {
+                System.out.println("TEMPORARY EXISTS");
+                System.out.println(" " + value.toDouble());
+                TemporaryStorage.update(left.toString(), value.toDouble());
+            } else {
+                System.out.println("TEMPORARY NON EXISTS");
+                TemporaryStorage.add(((Temporary) leftOperand).getCell(), left.toString(), value.toDouble());
+            }
+            
+            String content = "";
+            try {
+                content = value.toString(new DecimalFormat());
+                left.getCell().setContent(content);
+            } catch (FormulaCompilationException ex) {
+                Logger.getLogger(AssignmentOperator.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            return value;
+        }
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -67,9 +89,9 @@ public class AssignmentOperator implements BinaryOperator {
     public Value.Type getOperandValueType() {
         return Value.Type.UNDEFINED;
     }
-    
+
     public String toString() {
-	return getIdentifier();
+        return getIdentifier();
     }
-    
+
 }

@@ -36,6 +36,7 @@ atom
 
 assignment
 	:  LPAR reference ASSIGN comparison RPAR
+        |  LPAR variable ASSIGN comparison RPAR
 	;
 
 function_call
@@ -49,6 +50,10 @@ reference
 		( ( COLON ) CELL_REF )?
 	;
 
+variable
+        :       TEMPORARY
+        ;
+
 literal
 	:	NUMBER
 	|	STRING
@@ -57,6 +62,10 @@ literal
 
 fragment LETTER: ('a'..'z'|'A'..'Z') ;
   
+TEMPORARY
+        :       UNDSCR ( LETTER )+
+        ;
+
 FUNCTION : 
 	  ( LETTER )+ 
 	;	
@@ -85,8 +94,8 @@ DIGIT : '0'..'9' ;
 /* Comparison operators */
 EQ		: '=' ;
 NEQ		: '<>' ;
-LTEQ	: '<=' ;
-GTEQ	: '>=' ;
+LTEQ            : '<=' ;
+GTEQ            : '>=' ;
 GT		: '>' ;
 LT		: '<' ;
 
@@ -97,14 +106,15 @@ AMP		: '&' ;
 PLUS	: '+' ;
 MINUS	: '-' ;
 MULTI	: '*' ;
-DIV		: '/' ;
+DIV     : '/' ;
 POWER	: '^' ;
 PERCENT : '%' ;
 
 /* Reference operators */
 fragment ABS : '$' ;
-fragment EXCL:  '!'  ;
-COLON	: ':' ;
+fragment EXCL: '!' ;
+COLON        : ':' ;
+UNDSCR       : '_' ;
  
 /* Miscellaneous operators */
 COMMA	: ',' ;

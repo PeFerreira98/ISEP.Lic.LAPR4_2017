@@ -25,6 +25,7 @@ import csheets.core.formula.FunctionCall;
 import csheets.core.formula.Literal;
 import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
+import lapr4.blue.s1.lang.n1140953.variables.Variable;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperation;
 
 /**
@@ -74,4 +75,6 @@ public interface ExpressionVisitor {
 	 * @return an arbitrary object
 	 */
 	public Object visitFunctionCall(FunctionCall call);
+        
+        public Object visitVariable(Variable variable);
 }

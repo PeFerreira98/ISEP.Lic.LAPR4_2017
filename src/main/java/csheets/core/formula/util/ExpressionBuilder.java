@@ -29,6 +29,7 @@ import csheets.core.formula.UnaryOperation;
 import csheets.core.formula.compiler.IllegalFunctionCallException;
 import csheets.core.formula.lang.CellReference;
 import csheets.core.formula.lang.ReferenceOperation;
+import lapr4.blue.s1.lang.n1140953.variables.Variable;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperation;
 
 /**
@@ -99,4 +100,9 @@ public class ExpressionBuilder implements ExpressionVisitor {
         public Object visitNaryOperation(NaryOperation operation) {
             throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
         }
+
+    @Override
+    public Object visitVariable(Variable variable) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 }
