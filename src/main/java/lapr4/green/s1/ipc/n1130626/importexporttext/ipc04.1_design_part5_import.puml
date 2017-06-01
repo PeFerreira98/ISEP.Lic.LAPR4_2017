@@ -1,0 +1,5 @@
+@startuml ipc04.1_design_part5_import
+actor User
+  participant ImportAction as EA
+  User -> EA : actionPerformed(ActionEvent event) 
+@enduml

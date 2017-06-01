@@ -92,8 +92,22 @@
  * 
  * <p>
  * 
+ * <b>These parts (1 to 4) were focused about the creation of the extension, the next parts are focused about the use cases</b><p>
+ * 
  * <p>
  *
+ * <b>Part 5 - Use case: Import Data</b><p>
+ * This is a sequence diagram about the respective use case<p>
+ * <img src="ipc04.1_design_part5_import.png" alt="image">
+ * 
+ * <p>
+ * 
+ * <b>Part 6 - Use case: Export Data</b><p>
+ * This is a sequence diagram about the respective use case<p>
+ * <img src="ipc04.1_design_part6_export.png" alt="image">
+ * 
+ * <p>
+ * 
  * <b>Code</b><p>
  * The following classes and interfaces implement this use case.<p>
  * Package lapr4.green.s1.ipc.n1130626.importexporttext:

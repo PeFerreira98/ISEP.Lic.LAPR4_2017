@@ -1,0 +1,5 @@
+@startuml ipc04.1_design_part6_export
+actor User
+  participant ExportAction as EA
+  User -> EA : actionPerformed(ActionEvent event) 
+@enduml
