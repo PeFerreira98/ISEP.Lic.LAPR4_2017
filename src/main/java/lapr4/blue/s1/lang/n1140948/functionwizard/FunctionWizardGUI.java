@@ -6,21 +6,27 @@
 package lapr4.blue.s1.lang.n1140948.functionwizard;
 
 import csheets.core.formula.Function;
+import csheets.ui.ctrl.UIController;
+import javax.swing.DefaultListModel;
 
 /**
  *
  * @author Tiago Silvestre
  */
 public class FunctionWizardGUI extends javax.swing.JFrame {
-    
-    
+        
+    private AddFunctionController m_controller;
+    private UIController uiController;
+    private DefaultListModel<String> lstFuncString;
 
     /**
      * Creates new form FunctionWizardGUI
-     * @param uicontroller
      */
     public FunctionWizardGUI() {
         initComponents();
+        this.uiController = uiController;
+        m_controller = new AddFunctionController();
+        
         pack();
         setLocationRelativeTo(null);        
     }    
