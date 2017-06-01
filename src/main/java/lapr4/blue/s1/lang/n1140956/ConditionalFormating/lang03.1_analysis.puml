@@ -1,0 +1,17 @@
+@startuml lang03.1_analysis.png
+
+skinparam sequenceMessageAlign center
+skinparam monochrome true
+
+actor User
+participant "System" as s
+
+User->s: Selects the tool Conditional Formating
+
+s-->User: Ask for information (Formula, settings to true and false results)
+
+User->s: Insert Data
+
+s->User:Update the current cell through the formula's result
+
+@enduml

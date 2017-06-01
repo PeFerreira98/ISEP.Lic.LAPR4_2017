@@ -1,0 +1,75 @@
+@startuml s1_ipc_findworkbook_design_02.png
+
+    participant " u : User" as u
+    participant "ui : SearchWorkbookUIExtension" as ui
+    participant "ctrl : SearchWorkbookController" as ctrl
+    participant " t: Thread" as t
+    participant " ff : FileFinder" as ff
+    participant " fc : FileContainer" as fc
+    participant " fDTO : FileDTO" as fDTO
+    participant " filter : FilenameFilter" as filter
+    
+    u -> ui : start
+
+    create ctrl
+    ui -> ctrl : create(Ctrl)
+    
+    u -> ui : search woorkbook in root dir
+    activate ui
+
+    ui -> ctrl : search(File rootDir, Observer ui)    
+    activate ctrl
+    create fc
+    ctrl -> fc : create()
+    create filter
+    ctrl -> filter : create()
+    
+    create ff
+    ctrl -> ff : create(File rootDir, fc ,)
+
+    create t
+    ctrl -> t : create(ff)
+    
+    ctrl -> t : sttart()
+    activate t
+    t -> ff : run()
+    activate ff
+    ff -> ff : searchInDir(rootDir)
+    
+    loop for each File found
+        ff -> fc : insertFile(File)
+        activate fc
+        create fDTO
+        fc -> fDTO : create(File)
+        fc -> fc : notifyObservers(Event)
+        fc --> ui : update(Event)
+        ui --> u : show new workbook
+    end
+    
+    deactivate fc
+    deactivate ff
+    deactivate t
+    deactivate ctrl
+    deactivate ui
+
+    u -> ui : double-clicks workbook
+    activate ui
+    ui -> ctrl : openWorkbook(woorkbook)
+    
+    ui --> u : displays the workbook
+    deactivate ui
+
+  'loop for Extension ext : extensions
+  '	UIC -> EExample : uiExtension=getUIExtension(this);
+  '	activate EExample
+  '	create UIExt
+  '	EExample -> UIExt : new(extension, uic)
+  '	deactivate EExample
+  '	UIExt -> UIExt : getSideBar();
+  '	activate UIExt
+  '	create cp
+  '	UIExt -> cp :  new (uic)  	
+  '	deactivate UIExt
+  '	UIC -> UIC : uiExtensions.add(uiExtension);
+  'end
+@enduml
