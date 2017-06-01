@@ -1,0 +1,15 @@
+@startuml ipc04.1_design_part3.png
+participant UIController as UIC
+  participant ExtensionManager as ExtM
+  participant "extension : ExtensionImportExportText" as EImportExportText
+  participant "uiExtension : UIExtensionImportExportText" as UIExt
+  UIC -> ExtM : extensions=getExtensions();
+  loop for Extension ext : extensions
+  	UIC -> EImportExportText : uiExtension=getUIExtension(this);
+  	activate EImportExportText
+  	create UIExt
+  	EImportExportText -> UIExt : new
+  	deactivate EImportExportText
+  	UIC -> UIC : uiExtensions.add(uiExtension);
+  end
+@enduml

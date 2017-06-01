@@ -64,13 +64,33 @@
  * <p>
  *
  * <b>Design</b><p>
- * The design section will be divided by parts, to show in a more easy way<p>
- * the process of this use case<p>
+ * The design section will be divided by parts, to show in a more easy way the process of this use case<p>
+ * 
  * <p>
  * 
  * <b>Part 1:</b><p>
- * A class diagram is shown here in this part to know how the extension of this use case is created:<p>
+ * A class diagram is shown here in part 1 to know how the extension of this use case is created:<p>
  * <img src="ipc04.1_design_part1.png" alt="image">
+ * 
+ * <p>
+ * 
+ * <b>Part 2:</b><p>
+ * A portion of a sequence diagram is shown here in part 2 to know how the extension is load by the ExtensionManager<p>
+ * <img src="ipc04.1_design_part2.png" alt="image">
+ * 
+ * <p>
+ * 
+ * <b>Part 3:</b><p>
+ * Another portion of a sequence diagram is shown here in part 3 to know how the UI (User interface) of the extension is created<p>
+ * <img src="ipc04.1_design_part3.png" alt="image">
+ * 
+ * <p>
+ * 
+ * <b>Part 4:</b><p>
+ * This portion of a sequence diagram is shown here in part 4 to know how the menu of the extension is created<p>
+ * <img src="ipc04.1_design_part4.png" alt="image">
+ * 
+ * <p>
  * 
  * <p>
  *
