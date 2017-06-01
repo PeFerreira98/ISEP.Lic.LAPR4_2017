@@ -39,7 +39,27 @@
  * This should include not only unit tests (e.g., class-oriented tests) but also
  * use case tests (e.g., like in the TDD approach).
  *
- *
+ * Send a message Functional/Integration Test:
+ * <p>
+ * 1. The user should start the CleanSheets Application<p>
+ * 2. Selects the option Extensions<p>
+ * 3. Selects the option Chat Application<p>
+ * 4. A sidebar with all the avaiable user to send messages<p>
+ * 5. Select the user pretended to send a message<p>
+ * 6. Press the "Send" button<p>
+ * 7. No error should occur<p>
+ * 
+ * 
+ * Receive a message Functional/Integration Test:<p>
+ * 1. The user should start the CleanSheets Application<p>
+ * 2. Select the option Extensions<p>
+ * 3. Select the option Chat Application<p>
+ * 4. The user is now avaiable to receive messages<p>
+ * 5. A pop-up window will appear when someone message<p>
+ * 6. The user can ignore it and the window will disapear after 5 seconds<p>
+ * 7. The user can answer the message by double-clicking it<p>
+ * 8. No error should occur<p>
+ * 
  *
  *
  * <b>Design</b><p>
