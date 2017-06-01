@@ -64,7 +64,14 @@
  * <p>
  *
  * <b>Design</b><p>
- *
+ * The design section will be divided by parts, to show in a more easy way<p>
+ * the process of this use case<p>
+ * <p>
+ * 
+ * <b>Part 1:</b><p>
+ * A class diagram is shown here in this part to know how the extension of this use case is created:<p>
+ * <img src="ipc04.1_design_part1.png" alt="image">
+ * 
  * <p>
  *
  * <b>Code</b><p>

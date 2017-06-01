@@ -1,0 +1,16 @@
+@startuml ipc04.1_design_part1.png
+  class ImportAction
+  class ExportAction   
+  class ImportExportMenu
+  class ExtensionImportExport {
+    -String NAME;
+  }
+  class UIExtensionImportExport
+  class JMenuItem
+
+  ExtensionImportExport -> UIExtensionImportExport : getUIExtension(UIController)
+  UIExtensionImportExport -> ImportExportMenu : getMenu()
+  ImportExportMenu -> JMenuItem : 'items'
+  JMenuItem o-> ImportAction : action
+  JMenuItem o-> ExportAction : action
+@enduml
