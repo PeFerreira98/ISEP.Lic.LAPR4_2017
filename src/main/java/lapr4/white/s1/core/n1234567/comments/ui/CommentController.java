@@ -2,6 +2,9 @@ package lapr4.white.s1.core.n1234567.comments.ui;
 
 import lapr4.white.s1.core.n1234567.comments.CommentableCell;
 import csheets.ui.ctrl.UIController;
+import java.util.ArrayList;
+import java.util.List;
+import lapr4.red.s1.core.n1140376.comments.Comment;
 
 /**
  * A controller for updating the user-specified comment of a cell.
@@ -35,14 +38,16 @@ public class CommentController {
 	 * @return true if the cell's comment was changed
 	 */
 	public boolean setComment(CommentableCell cell, String commentString) {
+                
 		// Clears comment, if insufficient input
+                String userName = System.getProperty("user.name");
 		if (commentString == null || commentString.equals("")) {
-			cell.setUserComment(null);
+			cell.addComment(null,null);
 			return true;
 		}
 
 		// Stores the comment
-		cell.setUserComment(commentString);
+		cell.addComment(userName,commentString);
 		uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
 
 		return true;
@@ -54,10 +59,20 @@ public class CommentController {
 	 */
 	public void cellSelected(CommentableCell cell) {
 		// Updates the text field and validates the comment, if any
-		if (cell.hasComment()) {
-			uiPanel.setCommentText(cell.getUserComment());
+		if (cell.hasComments()) {
+                        for(Comment c : cell.getCommentsList())
+			uiPanel.setCommentText(c.text());
 		} else {
 			uiPanel.setCommentText("");
 		}
+	}
+        /**
+         * Returns all the comments in this cell 
+         */
+        public List<Comment> getCommentList(CommentableCell cell) {
+		if (cell == null) {
+			return new ArrayList();
+		}
+		return cell.getCommentsList();
 	}
 }

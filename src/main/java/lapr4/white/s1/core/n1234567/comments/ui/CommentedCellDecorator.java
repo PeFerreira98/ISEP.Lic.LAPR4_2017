@@ -41,7 +41,7 @@ public class CommentedCellDecorator extends CellDecorator {
 			boolean selected, boolean hasFocus) {
 		if (enabled) {
 			CommentableCell commentableCell = (CommentableCell)cell.getExtension(CommentsExtension.NAME);
-			if (commentableCell.hasComment()) 
+			if (commentableCell.hasComments()) 
 			{
 				// Stores current graphics context properties
 				Graphics2D g2 = (Graphics2D)g;

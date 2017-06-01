@@ -11,6 +11,7 @@ import java.util.List;
 
 import csheets.core.Cell;
 import csheets.ext.CellExtension;
+import lapr4.red.s1.core.n1140376.comments.Comment;
 
 /**
  * An extension of a cell in a spreadsheet, with support for comments.
@@ -22,8 +23,13 @@ public class CommentableCell extends CellExtension {
 	/** The unique version identifier used for serialization */
 	private static final long serialVersionUID = 1L;
 
-	/** The cell's user-specified comment */
-        private String userComment;
+//	/** The cell's user-specified comment */
+//        private String userComment;
+        
+        /**
+	 * The cell's user-specified comments list
+	 */
+	private List<Comment> commentsList = new ArrayList<>();
 
 	/** The listeners registered to receive events from the comentable cell */
 	private transient List<CommentableCellListener> listeners
@@ -51,41 +57,60 @@ public class CommentableCell extends CellExtension {
  * COMMENT ACCESSORS
  */
 
-	/**
-	 * Get the cell's user comment.
-	 * @return The user supplied comment for the cell or <code>null</code> if no user
-	 supplied comment exists.
-	*/
-	public String getUserComment() {
-		return userComment;
-	}
+        /*
+        Get the comments list on this cell
+        */
+        public List<Comment> getCommentsList() {
+            return commentsList;
+        }
+    
+//	/**
+//	 * Get the cell's user comment.
+//	 * @return The user supplied comment for the cell or <code>null</code> if no user
+//	 supplied comment exists.
+//	*/
+//	public String getUserComment() {
+//		return userComment;
+//	}
 
-	/**
-	 * Returns whether the cell has a comment.
-	 * @return true if the cell has a comment
-	 */
-	public boolean hasComment() {
-		return userComment != null;
-	}
+//	/**
+//	 * Returns whether the cell has a comment.
+//	 * @return true if the cell has a comment
+//	 */
+//	public boolean hasComment() {
+//		return userComment != null;
+//	}
+        
+        /**
+         * Return wether the cell has comments.
+         * @return true if the cell has comments;
+         */
+        public boolean hasComments(){
+            if (this.commentsList == null) {
+			return false;
+		}
+		return !this.commentsList.isEmpty();
+        }
 
 /*
  * COMMENT MODIFIERS
  */
 
-	/**
-	 * Sets the user-specified comment for the cell.
-	 * @param comment the user-specified comment
-	 */
-	public void setUserComment(String comment) {
-		this.userComment = comment;
-		// Notifies listeners
-		fireCommentsChanged();
-	}
+//	/**
+//	 * Sets the user-specified comment for the cell.
+//	 * @param comment the user-specified comment
+//	 */
+//	public void setUserComment(String comment) {
+//		this.userComment = comment;
+//		// Notifies listeners
+//		fireCommentsChanged();
+//	}
 
 
 /*
  * EVENT LISTENING SUPPORT
  */
+          
 
 	/**
 	 * Registers the given listener on the cell.
@@ -102,13 +127,53 @@ public class CommentableCell extends CellExtension {
 	public void removeCommentableCellListener(CommentableCellListener listener) {
 		listeners.remove(listener);
 	}
+        /**
+         * Adds a comment to this cells comment list
+         * @param userName name of the user performing the comment
+         * @param text text of the comment
+         * @throws IllegalArgumentException 
+         */
+        public void addComment(String userName, String text)throws IllegalArgumentException {
 
+		if (userName == null || userName.isEmpty()) {
+			throw new IllegalArgumentException("Unable to get the username.");
+		}
+		if (text == null || text.isEmpty()) {
+			throw new IllegalArgumentException("Comment string is empty or null.");
+		}
+		Comment newComment = new Comment(userName, text);
+		commentsList.add(newComment);
+		// Notifies listeners
+		fireCommentsChanged();
+        
+        };
 	/**
 	 * Notifies all registered listeners that the cell's comments changed.
 	 */
 	protected void fireCommentsChanged() {
 		for (CommentableCellListener listener : listeners)
 			listener.commentChanged(this);
+	}
+        /**
+         * Method that shows the tooltip of the cell the user is hovering over
+         * @return tooltip
+         */
+        public String getTooltip() {
+
+		String tooltip = null;;
+		if (this.hasComments()) {
+
+			tooltip = "<html>";
+			for (Comment cmt : commentsList) {
+				tooltip += "<b>";
+				tooltip += cmt.userName() + ":</b> ";
+				tooltip += cmt.text();
+				tooltip += "<br/>";
+			}
+			tooltip += "</html>";
+		}
+
+		return tooltip;
 	}
 
 	/**

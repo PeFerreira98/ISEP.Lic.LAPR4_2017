@@ -33,13 +33,13 @@ public class CommentableCellTest {
 		// activate the comments on the first cell
 		CommentableCell cc=new CommentableCell(c);
 
-		boolean hasComment=cc.hasComment();
+		boolean hasComment=cc.hasComments();
 		
 		assertTrue(hasComment==false);		
 		
-		cc.setUserComment("coment");
+		cc.addComment("user","coment");
 
-		hasComment=cc.hasComment();
+		hasComment=cc.hasComments();
 		
 		assertTrue(hasComment);		
 	}
@@ -58,9 +58,9 @@ public class CommentableCellTest {
 		// activate the comments on the first cell
 		CommentableCell cc=new CommentableCell(c);
 
-		cc.setUserComment("Hello");
+		cc.addComment("user","Hello");
 		
-		assertTrue("Hello".compareTo(cc.getUserComment())==0);		
+		assertTrue(cc.hasComments());		
 	}
 	
 	/**
@@ -83,7 +83,7 @@ public class CommentableCellTest {
 		cc.addCommentableCellListener(listener);
 
 		// modify the cell... this should create an event
-		cc.setUserComment("Hello");
+		cc.addComment("user","Hello");
 		
 		assertTrue(isNotified);		
 	}
