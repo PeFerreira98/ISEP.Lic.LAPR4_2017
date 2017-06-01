@@ -1,0 +1,73 @@
+@startuml s1_ipc_findworkbook_design_01.png
+
+class SearchWorkbookExtension {
+  
+ }
+
+class SearchWorkbookUIExtension <<Observer>>{
+  - controller
+
+ }
+
+class SearchWorkbookController {
+    - fileContainer
+    - thread
+    + openWorkbook(File)
+    + signalExit()
+    + search(File rootDir, Observer ui)
+ }
+
+class FileContainer <<Observable>> <<synchronized>>{
+  - lista
+  + insertFile(FileDTO)
+  + getFileDTO(int)
+  + size()
+  + emptyMe()
+  + isToExit()
+  + setToExit()
+}
+
+class FileDTO {
+    - file
+    - serialNumber
+    - filename
+  + FileDTO(File file, int serialNumber)
+    + serial()
+    + toString()
+}
+
+class FilenameFilterBasic <<FilenameFilter>>{
++ FilenameFilterBasic()
+}
+
+interface FilenameFilter{
+}
+
+class FileFinder <<Runnable>>{
+ + FileFinder(File , FileContainer, FilenameFilter)   
+ + run()
+ + searchInDir(File dir)
+ - fileContainer
+ - filenameFilter
+ - root
+}
+
+
+FilenameFilter <|.. FilenameFilterBasic
+FilenameFilterBasic <-- FileFinder
+SearchWorkbookUIExtension <-- SearchWorkbookExtension
+SearchWorkbookController <-- SearchWorkbookUIExtension
+FileContainer <-- SearchWorkbookController
+FileContainer <-- SearchWorkbookController
+FileContainer o-- FileDTO
+FileContainer <-- FileFinder
+FileDTO <-- SearchWorkbookUIExtension
+'Event <.. Container
+
+'SearchWorkbookUIExtension <.. Event
+SearchWorkbookUIExtension <.. FileContainer :   EVENT
+
+
+
+
+@enduml

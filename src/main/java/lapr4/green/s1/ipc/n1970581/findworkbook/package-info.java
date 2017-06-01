@@ -27,7 +27,13 @@
  * Continuation of analysis. Created a class diagram and a description of how the code should be roughtly extruturated.
  * DailyScrum: 15 min
  * Helping team-mate to create package, package javadoc and Jira subtasks.
+ * Test: Thinking of tests and Design of Main Functional Test
  * 
+ ** Work notes/log: S1 01-06-2017 (5ª quinta)
+ *  Daily Scrum: 15 min
+ *  Team meeting to share info about Functional Tests
+ *  Helping teammate with design decision 
+ *  Design started: Class diagram, SD
  * 
  * -In this section you should register important notes regarding your work during the sprint.
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
@@ -68,7 +74,7 @@
  * 
  * <h2>4. Design</h2>
  *
- * <h3>4.1. Functional Tests</h3>
+ * <h3>4.1. Testing </h3>
  * Basically, from requirements and also analysis, we see that the core functionality of this use case is to be able to search and show a list of workbooks.
  * Then allowing one of them to be opened.
  * What should we test:<p>
@@ -103,6 +109,14 @@
  *  <li>The user next double clicks in one of the workbooks name in the list.</li>
  *  <li>A new workbook should be opened and made active.</li>
  *  </ul>
+ * 
+ * <h2>4.3 UC Realizationt</h2>
+ * 
+ * <h3>4.3.1 Class Diagram</h3>
+ * <img src="s1_ipc_findworkbook_design_01.png" alt="image">
+ * 
+ * <h3>4.3.2 Sequence Diagram</h3>
+ * <img src="s1_ipc_findworkbook_design_02.png" alt="image">
  * 
  * 
  * 
