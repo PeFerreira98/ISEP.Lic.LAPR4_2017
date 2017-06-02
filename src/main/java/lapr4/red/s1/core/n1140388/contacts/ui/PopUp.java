@@ -5,9 +5,14 @@
  */
 package lapr4.red.s1.core.n1140388.contacts.ui;
 
+import java.awt.AWTEvent;
+import java.awt.Toolkit;
+import java.awt.event.AWTEventListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.JFrame;
+import javax.swing.Timer;
 import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
-import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 
 /**
  *
@@ -16,17 +21,20 @@ import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 public class PopUp extends javax.swing.JDialog {
 
     private String infoMostrar;
-    
+
     private ContactController controller;
-    
+
+    private Timer timer = null;
+    private long time;
+
     /**
      * Creates new form Dialog
      */
-    public PopUp(Object parent, boolean modal, ContactController 
-            controller, String infoApresentar) {
-        
+    public PopUp(Object parent, boolean modal, ContactController controller, String infoApresentar) {
+
         this.controller = controller;
         this.infoMostrar = infoApresentar;
+
         initComponents();
         pack();
         setLocationRelativeTo(null);
@@ -34,6 +42,32 @@ public class PopUp extends javax.swing.JDialog {
         setVisible(true);
         setResizable(false);
         txtInfo.setText(infoMostrar);
+
+        timeTo();
+    }
+
+    private void timeTo() {
+        long eventMask = AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK;
+
+        Toolkit.getDefaultToolkit().addAWTEventListener(new AWTEventListener() {
+            public void eventDispatched(AWTEvent e) {
+                time = System.currentTimeMillis();
+            }
+        }, eventMask);
+
+        time = System.currentTimeMillis();
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                while (true) {
+                    if (System.currentTimeMillis() - time > 5000) {
+                        PopUp.this.dispose();
+                        break;
+                    }
+                }
+            }
+        }).start();
     }
 
     /**

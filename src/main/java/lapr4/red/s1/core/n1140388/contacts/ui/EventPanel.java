@@ -236,12 +236,10 @@ public class EventPanel extends JPanel implements SelectionListener {
         if (eventsForToday.size() > 0) {
             popUp = "--- INFORMATION ---\n"
                     + "CONTACT: " + contact.name()
-                    + "EVENTS FOR TODAY:\n";
+                    + "\n\nEVENTS FOR TODAY:";
             for(Event e : eventsForToday){
                 popUp += "\n" + e.description();
             }
-            
-            popUp = eventsForToday.toString();
         }
 
         return popUp;

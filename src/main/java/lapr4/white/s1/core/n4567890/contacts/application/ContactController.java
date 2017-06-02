@@ -81,7 +81,7 @@ public class ContactController implements Controller {
     public Event editEvent(Contact contact, Event event, String eventDescription, Calendar dueDate) throws DataConcurrencyException, DataIntegrityViolationException {
 
         contact.agenda().events().remove(event);
-        
+
         Event ev = new Event(eventDescription, dueDate);
 
         contact.agenda().add(ev);
@@ -115,10 +115,15 @@ public class ContactController implements Controller {
         }
 
         Calendar cal = DateTime.parseDate(dateToVerify);
+
         Calendar now = Calendar.getInstance();
-        if (cal.get(cal.DAY_OF_WEEK) == now.get(now.DAY_OF_WEEK)
-                && cal.get(cal.DAY_OF_MONTH) == now.get(now.DAY_OF_MONTH)
-                && cal.get(cal.DAY_OF_YEAR) == now.get(now.DAY_OF_YEAR)) {
+        int day = now.get(Calendar.DAY_OF_WEEK);
+        int month = now.get(Calendar.DAY_OF_MONTH);
+        int year = now.get(Calendar.DAY_OF_YEAR);
+        if (cal.get(Calendar.DAY_OF_WEEK) == day
+                && cal.get(Calendar.DAY_OF_MONTH) == month
+                && cal.get(Calendar.DAY_OF_YEAR) == year) {
+            
             return cal;
         }
 
