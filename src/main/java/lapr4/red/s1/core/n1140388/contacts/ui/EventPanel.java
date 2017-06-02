@@ -23,7 +23,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
-import javax.swing.ListSelectionModel;
 import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
 import lapr4.white.s1.core.n4567890.contacts.ContactsExtension;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
@@ -51,9 +50,16 @@ public class EventPanel extends JPanel implements SelectionListener {
     private Object[] contactsList;
     private Object[] eventsList;
 
+    /**
+     * Creates a new event panel.
+     *
+     * @param uiController the user interface controller
+     */
     public EventPanel(UIController uiController) {
+        // Configures panel
         super(new BorderLayout());
 
+        // Creates controller
         this.controller = new ContactController(uiController.getUserProperties());
 
         uiController.addSelectionListener(this);
@@ -63,6 +69,7 @@ public class EventPanel extends JPanel implements SelectionListener {
         JPanel eventsListPanel = new JPanel(new GridLayout(1, 0));
         JPanel buttonsPanel = new JPanel(new GridLayout(5, 0));
 
+        //Creates comboBox of Contacts and List of Events
         contactComboBox = createContactsComboBox();
         listEvents = createList();
         eventsListPanel.add(listEvents);
@@ -74,13 +81,14 @@ public class EventPanel extends JPanel implements SelectionListener {
         btnCreate = buttonCreate();
         btnEdit = buttonEdit();
         btnRemove = buttonDelete();
-        
+
         buttonsPanel.add(new JToolBar.Separator(new Dimension(20, 20)));
         buttonsPanel.add(btnCreate);
         buttonsPanel.add(btnEdit);
         buttonsPanel.add(btnRemove);
         buttonsPanel.add(new JToolBar.Separator(new Dimension(20, 20)));
 
+        // Creates side bar
         add(contactsPanel, BorderLayout.NORTH);
         add(eventsListPanel, BorderLayout.CENTER);
         add(buttonsPanel, BorderLayout.SOUTH);
@@ -91,90 +99,55 @@ public class EventPanel extends JPanel implements SelectionListener {
 
     @Override
     public void selectionChanged(SelectionEvent event) {
-        
+
     }
 
+    /**
+     * Creates a combo box to choose the contact.
+     *
+     * @return combo box
+     */
     private JComboBox createContactsComboBox() {
-        String[] contactNames = new String[2];
-
-        contactNames[0] = "1";
-        contactNames[1] = "2";
-
+        String[] contactNames = showAllContacts();
         JComboBox contatos = new JComboBox(contactNames);
         return contatos;
     }
-    
-    private String[] showAllEvents(Contact c) {
+
+    /**
+     * Returns an array with the names of contacts to be visible on the combo
+     * box, and adds all objects of contacts on the contactsList array.
+     *
+     * @return array with the contacts name
+     */
+    private String[] showAllContacts() {
         int i = 0;
-        String[] names = null;
-//                new String[c.AllEvent().size()];
 
-//        if (c.AllEvent().isEmpty()) {
-//            return names;
-//        }
-        Object[] data = null;
-//                (Object[]) (Object) c.AllEvent().
-//                toArray(new Object[c.AllEvent().size()]);
+        List<Contact> list = (List<Contact>) controller.allContacts();
 
-        for (Object o : data) {
-            Event e = (Event) o;
+        String[] names = new String[list.size()];
 
-            names[i] = e.description() + " " + e.time().
-                    get(Calendar.DAY_OF_MONTH) + "/";
-//                    + e.getMonth() + "/"
-//                    + e.timeStamp().get(Calendar.YEAR);
+        if (list.isEmpty()) {
+            return names;
+        }
+
+        Object[] data = (Object[]) (Object) list.toArray(new Object[list.size()]);
+
+        for (Object obj : data) {
+            Contact contact = (Contact) obj;
+            names[i] = "Name: " + contact.firstName() + " " + contact.lastName();
             i++;
         }
 
-        eventsList = data;
+        contactsList = data;
 
         return names;
     }
 
     /**
-     * Get contact
+     * Creates a list where the contacts will be show.
      *
-     * @param selectedIndex index combobox choise
-     * @return Object
+     * @return list on the panel
      */
-    public Object getContact(int selectedIndex) {
-        int pos = selectedIndex;
-        Object obj = new Object();
-
-        if (contactsList == null) {
-            return null;
-        }
-
-        for (int i = 0; i < contactsList.length; i++) {
-            if (i == pos) {
-                obj = contactsList[i];
-            }
-        }
-        return obj;
-    }
-
-    /**
-     * Get event
-     *
-     * @param selectedIndex index listEvents choise
-     * @return Object
-     */
-    public Object getEvent(int selectedIndex) {
-        int pos = selectedIndex;
-        Object obj = new Object();
-
-        if (eventsList == null) {
-            return null;
-        }
-
-        for (int i = 0; i < eventsList.length; i++) {
-            if (i == pos) {
-                obj = eventsList[i];
-            }
-        }
-        return obj;
-    }
-
     private JList createList() {
         Object[] data = {};
         JList list = new JList(data);
@@ -184,6 +157,123 @@ public class EventPanel extends JPanel implements SelectionListener {
         return list;
     }
 
+    private JButton buttonChooseContact() {
+        JButton choise = new JButton("  Select Contact   ");
+        choise.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                try {
+                    if (contactComboBox.getSelectedItem() != null) {
+                        Contact contact = getContact(contactComboBox.getSelectedIndex());
+                        setInterfaceToContact(contact, true);
+                    } else {
+                        JOptionPane.showMessageDialog(EventPanel.this,
+                                "Please select a contact",
+                                "Show Contact",
+                                JOptionPane.WARNING_MESSAGE);
+                    }
+                } catch (NullPointerException e) {
+                    setInterfaceToContact(null, false);
+                    JOptionPane.showMessageDialog(EventPanel.this,
+                            "The contact doesen't exist, please refresh there contact list",
+                            "Contact Error",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }
+
+        });
+        return choise;
+    }
+
+    /**
+     * Get the contact selected on the combo box.
+     *
+     * @param selectedIndex index combobox choise
+     * @return Object
+     */
+    public Contact getContact(int selectedIndex) {
+
+        if (contactsList == null) {
+            return null;
+        }
+
+        return (Contact) contactsList[selectedIndex];
+    }
+
+    /**
+     * This method will enabled the contact operations and set visible the
+     * events management.
+     *
+     * @param contact the contact that we want to see
+     * @param flag if there wasn't a contact, the flag will be false, so the
+     * method will not change the visibility of events management, if there was
+     * a contact the method will change it.
+     */
+    private void setInterfaceToContact(Contact contact, boolean flag) {
+
+        this.selectedContact.setEnabled(true);
+        this.contactComboBox.setEnabled(true);
+
+        this.listEvents.setVisible(flag);
+        this.btnCreate.setVisible(flag);
+        this.btnEdit.setVisible(flag);
+        this.btnRemove.setVisible(flag);
+
+        if (flag) {
+            this.selectedContact.setEnabled(!flag);
+        }
+        if (flag) {
+            this.contactComboBox.setEnabled(!flag);
+        }
+
+        if (contact != null) {
+            Object[] data = showAllEvents((Contact) contact);
+            listEvents.setListData(data);
+
+            if (data.length == 0) {
+                JOptionPane.showMessageDialog(EventPanel.this,
+                        "The contact has no events",
+                        "Show Event",
+                        JOptionPane.WARNING_MESSAGE);
+            }
+
+            this.contact = contact;
+        }
+    }
+
+    /**
+     * Returns an array with the events description and time to be visible on
+     * the list, and adds all objects of events on the eventsList array.
+     *
+     * @param contact the contact that we want to management
+     * @return array with the events description and time
+     */
+    private String[] showAllEvents(Contact contact) {
+        int i = 0;
+
+        String[] names = new String[contact.agenda().events().size()];
+
+        if (contact.agenda().events().isEmpty()) {
+            return names;
+        }
+
+        Object[] data = (Object[]) (Object) contact.agenda().events().
+                toArray(new Object[contact.agenda().events().size()]);
+
+        for (Object o : data) {
+            Event e = (Event) o;
+
+            names[i] = e.description() + " " + e.time().
+                    get(Calendar.DAY_OF_MONTH) + "/"
+                    + e.time().get(Calendar.MONTH) + "/"
+                    + e.time().get(Calendar.YEAR);
+            i++;
+        }
+
+        eventsList = data;
+
+        return names;
+    }
 
     private JButton buttonCreate() {
         JButton btnbtnCreate = new JButton("  Create Event  ");
@@ -248,62 +338,25 @@ public class EventPanel extends JPanel implements SelectionListener {
         return btnbtnRemove;
     }
 
-    private JButton buttonChooseContact() {
-        JButton choise = new JButton("  Select Contact   ");
-        choise.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent ae) {
-                try {
-                    if (contactComboBox.getSelectedItem() != null) {
-                        Contact c = (Contact) getContact(contactComboBox.
-                                getSelectedIndex());
-                        setInterfaceToContact(c, true);
-                    } else {
-                        JOptionPane.showMessageDialog(EventPanel.this,
-                                "Please select an contact",
-                                "Show Contact",
-                                JOptionPane.WARNING_MESSAGE);
-                    }
-                } catch (NullPointerException e) {
-                    setInterfaceToContact(null, false);
-                    JOptionPane.showMessageDialog(EventPanel.this,
-                            "The contact doesen't exist, please refresh there contact list",
-                            "Contact Error",
-                            JOptionPane.WARNING_MESSAGE);
-                }
+    /**
+     * Get event
+     *
+     * @param selectedIndex index listEvents choise
+     * @return Object
+     */
+    public Object getEvent(int selectedIndex) {
+        int pos = selectedIndex;
+        Object obj = new Object();
+
+        if (eventsList == null) {
+            return null;
+        }
+
+        for (int i = 0; i < eventsList.length; i++) {
+            if (i == pos) {
+                obj = eventsList[i];
             }
-
-        });
-        return choise;
-    }
-
-    private void setInterfaceToContact(Contact contact, boolean flag) {
-
-        this.selectedContact.setEnabled(true);
-        this.contactComboBox.setEnabled(true);
-
-        this.listEvents.setVisible(flag);
-        this.btnCreate.setVisible(flag);
-        this.btnEdit.setVisible(flag);
-        this.btnRemove.setVisible(flag);
-
-        if (flag) {
-            this.selectedContact.setEnabled(!flag);
         }
-        if (flag) {
-            this.contactComboBox.setEnabled(!flag);
-        }
-
-        if (contact != null) {
-            Object[] data = showAllEvents((Contact) contact);
-            listEvents.setListData(data);
-            if (data.length == 0) {
-                JOptionPane.showMessageDialog(EventPanel.this,
-                        "The contact has no events",
-                        "Show Event",
-                        JOptionPane.WARNING_MESSAGE);
-            }
-            this.contact = contact;
-        }
+        return obj;
     }
 }

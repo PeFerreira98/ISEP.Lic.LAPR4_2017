@@ -49,5 +49,9 @@ public class Agenda implements Serializable {
         }
         // FIXME validations are missing, e.g., add events in the past?
         return this.events.add(ev);
-    }    
+    }   
+
+    public Set<Event> events() {
+        return events;
+    }
 }
