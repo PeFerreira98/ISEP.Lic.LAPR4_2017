@@ -42,7 +42,7 @@ public class FileContainer extends Observable{
         
         this.setChanged();
         
-        this.notifyObservers(element.toString());
+        this.notifyObservers(element);
         
     }
     /** Allows to get the FileDTO stored with the number i 

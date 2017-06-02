@@ -53,7 +53,7 @@ public class FileFinder implements Runnable{
         File[] dirList = dir.listFiles();
         for(File localDir : dirList){
             if(localDir.isDirectory() && !container.isToExit()){// Se for diretorio e não existir indicação de sair.
-                System.out.println("Searching in " + localDir.getName());
+                //System.out.println("Searching in " + localDir.getName());
                 searchInDir(localDir);
             }
         }

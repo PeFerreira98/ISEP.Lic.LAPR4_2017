@@ -6,16 +6,45 @@
 package lapr4.green.s1.ipc.n1970581.findworkbook.ui;
 
 import csheets.ui.ctrl.UIController;
+import java.io.File;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 import lapr4.green.s1.ipc.n1970581.findworkbook.SearchWorkbookExtension;
+import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
 
 /**
  * Sidebar Pannel for use case: IPC01.1 Search Workbook
  * @author Hugo
  */
-public class SearchWorkbookPanel extends javax.swing.JPanel {
+public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer {
 
     /** The ui Controller of the main window */
     private UIController uiController;
+    
+    /** The Controller of the use case */
+    private SearchWorkbookController controller;
+    
+    /** This pannel */
+    SearchWorkbookPanel myselfPanel;
+    
+    /** file chooser object */
+    private JFileChooser chooser;
+    
+    private final static String CHOOSER_TITLE = "Choose the search root directory";
+    
+    /** chosen root Directory*/
+    private File rootDir;
+    
+    /** root directory path */
+    private String rootDirPath;
+    
+    /** The defaultListModel */
+    private DefaultListModel<FileDTO> defaultListModel;
     
     /**
      * Creates new form SearchWorkbookPanel
@@ -23,7 +52,10 @@ public class SearchWorkbookPanel extends javax.swing.JPanel {
      */
     public SearchWorkbookPanel(UIController uiController) {
         this.uiController = uiController;
+        this.controller = new SearchWorkbookController(uiController);
         initComponents();
+        this.myselfPanel = this;
+        this.defaultListModel = new DefaultListModel<FileDTO>();
     }
 
     /**
@@ -38,15 +70,36 @@ public class SearchWorkbookPanel extends javax.swing.JPanel {
         jButtonRoot = new javax.swing.JButton();
         jTextFieldRoot = new javax.swing.JTextField();
         jButtonSearch = new javax.swing.JButton();
+        jButtonOpen = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListWorkbooks = new javax.swing.JList();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, SearchWorkbookExtension.NAME, javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP));
         setName(SearchWorkbookExtension.NAME);
 
         jButtonRoot.setText("Root");
+        jButtonRoot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRootActionPerformed(evt);
+            }
+        });
 
+        jTextFieldRoot.setEditable(false);
         jTextFieldRoot.setText("Press [Root] to select search directory...");
 
         jButtonSearch.setText("Search");
+        jButtonSearch.setEnabled(false);
+        jButtonSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonSearchActionPerformed(evt);
+            }
+        });
+
+        jButtonOpen.setText("Open");
+        jButtonOpen.setEnabled(false);
+
+        jListWorkbooks.setModel(new DefaultListModel<FileDTO>());
+        jScrollPane1.setViewportView(jListWorkbooks);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -54,12 +107,18 @@ public class SearchWorkbookPanel extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButtonRoot)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTextFieldRoot, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonSearch)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonOpen))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonRoot)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldRoot, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButtonSearch)
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -68,14 +127,63 @@ public class SearchWorkbookPanel extends javax.swing.JPanel {
                     .addComponent(jButtonRoot)
                     .addComponent(jTextFieldRoot, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonSearch))
-                .addGap(0, 255, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jButtonOpen))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
+                        .addContainerGap())))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonRootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRootActionPerformed
+        // TODO add your handling code here:
+        chooser = new JFileChooser(); 
+        chooser.setCurrentDirectory(new java.io.File("."));
+        chooser.setCurrentDirectory(new java.io.File("d:/testc/"));
+        chooser.setDialogTitle(CHOOSER_TITLE);
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.showOpenDialog(this);
+        File dir = chooser.getSelectedFile();
+        //System.out.println(file.toPath());
+        if(!dir.isDirectory()){
+            Logger.getGlobal().log(Level.SEVERE, "Directory chooser chose a non directory.");
+            return;
+        }
+        this.rootDir = dir;
+        this.rootDirPath = dir.getAbsolutePath();
+        this.jTextFieldRoot.setText(rootDirPath);
+        this.jButtonSearch.setEnabled(true);
+    }//GEN-LAST:event_jButtonRootActionPerformed
+
+    private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
+        // TODO add your handling code here:
+        ((DefaultListModel) this.jListWorkbooks.getModel()).clear();
+        this.jButtonOpen.setEnabled(false);
+        this.controller.search(rootDir, (Observer) this.myselfPanel);
+    }//GEN-LAST:event_jButtonSearchActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonOpen;
     private javax.swing.JButton jButtonRoot;
     private javax.swing.JButton jButtonSearch;
+    private javax.swing.JList jListWorkbooks;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldRoot;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        if( !(arg instanceof FileDTO) ) return;
+        FileDTO fileDTO = (FileDTO) arg;
+        //System.out.println(fileDTO.toString());
+        //Logger.getGlobal().log(Level.SEVERE, fileDTO.toString());
+        //DefaultListModel lista = (DefaultListModel) this.jListWorkbooks.getModel();
+        this.defaultListModel.addElement(fileDTO);
+        ((DefaultListModel) this.jListWorkbooks.getModel()).addElement(arg);
+        this.jButtonOpen.setEnabled(true);
+    }
 }
