@@ -10,8 +10,10 @@ import csheets.ui.ctrl.SelectionListener;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import csheets.ui.ctrl.UIController;
+import eapli.util.DateTime;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,10 +22,12 @@ import java.util.Iterator;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
+import javax.swing.border.EmptyBorder;
 import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
 import lapr4.white.s1.core.n4567890.contacts.ContactsExtension;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
@@ -179,6 +183,11 @@ public class EventPanel extends JPanel implements SelectionListener {
                 try {
                     if (contactComboBox.getSelectedItem() != null) {
                         Contact contact = getContact(contactComboBox.getSelectedIndex());
+
+                        String info = popUpWithEvents(contact);
+                        
+                        PopUp up = new PopUp(EventPanel.this, true, controller, info);
+                        
                         setInterfaceToContact(contact, true);
                     } else {
                         JOptionPane.showMessageDialog(EventPanel.this,
@@ -197,6 +206,32 @@ public class EventPanel extends JPanel implements SelectionListener {
 
         });
         return choise;
+    }
+
+    private String popUpWithEvents(Contact contact) {
+
+        List<Event> eventsForToday = null;
+
+        showAllEvents(contact);
+
+        String popUp = null;
+
+        for (Object obj : eventsList) {
+            Event e = (Event) obj;
+            if (e.time().equals(Calendar.getInstance())) {
+                eventsForToday.add(e);
+            }
+        }
+
+        if (eventsForToday != null) {
+            popUp = eventsForToday.toString();
+        }
+
+        
+            popUp = "The contact has no events for today";
+        
+
+        return popUp;
     }
 
     /**
@@ -286,10 +321,8 @@ public class EventPanel extends JPanel implements SelectionListener {
         for (Object o : data) {
             Event e = (Event) o;
 
-            names[i] = e.description() + " " + e.time().
-                    get(Calendar.DAY_OF_MONTH) + "/"
-                    + e.time().get(Calendar.MONTH) + "/"
-                    + e.time().get(Calendar.YEAR);
+            names[i] = e.description() + "   "
+                    + DateTime.format(e.time(), "dd-MM-yyyy");
             i++;
         }
 
@@ -343,6 +376,12 @@ public class EventPanel extends JPanel implements SelectionListener {
         return btnEdit;
     }
 
+    /**
+     * Creates a button to remove a selected event of the contact. This button
+     * will open a new window with the information of the event.
+     *
+     * @return the button to remove the event
+     */
     private JButton buttonDelete() {
         JButton btnRemove = new JButton("  Remove Event   ");
         btnRemove.addActionListener(new ActionListener() {
@@ -378,6 +417,8 @@ public class EventPanel extends JPanel implements SelectionListener {
     /**
      * This method will update the list of contacts, showing all the actual
      * contacts of the combo box list.
+     *
+     * @return true if has contacts
      */
     public boolean updateContactos() {
         Object[] data = showAllContacts();
@@ -403,6 +444,11 @@ public class EventPanel extends JPanel implements SelectionListener {
         return (Event) eventsList[selectedIndex];
     }
 
+    /**
+     * Creates a panel with the update and finish button.
+     *
+     * @return panel with the update and finish button
+     */
     private JPanel createUpdateFinishButtonPanel() {
         this.btnUpdate = buttonUpdate();
         this.btnFinish = buttonFinish();
@@ -415,6 +461,12 @@ public class EventPanel extends JPanel implements SelectionListener {
         return panel;
     }
 
+    /**
+     * Creates a button to finish the contact session. This button will put the
+     * contact list on combo box visible again.
+     *
+     * @return the button to finish the contact session
+     */
     private JButton buttonFinish() {
         JButton finish = new JButton(" Finish ");
         finish.setBackground(Color.white);
@@ -427,6 +479,12 @@ public class EventPanel extends JPanel implements SelectionListener {
         return finish;
     }
 
+    /**
+     * Creates a button to update the contacts list. This button will send a
+     * message if there is not any contact.
+     *
+     * @return the button to update the contact list
+     */
     private JButton buttonUpdate() {
         JButton update = new JButton(" Update ");
         update.setBackground(Color.white);
