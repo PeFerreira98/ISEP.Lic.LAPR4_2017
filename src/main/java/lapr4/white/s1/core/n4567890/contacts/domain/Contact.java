@@ -52,6 +52,9 @@ public class Contact implements AggregateRoot<Long>, Serializable {
     }
 
     public Contact(final String name, final String firstName, final String lastName, final Agenda agenda) {
+        if (firstName == null || lastName == null) {
+            throw new IllegalStateException();
+        }
         this.name = name;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -105,10 +108,18 @@ public class Contact implements AggregateRoot<Long>, Serializable {
 
     @Override
     public boolean sameAs(Object other) {
-        // FIXME implement this method
-        return false;
-    }
-
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        Contact contact = (Contact) other;
+        
+        return this.firstName.equalsIgnoreCase(contact.firstName())
+                && this.lastName.equals(contact.lastName());
+    }    
+    
     @Override
     public boolean is(Long id) {
         return (this.pk.compareTo(id)==0);

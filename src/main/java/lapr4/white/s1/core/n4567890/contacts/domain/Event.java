@@ -35,6 +35,9 @@ public class Event {
     }
     
     public Event(final String description, final Calendar dueDate) {
+        if (description == null || dueDate == null) {
+            throw new IllegalStateException();
+        }
         this.description = description;
         this.dueDate = dueDate;
     }    

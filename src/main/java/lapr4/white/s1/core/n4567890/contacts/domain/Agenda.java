@@ -35,7 +35,7 @@ public class Agenda implements Serializable {
     @OneToMany(cascade = CascadeType.ALL)
     private final Set<Event> events = new HashSet<>();    
     
-    protected Agenda() {
+    public Agenda() {
         // for ORM
     }
     
