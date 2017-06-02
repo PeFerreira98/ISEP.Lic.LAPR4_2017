@@ -27,25 +27,25 @@ import javax.persistence.OneToOne;
  *
  */
 @Entity
-public class Contact implements AggregateRoot<Long>, Serializable { 
-   
+public class Contact implements AggregateRoot<Long>, Serializable {
+
     // ORM primary key
     @Id
     @GeneratedValue
-    private Long pk=null;    
-    
+    private Long pk = null;
+
     // This should be the Business ID
     @Column(unique = true)
-    private String name=null;
-    
-    private String firstName=null;
-    
-    private String lastName=null;
-    
-    private String photo=null;
-    
+    private String name = null;
+
+    private String firstName = null;
+
+    private String lastName = null;
+
+    private String photo = null;
+
     @OneToOne(cascade = CascadeType.ALL) //(cascade = CascadeType.MERGE)
-    private Agenda agenda=null;
+    private Agenda agenda = null;
 
     protected Contact() {
         // for ORM
@@ -58,32 +58,45 @@ public class Contact implements AggregateRoot<Long>, Serializable {
         this.name = name;
         this.firstName = firstName;
         this.lastName = lastName;
-        // TODO implement rest of the method
-        
+
         // Create a the contact Agenda
-        this.agenda=agenda;
+        this.agenda = agenda;
     }
-    
+
+    public Contact(final String name, final String firstName, final String lastName, String pathPhoto, final Agenda agenda) {
+        if (firstName == null || lastName == null) {
+            throw new IllegalStateException();
+        }
+        this.name = name;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.photo = pathPhoto;
+
+        // Create a the contact Agenda
+        this.agenda = agenda;
+    }
+
     @Override
     public String toString() {
-        if (this.name==null)
+        if (this.name == null) {
             return super.toString();
-        else
-            return this.name()+" ("+this.lastName+", "+this.firstName+")";
+        } else {
+            return this.name() + " (" + this.lastName + ", " + this.firstName + ")";
+        }
     }
-        
+
     public Contact(final String name, final String firstName, final String lastName) {
 
         // create with empty agenda
         this(name, firstName, lastName, new Agenda());
     }
-    
+
     public String name() {
         return this.name;
     }
-    
+
     public String setName(String name) {
-        return this.name=name;
+        return this.name = name;
     }
 
     public String firstName() {
@@ -91,17 +104,17 @@ public class Contact implements AggregateRoot<Long>, Serializable {
     }
 
     public String setFirstName(String firstName) {
-        return this.firstName=firstName;
+        return this.firstName = firstName;
     }
-    
+
     public String lastName() {
         return this.lastName;
     }
-    
+
     public String setLastName(String lastName) {
-        return this.lastName=lastName;
+        return this.lastName = lastName;
     }
-    
+
     public Agenda agenda() {
         return this.agenda;
     }
@@ -115,14 +128,14 @@ public class Contact implements AggregateRoot<Long>, Serializable {
             return false;
         }
         Contact contact = (Contact) other;
-        
+
         return this.firstName.equalsIgnoreCase(contact.firstName())
                 && this.lastName.equals(contact.lastName());
-    }    
-    
+    }
+
     @Override
     public boolean is(Long id) {
-        return (this.pk.compareTo(id)==0);
+        return (this.pk.compareTo(id) == 0);
     }
 
     @Override

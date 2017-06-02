@@ -104,7 +104,7 @@ public class CreateEventFrameUI extends JDialog {
      * @return time panel
      */
     private JPanel createTimePanel() {
-        JLabel lbl = new JLabel("Date (dd-mm-yyyy):", JLabel.RIGHT);
+        JLabel lbl = new JLabel("Date (dd-MM-yyyy):", JLabel.RIGHT);
         lbl.setPreferredSize(LABEL_SIZE);
 
         txtTime = new JTextField(15);

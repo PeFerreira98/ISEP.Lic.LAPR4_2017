@@ -5,6 +5,7 @@
  */
 package lapr4.red.s1.core.n1140388.contacts.ui;
 
+import eapli.util.DateTime;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -84,9 +85,7 @@ public class RemoveEventFrameUI extends JDialog {
 
         info[2] = "-----------Event Info-----------";
         info[3] = "Description: " + event.description();
-        info[4] = "Date: " + event.time().get(Calendar.DAY_OF_MONTH) + "-"
-                + event.time().get(Calendar.MONTH) + "-"
-                + event.time().get(Calendar.YEAR);
+        info[4] = "Date: " + DateTime.format(event.time(), "dd-MM-yyyy");
 
         JList infoJList = new JList(info);
 

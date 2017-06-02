@@ -106,14 +106,11 @@ public class EditEventFrameUI extends JDialog {
      * @return time panel
      */
     private JPanel createTimePanel() {
-        JLabel lbl = new JLabel("Date (dd-mm-yyyy):", JLabel.RIGHT);
+        JLabel lbl = new JLabel("Date (dd-MM-yyyy):", JLabel.RIGHT);
         lbl.setPreferredSize(LABEL);
 
         txtTime = new JTextField(15);
-        txtTime.setText(event.time().get(Calendar.DAY_OF_MONTH) + "-"
-                + event.time().get(Calendar.MONTH) + "-"
-                + event.time().get(Calendar.YEAR)
-        );
+        txtTime.setText(DateTime.format(event.time(), "dd-MM-yyyy"));
         txtTime.requestFocus();
 
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
