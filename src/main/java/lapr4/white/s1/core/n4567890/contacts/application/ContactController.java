@@ -8,6 +8,8 @@ package lapr4.white.s1.core.n4567890.contacts.application;
 import eapli.framework.application.Controller;
 import eapli.framework.persistence.DataConcurrencyException;
 import eapli.framework.persistence.DataIntegrityViolationException;
+import eapli.util.DateTime;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.Properties;
@@ -76,7 +78,7 @@ public class ContactController implements Controller {
 
         return ev;
     }
-    
+
     public Event editEvent(Contact contact, Event event, String eventDescription, Calendar dueDate) throws DataConcurrencyException, DataIntegrityViolationException {
 
         // Create a new Event for this contact...
@@ -90,16 +92,42 @@ public class ContactController implements Controller {
 
         return ev;
     }
-    
+
     public boolean removeEvent(Contact contact, Event event) throws DataConcurrencyException, DataIntegrityViolationException {
 
         // Create a new Event for this contact...
         // FIXME: We should change this to use a Builder 
-        
         // TODO: When do we save?...
         this.contactsRepository.save(contact);
 
         return true;
     }
-    
+
+    /**
+     * Check if date is valid
+     *
+     * @param dateToVerify String date
+     * @return true or false, if date is valid or not
+     */
+    public Calendar compareToActualDate(String dateToVerify) {
+
+        if (dateToVerify == null) {
+            return null;
+        }
+
+        Calendar cal = DateTime.parseDate(dateToVerify);
+        Calendar now = Calendar.getInstance();
+        if (cal.get(cal.DAY_OF_WEEK) == now.get(now.DAY_OF_WEEK)
+                && cal.get(cal.DAY_OF_MONTH) == now.get(now.DAY_OF_MONTH)
+                && cal.get(cal.DAY_OF_YEAR) == now.get(now.DAY_OF_YEAR)) {
+            return cal;
+        }
+
+        if (cal.after(now)) {
+            return cal;
+        } else {
+            return null;
+        }
+
+    }
 }

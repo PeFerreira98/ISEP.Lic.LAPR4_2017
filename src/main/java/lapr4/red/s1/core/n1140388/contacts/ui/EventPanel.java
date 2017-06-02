@@ -74,14 +74,17 @@ public class EventPanel extends JPanel implements SelectionListener {
         listEvents = createList();
         eventsListPanel.add(listEvents);
 
+        //Add combo box and button to choose contact on panel
         contactsPanel.add(contactComboBox);
         selectedContact = buttonChooseContact();
         contactsPanel.add(selectedContact);
 
+        //Creates buttons to add, edit and remove events
         btnCreate = buttonCreate();
         btnEdit = buttonEdit();
         btnRemove = buttonDelete();
 
+        //Add buttons to panel
         buttonsPanel.add(new JToolBar.Separator(new Dimension(20, 20)));
         buttonsPanel.add(btnCreate);
         buttonsPanel.add(btnEdit);
@@ -157,8 +160,14 @@ public class EventPanel extends JPanel implements SelectionListener {
         return list;
     }
 
+    /**
+     * Creates a button that will select the contact to manage the events of his
+     * agenda.
+     *
+     * @return the button to select the contact
+     */
     private JButton buttonChooseContact() {
-        JButton choise = new JButton("  Select Contact   ");
+        JButton choise = new JButton(" Select Contact ");
         choise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -188,8 +197,8 @@ public class EventPanel extends JPanel implements SelectionListener {
     /**
      * Get the contact selected on the combo box.
      *
-     * @param selectedIndex index combobox choise
-     * @return Object
+     * @param selectedIndex index of contact chosen on combo box
+     * @return the contact chosen
      */
     public Contact getContact(int selectedIndex) {
 
@@ -275,39 +284,43 @@ public class EventPanel extends JPanel implements SelectionListener {
         return names;
     }
 
+    /**
+     * Creates a button to create an event to the select the contact.
+     * This button will open a new window to create that event.
+     *
+     * @return the button to create the event
+     */
     private JButton buttonCreate() {
-        JButton btnbtnCreate = new JButton("  Create Event  ");
-        btnbtnCreate.addActionListener(new ActionListener() {
+        JButton btnCreate = new JButton(" Create Event ");
+        btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-
-                //if (contactComboBox.getSelectedItem() != null) {
                 CreateEventFrameUI createEvent = new CreateEventFrameUI(EventPanel.this, contact, controller);
-//                } else {
-//                    JOptionPane.showMessageDialog(EventPanel.this,
-//                            "Please select a contact",
-//                            "Show Event",
-//                            JOptionPane.WARNING_MESSAGE);
-//                }
             }
         });
-        return btnbtnCreate;
+
+        return btnCreate;
     }
 
+    /**
+     * Creates a button to edit a selected event of the contact.
+     * This button will open a new window to edit that event.
+     *
+     * @return the button to edit the event
+     */
     private JButton buttonEdit() {
-        JButton btnbtnEdit = new JButton("     Edit Event     ");
+        JButton btnbtnEdit = new JButton(" Edit Event ");
         btnbtnEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
                 if (listEvents.getSelectedValue() != null) {
-                    EditEventFrameUI editEvent = new EditEventFrameUI(EventPanel.this, (Contact) getContact(contactComboBox.
-                            getSelectedIndex()), (Event) getEvent(listEvents.
-                                    getSelectedIndex()), controller);
+                    EditEventFrameUI editEvent = new EditEventFrameUI(EventPanel.this, contact, getEvent(listEvents.
+                            getSelectedIndex()), controller);
 
                 } else {
                     JOptionPane.showMessageDialog(EventPanel.this,
-                            "Please select an envent",
+                            "Please select an event",
                             "Show Event",
                             JOptionPane.WARNING_MESSAGE);
                 }
@@ -323,13 +336,12 @@ public class EventPanel extends JPanel implements SelectionListener {
             public void actionPerformed(ActionEvent ae) {
 
                 if (listEvents.getSelectedValue() != null) {
-                    RemoveEventFrameUI deleteEvent = new RemoveEventFrameUI(EventPanel.this, (Contact) getContact(contactComboBox.
-                            getSelectedIndex()), (Event) getEvent(listEvents.
-                                    getSelectedIndex()), controller);
+                    RemoveEventFrameUI deleteEvent = new RemoveEventFrameUI(EventPanel.this, contact, getEvent(listEvents.
+                            getSelectedIndex()), controller);
 
                 } else {
                     JOptionPane.showMessageDialog(EventPanel.this,
-                            "Please select an envent",
+                            "Please select an event",
                             "Show Event",
                             JOptionPane.WARNING_MESSAGE);
                 }
@@ -339,24 +351,28 @@ public class EventPanel extends JPanel implements SelectionListener {
     }
 
     /**
-     * Get event
-     *
-     * @param selectedIndex index listEvents choise
-     * @return Object
+     * This method will update the list of events, showing all the actual events
+     * of the selected contact.
      */
-    public Object getEvent(int selectedIndex) {
-        int pos = selectedIndex;
-        Object obj = new Object();
+    public void updateEventList() {
+        if (contact != null) {
+            Object[] data = showAllEvents(contact);
+            listEvents.setListData(data);
+        }
+    }
+
+    /**
+     * Get event selected on the list.
+     *
+     * @param selectedIndex index of event chosen on the list
+     * @return the event chosen
+     */
+    public Event getEvent(int selectedIndex) {
 
         if (eventsList == null) {
             return null;
         }
 
-        for (int i = 0; i < eventsList.length; i++) {
-            if (i == pos) {
-                obj = eventsList[i];
-            }
-        }
-        return obj;
+        return (Event) eventsList[selectedIndex];
     }
 }
