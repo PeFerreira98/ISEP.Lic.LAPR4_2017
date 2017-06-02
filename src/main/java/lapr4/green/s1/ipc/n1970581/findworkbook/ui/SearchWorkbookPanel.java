@@ -19,6 +19,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel {
     
     /**
      * Creates new form SearchWorkbookPanel
+     * @param uiController the uiController
      */
     public SearchWorkbookPanel(UIController uiController) {
         this.uiController = uiController;
