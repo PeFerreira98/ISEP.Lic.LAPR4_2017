@@ -25,6 +25,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.JMenu;
 
 import csheets.ui.ctrl.UIController;
+import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingAction;
 
 /**
  * A menu that displays style-related actions.
@@ -49,6 +50,9 @@ public class StyleMenu extends JMenu {
 		add(new ItalicAction(uiController));
 		add(new UnderlineAction(uiController));
 		addSeparator();
+                
+                add(new CondFormattingAction(uiController));
+                addSeparator();
 
 		// Adds color and border actions
 		add(new FormatAction(uiController));

@@ -24,9 +24,23 @@ the other when it evaluates to false. The editing of these settings should be do
  * <b>Tests</b><p>
  * 
  * <b>Design</b><p>
- *
+ *<img src="03.1_design.png" alt="image"> 
+ * <p>
+ * 
  * <b>Code</b><p>
+ * The following classes and interfaces implement this use case.<p>
+ * Package lapr4.blue.s1.lang.n1140956.ConditionalFormatting:<p>
+ * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingController}
+ * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.FormattingExtension}
+ * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingListener}
+ * 
+ * <p>
+ * Package lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui:<p>
+ * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui.CondFormDialog}
+ * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui.FormatingPanel}
+ * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui.FormattingCells}
+ * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui.UIExtensionFormattingCells}
  * 
  * @author Marcos Dourado (1140956)
  */
-package lapr4.blue.s1.lang.n1140956.ConditionalFormating;
+package lapr4.blue.s1.lang.n1140956.ConditionalFormatting;
