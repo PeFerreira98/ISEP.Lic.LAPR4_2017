@@ -18,10 +18,10 @@
  * <p>
  * Notes:
  * <p>
- * If the user selects the import option, he must write a valid text file name
+ * This use case requires the network service to be up and running.
  * <p>
- * If the user selects the export option, the system creates a text file with a name created by the user
- * <p>
+ * The user can activate and deactivate the service.
+* <p>
  *
  *
  * <b>Analysis</b><p>

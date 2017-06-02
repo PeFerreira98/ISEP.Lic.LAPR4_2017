@@ -1,0 +1,47 @@
+@startuml
+  box "Server"
+    participant "CommServer"
+    participant "UDPSocketServer"
+    participant "ServerSocket"
+    participant "CommWorker"
+    participant "aSocket:Socket" as aSocket
+  end box
+
+  box "Client"
+    participant "Client"
+    participant "Socket"
+    participant "ob:DTO" as DTO
+    participant "os:OutputStream" as OutputStream
+  end box
+
+  create ServerSocket
+  CommServer -> ServerSocket : new();
+  CommServer -> ServerSocket : aSocket=accept();
+
+  create Socket
+  Client -> Socket : new();
+  ServerSocket <-- Socket : connection established
+
+  create CommWorker
+  CommServer -> CommWorker : new(aSocket);
+
+  CommWorker -> aSocket : getInputStream();
+
+  create UDPSocketServer
+  CommServer -> UDPSocketServer : udpSock=new();
+  CommServer -> UDPSocketServer : listeningServices(udpSok);
+  CommServer -> UDPSocketServer : listeningServices(udpSok);
+
+ 
+
+  create aSocket
+  ServerSocket -> aSocket : new();
+
+
+  create DTO
+  Client -> DTO : ob=new();
+  Client -> Socket : os=getOutputStream();
+  create OutputStream
+  Socket -> OutputStream : new();
+  Client -> OutputStream : write(ob);
+@enduml

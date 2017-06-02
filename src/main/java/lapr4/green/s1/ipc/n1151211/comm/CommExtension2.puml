@@ -1,0 +1,15 @@
+@startuml
+    participant "CommExtension2"
+    participant "CommServer2"
+    participant "ListenerServer"
+    participant "BroadcastServer"
+
+
+
+    CommExtension2 -> CommServer2 : commServer = getServer(commServerPort);
+
+    CommExtension2 -> ListenerServer : listenerServer = getServer(commServer, commServerPort);
+
+    CommExtension2 -> BroadcastServer : broadcastServer = getServer(listenerServer);
+
+@enduml
