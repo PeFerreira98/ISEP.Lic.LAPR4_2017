@@ -12,6 +12,7 @@ import csheets.ui.ext.TableDecorator;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
 import javax.swing.JComponent;
+import javax.swing.JMenu;
 import javax.swing.JToolBar;
 
 /**
@@ -20,12 +21,14 @@ import javax.swing.JToolBar;
  */
 public class UIExtensionImportExportText extends UIExtension {
     
-    /** The icon to display with the extension's name */
+        /** The icon to display with the extension's name */
 	private Icon icon;
     
-    public UIExtensionImportExportText(Extension extension, UIController uiController) {
-        super(extension, uiController);
-    }
+        private ImportExportTextMenu menu;
+        
+        public UIExtensionImportExportText(Extension extension, UIController uiController) {
+            super(extension, uiController);
+        }
     
         /**
 	 * Returns an icon to display with the extension's name.
@@ -35,6 +38,17 @@ public class UIExtensionImportExportText extends UIExtension {
 		return null;
 	}
     
+        /**
+         * Returns an instance of a class that implements JMenu.
+         * In this case this class supplies two options.
+         * @return a JMenu component
+         */
+        public JMenu getMenu() {
+            if (menu == null)
+                menu = new ImportExportTextMenu(uiController);
+            return menu;
+        }
+        
         /**
 	 * Returns a cell decorator that visualizes the data added by the extension.
 	 * @return a cell decorator, or null if the extension does not provide one
