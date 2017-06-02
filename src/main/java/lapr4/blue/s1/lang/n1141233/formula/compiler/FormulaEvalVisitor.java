@@ -25,7 +25,7 @@ import org.antlr.v4.runtime.Token;
 
 /**
  *
- * @author jrt
+ * @author Rafael Vieira <1141233@isep.ipp.pt>
  */
 public class FormulaEvalVisitor extends Formula3BaseVisitor<Expression>
 {
@@ -54,7 +54,13 @@ public class FormulaEvalVisitor extends Formula3BaseVisitor<Expression>
     @Override
     public Expression visitExpression(Formula3Parser.ExpressionContext ctx)
     {
-        return visit(ctx.comparison());
+//        return visit(ctx.comparison());
+
+        // child(0) = EQ
+        // child(1) = comparision of for
+        // child(2) = EOF
+        // visiting middle child
+        return visit(ctx.getChild(1));
     }
 
     @Override
@@ -279,21 +285,24 @@ public class FormulaEvalVisitor extends Formula3BaseVisitor<Expression>
     @Override
     public Expression visitFor_loop(Formula3Parser.For_loopContext ctx)
     {
-        if (ctx.FOR() != null)
+        //TODO FINISH THIS!
+        if (ctx.FUNCTION() != null)
         {
             try
             {
-                // The L_CURLY_BRACKET is the father node
-                // All the other nodes of the blcok are children.
+                // The FOR is the father node
+                // The next is L_CURLY_BRACKET
+                // All the other nodes of the FOR are children.
                 // The last children node is always the R_CURLY_BRACKET
                 // Therefore all the other children will be expressions to be also converted and
                 // executed by a "block executor"
 
-                Expression expressions[] = new Expression[ctx.getChildCount() / 2];
+                Expression expressions[] = new Expression[(ctx.getChildCount() - 1) / 2];
+
                 // #1 Convert all the child nodes
                 for (int nChild = 2; nChild < ctx.getChildCount(); nChild += 2)
                 {
-                    expressions[nChild / 2] = visit(ctx.getChild(nChild));
+                    expressions[(nChild / 2)-1] = visit(ctx.getChild(nChild));
                 }
 
                 // #2 return an instance of the new NaryOperation Class

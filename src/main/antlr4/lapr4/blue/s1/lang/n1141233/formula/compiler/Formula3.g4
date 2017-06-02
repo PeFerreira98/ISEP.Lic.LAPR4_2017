@@ -12,11 +12,11 @@ block
 	;
 
 for_loop
-        : FOR L_CURLY_BRACKET comparison SEMI comparison ( SEMI comparison )* R_CURLY_BRACKET
+        : FUNCTION L_CURLY_BRACKET comparison SEMI comparison ( SEMI comparison )* R_CURLY_BRACKET
         ;
 
 comparison
-	: concatenation
+	:   concatenation
 		( ( EQ | NEQ | GT | LT | LTEQ | GTEQ ) concatenation )?
 	;
 
@@ -131,9 +131,6 @@ R_CURLY_BRACKET	: '}' ;
 
 /* assignment operator */
 ASSIGN  : ':=' ;
-
-/* for */
-FOR     : 'for'|'FOR';
 
 /* White-space (ignored) */
 WS: ( ' ' | '\r' '\n' | '\n' | '\t' ) -> skip ;

@@ -20,7 +20,9 @@ public class Language
     private lapr4.gray.s1.lang.n3456789.formula.lang.Language baseInstance = null;
 
     private static final Language INSTANCE = new Language();
-    private final List<Function> functions = new ArrayList<>();
+//    private final List<Function> functions = new ArrayList<>();
+
+    private final List<NaryOperator> naryOperators = new ArrayList<>();
 
     /**
      * Creates a new language.
@@ -31,7 +33,8 @@ public class Language
         baseInstance = lapr4.gray.s1.lang.n3456789.formula.lang.Language.getInstance();
 
         // IMP: Need to add new function (FOR)
-        functions.add(new For());
+//        functions.add(new For());
+        naryOperators.add(new For());
     }
 
     /**
@@ -83,7 +86,21 @@ public class Language
      */
     public NaryOperator getNaryOperator(String identifier) throws UnknownElementException
     {
-        return baseInstance.getNaryOperator(identifier);
+        try
+        {
+            return baseInstance.getNaryOperator(identifier);
+        }
+        catch (UnknownElementException e)
+        {
+            for (NaryOperator nop : naryOperators)
+            {
+                if (identifier.equalsIgnoreCase(nop.getIdentifier()))
+                {
+                    return nop;
+                }
+            }
+            throw new UnknownElementException(identifier);
+        }
     }
 
     /**
@@ -97,21 +114,21 @@ public class Language
      */
     public Function getFunction(String identifier) throws UnknownElementException
     {
-        try
-        {
-            return baseInstance.getFunction(identifier);
-        }
-        catch (UnknownElementException e)
-        {
-            for (Function function : functions)
-            {
-                if (identifier.equalsIgnoreCase(function.getIdentifier()))
-                {
-                    return function;
-                }
-            }
-            throw new UnknownElementException(identifier);
-        }
+//        try
+//        {
+        return baseInstance.getFunction(identifier);
+//        }
+//        catch (UnknownElementException e)
+//        {
+//            for (Function function : functions)
+//            {
+//                if (identifier.equalsIgnoreCase(function.getIdentifier()))
+//                {
+//                    return function;
+//                }
+//            }
+//            throw new UnknownElementException(identifier);
+//        }
 
     }
 

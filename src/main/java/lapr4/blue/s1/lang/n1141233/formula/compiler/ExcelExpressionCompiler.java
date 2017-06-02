@@ -41,7 +41,7 @@ import org.antlr.v4.runtime.Recognizer;
 /**
  * A compiler that generates Excel-style formulas from strings.
  *
- * @author Einar Pehrson
+ * @author Rafael Vieira <1141233@isep.ipp.pt>
  */
 public class ExcelExpressionCompiler implements ExpressionCompiler
 {

@@ -3,8 +3,6 @@ package lapr4.blue.s1.lang.n1141233.formula.lang;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
-import csheets.core.formula.Function;
-import csheets.core.formula.FunctionParameter;
 import csheets.core.formula.lang.UnknownElementException;
 import java.util.Arrays;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
@@ -13,19 +11,18 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
  *
  * @author Rafael Vieira <1141233@isep.ipp.pt>
  */
-public class For implements Function
+public class For implements NaryOperator
 {
 
-    private final FunctionParameter[] PARAMETERS = new FunctionParameter[]
-    {
-        new FunctionParameter(Value.Type.UNDEFINED, "Initialization", true,
-        "An instruction to be executed before the loop"),
-        new FunctionParameter(Value.Type.BOOLEAN, "Boundary Condition", false,
-        "A condition to evaluate before proceeding"),
-        new FunctionParameter(Value.Type.UNDEFINED, "Body", false,
-        "A value Block of instructions to be executed in each iteration")
-    };
-
+//    private final FunctionParameter[] PARAMETERS = new FunctionParameter[]
+//    {
+//        new FunctionParameter(Value.Type.UNDEFINED, "Initialization", true,
+//        "An instruction to be executed before the loop"),
+//        new FunctionParameter(Value.Type.BOOLEAN, "Boundary Condition", false,
+//        "A condition to evaluate before proceeding"),
+//        new FunctionParameter(Value.Type.UNDEFINED, "Body", false,
+//        "A value Block of instructions to be executed in each iteration")
+//    };
     /**
      * Creates a new instance of the FOR function.
      */
@@ -44,20 +41,20 @@ public class For implements Function
     {
         try
         {
-            // Get the sequence operator
-            NaryOperator nop = Language.getInstance().getNaryOperator("{");
+            Value value;
+            // Get the sequence operator to execute the body as a block
+            NaryOperator naryOperator = Language.getInstance().getNaryOperator("{");
 
             // Initialization
-            arguments[0].evaluate();
+            value = arguments[0].evaluate();
 
             // Copy arguments to be executed in each iteration of the loop
             Expression[] body = Arrays.copyOfRange(arguments, 2, arguments.length);
-            Value value;
 
             do
             {
                 // Loop body instructions
-                value = nop.applyTo(body);
+                value = naryOperator.applyTo(body);
             }
             while (arguments[1].evaluate().toBoolean());
 
@@ -69,20 +66,20 @@ public class For implements Function
         }
     }
 
-    @Override
-    public FunctionParameter[] getParameters()
-    {
-        return PARAMETERS;
-    }
-
-    @Override
-    public boolean isVarArg()
-    {
-        return false;
-    }
 //    @Override
-//    public Value.Type getOperandValueType()
+//    public FunctionParameter[] getParameters()
 //    {
-//        return Value.Type.UNDEFINED;
+//        return PARAMETERS;
 //    }
+//
+//    @Override
+//    public boolean isVarArg()
+//    {
+//        return false;
+//    }
+    @Override
+    public Value.Type getOperandValueType()
+    {
+        return Value.Type.UNDEFINED;
+    }
 }
