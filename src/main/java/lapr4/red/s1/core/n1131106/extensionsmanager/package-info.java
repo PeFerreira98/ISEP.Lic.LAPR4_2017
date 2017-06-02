@@ -113,6 +113,15 @@
  * 2. Start the design.
  * </p>
  * 
+ * <p>
+ * <b>Thursday:</b>
+ * </p>
+ * <p>
+ * 1. Completed the design.
+ * 2. Start the implementation.
+ * 3. Daily meet.
+ * </p>
+ * 
  * <h2>9. Self Assessment</h2> 
  * 
  * <h3>R3. Rubric Requirements Fulfilment: 3</h3>

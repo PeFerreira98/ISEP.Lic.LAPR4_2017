@@ -5,12 +5,12 @@ skinparam packageStyle rect
 skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
-    title Show Extension Navigator SideBar
+    title Show Extension Manager
     participant "uic : UIController" as UIC
     participant ExtensionManager as ExtM
-    participant "extension : NavigatorExtension" as EW
-    participant "uiExtension : UIExtensionNavigator" as UIExt
-    participant "ExtensionNavigatorPanel : JPanel" as cp
+    participant "extension : ManagerExtension" as EW
+    participant "uiExtension : UIExtensionManager" as UIExt
+    participant "ExtensionManagerPanel : JPanel" as cp
 
     UIC->ExtM:extensions.getextensions()
     loop for Extension ext : extensions

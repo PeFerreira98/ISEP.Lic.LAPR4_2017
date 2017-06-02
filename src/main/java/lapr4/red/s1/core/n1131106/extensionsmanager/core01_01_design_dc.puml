@@ -13,28 +13,28 @@ skinparam shadowing false
     class ExtensionManager {
         +getExtensions();
     }
-    class NavigatorExtension {
+    class ManagerExtension {
         +getUIextention();
     }
 
-    class UIExtensionNavigator {
+    class UIExtensionManager {
         +new(extension, uic);
         +getSideBar();
     }
 
-    class ExensionNavigatorPanel {
+    class ExensionManagerPanel {
         +new(uic);
         +getSideBar();
     }
 
-     class ExtensionNavigatorController{
+     class ExtensionManagerController{
       }
 
     
     ExtensionManager <-- UIController
-    NavigatorExtension <-- UIController
-    UIExtensionNavigator <-- NavigatorExtension
-    ExensionNavigatorPanel <-- UIExtensionNavigator
-     ExtensionNavigatorController <-- ExensionNavigatorPanel
+    ManagerExtension <-- UIController
+    UIExtensionManager <-- ManagerExtension
+    ExensionManagerPanel <-- UIExtensionManager
+     ExtensionManagerController <-- ExensionManagerPanel
 
 @enduml

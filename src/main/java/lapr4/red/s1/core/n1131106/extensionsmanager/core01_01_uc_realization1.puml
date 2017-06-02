@@ -6,8 +6,8 @@ skinparam defaultFontName FG Virgil
 skinparam shadowing false
 
 actor User
-participant "<<analysis>>\nExtensionNavigatorUI" as UI
-participant "<<analysis>>\nExtensionNavigatorCtrl" as ctrl
+participant "<<analysis>>\nExtensionManagerUI" as UI
+participant "<<analysis>>\nExtensionManagerCtrl" as ctrl
 participant "<<analysis>>\nUIExtension" as UIExt
 participant "<<analysis>>\nSideBar" as sBar
 participant "<<analysis>>\nMenu" as menu

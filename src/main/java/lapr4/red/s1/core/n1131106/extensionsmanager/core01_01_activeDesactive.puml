@@ -7,9 +7,9 @@ skinparam shadowing false
 
 title Enable / Disable extension
 participant "uic: UIController" as uic
-    participant "uiExtension : UIExtensionNavigator" as UIExt
-    participant "ExtensionNavigatorPanel : JPanel" as cp
-    participant "ExtensionNavigatorController" as ctrl
+    participant "uiExtension : UIExtensionManager" as UIExt
+    participant "ExtensionManagerPanel : JPanel" as cp
+    participant "ExtensionManagerController" as ctrl
     participant "extension : JCheckBox" as check
     participant "applyAction: ApplyAction" as applyAction
 
@@ -29,9 +29,9 @@ participant "uic: UIController" as uic
 
     note right of applyAction
         ApplyAction is a innerclass 
-        of ExtensionNavigatorPanel.
+        of ExtensionManagerPanel.
         As such, it can access the 
-        members of ExtensionNavigatorPanel,
+        members of ExtensionManagerPanel,
         for instance, the
         current extension.
     end note
