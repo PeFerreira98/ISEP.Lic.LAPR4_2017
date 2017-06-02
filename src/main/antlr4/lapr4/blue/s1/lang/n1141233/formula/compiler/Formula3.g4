@@ -1,18 +1,19 @@
-grammar Formula2;
+grammar Formula3;
 @header {
-    package lapr4.gray.s1.lang.n3456789.formula.compiler;
+    package lapr4.blue.s1.lang.n1141233.formula.compiler;
 }	         
 expression
 	: EQ comparison EOF
+        | EQ for_loop EOF
 	;
 
 block
 	: L_CURLY_BRACKET comparison ( SEMI comparison )* R_CURLY_BRACKET 
 	;
 
-for
-        : FOR L_CURLY_BRACKET comparison SEMI comparison ( SEMI comparison )* R_CURLY_BRACKET 
-	;
+for_loop
+        : FOR L_CURLY_BRACKET comparison SEMI comparison ( SEMI comparison )* R_CURLY_BRACKET
+        ;
 
 comparison
 	: concatenation
@@ -36,7 +37,6 @@ atom
 	|	LPAR comparison RPAR
 	|	block
 	|	assignment
-        |       for
 	;
 
 assignment
@@ -133,7 +133,7 @@ R_CURLY_BRACKET	: '}' ;
 ASSIGN  : ':=' ;
 
 /* for */
-FOR     : ('F'|'f')('O'|'o')('R'|'r');
+FOR     : 'for'|'FOR';
 
 /* White-space (ignored) */
 WS: ( ' ' | '\r' '\n' | '\n' | '\t' ) -> skip ;

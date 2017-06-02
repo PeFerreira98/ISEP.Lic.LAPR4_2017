@@ -3,6 +3,8 @@ package lapr4.blue.s1.lang.n1141233.formula.lang;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
+import csheets.core.formula.Function;
+import csheets.core.formula.FunctionParameter;
 import csheets.core.formula.lang.UnknownElementException;
 import java.util.Arrays;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
@@ -11,11 +13,21 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
  *
  * @author Rafael Vieira <1141233@isep.ipp.pt>
  */
-public class For implements NaryOperator
+public class For implements Function
 {
 
+    private final FunctionParameter[] PARAMETERS = new FunctionParameter[]
+    {
+        new FunctionParameter(Value.Type.UNDEFINED, "Initialization", true,
+        "An instruction to be executed before the loop"),
+        new FunctionParameter(Value.Type.BOOLEAN, "Boundary Condition", false,
+        "A condition to evaluate before proceeding"),
+        new FunctionParameter(Value.Type.UNDEFINED, "Body", false,
+        "A value Block of instructions to be executed in each iteration")
+    };
+
     /**
-     * Creates a new instance of the DO function.
+     * Creates a new instance of the FOR function.
      */
     public For()
     {
@@ -57,20 +69,20 @@ public class For implements NaryOperator
         }
     }
 
-//    @Override
-//    public FunctionParameter[] getParameters()
-//    {
-//        return PARAMETERS;
-//    }
-//
-//    @Override
-//    public boolean isVarArg()
-//    {
-//        return false;
-//    }
     @Override
-    public Value.Type getOperandValueType()
+    public FunctionParameter[] getParameters()
     {
-        return Value.Type.UNDEFINED;
+        return PARAMETERS;
     }
+
+    @Override
+    public boolean isVarArg()
+    {
+        return false;
+    }
+//    @Override
+//    public Value.Type getOperandValueType()
+//    {
+//        return Value.Type.UNDEFINED;
+//    }
 }

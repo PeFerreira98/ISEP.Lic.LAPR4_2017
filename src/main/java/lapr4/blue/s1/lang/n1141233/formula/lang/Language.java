@@ -4,6 +4,8 @@ import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Function;
 import csheets.core.formula.UnaryOperator;
 import csheets.core.formula.lang.UnknownElementException;
+import java.util.ArrayList;
+import java.util.List;
 
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
 
@@ -18,7 +20,7 @@ public class Language
     private lapr4.gray.s1.lang.n3456789.formula.lang.Language baseInstance = null;
 
     private static final Language INSTANCE = new Language();
-//    private final List<Function> functions = new ArrayList<>();
+    private final List<Function> functions = new ArrayList<>();
 
     /**
      * Creates a new language.
@@ -29,7 +31,7 @@ public class Language
         baseInstance = lapr4.gray.s1.lang.n3456789.formula.lang.Language.getInstance();
 
         // IMP: Need to add new function (FOR)
-//        functions.add(new For());
+        functions.add(new For());
     }
 
     /**
@@ -46,7 +48,9 @@ public class Language
      * Returns the unary operator with the given identifier.
      *
      * @param identifier identifier
+     *
      * @return the unary operator with the given identifier
+     *
      * @throws csheets.core.formula.lang.UnknownElementException throws
      */
     public UnaryOperator getUnaryOperator(String identifier) throws UnknownElementException
@@ -58,7 +62,9 @@ public class Language
      * Returns the binary operator with the given identifier.
      *
      * @param identifier identifier
+     *
      * @return the binary operator with the given identifier
+     *
      * @throws csheets.core.formula.lang.UnknownElementException throws
      */
     public BinaryOperator getBinaryOperator(String identifier) throws UnknownElementException
@@ -70,7 +76,9 @@ public class Language
      * Returns the n-ary operator with the given identifier.
      *
      * @param identifier identifier
+     *
      * @return the binary operator with the given identifier
+     *
      * @throws csheets.core.formula.lang.UnknownElementException throws
      */
     public NaryOperator getNaryOperator(String identifier) throws UnknownElementException
@@ -82,18 +90,36 @@ public class Language
      * Returns the function with the given identifier.
      *
      * @param identifier identifier
+     *
      * @return the function with the given identifier
+     *
      * @throws csheets.core.formula.lang.UnknownElementException throws
      */
     public Function getFunction(String identifier) throws UnknownElementException
     {
-        return baseInstance.getFunction(identifier);
+        try
+        {
+            return baseInstance.getFunction(identifier);
+        }
+        catch (UnknownElementException e)
+        {
+            for (Function function : functions)
+            {
+                if (identifier.equalsIgnoreCase(function.getIdentifier()))
+                {
+                    return function;
+                }
+            }
+            throw new UnknownElementException(identifier);
+        }
+
     }
 
     /**
      * Returns whether there is a function with the given identifier.
      *
      * @param identifier identifier
+     *
      * @return whether there is a function with the given identifier
      */
     public boolean hasFunction(String identifier)
