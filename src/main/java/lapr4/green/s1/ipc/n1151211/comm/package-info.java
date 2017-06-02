@@ -81,6 +81,9 @@
 * Using a pre-defined UDP port, registered services are advertised on the local network with UDP packets.
 * For an extension to register you have to supply a string and a boolean.
 * The string indicates the service name and boolean if the service is active or inactive.
+ <b>Broadcast</b>
+* <p></p>
+* <img src="BroadcastServer.png" alt="image"> 
 * 
 * 
  *

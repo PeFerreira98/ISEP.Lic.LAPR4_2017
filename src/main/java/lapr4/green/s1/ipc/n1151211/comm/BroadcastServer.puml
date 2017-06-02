@@ -1,0 +1,32 @@
+@startuml
+    participant "BroadcastServer"  <<singleton>>
+    participant "peer:Peer" as peer
+    participant "udpSock:DatagramSocket" as udpSock
+    participant "serviceList:ServiceList" as serviceList
+    participant "udpPacket:DatagramPacket" as udpPacket
+    participant "Localextension"
+
+    create udpPacket
+    BroadcastServer -> udpPacket : udpPacket = new();
+
+    create serviceList
+    BroadcastServer -> serviceList : serviceList = new();
+
+    Localextension -> serviceList : registService( name, true );
+    create udpSock
+    BroadcastServer -> udpSock : udpSock = new();
+
+
+
+
+  loop forever
+    BroadcastServer -> serviceList :serviceList.fillPack( udpPacket );
+    BroadcastServer -> udpSock : send( udpPacket );
+
+    BroadcastServer -> BroadcastServer : sleep( 30 );
+
+    BroadcastServer -> serviceList : purge();
+
+  end
+
+@enduml
