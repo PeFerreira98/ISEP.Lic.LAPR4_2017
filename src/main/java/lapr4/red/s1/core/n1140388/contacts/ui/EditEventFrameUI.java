@@ -30,27 +30,42 @@ import lapr4.white.s1.core.n4567890.contacts.domain.Event;
 public class EditEventFrameUI extends JDialog {
 
     private EventPanel eventPanel;
-    private JTextField descriptions, date;
-    private static final Dimension LABEL = new JLabel("Description Text:sss").
+    private JTextField txtDescription;
+    private JTextField txtTime;
+
+    private static final Dimension LABEL = new JLabel("Description Text:---").
             getPreferredSize();
+
     private final ContactController controller;
-    private Contact c;
+    private Contact contact;
     private Event event;
 
-    public EditEventFrameUI(EventPanel father, Contact c, Event e,
+    /**
+     * Creates a new event panel to create an event.
+     *
+     * @param father the user interface controller
+     * @param contact the contact chosen
+     * @param event the event chosen
+     * @param controller the contact controller
+     */
+    public EditEventFrameUI(EventPanel father, Contact contact, Event event,
             ContactController controller) {
-
+        // Configures panel
         this.setTitle("Edit Event");
-        eventPanel = father;
+        this.eventPanel = father;
+
+        // Creates controller
         this.controller = controller;
-        this.c = c;
-        this.event = e;
+        this.contact = contact;
+        this.event = event;
         this.setLayout(new GridLayout(3, 0));
 
-        JPanel p1 = createTextPanel();
-        JPanel p2 = createDatePanel();
+        //Creates panels
+        JPanel p1 = createDescriptionPanel();
+        JPanel p2 = createTimePanel();
         JPanel p4 = createButtonsPanel();
 
+        //Add panels
         add(p1);
         add(p2);
         add(p4);
@@ -61,79 +76,113 @@ public class EditEventFrameUI extends JDialog {
         setVisible(true);
     }
 
-    private JPanel createTextPanel() {
+    /**
+     * Creates a panel to the event description, where we put a label and a
+     * corresponding text field area.
+     *
+     * @return description panel
+     */
+    private JPanel createDescriptionPanel() {
         JLabel lbl = new JLabel("Description Text:", JLabel.RIGHT);
         lbl.setPreferredSize(LABEL);
 
-        descriptions = new JTextField(15);
-        descriptions.requestFocus();
-        descriptions.setText(event.description());
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        p.setBorder(new EmptyBorder(10, 10, 0, 0));
+        txtDescription = new JTextField(15);
+        txtDescription.requestFocus();
+        txtDescription.setText(event.description());
 
-        p.add(lbl);
-        p.add(descriptions);
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.setBorder(new EmptyBorder(10, 10, 0, 0));
 
-        return p;
+        panel.add(lbl);
+        panel.add(txtDescription);
+
+        return panel;
     }
 
-    private JPanel createDatePanel() {
-        JLabel lbl = new JLabel("Date (dd/mm/yyyy):", JLabel.RIGHT);
+    /**
+     * Creates a panel to the event time, where we put a label and a
+     * corresponding text field area.
+     *
+     * @return time panel
+     */
+    private JPanel createTimePanel() {
+        JLabel lbl = new JLabel("Date (dd-mm-yyyy):", JLabel.RIGHT);
         lbl.setPreferredSize(LABEL);
-        final int CAMPO_LARGURA = 15;
-        date = new JTextField(CAMPO_LARGURA);
-        date.setText(event.time().get(Calendar.DAY_OF_MONTH) + "/"
-                + event.time().get(Calendar.MONTH) + "/"
+
+        txtTime = new JTextField(15);
+        txtTime.setText(event.time().get(Calendar.DAY_OF_MONTH) + "-"
+                + event.time().get(Calendar.MONTH) + "-"
                 + event.time().get(Calendar.YEAR)
         );
-        date.requestFocus();
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        p.setBorder(new EmptyBorder(0, 10, 0, 0));
-        p.add(lbl);
-        p.add(date);
+        txtTime.requestFocus();
 
-        return p;
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.setBorder(new EmptyBorder(0, 10, 0, 0));
+
+        panel.add(lbl);
+        panel.add(txtTime);
+
+        return panel;
     }
 
+    /**
+     * Creates a panel to the buttons of confirm or cancel the editing of an
+     * event.
+     *
+     * @return buttons of confirm or cancel the editing of an event
+     */
     private JPanel createButtonsPanel() {
         JButton btnOK = createButtonOk();
         getRootPane().setDefaultButton(btnOK);
 
-        JButton btnCancelar = createButtonCancel();
+        JButton btnCancel = createButtonCancel();
 
-        JPanel p = new JPanel();
-        p.setBorder(new EmptyBorder(0, 10, 10, 10));
-        p.add(btnOK);
-        p.add(btnCancelar);
+        JPanel panel = new JPanel();
+        panel.setBorder(new EmptyBorder(0, 10, 10, 10));
 
-        return p;
+        panel.add(btnOK);
+        panel.add(btnCancel);
+
+        return panel;
     }
 
+    /**
+     * Creates a button to confirm the editing of an event.
+     *
+     * @return button to confirm
+     */
     private JButton createButtonOk() {
         JButton btn = new JButton("OK");
         btn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    String desc = descriptions.getText();
-                    if (desc == null) {
+                    String description = txtDescription.getText();
+
+                    if (description == null) {
                         throw new IllegalArgumentException("Error. Empty Description");
                     }
 
-                    String date_read = date.getText();
-                    if (date_read == null) {
+                    String time = txtTime.getText();
+
+                    if (time == null) {
                         throw new IllegalArgumentException("Error. Empty Date");
                     }
 
-                    controller.editEvent(c, event, descriptions.getText(), DateTime.parseDate(date.
-                            getText()));
+                    if (controller.compareToActualDate(time) == null) {
+                        throw new IllegalArgumentException("Error. Date must be for future!");
+                    }
+
+                    controller.editEvent(contact, event, description, DateTime.parseDate(time));
                     JOptionPane.showMessageDialog(EditEventFrameUI.this, "Event successfully edited");
+
+                    eventPanel.updateEventList();
+
                     dispose();
-                } catch (Exception excecao) {
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(EditEventFrameUI.this,
-                            "Something wrong, event cannot be edited: " + excecao.
-                            getMessage(),
-                            "Create Event",
+                            "Something wrong, event cannot be edited: " + ex.getMessage(),
+                            "Edit Event",
                             JOptionPane.WARNING_MESSAGE);
                 }
             }
@@ -142,6 +191,11 @@ public class EditEventFrameUI extends JDialog {
         return btn;
     }
 
+    /**
+     * Creates a button to cancel the editing of an event.
+     *
+     * @return button to cancel
+     */
     private JButton createButtonCancel() {
         JButton btn = new JButton("Cancel");
         btn.addActionListener(new ActionListener() {

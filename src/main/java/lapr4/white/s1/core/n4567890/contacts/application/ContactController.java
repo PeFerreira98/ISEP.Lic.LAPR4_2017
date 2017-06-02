@@ -9,7 +9,6 @@ import eapli.framework.application.Controller;
 import eapli.framework.persistence.DataConcurrencyException;
 import eapli.framework.persistence.DataIntegrityViolationException;
 import eapli.util.DateTime;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Optional;
 import java.util.Properties;
@@ -81,8 +80,8 @@ public class ContactController implements Controller {
 
     public Event editEvent(Contact contact, Event event, String eventDescription, Calendar dueDate) throws DataConcurrencyException, DataIntegrityViolationException {
 
-        // Create a new Event for this contact...
-        // FIXME: We should change this to use a Builder 
+        contact.agenda().events().remove(event);
+        
         Event ev = new Event(eventDescription, dueDate);
 
         contact.agenda().add(ev);
@@ -95,8 +94,8 @@ public class ContactController implements Controller {
 
     public boolean removeEvent(Contact contact, Event event) throws DataConcurrencyException, DataIntegrityViolationException {
 
-        // Create a new Event for this contact...
-        // FIXME: We should change this to use a Builder 
+        contact.agenda().events().remove(event);
+
         // TODO: When do we save?...
         this.contactsRepository.save(contact);
 

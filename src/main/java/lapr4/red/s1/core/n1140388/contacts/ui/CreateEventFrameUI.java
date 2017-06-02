@@ -14,7 +14,6 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.Calendar;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -46,7 +45,7 @@ public class CreateEventFrameUI extends JDialog {
      *
      * @param father the user interface controller
      * @param contact the contact chosen
-     * @param controller
+     * @param controller the contact controller
      */
     public CreateEventFrameUI(EventPanel father, Contact contact,
             ContactController controller) {
@@ -120,10 +119,10 @@ public class CreateEventFrameUI extends JDialog {
     }
 
     /**
-     * Creates a panel to the buttons of confirme or cancel the creation of an
+     * Creates a panel to the buttons of confirm or cancel the creation of an
      * event.
      *
-     * @return buttons of confirme or cancel the creation of an event
+     * @return buttons of confirm or cancel the creation of an event
      */
     private JPanel createButtonsPanel() {
         JButton btnOK = createButtonOk();
@@ -141,9 +140,9 @@ public class CreateEventFrameUI extends JDialog {
     }
 
     /**
-     * Creates a button to confirme the creation of an event.
+     * Creates a button to confirm the creation of an event.
      *
-     * @return button to confirme
+     * @return button to confirm
      */
     private JButton createButtonOk() {
         JButton btn = new JButton("OK");

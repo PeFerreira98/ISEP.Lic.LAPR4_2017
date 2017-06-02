@@ -10,6 +10,7 @@ import csheets.ui.ctrl.SelectionListener;
 import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import csheets.ui.ctrl.UIController;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -34,6 +35,9 @@ import lapr4.white.s1.core.n4567890.contacts.domain.Event;
  * @author Alexandra Ferreira - 1140388@isep.ipp.pt
  */
 public class EventPanel extends JPanel implements SelectionListener {
+
+    private JButton btnFinish;
+    private JButton btnUpdate;
 
     private final JList listEvents;
 
@@ -74,7 +78,8 @@ public class EventPanel extends JPanel implements SelectionListener {
         listEvents = createList();
         eventsListPanel.add(listEvents);
 
-        //Add combo box and button to choose contact on panel
+        //Add combo box and button to choose contact on panel and finish the operation with that contact
+        contactsPanel.add(createUpdateFinishButtonPanel());
         contactsPanel.add(contactComboBox);
         selectedContact = buttonChooseContact();
         contactsPanel.add(selectedContact);
@@ -220,6 +225,9 @@ public class EventPanel extends JPanel implements SelectionListener {
      */
     private void setInterfaceToContact(Contact contact, boolean flag) {
 
+        this.btnFinish.setEnabled(false);
+        this.btnUpdate.setEnabled(true);
+
         this.selectedContact.setEnabled(true);
         this.contactComboBox.setEnabled(true);
 
@@ -228,6 +236,12 @@ public class EventPanel extends JPanel implements SelectionListener {
         this.btnEdit.setVisible(flag);
         this.btnRemove.setVisible(flag);
 
+        if (flag) {
+            this.btnUpdate.setEnabled(!flag);
+        }
+        if (flag) {
+            this.btnFinish.setEnabled(flag);
+        }
         if (flag) {
             this.selectedContact.setEnabled(!flag);
         }
@@ -285,8 +299,8 @@ public class EventPanel extends JPanel implements SelectionListener {
     }
 
     /**
-     * Creates a button to create an event to the select the contact.
-     * This button will open a new window to create that event.
+     * Creates a button to create an event to the select the contact. This
+     * button will open a new window to create that event.
      *
      * @return the button to create the event
      */
@@ -303,14 +317,14 @@ public class EventPanel extends JPanel implements SelectionListener {
     }
 
     /**
-     * Creates a button to edit a selected event of the contact.
-     * This button will open a new window to edit that event.
+     * Creates a button to edit a selected event of the contact. This button
+     * will open a new window to edit that event.
      *
      * @return the button to edit the event
      */
     private JButton buttonEdit() {
-        JButton btnbtnEdit = new JButton(" Edit Event ");
-        btnbtnEdit.addActionListener(new ActionListener() {
+        JButton btnEdit = new JButton(" Edit Event ");
+        btnEdit.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
@@ -326,12 +340,12 @@ public class EventPanel extends JPanel implements SelectionListener {
                 }
             }
         });
-        return btnbtnEdit;
+        return btnEdit;
     }
 
     private JButton buttonDelete() {
-        JButton btnbtnRemove = new JButton("  Remove Event   ");
-        btnbtnRemove.addActionListener(new ActionListener() {
+        JButton btnRemove = new JButton("  Remove Event   ");
+        btnRemove.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
@@ -347,7 +361,7 @@ public class EventPanel extends JPanel implements SelectionListener {
                 }
             }
         });
-        return btnbtnRemove;
+        return btnRemove;
     }
 
     /**
@@ -359,6 +373,19 @@ public class EventPanel extends JPanel implements SelectionListener {
             Object[] data = showAllEvents(contact);
             listEvents.setListData(data);
         }
+    }
+
+    /**
+     * This method will update the list of contacts, showing all the actual
+     * contacts of the combo box list.
+     */
+    public boolean updateContactos() {
+        Object[] data = showAllContacts();
+        contactComboBox.removeAllItems();
+        for (Object o : data) {
+            contactComboBox.addItem(o);
+        }
+        return data.length != 0;
     }
 
     /**
@@ -374,5 +401,46 @@ public class EventPanel extends JPanel implements SelectionListener {
         }
 
         return (Event) eventsList[selectedIndex];
+    }
+
+    private JPanel createUpdateFinishButtonPanel() {
+        this.btnUpdate = buttonUpdate();
+        this.btnFinish = buttonFinish();
+
+        JPanel panel = new JPanel(new GridLayout(0, 2));
+
+        panel.add(btnUpdate);
+        panel.add(btnFinish);
+
+        return panel;
+    }
+
+    private JButton buttonFinish() {
+        JButton finish = new JButton(" Finish ");
+        finish.setBackground(Color.white);
+        finish.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                setInterfaceToContact(null, false);
+            }
+        });
+        return finish;
+    }
+
+    private JButton buttonUpdate() {
+        JButton update = new JButton(" Update ");
+        update.setBackground(Color.white);
+        update.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                if (!updateContactos()) {
+                    JOptionPane.showMessageDialog(EventPanel.this,
+                            "There are no contacts to show",
+                            "Show Contacts",
+                            JOptionPane.WARNING_MESSAGE);
+                }
+            }
+        });
+        return update;
     }
 }

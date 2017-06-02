@@ -8,6 +8,7 @@ package lapr4.red.s1.core.n1140388.contacts.ui;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
@@ -30,26 +31,36 @@ import lapr4.white.s1.core.n4567890.contacts.domain.Event;
 public class RemoveEventFrameUI extends JDialog {
 
     private EventPanel eventPanel;
-    private JTextField descriptions, date;
-    private static final Dimension LABEL_TAMANHO = new JLabel("Description Text:sss").
-            getPreferredSize();
+
     private final ContactController controller;
     private Contact contact;
     private Event event;
 
-    public RemoveEventFrameUI(EventPanel father, Contact c, Event e,
+    /**
+     * Creates a new event panel to create an event.
+     *
+     * @param father the user interface controller
+     * @param contact the contact chosen
+     * @param event the event chosen
+     * @param controller the contact controller
+     */
+    public RemoveEventFrameUI(EventPanel father, Contact contact, Event event,
             ContactController controller) {
-
+        // Configures panel
         this.setTitle("Delete Event");
         eventPanel = father;
+
+        // Creates controller
         this.controller = controller;
-        this.contact = c;
-        this.event = e;
-        //this.setLayout(new GridLayout(2, 0));
+        this.contact = contact;
+        this.event = event;
+        this.setLayout(new GridLayout(3, 0));
 
-        JPanel p1 = createPanelInfo();
-        JPanel p2 = createPanelButtons();
+        //Creates panels
+        JPanel p1 = createInfoPanel();
+        JPanel p2 = createButtonsPanel();
 
+        //Add panels
         add(p1, BorderLayout.NORTH);
         add(p2, BorderLayout.CENTER);
 
@@ -59,42 +70,60 @@ public class RemoveEventFrameUI extends JDialog {
         setVisible(true);
     }
 
-    private JPanel createPanelInfo() {
+    /**
+     * Creates a panel to the event information, where we put the description,
+     * time and the corresponding contact.
+     *
+     * @return information panel
+     */
+    private JPanel createInfoPanel() {
         String[] info = new String[6];
 
         info[0] = "-----------Contact Info-----------";
-
-        Contact c = (Contact) contact;
-        info[1] = "Name: " + c.name();
+        info[1] = "Name: " + contact.name();
 
         info[2] = "-----------Event Info-----------";
-        info[3] = "Description : " + event.description();
-        info[4] = "Date : " + event.time().get(Calendar.DAY_OF_MONTH) + "/"
-                + event.time().get(Calendar.MONTH) + "/"
+        info[3] = "Description: " + event.description();
+        info[4] = "Date: " + event.time().get(Calendar.DAY_OF_MONTH) + "-"
+                + event.time().get(Calendar.MONTH) + "-"
                 + event.time().get(Calendar.YEAR);
 
-        JList jl = new JList(info);
-        JPanel p = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        p.setBorder(new EmptyBorder(10, 10, 0, 0));
+        JList infoJList = new JList(info);
 
-        p.add(jl);
-        return p;
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        panel.setBorder(new EmptyBorder(10, 10, 0, 0));
+
+        panel.add(infoJList);
+
+        return panel;
     }
 
-    private JPanel createPanelButtons() {
+    /**
+     * Creates a panel to the buttons of confirm or cancel the removing of an
+     * event.
+     *
+     * @return buttons of confirm or cancel the removing of an event
+     */
+    private JPanel createButtonsPanel() {
         JButton btnOK = createButtonOk();
         getRootPane().setDefaultButton(btnOK);
 
         JButton btnCancelar = createButtonCancel();
 
-        JPanel p = new JPanel();
-        p.setBorder(new EmptyBorder(0, 10, 10, 10));
-        p.add(btnOK);
-        p.add(btnCancelar);
+        JPanel panel = new JPanel();
+        panel.setBorder(new EmptyBorder(0, 10, 10, 10));
 
-        return p;
+        panel.add(btnOK);
+        panel.add(btnCancelar);
+
+        return panel;
     }
 
+    /**
+     * Creates a button to confirm the removing of an event.
+     *
+     * @return button to confirm
+     */
     private JButton createButtonOk() {
         JButton btn = new JButton("OK");
         btn.addActionListener(new ActionListener() {
@@ -102,13 +131,16 @@ public class RemoveEventFrameUI extends JDialog {
             public void actionPerformed(ActionEvent e) {
                 try {
                     controller.removeEvent(contact, event);
+
                     JOptionPane.showMessageDialog(RemoveEventFrameUI.this, "Event successfully deleted");
+
+                    eventPanel.updateEventList();
+
                     dispose();
-                } catch (Exception excecao) {
+                } catch (Exception ex) {
                     JOptionPane.showMessageDialog(RemoveEventFrameUI.this,
-                            "Something wrong, event cannot be deleted: " + excecao.
-                            getMessage(),
-                            "Create Event",
+                            "Something wrong, event cannot be deleted: " + ex.getMessage(),
+                            "Remove Event",
                             JOptionPane.WARNING_MESSAGE);
                 }
             }
@@ -117,6 +149,11 @@ public class RemoveEventFrameUI extends JDialog {
         return btn;
     }
 
+    /**
+     * Creates a button to cancel the removing of an event.
+     *
+     * @return button to cancel
+     */
     private JButton createButtonCancel() {
         JButton btn = new JButton("Cancel");
         btn.addActionListener(new ActionListener() {
