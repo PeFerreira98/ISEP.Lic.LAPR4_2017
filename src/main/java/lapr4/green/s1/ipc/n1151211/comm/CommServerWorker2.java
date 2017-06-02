@@ -15,9 +15,9 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author Fernando
+ * @author Fernando implements SenDto
  */
-public class CommServerWorker2 extends Thread {
+public class CommServerWorker2 extends Thread implements SendDto {
     
     private Socket socket;
     private CommServer2 server;
@@ -41,7 +41,7 @@ public class CommServerWorker2 extends Thread {
         CommHandler2 handler=server.getHandler(inDTO.getClass());
         
         if (handler!=null) {
-            handler.handleDTO(inDTO, outStream);
+            handler.handleDTO(inDTO, this );
         }
     }
     
@@ -82,6 +82,18 @@ public class CommServerWorker2 extends Thread {
             } catch (IOException ex) {
                 Logger.getLogger(CommServerWorker2.class.getName()).log(Level.WARNING, null, ex);
             }
+        }
+    }
+    
+    
+    public boolean sendDto( Object dto ){
+        
+        try {
+            outStream.writeObject(dto);
+            return true;
+        } catch (IOException ex) {
+            Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
         }
     }
 }

@@ -19,6 +19,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -185,9 +186,9 @@ public class EventPanel extends JPanel implements SelectionListener {
                         Contact contact = getContact(contactComboBox.getSelectedIndex());
 
                         String info = popUpWithEvents(contact);
-                        
+
                         PopUp up = new PopUp(EventPanel.this, true, controller, info);
-                        
+
                         setInterfaceToContact(contact, true);
                     } else {
                         JOptionPane.showMessageDialog(EventPanel.this,
@@ -210,26 +211,38 @@ public class EventPanel extends JPanel implements SelectionListener {
 
     private String popUpWithEvents(Contact contact) {
 
-        List<Event> eventsForToday = null;
+        List<Event> eventsForToday = new LinkedList<>();
 
         showAllEvents(contact);
 
-        String popUp = null;
+        String popUp = "--- INFORMATION ---\n\nThe contact: " + contact.name() + "\n\nHas no events for today!";
 
+        Calendar now = Calendar.getInstance();
+        int day = now.get(Calendar.DAY_OF_WEEK);
+        int month = now.get(Calendar.DAY_OF_MONTH);
+        int year = now.get(Calendar.DAY_OF_YEAR);
+        
         for (Object obj : eventsList) {
             Event e = (Event) obj;
-            if (e.time().equals(Calendar.getInstance())) {
+
+            if (e.time().get(Calendar.DAY_OF_WEEK) == day
+                    && e.time().get(Calendar.DAY_OF_MONTH) == month
+                    && e.time().get(Calendar.DAY_OF_YEAR) == year) {
+
                 eventsForToday.add(e);
             }
         }
 
-        if (eventsForToday != null) {
+        if (eventsForToday.size() > 0) {
+            popUp = "--- INFORMATION ---\n"
+                    + "CONTACT: " + contact.name()
+                    + "EVENTS FOR TODAY:\n";
+            for(Event e : eventsForToday){
+                popUp += "\n" + e.description();
+            }
+            
             popUp = eventsForToday.toString();
         }
-
-        
-            popUp = "The contact has no events for today";
-        
 
         return popUp;
     }

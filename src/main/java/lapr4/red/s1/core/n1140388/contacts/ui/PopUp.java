@@ -34,7 +34,6 @@ public class PopUp extends javax.swing.JDialog {
         setVisible(true);
         setResizable(false);
         txtInfo.setText(infoMostrar);
-        setEnabled(false);
     }
 
     /**

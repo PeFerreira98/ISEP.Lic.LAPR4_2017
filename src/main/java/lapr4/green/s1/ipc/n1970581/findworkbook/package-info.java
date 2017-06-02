@@ -14,7 +14,7 @@
  * -Notes about the week's work.-
  * <p>
  * 
- * Work notes/log: S1 30-05-2017 (terça) <br>
+ * Work notes/log: S1 30-05-2017 (terca) <br>
  * During the morning we had a meeting with the client. <br>
  * In the afternoon we has scrumm meeting, where each chose a use case. <br>
  * Today I chose the IPC02.1 Find Workbooks feature case. <br>
@@ -35,8 +35,10 @@
  *  Helping teammate with design decision  <br>
  *  Design started: Class diagram, SD <br>
  *  Implementation started: Draft of UI , implemented an empty Jpanel for the UI. <br>
- *  
- * 
+ *  Class implementation: FileContainer FileDTO FileFinder FilenameFilterBasic.
+ *   <br>
+ *  Work notes/log: S1 02-06-2017 (sexta) <br>
+ * Unit Test: FileContainer FileDTO FileFinder FilenameFilterBasic
  * <p>
  * -In this section you should register important notes regarding your work during the sprint. <br>
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature. <br>
@@ -97,10 +99,10 @@
  * </ul>
  * 
  * Blockages: <br>
- *  We can't code a unit test using the file structure due to Jenkings / the way the project is veryfied uppon commit. But we can code an manual test. <br>
+ *  We can't code a unit test using the file structure due to Jenkings / the way the project is veryfied uppon commit. But we can do manual tests. <br>
  *  We can't code a test for the double clicking, but we can use the functional test with the user to test this. <br>
  *  
- * <h3>4.2 Main Functional Test </h3>
+ * <h3>4.1.1 Main Functional Test </h3>
  * 
  *  This test represent a user following the use case. It describes the user actions and the expected outcome.<p>
  *  
@@ -120,12 +122,31 @@
  *  <li>A new workbook should be opened and made active.</li>
  *  </ul>
  * 
- * <h2>4.3 UC Realization</h2>
+ * <h3>4.1.2 Unit Tests </h3>
  * 
- * <h3>4.3.1 Class Diagram</h3>
+ *  Unit Test: <br>
+ *   The smallest amount of testable code. Often a single method/function, sans the use of other methods or classes. Fast! Thousands of unit tests can run in ten seconds or less! A unit test NEVER uses:
+ * <ul>
+ *  <li>a database
+ *  <li>an app server (or server of any kind)
+ *  <li>file/network I/O or file system;
+ *  <li>another application;
+ *  <li>the console (System.out, System.err, etc.)
+ *  <li>logging
+ *  <li>most other classes (exceptions include DTO's, String, Integer, mocks and maybe a few others). 
+ * </ul>
+ *  from: <a href="http://www.javaranch.com/unit-testing.jsp">http://www.javaranch.com/unit-testing.jsp</a> <br>
+ * 
+ * Since we can't create instances of File objects we are very limited on our unit tests, and so there are only unit tests for FileContainer FileDTO a FilenameFilterBasic. 
+ * FileFinder could not be unit tested, but was tested outside the project. And is validated by manual tests.
+ * FilenameFilterBasic was fully tested, as it doesn't depends on a File object. The others were partially tested.
+ * 
+ * <h2>4.2 UC Realization</h2>
+ * 
+ * <h3>4.2.1 Class Diagram</h3>
  * <img src="s1_ipc_findworkbook_design_01.png" alt="image">
  * 
- * <h3>4.3.2 Sequence Diagram</h3>
+ * <h3>4.2.2 Sequence Diagram</h3>
  * <img src="s1_ipc_findworkbook_design_02.png" alt="image">
  * 
  * 
