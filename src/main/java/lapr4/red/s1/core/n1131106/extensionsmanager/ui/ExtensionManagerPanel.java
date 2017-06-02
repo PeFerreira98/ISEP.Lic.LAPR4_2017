@@ -49,7 +49,7 @@ public class ExtensionManagerPanel extends JPanel implements SelectionListener {
             JCheckBox temp = new JCheckBox();
             temp.setName(extension.getName());
             temp.setText(extension.getName());
-            //temp.addActionListener(new ApplyAction(i));
+            temp.addActionListener(new ApplyAction(i));
             i++;
             checkBoxes.add(temp);
         }
@@ -82,6 +82,16 @@ public class ExtensionManagerPanel extends JPanel implements SelectionListener {
 
         managerPanel.add(scrollPane);
 
+        // Adds borders
+        TitledBorder border = BorderFactory.createTitledBorder("Extension Manager");
+        border.setTitleJustification(TitledBorder.CENTER);
+        managerPanel.setBorder(border);
+
+        // Adds panels
+        JPanel northPanel = new JPanel(new BorderLayout());
+        northPanel.add(managerPanel, BorderLayout.NORTH);
+        add(northPanel, BorderLayout.NORTH);
+
     }
 
     /**
@@ -93,6 +103,35 @@ public class ExtensionManagerPanel extends JPanel implements SelectionListener {
 
     }
 
+    /**
+     * Enables/Disables an extension when it is selected
+     */
+    protected class ApplyAction extends FocusOwnerAction {
 
+        private int posExtension;
+
+        /**
+         * Creates a new apply action.
+         */
+        public ApplyAction(int i) {
+            posExtension = i;
+        }
+
+        protected String getName() {
+            return "Apply";
+        }
+
+        public void actionPerformed(ActionEvent e) {
+            JCheckBox cb = checkBoxes.get(posExtension);
+            // Enables extension
+            if (cb.isSelected()) {
+                controller.changeState(posExtension, true);
+                // Disable extension
+            } else {
+                controller.changeState(posExtension, false);
+            }
+
+        }
+    }
 
 }
