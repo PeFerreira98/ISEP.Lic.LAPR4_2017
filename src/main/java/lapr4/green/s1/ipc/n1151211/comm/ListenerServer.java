@@ -20,7 +20,7 @@ public class ListenerServer extends Thread{
 
     }
     
-    public static ListenerServer getServer(  int svtPrt, CommServer2 commSvr  ) {
+    protected static ListenerServer getServer(  int svtPrt, CommServer2 commSvr  ) {
         if (theListenerServer == null) {
             serverPort = svtPrt;
             commSever = commSvr;
@@ -35,7 +35,9 @@ public class ListenerServer extends Thread{
         }
         return theListenerServer;
     }
-    
+    public static ListenerServer getServer( ) {
+        return theListenerServer;
+    }
     
         /**
      * Starts the server

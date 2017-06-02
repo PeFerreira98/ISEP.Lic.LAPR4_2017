@@ -48,24 +48,37 @@
 * and because in the presentation the client was told to choose to use it or not.</p>
 * Communications extension provides services that allow other extensions to announce their existence,
 * to detect the presence of other and communicate with them, all over the local network.
-* 
+* <p></p>
+* <img src="CommExtension2.png" alt="image"> 
+* <p></p>
 * <p>These services are provided by three classes instantiated by the 'CommExtensao2' extension. These classes are:</p>
-* CommServer2 - listen on a tcp socket, on a configurable port, by calls from other instances in the local network.
+* <b>CommServer2</b> - listen on a tcp socket, on a configurable port, by calls from other instances in the local network.
 * Once established the connection allows the transfer of objects between the connected instances.
 * The extensions that use these services have to previously register the classes that will receive and which methods are going to process them.
-* <p>ListenerSever - listen on a UDP port for ads from other instances of cleanSheets.
+
+* <p><b>ListenerSever</b> - listen on a UDP port for ads from other instances of cleanSheets.
 * Saves that information that is available for other extensions to use.
 * With the saved information it connects to other instances when requested.
 * Once the connection is made it is possible to send and receive Java objects.
 * The classes of objects transmitted and received must be registered in Commserver2</p>
-* BroadcastServer - Extensions wishing to provide services over the local network must
+* <p></p>
+* <p></p>
+* <b>Listening to peers</b>
+* <p></p>
+* <img src="ListenerServer.png" alt="image"> 
+* <p></p>
+* <p></p>
+* <b>Connecting to peer</b>
+* <p></p>
+* <img src="ListenerServerConnect.png" alt="image"> 
+* 
+* <b>BroadcastServer</b> - Extensions wishing to provide services over the local network must
 * register for this class and indicate whether they are active or not.
 * Using a pre-defined UDP port, registered services are advertised on the local network with UDP packets.
 * For an extension to register you have to supply a string and a boolean.
 * The string indicates the service name and boolean if the service is active or inactive.
 * 
 * 
-* <img src="CommExtension2.png" alt="image"> 
  *
  *
  * @author Fernando Borges

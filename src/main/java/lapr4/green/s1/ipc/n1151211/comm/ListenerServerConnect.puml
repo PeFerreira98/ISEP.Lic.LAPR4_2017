@@ -1,0 +1,25 @@
+@startuml
+    participant "LocalService"
+    participant "CommServer2"
+    participant "commServer2:CommServer2" as commServer2
+    participant "ListenerServer"
+    participant "listenerServer:ListenerServer" as listenerServer
+    participant "toPeer:ConnectionToPeer" as toPeer
+
+    LocalService -> CommServer2 : commServer2 = getServer();
+    LocalService -> commServer2 : addHandler( dtoClass, handlerCommHandler2)
+    note right of LocalService: LocalService add all the handlerCommHandler2 it is going to use
+
+
+    LocalService -> ListenerServer : listenerServer = getServer();
+    LocalService -> listenerServer : peerList = getPeerListUI();
+    note right of LocalService: LocalService choose the peer it wants to connect
+    LocalService ->listenerServer : toPeer = getConnectionToPeer( peer )
+
+    LocalService->toPeer : sendDto( dto );
+
+    note right of LocalService: LocalService can send as many dto as it needs
+    note right of LocalService: The answer comes through the handlers
+
+
+@enduml

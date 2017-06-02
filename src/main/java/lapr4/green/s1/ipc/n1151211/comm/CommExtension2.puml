@@ -1,15 +1,17 @@
 @startuml
     participant "CommExtension2"
-    participant "CommServer2"
-    participant "ListenerServer"
-    participant "BroadcastServer"
+    participant "BroadcastServer"  <<singleton>>
+    participant "ListenerServer"  <<singleton>>
+    participant "CommServer2"  <<singleton>>
 
 
-
+    create CommServer2
     CommExtension2 -> CommServer2 : commServer = getServer(commServerPort);
 
+    create ListenerServer
     CommExtension2 -> ListenerServer : listenerServer = getServer(commServer, commServerPort);
 
+    create BroadcastServer
     CommExtension2 -> BroadcastServer : broadcastServer = getServer(listenerServer);
 
 @enduml

@@ -1,0 +1,29 @@
+@startuml
+
+    participant "ListenerServer"  <<singleton>>
+    participant "peer:Peer" as peer
+    participant "udpSock:DatagramSocket" as udpSock
+    participant "peerList:PeerList" as peerList
+    participant "udpPacket:DatagramPacket" as udpPacket
+
+    create udpPacket
+    ListenerServer -> udpPacket : udpPacket = new();
+    create peerList
+    ListenerServer -> peerList : peerList = new();
+    create udpSock
+    ListenerServer -> udpSock : udpSock = new(commServerPort);
+
+
+
+
+  loop forever
+    ListenerServer -> udpSock :udpSock.receive( udpPacket );
+        loop while peer in udpPacket
+                create peer
+                ListenerServer -> peer: peer = new(udpPacket);
+                ListenerServer -> peerList: putPeer( peer );
+
+        end
+  end
+
+@enduml
