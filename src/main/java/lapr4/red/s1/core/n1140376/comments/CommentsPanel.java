@@ -26,7 +26,6 @@ public class CommentsPanel {
     
     /** The assertion controller */
 	private CommentController controller;
-    
     /**
     * The selected commentable cell's list of comments
     */
@@ -34,6 +33,29 @@ public class CommentsPanel {
     
     /** The user interface controller */
 	private UIController uiController;
-    
+        
+        public CommentsPanel(UIController uiController, CommentPanel commentP){
+            
+        controller = new CommentController(uiController,commentP);
+	this.uiController = uiController;
+        
+        }
+        
+        private void paintCommentPanels() {
+                    
+        }
+        
+        private void cleanCommentsPanel() {
+            
+        }
+        
+        private void refreshUI() {
+            
+        }
+        
+        private void newComment() {
+            
+        }
+
 
 }
