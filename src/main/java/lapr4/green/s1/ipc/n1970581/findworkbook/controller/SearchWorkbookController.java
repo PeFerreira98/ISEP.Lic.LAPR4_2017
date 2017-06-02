@@ -5,10 +5,12 @@
  */
 package lapr4.green.s1.ipc.n1970581.findworkbook.controller;
 
+import csheets.core.Workbook;
 import csheets.ui.ctrl.UIController;
 import java.io.File;
 import java.util.Observer;
 import lapr4.green.s1.ipc.n1970581.findworkbook.FileContainer;
+import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 import lapr4.green.s1.ipc.n1970581.findworkbook.FileFinder;
 import lapr4.green.s1.ipc.n1970581.findworkbook.FilenameFilterBasic;
 
@@ -47,5 +49,28 @@ public class SearchWorkbookController {
         Thread thread = new Thread(fileFinder);
         thread.start();
     }
+    
+    /**
+     * Opens the indicated workbook.
+     * @param path path of the workbook file.
+     */
+    public void openWorkbook(FileDTO fileDTO){
+        //System.out.println("Open " + fileDTO.path());
+        File workbook = new File(fileDTO.path());
+        //this.uiController.
+        //uiController.app.load(workbook);
+        //actionManager.getAction("open");
+        //Workbook workbook2;
+    }
+    
+    public boolean isActiveWorkbookModified(){
+        return this.uiController.isActiveWorkbookModified();
+    }
+    
+    
+    /**
+     * Used to terminate the search if needed.Doesn't drop the container.
+     */
+    public void signalExit(){ this.container.setToExit();}
     
 }

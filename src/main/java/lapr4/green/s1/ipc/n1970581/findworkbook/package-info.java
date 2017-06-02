@@ -38,7 +38,8 @@
  *  Class implementation: FileContainer FileDTO FileFinder FilenameFilterBasic.
  *   <br>
  *  Work notes/log: S1 02-06-2017 (sexta) <br>
- * Unit Test: FileContainer FileDTO FileFinder FilenameFilterBasic
+ * Unit Test: FileContainer FileDTO FileFinder FilenameFilterBasic <br>
+ *  implementation - UI and controller linkage implementation <br>
  * <p>
  * -In this section you should register important notes regarding your work during the sprint. <br>
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature. <br>

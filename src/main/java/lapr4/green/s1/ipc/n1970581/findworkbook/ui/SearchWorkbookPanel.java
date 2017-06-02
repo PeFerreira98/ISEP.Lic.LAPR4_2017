@@ -13,6 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 import lapr4.green.s1.ipc.n1970581.findworkbook.SearchWorkbookExtension;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
@@ -97,8 +98,18 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
 
         jButtonOpen.setText("Open");
         jButtonOpen.setEnabled(false);
+        jButtonOpen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonOpenActionPerformed(evt);
+            }
+        });
 
         jListWorkbooks.setModel(new DefaultListModel<FileDTO>());
+        jListWorkbooks.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListWorkbooksMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListWorkbooks);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -165,6 +176,23 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         this.controller.search(rootDir, (Observer) this.myselfPanel);
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
+    private void jListWorkbooksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListWorkbooksMouseClicked
+        // TODO add your handling code here:
+        //System.out.println("mouse clicked!!!");
+        boolean doubleClick = (evt.getClickCount() ==2);
+        if (doubleClick) {
+            //System.out.println("double");
+            openWorkbook();
+            
+        }
+        
+    }//GEN-LAST:event_jListWorkbooksMouseClicked
+
+    private void jButtonOpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonOpenActionPerformed
+        // TODO add your handling code here:
+        if (this.jListWorkbooks.getSelectedValue() != null) openWorkbook();
+    }//GEN-LAST:event_jButtonOpenActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonOpen;
@@ -186,4 +214,30 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         ((DefaultListModel) this.jListWorkbooks.getModel()).addElement(arg);
         this.jButtonOpen.setEnabled(true);
     }
+    
+    /**
+     * CUSTOM: Calls the controller to open the workbook.
+     */
+    public void openWorkbook(){
+        int index = this.jListWorkbooks.getSelectedIndex();
+        Object obj =  this.jListWorkbooks.getSelectedValue();
+        if(obj == null) {
+            //throw new NullPointerException("null returned from this.jListWorkbooks.getSelectedValue() while opening woorkbook");
+            JOptionPane.showMessageDialog(this.myselfPanel, "Null workbook selected from list", "Error" , JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        FileDTO fileDTO = (FileDTO) this.jListWorkbooks.getSelectedValue();
+        
+        /* Not needed, when it opens, it doesn't discard the other open workbooks.
+        boolean modified = true;
+        modified = this.controller.isActiveWorkbookModified();
+        int answer = 0;  // NO = 1 , YES = 0
+        if(modified) answer = JOptionPane.showConfirmDialog(this.myselfPanel, "Unsaved Modifications Detected. Still wish to open?", "Title" , JOptionPane.YES_NO_OPTION);
+        System.out.println("Anser:" + answer);
+        */
+        
+        
+        this.controller.openWorkbook(fileDTO);
+    }
+    
 }
