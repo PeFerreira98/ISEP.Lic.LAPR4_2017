@@ -1,12 +1,20 @@
 @startuml ipc05.1_design.png
 
 participant "ChatExtension"
-participant "CommServer" <<singleton>>
+participant "CommServer2" <<singleton>>
+participant "Message"
+participant "CommServerWorker2"
 
-create CommServer
-ChatExtension -> CommServer : getCommServer()
+create CommServer2
+ChatExtension -> CommServer2 : getCommServer(port)
 
+create Message
+ChatExtension -> Message : new()
+ChatExtension -> Message : writeMessage()
 
+ChatExtension -> CommServer2 : addHandler(Message)
 
+create CommServerWorker2
+CommServer2 -> CommServerWorker2 : create()
 
 @enduml

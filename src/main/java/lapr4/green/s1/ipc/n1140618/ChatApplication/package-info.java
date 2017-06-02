@@ -48,9 +48,10 @@
  * 5. Select the user pretended to send a message<p>
  * 6. Press the "Send" button<p>
  * 7. No error should occur<p>
- * 
- * 
- * Receive a message Functional/Integration Test:<p>
+ *
+ *
+ * Receive a message Functional/Integration Test:
+ * <p>
  * 1. The user should start the CleanSheets Application<p>
  * 2. Select the option Extensions<p>
  * 3. Select the option Chat Application<p>
@@ -59,12 +60,18 @@
  * 6. The user can ignore it and the window will disapear after 5 seconds<p>
  * 7. The user can answer the message by double-clicking it<p>
  * 8. No error should occur<p>
- * 
+ *
  *
  *
  * <b>Design</b><p>
- *
+ * <b>ChatExtension</b>
  * <p>
+ * <img src="ipc05.1_design.png" alt="image">
+ * <p>
+ * A simplified version of how the message will be sent between users, it will
+ * add the class Message to CommServer2 as an Handler and then the CommServer2
+ * will do the rest as the connection will be already done, the package will be
+ * sent and an answer can be received
  *
  * <b>Code</b><p>
  * The following classes and interfaces implement this use case.<p>
