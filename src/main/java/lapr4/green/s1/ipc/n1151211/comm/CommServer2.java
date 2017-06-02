@@ -51,16 +51,16 @@ public class CommServer2 extends Thread {
     @Override
     public void run() {
 
-        ServerSocket aServerSocket=null;
+        ServerSocket svrSock=null;
         
         try {
 
             // We need to make the server execute an "endless" loop accepting clients...
-            aServerSocket = new ServerSocket(seerverPort);
+            svrSock = new ServerSocket(seerverPort);
 
             for (;;) {
 
-                Socket aSocket = aServerSocket.accept();
+                Socket aSocket = svrSock.accept();
 
                 Logger.getLogger(CommServer2.class.getName()).log(Level.INFO, "New client. Socket={0}", aSocket.getPort());
                 
@@ -74,7 +74,7 @@ public class CommServer2 extends Thread {
             Logger.getLogger(CommServer2.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             try {
-                aServerSocket.close();
+                svrSock.close();
             } catch (IOException ex) {
                 Logger.getLogger(CommServer2.class.getName()).log(Level.SEVERE, null, ex);
             }

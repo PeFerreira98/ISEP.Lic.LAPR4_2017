@@ -55,7 +55,11 @@
 * <b>CommServer2</b> - listen on a tcp socket, on a configurable port, by calls from other instances in the local network.
 * Once established the connection allows the transfer of objects between the connected instances.
 * The extensions that use these services have to previously register the classes that will receive and which methods are going to process them.
-
+* <p></p>
+* <b>CommServer2</b>
+* <img src="CommServer2.png" alt="image"> 
+* <p></p>
+* <p></p>
 * <p><b>ListenerSever</b> - listen on a UDP port for ads from other instances of cleanSheets.
 * Saves that information that is available for other extensions to use.
 * With the saved information it connects to other instances when requested.

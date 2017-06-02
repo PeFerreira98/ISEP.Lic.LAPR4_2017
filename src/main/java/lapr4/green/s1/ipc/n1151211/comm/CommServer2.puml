@@ -1,0 +1,66 @@
+@startuml
+  box "Server"
+    participant "CommServer2"
+    participant "ServerSocket"
+    participant "CommWorker2"
+    participant "aSocket:Socket" as aSocket
+  end box
+
+  box "Peer extension"
+    participant "Socket"
+    participant "os:OutputStream" as ouput
+    participant "is:InputStream" as input
+
+    participant "CommClientWorker2"
+    participant "ListenerServer"
+    participant "ob:DTO" as DTO
+    participant "PeerExtension"
+  end box
+
+  create ServerSocket
+  CommServer2 -> ServerSocket : new();
+  CommServer2 -> ServerSocket : aSocket=accept();
+
+
+
+    PeerExtension -> ListenerServer : toPeer = getCommClientWorker( peer )
+
+
+    create Socket
+    ListenerServer -> Socket : new();
+    ServerSocket <-- Socket : connection established 
+    create CommClientWorker2
+    ListenerServer -> CommClientWorker2: new( Scoket, comSvr );
+    note right of CommClientWorker2: Processes incoming objects
+
+    CommClientWorker2  -> Socket : os=getOutputStream();
+
+  create input
+  Socket -> input : new();
+
+    CommClientWorker2  -> Socket : is=InputStream();
+
+  create ouput
+  Socket -> ouput : new();
+
+
+
+
+
+  create aSocket
+  ServerSocket -> aSocket : new();
+
+  create CommWorker2
+  CommServer2 -> CommWorker2 : new(aSocket);
+  CommWorker2 -> aSocket : getInputStream();
+
+
+
+
+
+  create DTO
+  PeerExtension -> DTO : ob=new();
+  PeerExtension -> CommClientWorker2 : sendDto(ob);
+  CommClientWorker2 -> ouput : write(db);
+
+@enduml
