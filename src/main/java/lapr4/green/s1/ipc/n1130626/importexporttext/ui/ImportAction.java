@@ -6,6 +6,7 @@
 package lapr4.green.s1.ipc.n1130626.importexporttext.ui;
 
 import csheets.ui.ctrl.BaseAction;
+import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
@@ -14,7 +15,7 @@ import javax.swing.JOptionPane;
  * An action of the extension that exemplifies how to import data from a text file.
  * @author Pedro Pereira
  */
-public class ImportAction extends BaseAction {
+public class ImportAction extends FocusOwnerAction {
     
         /** The user interface controller */
 	protected UIController uiController;
@@ -42,7 +43,10 @@ public class ImportAction extends BaseAction {
          */
         @Override
         public void actionPerformed(ActionEvent ae) {
-            JOptionPane.showMessageDialog(null, "This is only a test if it work here. Import");
+            //JOptionPane.showMessageDialog(null, "This is only a test if it work here. Import");
+            ImportUI iui = new ImportUI(uiController);
+            iui.setVisible(true);
+            focusOwner.updateUI();
         }
     
 }
