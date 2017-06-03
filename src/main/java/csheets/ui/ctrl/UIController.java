@@ -42,6 +42,12 @@ import csheets.ext.Extension;
 import csheets.ext.ExtensionManager;
 import csheets.ui.ext.UIExtension;
 import csheets.ui.sheet.CellTransferHandler;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.InvalidClassException;
+import java.io.OptionalDataException;
+import java.io.StreamCorruptedException;
+import javax.swing.JOptionPane;
 
 /**
  * A controller for managing the current selection, i.e. the active workbook,
@@ -379,4 +385,49 @@ public class UIController implements SpreadsheetAppListener {
 				listener.selectionChanged(event);
 		}
 	}
+        
+        /**
+         * Allows extensions to open a file of a workbook. Wasn't in CORE, added by LAPR4
+         * @param file workbook file.
+         */
+        public void load(File file){
+            if (file != null) {
+			Workbook workbook = app.getWorkbook(file);
+			if (workbook == null)
+				try {
+					// Opens the file
+					app.load(file);
+				} catch (FileNotFoundException fe) {
+					showErrorDialog("The file you requested was not found.");
+				} catch (ClassNotFoundException e) {
+					showErrorDialog("The class of a serialized object cannot be found:\n" + e.getMessage() + ".");
+				} catch (InvalidClassException e) {
+					showErrorDialog("Something is wrong with a class used by serialization.");
+				} catch (StreamCorruptedException e) {
+					showErrorDialog("Control information in the input stream is inconsistent.");
+				} catch (OptionalDataException e) {
+					showErrorDialog("Primitive data was found in the input stream instead of objects.");
+				} catch (Exception e) {
+					showErrorDialog("An I/O error occurred when loading the file.");
+				}
+			else
+				this.setActiveWorkbook(workbook);
+		}
+        }
+        
+        /**
+	 * Shows the user an error message.
+         * @param message message
+	 */
+	protected void showErrorDialog(Object message) {
+		JOptionPane.showMessageDialog(
+			null,
+			message,
+			"Error",
+			JOptionPane.ERROR_MESSAGE
+		);
+	}
+               
+        
+        
 }
