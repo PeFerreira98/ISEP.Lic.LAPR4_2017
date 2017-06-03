@@ -5,11 +5,12 @@
  */
 package lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui;
 
+import com.sun.glass.events.KeyEvent;
 import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
 import java.util.SortedSet;
 import javax.swing.JOptionPane;
-import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondlFormattingController;
+import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingController;
 
 /**
  *
@@ -25,7 +26,7 @@ public class CondFormDialog extends javax.swing.JFrame {
     /**
      * Crontroller to formating cells UC
      */
-    private final CondlFormattingController controller;
+    private final CondFormattingController controller;
 
     private SortedSet<Cell> array;
 
@@ -34,10 +35,11 @@ public class CondFormDialog extends javax.swing.JFrame {
      */
     public CondFormDialog(UIController uiCtrl) {
         initComponents();
-        controller = new CondlFormattingController(uiCtrl);
+        controller = new CondFormattingController(uiCtrl);
 
         this.uiController = uiCtrl;
 
+        setTitle("Conditional Formatting");
         setVisible(true);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -53,19 +55,24 @@ public class CondFormDialog extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtFormula = new javax.swing.JTextField();
+        txtValue = new javax.swing.JTextField();
         btnTrue = new javax.swing.JButton();
         btnFalse = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
         btnOK = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
+        cmbOperators = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        txtFormula.addActionListener(new java.awt.event.ActionListener() {
+        txtValue.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFormulaActionPerformed(evt);
+                txtValueActionPerformed(evt);
+            }
+        });
+        txtValue.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtValueKeyTyped(evt);
             }
         });
 
@@ -83,8 +90,6 @@ public class CondFormDialog extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Formula:");
-
         btnOK.setText("Confirm");
         btnOK.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -96,40 +101,40 @@ public class CondFormDialog extends javax.swing.JFrame {
 
         jLabel3.setText("Settings when expression is false:");
 
+        cmbOperators.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { ">", "<", "<=", ">=", "=", "<>" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnOK))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(cmbOperators, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtValue, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtFormula))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnOK)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel3))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel2))
+                                .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(btnTrue, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(btnFalse, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(59, 88, Short.MAX_VALUE)))))
-                .addContainerGap())
+                                    .addComponent(btnFalse))))))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtFormula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(txtValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(cmbOperators, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -138,17 +143,17 @@ public class CondFormDialog extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnFalse)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnOK)
-                .addGap(26, 26, 26))
+                .addContainerGap(24, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtFormulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFormulaActionPerformed
+    private void txtValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtValueActionPerformed
 
-    }//GEN-LAST:event_txtFormulaActionPerformed
+    }//GEN-LAST:event_txtValueActionPerformed
 
     private void btnTrueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTrueActionPerformed
         new FormattingCells(this.uiController, controller, "true");
@@ -162,10 +167,16 @@ public class CondFormDialog extends javax.swing.JFrame {
         if (controller.getFalseBackColor() == null && controller.getFalseFont() == null || controller.getTrueBackColor() == null && controller.getTrueFont() == null) {
             JOptionPane.showMessageDialog(CondFormDialog.this, "You have to select format options", "Conditional Formating", JOptionPane.INFORMATION_MESSAGE);
 
-        } else if (!txtFormula.getText().isEmpty()) {
+        } else if (!txtValue.getText().isEmpty()) {
             Cell cell = uiController.getActiveCell();
-            array = controller.getCells(uiController.getActiveCell().toString(), uiController.getActiveCell().toString());
-            controller.addListener(txtFormula.getText(), cell);
+            /* TODO: sprint 2, setting a range of cells
+            array = controller.getCells("A1", "C6");
+            for(Cell cellAux:array){
+                System.out.println(cellAux.getAddress()+"-");
+            }
+             */
+
+            controller.addListener(txtValue.getText(), cmbOperators.getSelectedItem().toString(), cell);
             dispose();
 
         } else {
@@ -173,13 +184,20 @@ public class CondFormDialog extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnOKActionPerformed
 
+    private void txtValueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValueKeyTyped
+        char vchar = evt.getKeyChar();
+        if (!(Character.isDigit(vchar)) || (vchar == KeyEvent.VK_BACKSPACE) || (vchar == KeyEvent.VK_DELETE)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtValueKeyTyped
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnFalse;
     private javax.swing.JButton btnOK;
     private javax.swing.JButton btnTrue;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JComboBox<String> cmbOperators;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField txtFormula;
+    private javax.swing.JTextField txtValue;
     // End of variables declaration//GEN-END:variables
 }

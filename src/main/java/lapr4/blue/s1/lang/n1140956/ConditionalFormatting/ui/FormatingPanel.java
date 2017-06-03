@@ -5,18 +5,25 @@
  */
 package lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui;
 
+import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javafx.scene.control.ComboBox;
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JToolBar;
 import javax.swing.border.TitledBorder;
+import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingController;
 import lapr4.white.s1.core.n4567890.contacts.ContactsExtension;
-import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
-
 
 /**
  *
@@ -25,41 +32,112 @@ import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
 @SuppressWarnings("serial")
 public class FormatingPanel extends JPanel implements ActionListener {
 
-     // Controller for Contacts
-    private ContactController controller=null;
-    private JPanel contactsPane= null;
-    
+    // Controller for Contacts
+    private CondFormattingController controller = null;
+    private UIController uiController;
+    private JPanel mainPanel = null;
+
+    private final JComboBox cmbOperators;
+    private final JButton btnTrue;
+    private final JButton btnFalse;
+    private final JButton btnOK;
+    private final Object[] items = {">", "<", "<=", ">=", "=", "<>"};
+
+    private final JTextField txtValue;
+
     @Override
     public void actionPerformed(ActionEvent e) {
 //        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     public FormatingPanel(UIController uiController) {
         // Configures panel
         super(new BorderLayout());
         setName(ContactsExtension.NAME);
 
         // Creates controller
-        this.controller = new ContactController(uiController.getUserProperties());
+        this.controller = new CondFormattingController(uiController);
+        this.uiController = uiController;
 
-        setupFormatingWidgets();
-
-        JPanel mainPanel = new JPanel(new GridLayout(2, 1));
+        mainPanel = new JPanel(new GridLayout(2, 1));
+        JPanel optionButtonsPanel = new JPanel(new GridLayout(6, 2));
+        JPanel confirmButtonsPanel = new JPanel (new GridLayout(5,0));
 
         // Adds borders
-        TitledBorder border = BorderFactory.createTitledBorder("Formating Settings");
-        border.setTitleJustification(TitledBorder.CENTER);
-        contactsPane.setBorder(border);
+//        TitledBorder border = BorderFactory.createTitledBorder("Formating Settings");
+//        border.setTitleJustification(TitledBorder.CENTER);
+//        contactsPane.setBorder(border);
+        cmbOperators = new JComboBox(items);
+        txtValue = new JTextField();
+        btnTrue = createBtnTrue();
+        btnFalse = createBtnFalse();
+        btnOK = createBtnOK();
+
+        mainPanel.add(txtValue);
+        mainPanel.add(cmbOperators);
+
+        optionButtonsPanel.add(new JToolBar.Separator(new Dimension(10, 10)));
+        optionButtonsPanel.add(btnTrue);
+        optionButtonsPanel.add(btnFalse);
+        
+        confirmButtonsPanel.add(btnOK);
 
         // Creates side bar
-        mainPanel.add(contactsPane);
-
-        add(mainPanel);
+        add(mainPanel,BorderLayout.NORTH);
+        add(optionButtonsPanel,BorderLayout.CENTER);
+        add(confirmButtonsPanel,BorderLayout.SOUTH);
     }
-    
-    private void setupFormatingWidgets() {
-        
-        contactsPane = new JPanel(new BorderLayout());
 
+
+    private JButton createBtnTrue() {
+        JButton btnTrue = new JButton("True");
+        btnTrue.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new FormattingCells(uiController, controller, "true");
+            }
+        });
+        return btnTrue;
+
+    }
+
+    private JButton createBtnFalse() {
+        JButton btnFalse = new JButton("False");
+        btnFalse.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new FormattingCells(uiController, controller, "false");
+            }
+        });
+        return btnFalse;
+    }
+
+    private JButton createBtnOK() {
+
+        JButton btnOK = new JButton("OK");
+        btnOK.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (controller.getFalseBackColor() == null && controller.getFalseFont() == null || controller.getTrueBackColor() == null && controller.getTrueFont() == null) {
+                    JOptionPane.showMessageDialog(mainPanel, "You have to select format options", "Conditional Formating", JOptionPane.INFORMATION_MESSAGE);
+
+                } else if (!txtValue.getText().isEmpty()) {
+                    Cell cell = uiController.getActiveCell();
+                    /* TODO: sprint 2, setting a range of cells
+            array = controller.getCells("A1", "C6");
+            for(Cell cellAux:array){
+                System.out.println(cellAux.getAddress()+"-");
+            }
+                     */
+
+                    controller.addListener(txtValue.getText(), cmbOperators.getSelectedItem().toString(), cell);
+
+                } else {
+                    JOptionPane.showMessageDialog(mainPanel, "You have to insert a formula ", "Conditional Formating", JOptionPane.INFORMATION_MESSAGE);
+                }
+            }
+        });
+        this.txtValue.setText("");
+        return btnOK;
     }
 }

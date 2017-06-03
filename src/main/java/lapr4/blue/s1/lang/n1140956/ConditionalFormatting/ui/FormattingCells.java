@@ -8,7 +8,7 @@ package lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui;
 import csheets.ui.ctrl.UIController;
 import java.awt.Color;
 import javax.swing.JColorChooser;
-import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondlFormattingController;
+import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingController;
 
 /**
  *
@@ -17,13 +17,13 @@ import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondlFormattingControll
 public class FormattingCells extends javax.swing.JFrame {
 
     private UIController uiController;
-    private CondlFormattingController ctrl;
+    private CondFormattingController ctrl;
     private String option;
     
     /**
      * Creates new form FormatingCells
      */
-    public FormattingCells(UIController uiCtrl, CondlFormattingController ctrl, String opt) {
+    public FormattingCells(UIController uiCtrl, CondFormattingController ctrl, String opt) {
         initComponents();
         this.uiController = uiCtrl;
         this.ctrl = ctrl;
@@ -47,7 +47,6 @@ public class FormattingCells extends javax.swing.JFrame {
 
         btnBackColor = new javax.swing.JButton();
         btnOK = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -65,8 +64,6 @@ public class FormattingCells extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Font");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -77,19 +74,15 @@ public class FormattingCells extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addGap(39, 39, 39)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(btnBackColor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addComponent(btnBackColor)
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(42, 42, 42)
                 .addComponent(btnBackColor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(27, 27, 27)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 66, Short.MAX_VALUE)
                 .addComponent(btnOK)
                 .addContainerGap())
         );
@@ -116,6 +109,5 @@ public class FormattingCells extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBackColor;
     private javax.swing.JButton btnOK;
-    private javax.swing.JButton jButton1;
     // End of variables declaration//GEN-END:variables
 }

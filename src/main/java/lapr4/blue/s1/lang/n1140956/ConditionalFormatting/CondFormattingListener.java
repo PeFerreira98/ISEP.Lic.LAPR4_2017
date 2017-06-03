@@ -8,6 +8,7 @@ package lapr4.blue.s1.lang.n1140956.ConditionalFormatting;
 import csheets.core.Cell;
 import csheets.core.CellListener;
 import csheets.core.IllegalValueTypeException;
+import csheets.core.Value;
 import csheets.core.formula.Formula;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.core.formula.compiler.FormulaCompiler;
@@ -17,7 +18,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondlFormattingController;
+import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingController;
 
 /**
  *
@@ -26,15 +27,17 @@ import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondlFormattingControll
 public class CondFormattingListener implements CellListener {
 
     private final Cell cell;
-    private final String condition;
+    private final String value;
+    private final String operator;
 
     private final Font trueFont;
     private final Font falseFont;
     private final Color trueBackColor;
     private final Color falseBackColor;
 
-    public CondFormattingListener(Cell cell, String condition, Font trueFont, Font falseFont, Color trueBackColor, Color falseBackColor) {
-        this.condition = condition;
+    public CondFormattingListener(Cell cell, String value, String operator, Font trueFont, Font falseFont, Color trueBackColor, Color falseBackColor) {
+        this.value = value;
+        this.operator = operator;
         this.trueBackColor = trueBackColor;
         this.trueFont = trueFont;
         this.falseBackColor = falseBackColor;
@@ -43,39 +46,51 @@ public class CondFormattingListener implements CellListener {
     }
 
     public String getCondition() {
-        return this.condition;
+        return this.operator+this.value;
     }
 
+    public String getValue(){
+        return this.value;
+    }
+    
+    /**
+     * when we change something on the cell, we need to verify the new number and if the the cell is empty or not
+     * @param cell 
+     */
     @Override
     public void valueChanged(Cell cell) {
-        if(!cell.getContent().isEmpty()){
-            StylableCell stylableCell = (StylableCell) cell.getExtension(StyleExtension.NAME);
-            stylableCell.setBackgroundColor(new Color(0, 0, 0));
+        if (!cell.getContent().isEmpty() && cell.getValue().isOfType(Value.Type.NUMERIC)) {
             verifyFormula();
+        } else {
+            StylableCell stylableCell = (StylableCell) cell.getExtension(StyleExtension.NAME);
+            stylableCell.setBackgroundColor(new Color(255, 255, 255));
         }
+
     }
 
+    /**
+     * when we change something on the cell, we need to verify the new number and if the the cell is empty or not
+     * @param cell 
+     */
     @Override
     public void contentChanged(Cell cell) {
-        if(!cell.getContent().isEmpty()){
+        if (!cell.getContent().isEmpty() && cell.getValue().isOfType(Value.Type.NUMERIC)) {
             verifyFormula();
+        } else {
+            StylableCell stylableCell = (StylableCell) cell.getExtension(StyleExtension.NAME);
+            stylableCell.setBackgroundColor(new Color(255, 255, 255));
         }
-        
-    }
-
-    @Override
-    public void dependentsChanged(Cell cell) {
-        verifyFormula();
-    }
-
-    @Override
-    public void cellCleared(Cell cell) {
 
     }
 
     @Override
-    public void cellCopied(Cell cell, Cell source) {
-    }
+    public void dependentsChanged(Cell cell) {}
+
+    @Override
+    public void cellCleared(Cell cell) {}
+
+    @Override
+    public void cellCopied(Cell cell, Cell source) {}
 
     /**
      * this method will verify if the formula is true or false. Depending on
@@ -83,13 +98,11 @@ public class CondFormattingListener implements CellListener {
      *
      */
     public void verifyFormula() {
-        if (condition != null) {
+        if (this.value != null && !cell.getContent().isEmpty()) {
             try {
-                Formula form = FormulaCompiler.getInstance().compile(cell, "="+cell.getContent() + condition);
-                
+                Formula form = FormulaCompiler.getInstance().compile(cell, "=" + cell.getContent() + this.operator + this.value);
+
                 try {
-//                    System.out.println(form.evaluate());
-//                    System.out.println(form.getExpression().evaluate());
                     if (form.getExpression().evaluate().toBoolean()) {
                         StylableCell stylableCell = (StylableCell) cell.getExtension(StyleExtension.NAME);
 
@@ -111,7 +124,8 @@ public class CondFormattingListener implements CellListener {
                         }
                     }
                 } catch (IllegalValueTypeException ex) {
-                    Logger.getLogger(CondlFormattingController.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(CondFormattingController.class.getName()).log(Level.SEVERE, null, ex);
+
                 }
             } catch (FormulaCompilationException ex) {
                 Logger.getLogger(CondFormattingListener.class.getName()).log(Level.SEVERE, null, ex);
