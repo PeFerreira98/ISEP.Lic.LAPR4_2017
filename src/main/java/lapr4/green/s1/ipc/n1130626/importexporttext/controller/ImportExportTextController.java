@@ -28,6 +28,12 @@ public class ImportExportTextController {
     }
     
     /**
+     * Empty constructor.
+     */
+    public ImportExportTextController(){
+    }
+    
+    /**
      * 
      * @param cells
      * @return 
@@ -75,5 +81,23 @@ public class ImportExportTextController {
             fOut.format(text.substring(0, text.length()) + "\n");
         }
         fOut.close();
+    }
+    
+    /**
+     * 
+     * @param specialChar
+     * @param selectedCells
+     * @throws Exception 
+     */
+    public void checkCells(String specialChar, Cell[][] selectedCells) throws Exception {
+        for(Cell[] rows : selectedCells){
+            for(Cell columns : rows){
+                if(columns.getContent() != null){
+                    if(columns.getContent().contains(specialChar)){
+                        throw new Exception("This cell contains the special character that you selected, please replace it");
+                    }
+                }
+            }
+        }
     }
 }
