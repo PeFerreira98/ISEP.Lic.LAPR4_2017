@@ -26,7 +26,7 @@ public class PeerService implements Comparable<PeerService> {
         return name.compareToIgnoreCase(o.name);
     }
     
-    public String getServiceName(){
+    public String serviceName(){
         return name;
     }
     
@@ -34,8 +34,17 @@ public class PeerService implements Comparable<PeerService> {
         return status;
     }
   
-    public void setStatus(boolean stts ){
-       status = stts;
+    public boolean updateStatus( boolean stts ){
+        if( status == stts ){
+            return false;
+        }else{
+            status = stts;
+            return true;
+        }
+    }
+
+    String broadcastName() {
+        return "::" + name + "::" + ((status) ? "on" : "off");
     }
     
 }

@@ -21,7 +21,7 @@ public class Peer implements Comparable<Peer> {
     private Instant hour;
     private String peerId;
     private String inetAddress;
-    HashMap<String , PeerService> services = null;
+    private HashMap<String , PeerService> services = null;
     
     public Peer(String id, String address){
         services = new HashMap<>();
@@ -32,17 +32,13 @@ public class Peer implements Comparable<Peer> {
     
     protected boolean addService( PeerService service ){
         PeerService svc;
-        svc = services.get(service.getServiceName());
+        svc = services.get(service.serviceName());
         if( svc == null ){
-            services.put(service.getServiceName(), svc);
+            services.put(service.serviceName(), svc);
             return true;
         }
-        if( svc.statusOn() == service.statusOn()){
-            return false;
-        }else{
-            svc.setStatus(service.statusOn());
-            return true;
-        }
+        
+        return svc.updateStatus(service.statusOn());
     }
     
     protected void peerIsOn(){
@@ -63,7 +59,7 @@ public class Peer implements Comparable<Peer> {
     }
 
     /**
-     *
+     * updateServices(Peer pr) of Peer pr
      * @param pr
      * @return
      */

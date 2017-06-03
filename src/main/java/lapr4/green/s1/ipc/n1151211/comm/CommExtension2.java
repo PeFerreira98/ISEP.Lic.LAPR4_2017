@@ -14,6 +14,16 @@ import csheets.ext.Extension;
 public class CommExtension2 extends Extension{
     /** The name of the extension */
     public static final String NAME = "CommServer";
+    protected static final int PACKET_SIZE_RECEIVE = 1452;
+    private String peerId = "Teste";
+    
+    /*
+     * ethernet = 1500
+     * ipv6 = 40 b
+     * UDP = 8 b
+     * remaining = 1500 - 40 - 8 = 1452
+    */
+
     private int commServerPort = 16100;
     
             
@@ -30,7 +40,7 @@ public class CommExtension2 extends Extension{
 
         commServer = CommServer2.getServer( commServerPort );
         listenerServer = ListenerServer.getServer( commServerPort, commServer );
-        broadcastServer = BroadcastServer.getServer( listenerServer );
+        broadcastServer = BroadcastServer.getServer( commServerPort, peerId );
     }
 
 }

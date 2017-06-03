@@ -24,23 +24,17 @@ import java.util.logging.Logger;
  * @author Fernando
  */
 public class ListenerServer extends Thread{
-    private int PACKET_SIZE_RECEIVE = 1452;
-    /*
-     * ipv6 = 40 b
-     * UDP = 8 b
-     * remaining = 1500 - 40 - 8 = 1452
-    */
+    private static ListenerServer theListenerServer = null;
     
     private int serverPort = 15000;
     private CommServer2 commSever = null;
 
-    private static ListenerServer theListenerServer = null;
     
     private DatagramSocket udpSock = null;
 
-    private ArrayList<InetAddress> listOfLocalAddress;
+    private ArrayList<InetAddress> listOfLocalAddress = null;
     
-    private PeerRegister peerRegister;
+    private PeerRegister peerRegister = null;
     
     private ListenerServer() {
 
@@ -79,7 +73,7 @@ public class ListenerServer extends Thread{
         init();
         
         try {
-            byte data[] = new byte[ PACKET_SIZE_RECEIVE ];
+            byte data[] = new byte[ CommExtension2.PACKET_SIZE_RECEIVE ];
 
             DatagramPacket udpPacket = new DatagramPacket(data, data.length );
 
@@ -111,7 +105,7 @@ public class ListenerServer extends Thread{
     
     
     private void init(){
-        getBroadCastLocalAdress();
+        getLocalAdress();
         try {
             udpSock = new DatagramSocket(serverPort);
             udpSock.setBroadcast(true);
@@ -121,7 +115,7 @@ public class ListenerServer extends Thread{
     }
     
     // http://stackoverflow.com/questions/4887675/detecting-to_string_all-available-networks-broadcast-addresses-in-java
-    private void getBroadCastLocalAdress(){       
+    private void getLocalAdress(){       
         listOfLocalAddress = new ArrayList();
 
         Enumeration list;
