@@ -153,7 +153,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         // TODO add your handling code here:
         chooser = new JFileChooser(); 
         chooser.setCurrentDirectory(new java.io.File("."));
-        chooser.setCurrentDirectory(new java.io.File("d:/testc/"));
+        //chooser.setCurrentDirectory(new java.io.File("d:/testc/"));
         chooser.setDialogTitle(CHOOSER_TITLE);
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         chooser.showOpenDialog(this);

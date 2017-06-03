@@ -18,8 +18,8 @@ import java.util.Objects;
  */
 public class FileDTO {
     
-    /** The File inside this object */
-    private File file;
+    //** The File inside this object */
+    //private File file;
     /** The serialNumber of this FileDTO */
     private final int serialNumber;
     /** The filename of this File */
@@ -34,7 +34,7 @@ public class FileDTO {
      */
     public FileDTO(File file, int serialNumber){
         if(file == null) throw new IllegalArgumentException("Null file");
-        this.file = file;
+        //this.file = file;
         this.serialNumber = serialNumber;
         this.filename = file.getName();
         this.path = file.getAbsolutePath();
@@ -48,11 +48,11 @@ public class FileDTO {
         return this.serialNumber;
     }
 
-    /**
+    /** KILLED, THERE IS NO NEED. TURNER INTO PURE DTO
      * Unwraps the file AVOID USE TODO :  check if we really need this, if not, kill it.
      * @return the file inside the FileDTO 
      */
-    public File file() {return this.file;}
+    //public File file() {return this.file;}
     
     /**
      * Returns the full path of the file
@@ -60,6 +60,12 @@ public class FileDTO {
      */
     public String path() {return this.path;}
     
+    
+    /**
+     * Return the filename
+     * @return filename
+     */
+    public String filename(){return this.filename;}
     
     /**
      * Displays the filename.

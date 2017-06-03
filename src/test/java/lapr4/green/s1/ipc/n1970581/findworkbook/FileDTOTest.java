@@ -6,6 +6,7 @@
 package lapr4.green.s1.ipc.n1970581.findworkbook;
 
 import java.io.File;
+import java.util.Objects;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -53,6 +54,96 @@ public class FileDTOTest {
         catch(IllegalArgumentException ex){
             assertTrue(true);
         }
+        
+        File mockFile = new File("zzz:/deleteme.txt");
+        instance = new FileDTO(mockFile, 0);
+        
+    }
+
+    /**
+     * Test of serial method, of class FileDTO.
+     */
+    @Test
+    public void testSerial() {
+        System.out.println("serial");
+        FileDTO instance = null;
+        File mockFile = new File("zzz:/deleteme.txt");
+        instance = new FileDTO(mockFile, 10);
+        assertEquals(10, instance.serial());
+        
+    }
+
+    
+
+    /**
+     * Test of path method, of class FileDTO.
+     */
+    @Test
+    public void testPath() {
+        System.out.println("path");
+        FileDTO instance = null;
+        File mockFile = new File("zzz:/deleteme.txt");
+        instance = new FileDTO(mockFile, 10);
+        assertEquals(instance.path(), mockFile.getAbsolutePath());
+    }
+
+    /**
+     * Test of toString method, of class FileDTO.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        FileDTO instance = null;
+        File mockFile = new File("zzz:/deleteme.txt");
+        instance = new FileDTO(mockFile, 10);
+        assertEquals(instance.toString(), mockFile.getName());
+        
+    }
+
+    /**
+     * Test of hashCode method, of class FileDTO.
+     */
+    @Test
+    public void testHashCode() {
+        System.out.println("hashCode");
+        FileDTO instance = null;
+        File mockFile = new File("zzz:/deleteme.txt");
+        instance = new FileDTO(mockFile, 10);
+        
+        int hash = 3;
+        hash = 67 * hash + Objects.hashCode(instance.path());
+        
+        int expResult = hash;
+        
+        
+        int result = instance.hashCode();
+        assertEquals(expResult, result);
+        
+    }
+
+    /**
+     * Test of equals method, of class FileDTO.
+     */
+    @Test
+    public void testEquals() {
+        System.out.println("equals");
+        Object obj = null;
+        FileDTO instance = null;
+        File mockFile = new File("zzz:/deleteme.txt");
+        instance = new FileDTO(mockFile, 10);
+        File mockFile2 = new File("zzz:/deleteme.txt");
+        FileDTO instance2 = new FileDTO(mockFile2, 10);
+        File mockFile3 = new File("zzz:/deleteme2.txt");
+        FileDTO instance3 = new FileDTO(mockFile3, 10);
+        
+        boolean expResult = false;
+        boolean result = instance.equals(obj);
+        assertEquals(expResult, result);
+        
+        assertEquals(instance, instance);
+        assertEquals(instance, instance2);
+        assertFalse(instance2.equals(instance3));
+        assertFalse(instance2.equals(new Integer(1)));
         
     }
 

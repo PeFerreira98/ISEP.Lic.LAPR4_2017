@@ -53,6 +53,16 @@ public class FileContainerTest {
         catch(IllegalArgumentException ex){
             assertTrue(true);
         }
+        
+        File mockFile = new File("zzz:/deleteme.txt");
+        //FileDTO fileDTO = new FileDTO(mockFile, 10);
+        
+        try{
+        instance.insertFile(mockFile);
+        }
+        catch(Exception ex){fail();}
+        
+        
     }
 
     /**
@@ -72,7 +82,16 @@ public class FileContainerTest {
         catch(IndexOutOfBoundsException ex){
             assertTrue(true);
         }
-            
+        
+        File mockFile = new File("zzz:/deleteme.txt");
+        try{ instance.insertFile(mockFile); }
+        catch(Exception ex){fail();}
+        try{ assertTrue (instance.get(0).filename().equals(mockFile.getName())); }
+        catch(Exception ex){fail();}
+        
+        
+        
+        
     }
 
     /**
@@ -83,6 +102,11 @@ public class FileContainerTest {
         System.out.println("emptyMe");
         FileContainer instance = new FileContainer();
         
+        File mockFile = new File("zzz:/deleteme.txt");
+        try{ instance.insertFile(mockFile); }
+        catch(Exception ex){fail();}
+        
+        assertTrue(instance.size() > 0);
         instance.emptyMe();
         assertEquals(0, instance.size());
     }
@@ -94,9 +118,14 @@ public class FileContainerTest {
     public void testSize() {
         System.out.println("size");
         FileContainer instance = new FileContainer();
-        int expResult = 0;
-        int result = instance.size();
-        assertEquals(0, result);
+        
+        assertTrue(instance.size() == 0);
+        
+        File mockFile = new File("zzz:/deleteme.txt");
+        try{ instance.insertFile(mockFile); }
+        catch(Exception ex){fail();}
+        
+        assertTrue(instance.size() == 1);
         
     }
 
