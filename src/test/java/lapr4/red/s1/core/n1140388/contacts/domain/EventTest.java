@@ -5,6 +5,7 @@
  */
 package lapr4.red.s1.core.n1140388.contacts.domain;
 
+import eapli.util.DateTime;
 import java.util.Calendar;
 import lapr4.white.s1.core.n4567890.contacts.domain.Event;
 import org.junit.After;
@@ -65,4 +66,41 @@ public class EventTest {
         assertEquals(expResult, result);
     }
     
+    @Test(expected = IllegalStateException.class)
+    public void testDescriptionMustNotBeNull() {
+        System.out.println("must have a description");
+        Event instance = new Event(null, Calendar.getInstance());
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void testTimeMustNotBeNull() {
+        System.out.println("must have a time");
+        Event instance = new Event("description", null);
+    }
+    
+    /**
+     * Test of setFirstName method, of class Event.
+     */
+    @Test
+    public void testSetDescription() {
+        System.out.println("setDescription");
+        String description = "description";
+        Event instance = new Event("", Calendar.getInstance());
+        String expResult = "description";
+        String result = instance.setDescription(description);
+        assertEquals(expResult, result);
+    }
+    
+    /**
+     * Test of setFirstName method, of class Event.
+     */
+    @Test
+    public void testSetTime() {
+        System.out.println("setTime");
+        Calendar dueDate = Calendar.getInstance();
+        Event instance = new Event("", DateTime.parseDate("12-12-2018"));
+        Calendar expResult = dueDate;
+        Calendar result = instance.setTime(dueDate);
+        assertEquals(expResult, result);
+    }
 }

@@ -5,7 +5,11 @@
  */
 package lapr4.red.s1.core.n1140388.contacts.domain;
 
+import java.awt.List;
 import java.util.Calendar;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Set;
 import lapr4.white.s1.core.n4567890.contacts.domain.Agenda;
 import lapr4.white.s1.core.n4567890.contacts.domain.Event;
 import org.junit.After;
@@ -20,22 +24,22 @@ import static org.junit.Assert.*;
  * @author Alexandra Ferreira 1140388
  */
 public class AgendaTest {
-    
+
     public AgendaTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -52,5 +56,21 @@ public class AgendaTest {
         boolean result = instance.add(ev);
         assertEquals(expResult, result);
     }
-    
+
+    /**
+     * Test of events method, of class Agenda.
+     */
+    @Test
+    public void testEvents() {
+        System.out.println("events");
+        Event e = new Event("description", Calendar.getInstance());
+        Agenda instance = new Agenda();
+        instance.add(e);
+        Set<Event> events = new HashSet<>();
+        events.add(e);
+        Set<Event> expResult = events;
+        Set<Event> result = instance.events();
+        assertEquals(expResult, result);
+    }
+
 }

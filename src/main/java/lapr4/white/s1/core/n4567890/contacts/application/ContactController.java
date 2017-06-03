@@ -41,6 +41,13 @@ public class ContactController implements Controller {
     }
 
     public boolean removeContact(Contact contact) throws DataConcurrencyException, DataIntegrityViolationException {
+
+        for (Event e : contact.agenda().events()) {
+            if (compareToActualDate(DateTime.format(e.time(), "dd-MM-yyyy")) != null) {
+                throw new DataIntegrityViolationException();
+            }
+        }
+
         return this.contactsRepository.removeContact(contact);
     }
 
@@ -80,16 +87,13 @@ public class ContactController implements Controller {
 
     public Event editEvent(Contact contact, Event event, String eventDescription, Calendar dueDate) throws DataConcurrencyException, DataIntegrityViolationException {
 
-        contact.agenda().events().remove(event);
-
-        Event ev = new Event(eventDescription, dueDate);
-
-        contact.agenda().add(ev);
+        event.setDescription(eventDescription);
+        event.setTime(dueDate);
 
         // TODO: When do we save?...
         this.contactsRepository.save(contact);
 
-        return ev;
+        return event;
     }
 
     public boolean removeEvent(Contact contact, Event event) throws DataConcurrencyException, DataIntegrityViolationException {
@@ -123,7 +127,7 @@ public class ContactController implements Controller {
         if (cal.get(Calendar.DAY_OF_WEEK) == day
                 && cal.get(Calendar.DAY_OF_MONTH) == month
                 && cal.get(Calendar.DAY_OF_YEAR) == year) {
-            
+
             return cal;
         }
 

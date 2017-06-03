@@ -113,7 +113,30 @@ public class ContactTest {
         String result = instance.setLastName(lastName);
         assertEquals(expResult, result);
     }
-
+    
+    
+    /**
+     * Test of agenda method, of class Contact.
+     */
+    @Test
+    public void testAgenda() {
+        System.out.println("agenda");
+        Contact instance = new Contact("name", "firstName", "lastName");
+        assertTrue(instance.agenda().events().isEmpty());
+    }
+    
+    /**
+     * Test of toString method, of class Contact.
+     */
+    @Test
+    public void testToString() {
+        System.out.println("toString");
+        Contact instance = new Contact("name", "firstName", "lastName");
+        String expResult = "name (lastName, firstName)";
+        String result = instance.toString();
+        assertEquals(expResult, result);
+    }
+    
     /**
      * Test of sameAs method, of class Contact.
      */

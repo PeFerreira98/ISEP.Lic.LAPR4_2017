@@ -55,15 +55,15 @@ public class RemoveEventFrameUI extends JDialog {
         this.controller = controller;
         this.contact = contact;
         this.event = event;
-        this.setLayout(new GridLayout(3, 0));
+        this.setLayout(new GridLayout(2, 1));
 
         //Creates panels
         JPanel p1 = createInfoPanel();
         JPanel p2 = createButtonsPanel();
 
         //Add panels
-        add(p1, BorderLayout.NORTH);
-        add(p2, BorderLayout.CENTER);
+        add(p1);
+        add(p2);
 
         setLocation(father.getX() + 525, father.getY() + 200);
         pack();
@@ -90,7 +90,7 @@ public class RemoveEventFrameUI extends JDialog {
         JList infoJList = new JList(info);
 
         JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        panel.setBorder(new EmptyBorder(10, 10, 0, 0));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         panel.add(infoJList);
 
@@ -110,7 +110,7 @@ public class RemoveEventFrameUI extends JDialog {
         JButton btnCancelar = createButtonCancel();
 
         JPanel panel = new JPanel();
-        panel.setBorder(new EmptyBorder(0, 10, 10, 10));
+        panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         panel.add(btnOK);
         panel.add(btnCancelar);

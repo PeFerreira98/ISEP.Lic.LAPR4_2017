@@ -28,7 +28,12 @@ public class PopUp extends javax.swing.JDialog {
     private long time;
 
     /**
-     * Creates new form Dialog
+     * Creates new form Dialog to the PopUp
+     * 
+     * @param parent the parent frame
+     * @param modal a boolean modal
+     * @param controller the contact controller
+     * @param infoApresentar the message to show
      */
     public PopUp(Object parent, boolean modal, ContactController controller, String infoApresentar) {
 
@@ -46,6 +51,9 @@ public class PopUp extends javax.swing.JDialog {
         timeTo();
     }
 
+    /**
+     * Set a timer to the window automatically disappear.
+     */
     private void timeTo() {
         long eventMask = AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK;
 

@@ -217,28 +217,31 @@ public class EventPanel extends JPanel implements SelectionListener {
 
         String popUp = "--- INFORMATION ---\n\nThe contact: " + contact.name() + "\n\nHas no events for today!";
 
-        Calendar now = Calendar.getInstance();
-        int day = now.get(Calendar.DAY_OF_WEEK);
-        int month = now.get(Calendar.DAY_OF_MONTH);
-        int year = now.get(Calendar.DAY_OF_YEAR);
-        
-        for (Object obj : eventsList) {
-            Event e = (Event) obj;
+        if (eventsList != null) {
 
-            if (e.time().get(Calendar.DAY_OF_WEEK) == day
-                    && e.time().get(Calendar.DAY_OF_MONTH) == month
-                    && e.time().get(Calendar.DAY_OF_YEAR) == year) {
+            Calendar now = Calendar.getInstance();
+            int day = now.get(Calendar.DAY_OF_WEEK);
+            int month = now.get(Calendar.DAY_OF_MONTH);
+            int year = now.get(Calendar.DAY_OF_YEAR);
 
-                eventsForToday.add(e);
+            for (Object obj : eventsList) {
+                Event e = (Event) obj;
+
+                if (e.time().get(Calendar.DAY_OF_WEEK) == day
+                        && e.time().get(Calendar.DAY_OF_MONTH) == month
+                        && e.time().get(Calendar.DAY_OF_YEAR) == year) {
+
+                    eventsForToday.add(e);
+                }
             }
-        }
 
-        if (eventsForToday.size() > 0) {
-            popUp = "--- INFORMATION ---\n"
-                    + "CONTACT: " + contact.name()
-                    + "\n\nEVENTS FOR TODAY:";
-            for(Event e : eventsForToday){
-                popUp += "\n" + e.description();
+            if (eventsForToday.size() > 0) {
+                popUp = "--- INFORMATION ---\n"
+                        + "CONTACT: " + contact.name()
+                        + "\n\nEVENTS FOR TODAY:";
+                for (Event e : eventsForToday) {
+                    popUp += "\n" + e.description();
+                }
             }
         }
 

@@ -49,4 +49,12 @@ public class Event {
     public Calendar time() {
         return this.dueDate;
     }
+    
+     public String setDescription(String description) {
+        return this.description = description;
+    }
+     
+     public Calendar setTime(Calendar time) {
+        return this.dueDate = time;
+    }
 }
