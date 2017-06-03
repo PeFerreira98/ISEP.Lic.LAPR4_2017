@@ -89,9 +89,7 @@ public class ListenerServer extends Thread{
         
                 if( listOfLocalAddress.contains( udpPacket.getAddress() ) )
                     continue;
-                
-            
-            
+                            
                 String text = new String(udpPacket.getData(), 0, udpPacket.getLength());
                 String[] split = text.split("::");
                 
@@ -101,15 +99,13 @@ public class ListenerServer extends Thread{
                 Peer peer = new Peer( split[0], udpPacket.getAddress().toString() );
                 for(int i = 1; i < split.length ; i += 2 )
                     peer.addService( new PeerService(split[ i ], "on".equals(split[ i + 1] ) ) );
+                
+                peerRegister.addPeer( peer );
             }
 
         } catch (Exception ex) {
             Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
         }
-      
-        
-        
-
     }
     
     

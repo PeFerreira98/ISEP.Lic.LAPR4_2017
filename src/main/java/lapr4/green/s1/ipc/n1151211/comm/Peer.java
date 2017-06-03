@@ -8,6 +8,8 @@ package lapr4.green.s1.ipc.n1151211.comm;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
  *
@@ -16,7 +18,7 @@ import java.util.HashMap;
 
 public class Peer implements Comparable<Peer> {
 
-    private Instant hora;
+    private Instant hour;
     private String peerId;
     private String inetAddress;
     HashMap<String , PeerService> services = null;
@@ -25,11 +27,10 @@ public class Peer implements Comparable<Peer> {
         services = new HashMap<>();
         peerId = id;
         inetAddress = address;
+        hour = Instant.now();
     }
     
-    protected synchronized boolean addService( PeerService service ){
-        hora = Instant.now();
-        
+    protected boolean addService( PeerService service ){
         PeerService svc;
         svc = services.get(service.getServiceName());
         if( svc == null ){
@@ -44,6 +45,10 @@ public class Peer implements Comparable<Peer> {
         }
     }
     
+    protected void peerIsOn(){
+        hour = Instant.now();
+    }
+    
     
     @Override
     public int compareTo(Peer o) {
@@ -51,5 +56,29 @@ public class Peer implements Comparable<Peer> {
             return 0;
         }
         return inetAddress.compareToIgnoreCase(o.inetAddress);
+    }
+    
+    protected String peerAddress(){
+        return inetAddress;
+    }
+
+    /**
+     *
+     * @param pr
+     * @return
+     */
+    protected boolean updateServices(Peer pr) {
+        boolean change = false;
+        
+        Set svcSet = services.entrySet();
+        Iterator it = svcSet.iterator();
+   
+        while (it.hasNext()) {
+            PeerService svc = (PeerService) it.next();
+            if( pr.addService(svc) )
+                change = true;
+        }
+
+        return change;
     }
 }

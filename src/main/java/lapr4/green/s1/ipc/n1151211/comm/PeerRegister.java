@@ -13,13 +13,35 @@ import java.util.Observable;
  * @author Fernando
  */
 public class PeerRegister extends Observable{
-    private HashMap<String , Peer> peers = new HashMap<>();
-
-   
-                            
-
+    private HashMap<String , Peer> peers = null;
+    private Object lock = null;
 
     
+    public PeerRegister(){
+        lock = new Object();
+        peers = new HashMap<>();
+    }
+
+    public void addPeer( Peer peer ){
+        synchronized (lock) {
+
+            Peer pr = peers.get( peer.peerAddress() );
+            
+            if( pr == null ){
+                peers.put( peer.peerAddress(), peer );
+                hasChange( true);
+            }else{
+                hasChange( peer.updateServices( pr ) );
+            }
+        }
+    }
+        
+    private void hasChange( boolean change ){
+        if( change ){
+            setChanged();
+            notifyObservers();
+        }
+    }
 }
 
 
