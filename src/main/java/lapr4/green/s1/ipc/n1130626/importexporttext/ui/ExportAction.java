@@ -5,7 +5,9 @@
  */
 package lapr4.green.s1.ipc.n1130626.importexporttext.ui;
 
+import csheets.core.Cell;
 import csheets.ui.ctrl.BaseAction;
+import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
 import javax.swing.JOptionPane;
@@ -14,7 +16,7 @@ import javax.swing.JOptionPane;
  * An action of the extension that exemplifies how to export data to a text file.
  * @author Pedro Pereira
  */
-public class ExportAction extends BaseAction {
+public class ExportAction extends FocusOwnerAction {
     
         /** The user interface controller */
 	protected UIController uiController;
@@ -38,7 +40,10 @@ public class ExportAction extends BaseAction {
          */
         @Override
         public void actionPerformed(ActionEvent ae) {
-            JOptionPane.showMessageDialog(null, "This is only a test if it work here. Export");
+            //JOptionPane.showMessageDialog(null, "This is only a test if it work here. Export");
+            Cell[][] selectedCells = this.focusOwner.getSelectedCells();
+            ExportUI eUI = new ExportUI(selectedCells, uiController);
+            eUI.setVisible(true);
         }
     
 }
