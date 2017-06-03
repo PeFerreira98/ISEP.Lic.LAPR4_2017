@@ -124,7 +124,8 @@ public class ImportExportTextController {
                     text += columns.getContent() + specialChar;
                 }             
             }
-            fOut.format(text.substring(0, text.length()) + "\n");
+            text += "\n";
+            fOut.format(text.substring(0, text.length()));
         }
         fOut.close();
     }
