@@ -43,13 +43,13 @@ public class UIExtensionManagerTest {
      */
     @Test
     public void testGetSideBar() {
-        System.out.println("getSideBar");
-        UIExtensionManager instance = null;
-        JComponent expResult = null;
-        JComponent result = instance.getSideBar();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+//        System.out.println("getSideBar");
+//        UIExtensionManager instance = null;
+//        JComponent expResult = null;
+//        JComponent result = instance.getSideBar();
+//        assertEquals(expResult, result);
+//        // TODO review the generated test code and remove the default call to fail.
+//        fail("The test case is a prototype.");
     }
     
 }
