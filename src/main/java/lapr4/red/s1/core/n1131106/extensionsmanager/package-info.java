@@ -10,9 +10,6 @@
  * <h2>1. Notes</h2>
  * 
  * -Notes about the week's work.-
- * <p>
- * -In this section you should register important notes regarding your work during the sprint.
- * For instance, if you spend significant time helping a colleague or if you work in more than a feature.-
  * 
  * <p>
  * Issue in Jira:

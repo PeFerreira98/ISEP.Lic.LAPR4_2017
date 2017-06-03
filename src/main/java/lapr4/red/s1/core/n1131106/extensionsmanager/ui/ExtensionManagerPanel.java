@@ -56,14 +56,14 @@ public class ExtensionManagerPanel extends JPanel implements SelectionListener {
 
         JPanel managerPanel = new JPanel();
         managerPanel.setLayout(new BoxLayout(managerPanel, BoxLayout.PAGE_AXIS));
-        managerPanel.setPreferredSize(new Dimension(130, 336));              // width, height
-        managerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));		// width, height
+        managerPanel.setPreferredSize(new Dimension(130, 336));     // width, height
+        managerPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));       // width, height
 
         // Creates Checkboxs Panel
         JPanel navigatorCheckboxPanel = new JPanel();
         navigatorCheckboxPanel.setLayout(new BoxLayout(navigatorCheckboxPanel, BoxLayout.PAGE_AXIS));
 
-        navigatorCheckboxPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));	// width, height
+        navigatorCheckboxPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));     // width, height
 
         JScrollPane scrollPane = new JScrollPane();
         for (JCheckBox cb : checkBoxes) {
@@ -93,6 +93,7 @@ public class ExtensionManagerPanel extends JPanel implements SelectionListener {
         add(northPanel, BorderLayout.NORTH);
 
     }
+    
 
     /**
      *

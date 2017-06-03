@@ -8,10 +8,7 @@ package lapr4.red.s1.core.n1131106.extensionsmanager.ui;
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
-import javax.swing.Icon;
 import javax.swing.JComponent;
-import javax.swing.JMenu;
-import javax.swing.JToolBar;
 
 /**
  *
