@@ -60,11 +60,10 @@ public class ContactControllerTest {
 
         // Setup for testing (JPA in Memory)
         setupProperties();
-        
         controller = new ContactController(appProps);
 
         // Populate the repository
-        aContact = controller.addContact("John Doe", "John", "Doe");
+        aContact = controller.addContact("John Doe", "John", "Doe", null);
         
         Calendar tomorrow = Calendar.getInstance();
         tomorrow.add(Calendar.DAY_OF_WEEK, 1);
@@ -85,7 +84,7 @@ public class ContactControllerTest {
         String firstName = "firstName";
         String lastName = "lastName";
         
-        controller.addContact(name, firstName, lastName);
+        controller.addContact(name, firstName, lastName, null);
         List<Contact> list = (List<Contact>) controller.allContacts();
         assertTrue(list.size() == 2);
     }
@@ -101,7 +100,7 @@ public class ContactControllerTest {
         String firstName = "firstName";
         String lastName = "lastName";
         
-        controller.addContact(name, firstName, lastName);
+        controller.addContact(name, firstName, lastName, null);
         
         List<Contact> list = (List<Contact>) controller.allContacts();
         Contact contact = list.get(1);

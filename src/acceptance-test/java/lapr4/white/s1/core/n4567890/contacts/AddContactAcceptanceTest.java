@@ -66,7 +66,7 @@ public class AddContactAcceptanceTest {
         controller=new ContactController(appProps);
         
         // Populate the repository
-        aContact=controller.addContact("John Doe", "John", "Doe");
+        aContact=controller.addContact("John Doe", "John", "Doe", null);
 
         Calendar tomorrow=Calendar.getInstance();
         tomorrow.add(Calendar.DAY_OF_WEEK, 1);
@@ -82,15 +82,15 @@ public class AddContactAcceptanceTest {
     @Test(expected = DataIntegrityViolationException.class)
     public void ensureNoContactDuplicates() throws DataConcurrencyException, DataIntegrityViolationException { 
 
-        controller.addContact("John Doe2", "John", "Doe2");
+        controller.addContact("John Doe2", "John", "Doe2", null);
         
-        controller.addContact("John Doe2", "John", "Doe2");
+        controller.addContact("John Doe2", "John", "Doe2", null);
     } 
     
     @Test 
     public void ensureNewContactHasAgenda() throws DataIntegrityViolationException, DataConcurrencyException { 
         
-        Contact contact=controller.addContact("Jane Doe3", "Jane", "Doe3");
+        Contact contact=controller.addContact("Jane Doe3", "Jane", "Doe3", null);
         assertNotNull(contact.agenda().id());
     } 
 
@@ -98,7 +98,7 @@ public class AddContactAcceptanceTest {
     public void normalBehaviorAddEventToContact() throws DataIntegrityViolationException, DataConcurrencyException { 
         
         // First: Add or Select existing Contact
-        Contact contact=controller.addContact("Jane Doe4", "Jane", "Doe4");
+        Contact contact=controller.addContact("Jane Doe4", "Jane", "Doe4", null);
         
         // Second: Add Event to Contact's Agenda
         Event ev=null;

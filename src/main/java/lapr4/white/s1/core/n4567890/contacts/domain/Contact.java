@@ -42,7 +42,7 @@ public class Contact implements AggregateRoot<Long>, Serializable {
 
     private String lastName = null;
 
-    private String photo = null;
+    private byte[] photo = null;
 
     @OneToOne(cascade = CascadeType.ALL) //(cascade = CascadeType.MERGE)
     private Agenda agenda = null;
@@ -63,14 +63,14 @@ public class Contact implements AggregateRoot<Long>, Serializable {
         this.agenda = agenda;
     }
 
-    public Contact(final String name, final String firstName, final String lastName, String pathPhoto, final Agenda agenda) {
+    public Contact(final String name, final String firstName, final String lastName, byte[]  photo, final Agenda agenda) {
         if (firstName == null || lastName == null) {
             throw new IllegalStateException();
         }
         this.name = name;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.photo = pathPhoto;
+        this.photo = photo;
 
         // Create a the contact Agenda
         this.agenda = agenda;

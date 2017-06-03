@@ -36,7 +36,7 @@ public class ContactController implements Controller {
         this.contactsRepository = this.persistenceContext.repositories().contacts();
     }
 
-    public Contact addContact(String name, String firstName, String lastName) throws DataConcurrencyException, DataIntegrityViolationException {
+    public Contact addContact(String name, String firstName, String lastName, byte[] photo) throws DataConcurrencyException, DataIntegrityViolationException {
         return this.contactsRepository.save(new Contact(name, firstName, lastName));
     }
 
@@ -97,7 +97,7 @@ public class ContactController implements Controller {
     }
 
     public boolean removeEvent(Contact contact, Event event) throws DataConcurrencyException, DataIntegrityViolationException {
-
+        
         contact.agenda().events().remove(event);
 
         // TODO: When do we save?...
