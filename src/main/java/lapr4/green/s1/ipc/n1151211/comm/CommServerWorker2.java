@@ -62,7 +62,7 @@ public class CommServerWorker2 extends Thread implements SendDto {
         } catch (EOFException ex) {
             Logger.getLogger(CommServerWorker2.class.getName()).log(Level.WARNING, "The client seems to have closed the connection. Will terminate the worker thread.");
         } catch (IOException ex) {
-            Logger.getLogger(CommServerWorker2.class.getName()).log(Level.WARNING, "Erro no loop da worker thread", ex);
+            Logger.getLogger(CommServerWorker2.class.getName()).log(Level.WARNING, "Error in the loop of the comm worker thread", ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(CommServerWorker2.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
