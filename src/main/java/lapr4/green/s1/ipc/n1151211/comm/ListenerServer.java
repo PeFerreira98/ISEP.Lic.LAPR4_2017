@@ -26,7 +26,7 @@ import java.util.logging.Logger;
  */
 public class ListenerServer extends Thread{
     private static ListenerServer theListenerServer = null;
-    
+
     private int serverPort = 15000;
     private CommServer2 commSever = null;
 

@@ -12,10 +12,14 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  *
  * @author Tiago
  */
-public class Message implements SendDto{
+public class Message{
     
     
     private String content;
+    
+    private String idDest;
+    
+    private String idOrig;
     
     public Message(){
         
@@ -37,9 +41,32 @@ public class Message implements SendDto{
         return this.content;
     }
 
-    @Override
-    public boolean sendDto(Object dto) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    /**
+     * @return the idDest
+     */
+    public String getIdDest() {
+        return idDest;
+    }
+
+    /**
+     * @param idDest the idDest to set
+     */
+    public void setIdDest(String idDest) {
+        this.idDest = idDest;
+    }
+
+    /**
+     * @return the idOrig
+     */
+    public String getIdOrig() {
+        return idOrig;
+    }
+
+    /**
+     * @param idOrig the idOrig to set
+     */
+    public void setIdOrig(String idOrig) {
+        this.idOrig = idOrig;
     }
 
     

@@ -9,14 +9,18 @@ import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.UIExtensionChat;
+import lapr4.green.s1.ipc.n1151211.comm.CommHandler2;
+import lapr4.green.s1.ipc.n1151211.comm.SendDto;
 
 /**
  *
  * @author Tiago
  */
-public class ChatExtension extends Extension {
+public class ChatExtension extends Extension implements CommHandler2{
 
-    public static String NAME = "Chat Application";
+    public static String NAME = "Chat";
+    
+    private Message message;
 
     /**
      * Creates a new chat extension
@@ -35,5 +39,16 @@ public class ChatExtension extends Extension {
     public UIExtension getUIExtension(UIController uiController) {
     	return new UIExtensionChat(this, uiController);
     }  
+
+    @Override
+    public void handleDTO(Object dto, SendDto commWorker) {
+        Message messag = (Message) dto;
+        commWorker.sendDto(messag);
+    }
+
+    @Override
+    public Message getLastReceivedDTO() {
+        return this.message;
+    }
 
 }

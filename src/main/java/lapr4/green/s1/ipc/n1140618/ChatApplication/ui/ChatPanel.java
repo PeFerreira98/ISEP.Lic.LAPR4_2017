@@ -26,6 +26,7 @@ public class ChatPanel extends javax.swing.JPanel {
 
     /**
      * Creates new form ChatPanel
+     * @param uiController
      */
     public ChatPanel(UIController uiController) {
         this.uiController = uiController;
@@ -61,7 +62,7 @@ public class ChatPanel extends javax.swing.JPanel {
 
         DefaultListModel model = new DefaultListModel();
 
-        for (InetAddress onlineUser : controller.getOnlineUsers()) {
+        for (String onlineUser : controller.getOnlineUsers()) {
             model.addElement(onlineUser);
         }
 
@@ -84,7 +85,6 @@ public class ChatPanel extends javax.swing.JPanel {
 
         jLabel1.setText("Users Online");
 
-        jList1.setModel(new DefaultListModel<InetAddress>());
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.setToolTipText("");
         jScrollPane1.setViewportView(jList1);
@@ -132,7 +132,7 @@ public class ChatPanel extends javax.swing.JPanel {
 
         } else {
             
-            InetAddress oUser = (InetAddress) jList1.getSelectedValue();
+            String oUser = jList1.getSelectedValue();
 
             controller.sendMessage(oUser);
 
@@ -143,7 +143,7 @@ public class ChatPanel extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JList<InetAddress> jList1;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
