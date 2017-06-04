@@ -37,6 +37,8 @@ import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.CellDecorator;
 import csheets.ui.ext.UIExtension;
+import lapr4.white.s1.core.n1234567.comments.CommentableCell;
+import lapr4.white.s1.core.n1234567.comments.CommentsExtension;
 
 /**
  * The renderer used for cells in a spreadsheet.
@@ -108,9 +110,12 @@ public class CellRenderer extends DefaultTableCellRenderer {
 				try {
 					setToolTipText(value.toError().getMessage());
 				} catch (IllegalValueTypeException e) {}
-			else
-				setToolTipText(null);
-		}
+                        else {
+                    CommentableCell commentCell = (CommentableCell) cell.
+                            getExtension(CommentsExtension.NAME);
+                    setToolTipText(commentCell.getTooltip());
+                }
+            }
 		return this;
 	}
 

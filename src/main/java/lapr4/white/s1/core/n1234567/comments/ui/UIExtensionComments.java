@@ -11,6 +11,7 @@ import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.CellDecorator;
 import csheets.ui.ext.TableDecorator;
 import csheets.ui.ext.UIExtension;
+import lapr4.red.s1.core.n1140376.comments.ui.CommentsPanel;
 
 /**
  * This class implements the UI interface extension for the comments extension.
@@ -90,8 +91,9 @@ public class UIExtensionComments extends UIExtension {
 	 * @return a side bar
 	 */
 	public JComponent getSideBar() {
-		if (sideBar == null)
-			sideBar = new CommentPanel(uiController);
+		if (sideBar == null) {
+			sideBar = new CommentsPanel(uiController);
+		}
 		return sideBar;
 	}	
 }

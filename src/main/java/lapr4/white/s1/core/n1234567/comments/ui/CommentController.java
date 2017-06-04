@@ -1,5 +1,6 @@
 package lapr4.white.s1.core.n1234567.comments.ui;
 
+import csheets.core.Cell;
 import lapr4.white.s1.core.n1234567.comments.CommentableCell;
 import csheets.ui.ctrl.UIController;
 import java.util.ArrayList;
@@ -17,18 +18,21 @@ public class CommentController {
 	private UIController uiController;
         
         /** User interface panel **/
-        private CommentPanel uiPanel;
+        private Cell cell;
+        
+        public CommentController(UIController uiController) {
+		this.uiController = uiController;
+	}
         
 	/**
 	 * Creates a new comment controller.
 	 * @param uiController the user interface controller
-         * @param uiPanel the user interface panel
+         * @param cell the cell
 	 */
-	public CommentController(UIController uiController, CommentPanel uiPanel) {
+	public CommentController(UIController uiController, Cell cell) {
 		this.uiController = uiController;
-                this.uiPanel = uiPanel;
+		this.cell = cell;
 	}
-
 	/**
 	 * Attempts to create a new comment from the given string.
 	 * If successful, adds the comment to the given cell.
@@ -37,37 +41,22 @@ public class CommentController {
 	 * @param commentString the comment, as entered by the user
 	 * @return true if the cell's comment was changed
 	 */
-	public boolean setComment(CommentableCell cell, String commentString) {
-                
-		// Clears comment, if insufficient input
-                String userName = System.getProperty("user.name");
-		if (commentString == null || commentString.equals("")) {
-			cell.addComment(null,null);
-			return true;
-		}
+	public boolean setComment(CommentableCell cell, String commentString)throws IllegalArgumentException {
 
+		String userName = System.getProperty("user.name");
 		// Stores the comment
-		cell.addComment(userName,commentString);
-		uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
-
+		cell.addComment(userName, commentString);
+		if (uiController != null) {
+			uiController.
+				setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+		}
 		return true;
 	}
         
         /**
-	 * A cell is selected.
-	 * @param cell the cell whose comments changed
-	 */
-	public void cellSelected(CommentableCell cell) {
-		// Updates the text field and validates the comment, if any
-		if (cell.hasComments()) {
-                        for(Comment c : cell.getCommentsList())
-			uiPanel.setCommentText(c.text());
-		} else {
-			uiPanel.setCommentText("");
-		}
-	}
-        /**
          * Returns all the comments in this cell 
+        * @param cell the cell whose comments changed
+        * @return 
          */
         public List<Comment> getCommentList(CommentableCell cell) {
 		if (cell == null) {

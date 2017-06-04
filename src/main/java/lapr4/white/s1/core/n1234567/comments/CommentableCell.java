@@ -11,6 +11,9 @@ import java.util.List;
 
 import csheets.core.Cell;
 import csheets.ext.CellExtension;
+import java.awt.Color;
+import java.awt.Font;
+import javax.swing.border.Border;
 import lapr4.red.s1.core.n1140376.comments.Comment;
 
 /**
@@ -131,9 +134,13 @@ public class CommentableCell extends CellExtension {
          * Adds a comment to this cells comment list
          * @param userName name of the user performing the comment
          * @param text text of the comment
+     * @param font
+     * @param bgColor
+     * @param border
          * @throws IllegalArgumentException 
          */
-        public void addComment(String userName, String text)throws IllegalArgumentException {
+       public void addComment(String userName, String text)
+		throws IllegalArgumentException {
 
 		if (userName == null || userName.isEmpty()) {
 			throw new IllegalArgumentException("Unable to get the username.");
@@ -145,8 +152,7 @@ public class CommentableCell extends CellExtension {
 		commentsList.add(newComment);
 		// Notifies listeners
 		fireCommentsChanged();
-        
-        };
+	}
 	/**
 	 * Notifies all registered listeners that the cell's comments changed.
 	 */
