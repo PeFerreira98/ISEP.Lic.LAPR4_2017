@@ -10,13 +10,13 @@ import java.io.File;
 import java.util.Objects;
 
 /**
- * This FileDTO is a wraper to store our File in and provide some extra functions. <br>
+ * This FileDTO is an objecto to transfer data between processes regarding Files and provide some extra functions. <br>
  * While minimizing the chance of someone using this same file object in two threads. <br>
  * Also, we wish to add the serialNumber to the file. <br>
  * And make a specific toString, while avoiding extends. <br>
  * @author Hugo
  */
-public class FileDTO {
+public class FileDTO implements Comparable<FileDTO> {
     
     //** The File inside this object */
     //private File file;
@@ -48,7 +48,7 @@ public class FileDTO {
         return this.serialNumber;
     }
 
-    /** KILLED, THERE IS NO NEED. TURNER INTO PURE DTO
+    /** KILLED, THERE IS NO NEED. TURNED INTO PURE DTO
      * Unwraps the file AVOID USE TODO :  check if we really need this, if not, kill it.
      * @return the file inside the FileDTO 
      */
@@ -103,6 +103,19 @@ public class FileDTO {
             return false;
         }
         return true;
+    }
+
+    
+
+    
+    /**
+     * Compares this object with the specified object for order.
+     * @param o objecto to compare to
+     * @return Returns a negative integer, zero, or a positive integer as this object is less than, equal to, or greater than the specified object. 
+     */
+    @Override
+    public int compareTo(FileDTO o) {
+        return this.path.compareTo(o.path);
     }
     
     

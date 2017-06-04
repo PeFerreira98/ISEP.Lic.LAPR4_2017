@@ -204,7 +204,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
     // End of variables declaration//GEN-END:variables
 
     @Override
-    public void update(Observable o, Object arg) {
+    public synchronized void  update(Observable o, Object arg) {
         if( !(arg instanceof FileDTO) ) return;
         FileDTO fileDTO = (FileDTO) arg;
         //System.out.println(fileDTO.toString());

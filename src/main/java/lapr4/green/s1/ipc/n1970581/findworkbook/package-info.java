@@ -42,6 +42,16 @@
  *  implementation - UI and controller linkage implementation <br>
  *  implementation - Open book functionality implementation. Had to modify csheets.ui.ctrl UiController to allow access to very protected functionalities. Added to it "load(File file)" and showErrorDialog(). <br>
  * 
+ *  Work notes/log S1 04-06-2017 (Domingo) <br>
+ *  Situation Report transcription: 
+ *      4/06/2017 Sunday(Domingo) 16:00
+ *      IPC01.1 Start Sharing -   Fernando: Analise - 100%; Design - 100%; Implementação - 66%; Testes - 0%
+ *      IPC02.1 Find Workbook -       Hugo: Analysis 100%,  Design 50% (falta documentar coisas), Implementacion 100% Test 80% 
+ *      IPC04.1 Import Export Text - Pedro: Analise - 100%; Design - 95%; Implementação - 95%; Testes - 50%
+ *      IPC05.1 Chat Application -   Tiago: Analise 100% Design 100%  Implementação 50% (Aguarda Funcionalidade de outro caso de uso) Testes 66% (Faltam parte dos Unitarios.)
+ * Test: Debug. Inclusion of unit test of interface comparable for maps, detected bug in which this interface was not there and it was corrected. General Debuging.
+ * 
+ * 
  * <p>
  * -In this section you should register important notes regarding your work during the sprint. <br>
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature. <br>
@@ -111,16 +121,16 @@
  *  
  *  <b>Pre conditions:</b><p>
  *  There should be several workbooks with the ".cls" extension in the disk. These can be created by saving workbooks in the main program. <br>
- *  These workbooks should not be in the same directory.<p>
+ *  These workbooks should not be in the same directory. And it's sugested that a directory ends in .cls in order harden the test. <p>
  * 
  *  <b>Test:</b>
  *  <ul>
  *  <li>The user opens the Cleansheets program and select the View Menu item at the top.</li>
- *  <li>Them inside the View menu select the Sidebars option.</li>
+ *  <li>Them inside the View menu select the Sidebars option and selects the Search Workbook extension.</li>
  *  <li>A new sidebar should appear in the right most side of the worksheet.</li>
- *  <li>The user should select a root directory to the search by pressing the root button.</li>
+ *  <li>The user should be able to select a root directory for the search by pressing the root button. The path of this directory should show on screen.</li>
  *  <li>Then the user should press the search button to initiate the search.</li>
- *  <li>The list in the side bar should gradually show several workbook names that were found.</li>
+ *  <li>The list in the side bar should gradually show the several workbook names that were found and not the directory that ends in .cls.</li>
  *  <li>The user next double clicks in one of the workbooks name in the list.</li>
  *  <li>A new workbook should be opened and made active.</li>
  *  </ul>
@@ -140,9 +150,8 @@
  * </ul>
  *  from: <a href="http://www.javaranch.com/unit-testing.jsp">http://www.javaranch.com/unit-testing.jsp</a> <br>
  * 
- * Since we can't create instances of File objects we are very limited on our unit tests, and so there are only unit tests for FileContainer FileDTO a FilenameFilterBasic. 
- * FileFinder could not be unit tested, but was tested outside the project. And is validated by manual tests.
- * FilenameFilterBasic was fully tested, as it doesn't depends on a File object. The others were partially tested.
+ * Since we can't create instances of File objects THAT ACCESS THE DISK we are very limited on some of our unit tests, and so there are only unit tests for FileContainer FileDTO a FilenameFilterBasic. 
+ * These were fully tested. But FileFinder was tested by hand in another project. Our functional tests also assure us it's functionality.
  * 
  * <h2>4.2 UC Realization</h2>
  * 

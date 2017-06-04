@@ -147,6 +147,44 @@ public class FileDTOTest {
         
     }
 
+    /**
+     * Test of filename method, of class FileDTO.
+     */
+    @Test
+    public void testFilename() {
+        System.out.println("filename");
+        FileDTO instance = null;
+        File mockFile = new File("zzz:/deleteme.txt");
+        instance = new FileDTO(mockFile, 10);
+        String expResult = mockFile.getName();
+        String result = instance.filename();
+        assertEquals(expResult, result);
+        
+    }
+
+    /**
+     * Test of compareTo method, of class FileDTO.
+     */
+    @Test
+    public void testCompareTo() {
+        System.out.println("compareTo");
+        
+        FileDTO instance = null;
+        File mockFile = new File("zzz:/deleteme.txt");
+        instance = new FileDTO(mockFile, 10);
+        File mockFile2 = new File("zzz:/deleteme.txt");
+        FileDTO instance2 = new FileDTO(mockFile2, 10);
+        File mockFile3 = new File("zzz:/deleteme2.txt");
+        FileDTO instance3 = new FileDTO(mockFile3, 10);
+        
+        
+        int expResult = 0;
+        int result = instance.compareTo(instance2);
+        assertEquals(expResult, result);
+        assertTrue(instance.compareTo(instance3) <0);
+        assertTrue(instance3.compareTo(instance2) >0);
+    }
+
    
     
 }
