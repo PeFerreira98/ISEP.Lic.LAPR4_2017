@@ -6,16 +6,18 @@
 package lapr4.green.s1.ipc.n1140618.ChatApplication;
 
 import csheets.ext.Extension;
+import csheets.ui.ctrl.UIController;
+import csheets.ui.ext.UIExtension;
+import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.UIExtensionChat;
 
 /**
  *
  * @author Tiago
  */
-public class ChatExtension extends Extension{
-    
-    
+public class ChatExtension extends Extension {
+
     public static String NAME = "Chat Application";
-    
+
     /**
      * Creates a new chat extension
      */
@@ -23,4 +25,15 @@ public class ChatExtension extends Extension{
         super(NAME);
     }
     
+    
+    /**
+     * Returns the user interface extension of this extension 
+     * @param uiController the user interface controller
+     * @return a user interface extension, or null if none is provided
+     */
+    @Override
+    public UIExtension getUIExtension(UIController uiController) {
+    	return new UIExtensionChat(this, uiController);
+    }  
+
 }
