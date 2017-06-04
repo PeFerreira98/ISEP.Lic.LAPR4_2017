@@ -1,5 +1,13 @@
 @startuml ipc04.1_design_part5_import
 actor User
   participant ImportAction as EA
-  User -> EA : actionPerformed(ActionEvent event) 
+  participant ImportUI as UI
+  participant UIController as UIC
+  participant ImportExportTextController as IETC
+  User -> EA : actionPerformed(ActionEvent event)
+  create UI
+  EA -> UI : new(uiController)
+  UI -> IETC : importFromTextFile(String filename, String specialChar, boolean containsHeader)
+  UIC -> IETC : getActiveCell()
+  UIC -> IETC : getActiveSpreadSheet() 
 @enduml

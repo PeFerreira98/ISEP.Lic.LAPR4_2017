@@ -1,16 +1,41 @@
 @startuml ipc04.1_design_part1.png
   class ImportAction
-  class ExportAction   
+
+  class ExportAction
+   
   class ImportExportMenu
   class ExtensionImportExport {
     -String NAME;
   }
+
+  class UIController
+  class ImportUI{
+   -UIController uiController;
+  }
+
   class UIExtensionImportExport
+
   class JMenuItem
+
+  class ExportUI{
+    -Cell[][] selectedCells;
+    -UIController uiController;
+  }
+
+  class ImportExportTextController{
+    +checkCells(this.textSpecialChar.getText(), selectedCells);
+    +importFromTextFile(String filename, String specialChar, boolean containsHeader);
+    +exportToTextFile(selectedCells, fileChooser.getSelectedFile().getAbsolutePath(), this.textSpecialChar.getText());
+  }
 
   ExtensionImportExport -> UIExtensionImportExport : getUIExtension(UIController)
   UIExtensionImportExport -> ImportExportMenu : getMenu()
   ImportExportMenu -> JMenuItem : 'items'
   JMenuItem o-> ImportAction : action
+  ImportAction -> ImportUI
+  UIController -> ImportExportTextController
+  ImportUI -> ImportExportTextController
   JMenuItem o-> ExportAction : action
+  ExportAction -> ExportUI
+  ExportUI -> ImportExportTextController
 @enduml

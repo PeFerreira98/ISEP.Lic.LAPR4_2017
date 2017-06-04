@@ -22,7 +22,7 @@ s->User: updates the cells selected by the user with the data from the imported 
 end
 
 alt the user had selected the export data to a text file option
-User->s: writes the name of the exported text file
+User->s: choose a location and writes the name of the exported text file
 User->s: configures a special character to separate columns
 s->User: creates the text file with the data on the cells selected by the user
 end

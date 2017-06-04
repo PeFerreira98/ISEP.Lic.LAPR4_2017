@@ -1,5 +1,13 @@
 @startuml ipc04.1_design_part6_export
 actor User
+  participant FocusOwner as FO
   participant ExportAction as EA
-  User -> EA : actionPerformed(ActionEvent event) 
+  participant ExportUI as UI
+  participant ImportExportTextController as IETC 
+  User -> EA : actionPerformed(ActionEvent event)
+  FO -> EA : getSelectedCells()
+  create UI
+  EA -> UI : new(selectedCells, uiController)
+  UI -> IETC : checkCells(this.textSpecialChar.getText(), selectedCells)
+  UI -> IETC : exportToTextFile(selectedCells, fileChooser.getSelectedFile().getAbsolutePath(), this.textSpecialChar.getText()) 
 @enduml
