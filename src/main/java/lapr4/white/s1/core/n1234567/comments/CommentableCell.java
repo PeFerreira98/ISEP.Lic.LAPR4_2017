@@ -134,9 +134,6 @@ public class CommentableCell extends CellExtension {
          * Adds a comment to this cells comment list
          * @param userName name of the user performing the comment
          * @param text text of the comment
-     * @param font
-     * @param bgColor
-     * @param border
          * @throws IllegalArgumentException 
          */
        public void addComment(String userName, String text)

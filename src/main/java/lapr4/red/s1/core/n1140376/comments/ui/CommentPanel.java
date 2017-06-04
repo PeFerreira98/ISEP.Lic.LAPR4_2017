@@ -14,7 +14,7 @@ import lapr4.white.s1.core.n1234567.comments.ui.CommentController;
 
 /**
  *
- * @author KAMMIKAZI
+ * @author 1140376
  */
 public class CommentPanel extends javax.swing.JPanel implements Observer {
    
@@ -43,9 +43,6 @@ public class CommentPanel extends javax.swing.JPanel implements Observer {
     
     @Override
     public void update(Observable o, Object arg) {
-        jTextArea1.setFont(this.comment.getFont());
-        jTextArea1.setBackground(this.comment.getBackgroundColor());
-        jTextArea1.setBorder(this.comment.getBorder());
         jTextArea1.setText(this.comment.text());
         repaint();
     }
