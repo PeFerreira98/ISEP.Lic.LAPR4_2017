@@ -5,31 +5,54 @@
  */
 package lapr4.blue.s1.lang.n1140948.functionwizard;
 
+import csheets.core.IllegalValueTypeException;
+import csheets.core.formula.Formula;
 import csheets.core.formula.Function;
+import csheets.core.formula.FunctionParameter;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Tiago Silvestre
  */
 public class FunctionWizardGUI extends javax.swing.JFrame {
-        
-    private AddFunctionController m_controller;
-    private UIController uiController;
-    private DefaultListModel<String> lstFuncString;
+
+    private final AddFunctionController m_controller;
+    private final UIController uiController;
+    private final DefaultListModel<String> lstFuncString;
+    private final DefaultListModel<Function> lstFunc;
 
     /**
      * Creates new form FunctionWizardGUI
      */
-    public FunctionWizardGUI() {
+    public FunctionWizardGUI(UIController uiController) {
         initComponents();
         this.uiController = uiController;
         m_controller = new AddFunctionController();
-        
+        this.lstFunc = new DefaultListModel<>();
+        this.lstFuncString = new DefaultListModel<>();
+
         pack();
-        setLocationRelativeTo(null);        
-    }    
+        setLocationRelativeTo(null);
+        this.setVisible(true);
+
+        addFunctionstoList();
+        this.jFunctionsList.setModel(lstFuncString);
+        this.jFunctionlbl.setText("Select a Function");
+    }
+
+    /**
+     * Method that adds the list of functions to JList.
+     */
+    private void addFunctionstoList() {
+        for (Function function : this.m_controller.listFunctions()) {
+            this.lstFunc.addElement(function);
+            this.lstFuncString.addElement(function.getIdentifier());
+        }
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +67,9 @@ public class FunctionWizardGUI extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jFunctionsList = new javax.swing.JList<>();
         jHelpPanel = new javax.swing.JPanel();
+        jFunctionlbl = new javax.swing.JLabel();
         jHelplbl = new javax.swing.JLabel();
+        jHelptxt = new javax.swing.JTextField();
         jButtonPanel = new javax.swing.JPanel();
         jCancelButton = new javax.swing.JButton();
         jApplyButton = new javax.swing.JButton();
@@ -63,6 +88,11 @@ public class FunctionWizardGUI extends javax.swing.JFrame {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
+        });
+        jFunctionsList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jFunctionsListValueChanged(evt);
+            }
         });
         jScrollPane1.setViewportView(jFunctionsList);
 
@@ -83,21 +113,33 @@ public class FunctionWizardGUI extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jHelplbl.setEnabled(false);
+        jHelplbl.setText("Help:");
+
+        jHelptxt.setEnabled(false);
 
         javax.swing.GroupLayout jHelpPanelLayout = new javax.swing.GroupLayout(jHelpPanel);
         jHelpPanel.setLayout(jHelpPanelLayout);
         jHelpPanelLayout.setHorizontalGroup(
             jHelpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jHelpPanelLayout.createSequentialGroup()
-                .addComponent(jHelplbl)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGroup(jHelpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jFunctionlbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jHelpPanelLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jHelplbl)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jHelptxt)))
+                .addContainerGap())
         );
         jHelpPanelLayout.setVerticalGroup(
             jHelpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jHelpPanelLayout.createSequentialGroup()
-                .addComponent(jHelplbl)
-                .addGap(0, 50, Short.MAX_VALUE))
+                .addComponent(jFunctionlbl, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jHelpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jHelplbl)
+                    .addComponent(jHelptxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 17, Short.MAX_VALUE))
         );
 
         jButtonPanel.setPreferredSize(new java.awt.Dimension(380, 380));
@@ -116,22 +158,27 @@ public class FunctionWizardGUI extends javax.swing.JFrame {
         jApplyButton.setMaximumSize(new java.awt.Dimension(70, 25));
         jApplyButton.setMinimumSize(new java.awt.Dimension(70, 25));
         jApplyButton.setPreferredSize(new java.awt.Dimension(70, 25));
+        jApplyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jApplyButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jButtonPanelLayout = new javax.swing.GroupLayout(jButtonPanel);
         jButtonPanel.setLayout(jButtonPanelLayout);
         jButtonPanelLayout.setHorizontalGroup(
             jButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jButtonPanelLayout.createSequentialGroup()
-                .addContainerGap(224, Short.MAX_VALUE)
-                .addComponent(jApplyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(204, Short.MAX_VALUE)
+                .addComponent(jApplyButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jButtonPanelLayout.setVerticalGroup(
             jButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jButtonPanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(jButtonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jApplyButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -167,7 +214,7 @@ public class FunctionWizardGUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jHelpPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 47, Short.MAX_VALUE)
+                .addComponent(jButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -178,39 +225,61 @@ public class FunctionWizardGUI extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_jCancelButtonActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
+    private void jApplyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jApplyButtonActionPerformed
         try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(FunctionWizardGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(FunctionWizardGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(FunctionWizardGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(FunctionWizardGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            String form = this.jFunctionlbl.getText();
+            uiController.getActiveCell().setContent(form);
+            dispose();
+        } catch (FormulaCompilationException a) {
+            JOptionPane.showMessageDialog(this, a.getMessage());
         }
-        //</editor-fold>
+    }//GEN-LAST:event_jApplyButtonActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new FunctionWizardGUI().setVisible(true);
+    private void jFunctionsListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jFunctionsListValueChanged
+        int index = this.jFunctionsList.getSelectedIndex();
+
+        if (index < this.lstFunc.size()) {
+            Function func = this.lstFunc.getElementAt(index);
+            this.jFunctionlbl.setText(buildSyntax(func, func.getParameters()));
+        }
+    }//GEN-LAST:event_jFunctionsListValueChanged
+
+    /**
+     * Method thats build a description a function with parameters.
+     *
+     * @param func
+     * @param param
+     * @return syntax String
+     */
+    public String buildSyntax(Function func, FunctionParameter param[]) {
+        String auxHelp = "";
+        StringBuilder builder = new StringBuilder();
+        int numParam = param.length;
+        if (numParam > 0) {
+            for (int i = 0; i < numParam; i++) {
+                auxHelp += String.format("NUMBER %d ", i+1);
             }
-        });
+            this.jHelptxt.setText(auxHelp);
+            if (!this.jFunctionsList.getValueIsAdjusting()) {
+                builder.append("=");
+                builder.append(func.getIdentifier());
+                builder.append("(");
+                for (int i = 0; i < numParam; i++) {
+                    if (i > 0) {
+                        builder.append(";");
+                    }
+                    builder.append(param[i].getValueType().toString());
+                }
+                builder.append(")");
+                return builder.toString();
+            }
+        } else{
+            builder.append("=");
+            this.jFunctionlbl.setText(func.getIdentifier());
+            builder.append("(NUMBER)");
+            return builder.toString();
+        }
+        return null;
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -218,9 +287,11 @@ public class FunctionWizardGUI extends javax.swing.JFrame {
     private javax.swing.JPanel jButtonPanel;
     private javax.swing.JButton jCancelButton;
     private javax.swing.JPanel jFunctionListPanel;
+    private javax.swing.JLabel jFunctionlbl;
     private javax.swing.JList<String> jFunctionsList;
     private javax.swing.JPanel jHelpPanel;
     private javax.swing.JLabel jHelplbl;
+    private javax.swing.JTextField jHelptxt;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel jSelectFunctionlbl;
     // End of variables declaration//GEN-END:variables

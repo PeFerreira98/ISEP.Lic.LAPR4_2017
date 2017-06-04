@@ -16,7 +16,7 @@ import java.awt.event.ActionEvent;
 public class FunctionWizardAction extends FocusOwnerAction {
 
     protected UIController uiController;
-    public static String NAME = "Functions";
+    public static String NAME = "Function Wizard";
 
     public FunctionWizardAction(UIController uiController) {
         this.uiController = uiController;
