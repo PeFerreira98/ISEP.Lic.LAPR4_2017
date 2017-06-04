@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Scanner;
 
 /**
- *
+ * Controller for use case: IPC04.1 Import/Export Data
  * @author Pedro Pereira
  */
 public class ImportExportTextController {
@@ -25,8 +25,8 @@ public class ImportExportTextController {
     private UIController uiController;
     
     /**
-     * 
-     * @param uiController 
+     * Constructor of the ImportExportTextController
+     * @param uiController user interface controller
      */
     public ImportExportTextController(UIController uiController){
         this.uiController = uiController;
@@ -39,9 +39,9 @@ public class ImportExportTextController {
     }
     
     /**
-     * 
-     * @param cells
-     * @return 
+     * Gets a range of cells selected by the user and converts to String.
+     * @param cells a matrix of cells
+     * @return String with the address of the cells (Example B2:D4)
      */
     public String getRangeOfCells(Cell[][] cells){
         String range = cells[0][0].getAddress().toString();
@@ -51,6 +51,13 @@ public class ImportExportTextController {
         return range;
     }
     
+    /**
+     * This method uses the necessary data to import from a text file
+     * @param filename the name of the text file
+     * @param specialChar the special character to separate columns
+     * @param containsHeader The first line of the text file contains the header of the columns or is a regular row
+     * @throws Exception if the name is not inserted
+     */
     public void importFromTextFile(String filename, String specialChar, boolean containsHeader) throws Exception {
         if(filename.isEmpty()){
             throw new Exception("Please insert a name");
@@ -93,11 +100,11 @@ public class ImportExportTextController {
     }
     
     /**
-     * 
-     * @param selectedCells
-     * @param filename
-     * @param specialChar
-     * @throws Exception 
+     * This method uses the necessary data to export to a text file
+     * @param selectedCells the cells selected by the user
+     * @param filename the name of the text file
+     * @param specialChar the special character to separate columns
+     * @throws Exception if the name of the file is not inserted or the file already exists
      */
     public void exportToTextFile(Cell[][] selectedCells, String filename, String specialChar) throws Exception {
         if(filename.isEmpty()){
@@ -131,10 +138,10 @@ public class ImportExportTextController {
     }
     
     /**
-     * 
-     * @param specialChar
-     * @param selectedCells
-     * @throws Exception 
+     * This method checks if the cells contains the same special character to use on export
+     * @param specialChar the special character in cause
+     * @param selectedCells the cells selected by the user
+     * @throws Exception if the cell contains the special character
      */
     public void checkCells(String specialChar, Cell[][] selectedCells) throws Exception {
         for(Cell[] rows : selectedCells){

@@ -5,11 +5,9 @@
  */
 package lapr4.green.s1.ipc.n1130626.importexporttext.ui;
 
-import csheets.ui.ctrl.BaseAction;
 import csheets.ui.ctrl.FocusOwnerAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
-import javax.swing.JOptionPane;
 
 /**
  * An action of the extension that exemplifies how to import data from a text file.
@@ -37,8 +35,8 @@ public class ImportAction extends FocusOwnerAction {
 	}
         
         /**
-         * A simple action that presents a confirmation dialog.
-	 * For now this is for test purposes, it will be replaced.
+         * The action that perfoms when select this option.
+	 * It opens a specific UI to fill the data and Imports.
          * @param ae the event that was fired
          */
         @Override

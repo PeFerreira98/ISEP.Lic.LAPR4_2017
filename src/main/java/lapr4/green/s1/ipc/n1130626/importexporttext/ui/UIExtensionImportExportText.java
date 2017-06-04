@@ -16,7 +16,9 @@ import javax.swing.JMenu;
 import javax.swing.JToolBar;
 
 /**
- *
+ * This class implements the UI interface extension for the Import Export Data extension.
+ * A UI interface extension must extend the UIExtension abstract class.
+ * @see UIExtension
  * @author Pedro Pereira
  */
 public class UIExtensionImportExportText extends UIExtension {
@@ -24,6 +26,7 @@ public class UIExtensionImportExportText extends UIExtension {
         /** The icon to display with the extension's name */
 	private Icon icon;
     
+        /** The menu of the extension */
         private ImportExportTextMenu menu;
         
         public UIExtensionImportExportText(Extension extension, UIController uiController) {

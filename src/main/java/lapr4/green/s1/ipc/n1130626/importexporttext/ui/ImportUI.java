@@ -9,20 +9,20 @@ import csheets.ui.ctrl.UIController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextController;
 
 /**
- *
+ * User interface for the use case: IPC04.1 Import/Export Text
  * @author Pedro Pereira
  */
 public class ImportUI extends javax.swing.JFrame {
     
+    /**The controller for the use case*/
     private ImportExportTextController controller;
 
     /**
      * Creates new form ImportUI
-     * @param uiController
+     * @param uiController the user interface controller
      */
     public ImportUI(UIController uiController) {
         initComponents();

@@ -20,8 +20,8 @@ public class ImportExportTextMenu extends JMenu {
      * Creates an import export text menu.
      * This constructor creates and adds the menu options. 
      * In this feature/use case there are two menu options.
-     * The import option is an action (in this case {@link csheets.ext.simple.ui.ImportAction})
-     * The export option is an action too
+     * The import option is an action (in this case {@link lapr4.green.s1.ipc.n1130626.importexporttext.ui.ImportAction})
+     * The export option is an action too (in this case {@link lapr4.green.s1.ipc.n1130626.importexporttext.ui.ExportAction})
      * @param uiController the user interface controller
      */
     public ImportExportTextMenu(UIController uiController){

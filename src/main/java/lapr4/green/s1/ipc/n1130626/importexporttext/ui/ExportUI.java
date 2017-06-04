@@ -13,18 +13,21 @@ import javax.swing.JFileChooser;
 import lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextController;
 
 /**
- *
+ * User interface for the use case: IPC04.1 Import/Export Text
  * @author Pedro Pereira
  */
 public class ExportUI extends javax.swing.JFrame {
 
+    /**The controller for the use case*/
     private ImportExportTextController controller;
+    
+    /**A matrix of cells selected by the user*/
     private Cell[][] selectedCells;
     
     /**
      * Creates new form ExportUI
-     * @param selectedCells
-     * @param uiController
+     * @param selectedCells the cells selected by the user
+     * @param uiController the user interface controller
      */
     public ExportUI(Cell[][] selectedCells, UIController uiController) {    
         initComponents();
@@ -139,7 +142,6 @@ public class ExportUI extends javax.swing.JFrame {
             this.controller.checkCells(this.textSpecialChar.getText(), selectedCells);
             JFileChooser fileChooser = new JFileChooser();
             if(fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
-                System.out.println(fileChooser.getSelectedFile());
                 this.controller.exportToTextFile(selectedCells, fileChooser.getSelectedFile().getAbsolutePath(), this.textSpecialChar.getText());
                 this.dispose();
             }
