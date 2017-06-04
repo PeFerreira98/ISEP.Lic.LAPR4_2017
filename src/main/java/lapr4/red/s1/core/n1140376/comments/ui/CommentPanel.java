@@ -31,14 +31,14 @@ public class CommentPanel extends javax.swing.JPanel implements Observer {
      * @param uiController UIController
      */
     public CommentPanel(Comment comment, UIController uiController) {
-        setName(CommentsExtension.NAME);
-        this.userName = comment.userName();
-        this.commentText = comment.text();
-        this.comment = comment;
-        this.uiController = uiController;
-        this.controller = new CommentController(uiController);
-        this.update(null, null);
-        this.initComponents();
+                setName(CommentsExtension.NAME);
+		this.userName = comment.userName();
+		this.commentText = comment.text();
+		this.comment = comment;
+		this.uiController = uiController;
+		this.controller = new CommentController(uiController);
+		this.initComponents();
+		this.update(null, null);
     }
     
     @Override
