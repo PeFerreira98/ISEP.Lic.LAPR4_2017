@@ -50,6 +50,7 @@
  *      IPC04.1 Import Export Text - Pedro: Analise - 100%; Design - 95%; Implementação - 95%; Testes - 50% <br>
  *      IPC05.1 Chat Application -   Tiago: Analise 100% Design 100%  Implementação 50% (Aguarda Funcionalidade de outro caso de uso) Testes 66% (Faltam parte dos Unitarios.) <br>
  * Test: Debug. Inclusion of unit test of interface comparable for maps, detected bug in which this interface was not there and it was corrected. General Debuging. <br>
+ * Design: Documentation, updating the javadoc and cleanup. Deleted TestIgnoreThis class used for making the documentation show up on the package (when empty).  <br>
  *  <br> 
  * 
  * <p>
