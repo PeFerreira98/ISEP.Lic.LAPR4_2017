@@ -26,7 +26,7 @@ public class CondFormattingController{
     private Color trueBackColor;
     private Color falseBackColor;
 
-    private UIController uiController;
+    private final UIController uiController;
 
     public CondFormattingController(UIController uiController) {
         this.uiController = uiController;
@@ -107,13 +107,13 @@ public class CondFormattingController{
         this.falseBackColor = FalseBackColor;
     }
 
-    public void addListener(String text, String operator, Cell cell) {
-        CondFormattingListener cl = new CondFormattingListener( cell,  text, operator, trueFont,  falseFont,  trueBackColor,  falseBackColor);
+    public CondFormattingListener addListener(String value, String operator, Cell cell) {
+        CondFormattingListener cl = new CondFormattingListener( cell,  value, operator, trueFont,  falseFont,  trueBackColor,  falseBackColor);
         cell.addCellListener(cl);
         if(cell.getValue().isOfType(Value.Type.NUMERIC)){
             cl.verifyFormula();
         }
-        
+        return cl;
     }
 
     

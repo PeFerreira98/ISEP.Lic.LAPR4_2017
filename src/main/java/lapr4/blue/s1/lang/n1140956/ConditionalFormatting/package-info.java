@@ -15,16 +15,20 @@ the other when it evaluates to false. The editing of these settings should be do
  * <b>Analysis</b><p>
  * This tool is located on "style" extension. After opening the "style" extension we choose the "Conditional Formating" option
  * When the tool is running the user needs to provide the expression he wants and the associated two formatting styles.
- * In the end, one of the styles will be applied.
+ * In the end, one of the styles will be applied. This could be done on the sidebar window too.
  * 
  * <b>Notes</b><p>
  *
  * <b>storeContent</b><p>
  *
  * <b>Tests</b><p>
+ * <b>Test2:</b> CondFormattingControllerTest<p>
+ * Test if the listener was added correctly to the cell<p>
+ * See Package lapr4.blue.s1.lang.n1140956.ConditionalFormatting:<p>
+ * CondFormattingControllerTest<p>
  * 
  * <b>Design</b><p>
- *<img src="03.1_design.png" alt="image"> 
+ *<img src="lang03.1_design.png" alt="image"> 
  * <p>
  * 
  * <b>Code</b><p>
@@ -33,6 +37,7 @@ the other when it evaluates to false. The editing of these settings should be do
  * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingController}
  * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.FormattingExtension}
  * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingListener}
+ * {@link lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingAction}
  * 
  * <p>
  * Package lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui:<p>
