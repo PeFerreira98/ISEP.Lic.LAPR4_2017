@@ -51,6 +51,8 @@ public class CommServer2 extends Thread {
     @Override
     public void run() {
 
+        System.out.println("CommServer2");
+
         ServerSocket svrSock=null;
         
         try {

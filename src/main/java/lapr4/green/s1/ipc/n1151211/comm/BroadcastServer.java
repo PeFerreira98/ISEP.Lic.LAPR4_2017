@@ -30,7 +30,7 @@ public class BroadcastServer extends Thread {
     private static BroadcastServer theBroadcastServer = null;
 
     private int serverPort = 16100;
-    private long sleep = 30000;
+    private long sleep = 10000;
     private Object lock = null;
 
     private String peerId = null;
@@ -70,6 +70,7 @@ public class BroadcastServer extends Thread {
      */
     @Override
     public void run() {
+        System.out.println("BroadcastServer");
         init();
 
         byte data[] = new byte[ CommExtension2.PACKET_SIZE_RECEIVE ];
@@ -167,7 +168,7 @@ public class BroadcastServer extends Thread {
     }
 
     private void broadcastPacket(String text, DatagramPacket udpPacket) {
-
+        System.out.println("broadcastPacket");
         byte[] octetos = text.getBytes();
         udpPacket.setData(octetos);
         udpPacket.setLength(octetos.length);

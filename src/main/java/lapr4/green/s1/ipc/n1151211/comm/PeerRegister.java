@@ -45,7 +45,7 @@ public class PeerRegister extends Observable {
     private void hasChange(boolean change) {
         if (change) {
             setChanged();
-            notifyObservers(this);
+            notifyObservers(null);
         }
     }
 
@@ -68,6 +68,33 @@ public class PeerRegister extends Observable {
         return prs;
 
     }
+
+    protected long peersClean() {
+        long sleep = Peer.ALIVE;
+        boolean change = false;
+        
+        synchronized (lock) {
+            Collection<Peer> prv = peers.values();
+            Iterator it = prv.iterator();
+
+            while (it.hasNext()) {
+                Peer pvl = (Peer) it.next();
+                long slp = pvl.nextCheck();
+                if( slp < 0 ){
+                    change = true;
+                }else if( slp < sleep ){
+                    sleep = slp;
+                }
+            }
+        }
+        
+                System.out.println("peersClean " + change );
+
+        hasChange( change );
+        return sleep;
+    }
+
+
 }
 
 

@@ -18,7 +18,8 @@ import java.util.Set;
  */
 
 public class Peer implements Comparable<Peer> {
-
+    protected static final int ALIVE  = 20; // 45
+    private boolean alive;
     private Instant hour;
     private String peerId;
     private String inetAddress;
@@ -29,6 +30,7 @@ public class Peer implements Comparable<Peer> {
         peerId = id;
         inetAddress = address;
         hour = Instant.now();
+        alive = true;
     }
     
     protected boolean addService( PeerService service ){
@@ -39,12 +41,10 @@ public class Peer implements Comparable<Peer> {
             return true;
         }
         
+        hour = Instant.now();
         return svc.updateStatus(service.statusOn());
     }
     
-    protected void peerIsOn(){
-        hour = Instant.now();
-    }
     
     
     @Override
@@ -79,11 +79,31 @@ public class Peer implements Comparable<Peer> {
         return change;
     }
 
-    String hasServiceName(String serviceName) {
+    protected String hasServiceName(String serviceName) {
+        if( !isAlive() )
+            return null;
         
         if( services.containsKey(serviceName) ){
             return peerId + "@" + inetAddress;
         }else
             return null;
+    }
+    
+    protected boolean isAlive(){
+        return (ALIVE - (Instant.now().getEpochSecond() - this.hour.getEpochSecond())) > 0 ;
+    }
+
+    protected long nextCheck() {
+        long sleep = ALIVE - (Instant.now().getEpochSecond() - this.hour.getEpochSecond());
+        
+        if( sleep > 0 ){
+            alive = true;
+            return sleep;
+        }else if( !alive ){
+            return ALIVE;
+        }else{
+            alive = false;
+            return -1;
+        }
     }
 }

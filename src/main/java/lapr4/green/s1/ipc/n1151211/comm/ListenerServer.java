@@ -37,6 +37,8 @@ public class ListenerServer extends Thread{
     
     private PeerRegister peerRegister = null;
     
+    private PeerRegisterCleaner peerRegisterCleaner = null;
+    
     private ListenerServer() {
 
     }
@@ -48,7 +50,11 @@ public class ListenerServer extends Thread{
             theListenerServer.commSever = commSvr;
             
             theListenerServer.peerRegister = new PeerRegister();
+            theListenerServer.peerRegisterCleaner = new PeerRegisterCleaner( theListenerServer.peerRegister );
+            
             theListenerServer.start();
+            
+            theListenerServer.peerRegisterCleaner.start();
 
             // To test the server we are going to create a simple handler
             //CommHandler aHandler = new HelloHandler();
@@ -71,6 +77,8 @@ public class ListenerServer extends Thread{
      */
     @Override
     public void run() {
+        System.out.println("ListenerServer");
+
         init();
         
         try {

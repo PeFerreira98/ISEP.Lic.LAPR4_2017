@@ -19,9 +19,10 @@ import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
  *
  * @author Fernando
  */
-public class ClientTestAction2 extends BaseAction implements Observer {
+public class ClientTestAction2 extends BaseAction implements Observer{
+   private ListenerServer listenerServer;
+   private CommPing ping = null;
 
-    private ListenerServer listenerServer;
     /**
      * The user interface controller
      */
@@ -52,9 +53,11 @@ public class ClientTestAction2 extends BaseAction implements Observer {
      */
     public void actionPerformed(ActionEvent event) {
 
-        CommPing ping = new CommPing();
-        listenerServer = ListenerServer.getServer();
+       ping = new CommPing();
+       listenerServer = ListenerServer.getServer();
+
         listenerServer.addObserver(this);
+        
 
         // We will test the CommServer by connecting and sending the HelloRequestDTO
 //        Socket clientSocket;
@@ -84,9 +87,13 @@ public class ClientTestAction2 extends BaseAction implements Observer {
 //		}
     }
 
-    @Override
+        @Override
     public void update(Observable o, Object arg) {
         ArrayList<String> peers = listenerServer.getServicePeers(CommExtension2.NAME);
+        
+        System.out.println("update " + peers + "  " + arg);
+        
+        ping.updatePeers( peers );
     }
 
 }

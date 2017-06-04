@@ -43,6 +43,7 @@ public class CommExtension2 extends Extension implements CommHandler2 {
         super(NAME);
 
         System.out.println("CommExtension2");
+        
         commServer = CommServer2.getServer(commServerPort);        
         listenerServer = ListenerServer.getServer(commServerPort, commServer);
         broadcastServer = BroadcastServer.getServer(commServerPort, peerId);

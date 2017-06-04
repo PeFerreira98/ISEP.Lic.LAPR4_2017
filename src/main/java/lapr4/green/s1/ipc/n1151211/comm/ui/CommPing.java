@@ -12,6 +12,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.DefaultListModel;
@@ -22,6 +23,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
+import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
 
 /**
  *
@@ -32,12 +35,15 @@ public class CommPing extends JFrame {
     private static final int WINDOW_WIDTH = 200;
 
     private static final int WINDOW_HEIGHT = 350;
+   
+
     
     private DefaultListModel<String> listModel = new DefaultListModel<>();
 
     private JList<String> peerList;
     
     private JButton btPing;
+    private JScrollPane scrollPane;
     
     public CommPing() {
 
@@ -54,6 +60,8 @@ public class CommPing extends JFrame {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         Dimension dim = new Dimension( WINDOW_WIDTH, WINDOW_HEIGHT );
         this.setMaximumSize(dim);
+        
+
         setVisible(true);
     }
 
@@ -72,9 +80,9 @@ public class CommPing extends JFrame {
         //create the list
         peerList = new JList<>(listModel);
         peerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        JScrollPane pCenter = new JScrollPane(peerList );
+        scrollPane = new JScrollPane(peerList );
 
-        add( pCenter );
+        add( scrollPane );
 
     }
     
@@ -97,6 +105,13 @@ public class CommPing extends JFrame {
             }
         });
 
+    }
+
+    void updatePeers(ArrayList<String> peers) {
+//        if( listModel.isEmpty() && peers.isEmpty() ){
+//            return;
+//        }else if( peers.isEmpty() )
+        
     }
 
 
