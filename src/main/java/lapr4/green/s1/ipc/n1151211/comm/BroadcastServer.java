@@ -13,6 +13,7 @@ import java.net.InterfaceAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -77,7 +78,6 @@ public class BroadcastServer extends Thread {
 
         while (true) {
             synchronized (lock) {
-
                 String text, svcBroadName;
                 boolean newPacket;
 
@@ -85,8 +85,8 @@ public class BroadcastServer extends Thread {
                 svcBroadName = "";
                 newPacket = true;
 
-                Set svcSet = services.entrySet();
-                Iterator it = svcSet.iterator();
+                Collection<PeerService> cps = services.values();
+                Iterator it = cps.iterator();
                 PeerService svc = null;
                 
                 while (it.hasNext()) {
@@ -194,7 +194,7 @@ public class BroadcastServer extends Thread {
             PeerService svc = services.get( service.serviceName() );
         
             if( svc == null )
-                services.put( service.serviceName(), svc );
+                services.put( service.serviceName(), service );
             else
                 makeBroadcast = svc.updateStatus(service.statusOn());
             

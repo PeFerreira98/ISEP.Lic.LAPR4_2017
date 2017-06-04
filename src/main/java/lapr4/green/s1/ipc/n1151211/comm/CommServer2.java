@@ -58,8 +58,9 @@ public class CommServer2 extends Thread {
             // We need to make the server execute an "endless" loop accepting clients...
             svrSock = new ServerSocket(seerverPort);
 
-            for (;;) {
-
+            while( true ){
+                   System.out.println("CommServer2");
+                
                 Socket aSocket = svrSock.accept();
 
                 Logger.getLogger(CommServer2.class.getName()).log(Level.INFO, "New client. Socket={0}", aSocket.getPort());

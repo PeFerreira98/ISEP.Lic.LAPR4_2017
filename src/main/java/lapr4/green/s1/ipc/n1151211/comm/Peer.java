@@ -7,6 +7,7 @@ package lapr4.green.s1.ipc.n1151211.comm;
 
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Set;
@@ -34,7 +35,7 @@ public class Peer implements Comparable<Peer> {
         PeerService svc;
         svc = services.get(service.serviceName());
         if( svc == null ){
-            services.put(service.serviceName(), svc);
+            services.put(service.serviceName(), service);
             return true;
         }
         
@@ -66,8 +67,8 @@ public class Peer implements Comparable<Peer> {
     protected boolean updateServices(Peer pr) {
         boolean change = false;
         
-        Set svcSet = services.entrySet();
-        Iterator it = svcSet.iterator();
+                Collection<PeerService> cps = services.values();
+                Iterator it = cps.iterator();
    
         while (it.hasNext()) {
             PeerService svc = (PeerService) it.next();
@@ -76,5 +77,13 @@ public class Peer implements Comparable<Peer> {
         }
 
         return change;
+    }
+
+    String hasServiceName(String serviceName) {
+        
+        if( services.containsKey(serviceName) ){
+            return peerId + "@" + inetAddress;
+        }else
+            return null;
     }
 }

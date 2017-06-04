@@ -15,6 +15,7 @@ import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,7 +79,6 @@ public class ListenerServer extends Thread{
             DatagramPacket udpPacket = new DatagramPacket(data, data.length );
 
             while (true) {
-                
                 udpSock.receive( udpPacket );
         
                 if( listOfLocalAddress.contains( udpPacket.getAddress() ) )
@@ -86,7 +86,7 @@ public class ListenerServer extends Thread{
                             
                 String text = new String(udpPacket.getData(), 0, udpPacket.getLength());
                 String[] split = text.split("::");
-                
+
                 if(split.length < 3){
                     continue;
                 }
@@ -150,4 +150,18 @@ public class ListenerServer extends Thread{
             Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+   public void addObserver( Observer o ){
+       peerRegister.addObserver(o);
+   }
+
+   public void deleteObserver( Observer o ){
+       peerRegister.deleteObserver(o);
+   }
+
+    public ArrayList<String> getServicePeers(String NAME) {
+        return peerRegister.getServicePeers(NAME);
+    }
+
+    
 }

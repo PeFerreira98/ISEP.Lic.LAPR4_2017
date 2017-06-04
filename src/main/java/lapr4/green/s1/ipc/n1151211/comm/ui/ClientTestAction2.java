@@ -5,32 +5,23 @@
  */
 package lapr4.green.s1.ipc.n1151211.comm.ui;
 
-
-
-
-import lapr4.black.s1.ipc.n2345678.comm.CommClientWorker;
 import csheets.ui.ctrl.BaseAction;
 import csheets.ui.ctrl.UIController;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
+import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
+import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
 //import javax.swing.JOptionPane;
-
 
 /**
  *
  * @author Fernando
  */
+public class ClientTestAction2 extends BaseAction implements Observer {
 
-public class ClientTestAction2 extends BaseAction {
-
+    private ListenerServer listenerServer;
     /**
      * The user interface controller
      */
@@ -61,6 +52,10 @@ public class ClientTestAction2 extends BaseAction {
      */
     public void actionPerformed(ActionEvent event) {
 
+        CommPing ping = new CommPing();
+        listenerServer = ListenerServer.getServer();
+        listenerServer.addObserver(this);
+
         // We will test the CommServer by connecting and sending the HelloRequestDTO
 //        Socket clientSocket;
 //        try {
@@ -76,7 +71,6 @@ public class ClientTestAction2 extends BaseAction {
 //        } catch (IOException ex) {
 //            Logger.getLogger(ClientTestAction2.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-
 //		// Lets user select a font
 //		int result=JOptionPane.showConfirmDialog(null, "You have selected the Example option. Do you want to set cell A1 to 'Changed'");
 //		
@@ -89,4 +83,10 @@ public class ClientTestAction2 extends BaseAction {
 //		}
 //		}
     }
+
+    @Override
+    public void update(Observable o, Object arg) {
+        ArrayList<String> peers = listenerServer.getServicePeers(CommExtension2.NAME);
+    }
+
 }
