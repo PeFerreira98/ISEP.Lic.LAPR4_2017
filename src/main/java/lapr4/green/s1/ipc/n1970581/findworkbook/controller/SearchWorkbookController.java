@@ -22,7 +22,7 @@ public class SearchWorkbookController {
     /** The user interface controller */
     private UIController uiController;
     
-    
+    /** Container for receiving the FileDTO objects associated with FileFinder */
     private FileContainer container;
     
     
@@ -51,7 +51,7 @@ public class SearchWorkbookController {
     
     /**
      * Opens the indicated workbook.
-     * @param fileDTO
+     * @param fileDTO the FileDTO object that refers to the workbook File path
      */
     public void openWorkbook(FileDTO fileDTO)  {
         //System.out.println("Open " + fileDTO.path());

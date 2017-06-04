@@ -41,16 +41,16 @@
  * Unit Test: FileContainer FileDTO FileFinder FilenameFilterBasic <br>
  *  implementation - UI and controller linkage implementation <br>
  *  implementation - Open book functionality implementation. Had to modify csheets.ui.ctrl UiController to allow access to very protected functionalities. Added to it "load(File file)" and showErrorDialog(). <br>
- * 
+ *  <br>
  *  Work notes/log S1 04-06-2017 (Domingo) <br>
- *  Situation Report transcription: 
- *      4/06/2017 Sunday(Domingo) 16:00
- *      IPC01.1 Start Sharing -   Fernando: Analise - 100%; Design - 100%; Implementação - 66%; Testes - 0%
- *      IPC02.1 Find Workbook -       Hugo: Analysis 100%,  Design 50% (falta documentar coisas), Implementacion 100% Test 80% 
- *      IPC04.1 Import Export Text - Pedro: Analise - 100%; Design - 95%; Implementação - 95%; Testes - 50%
- *      IPC05.1 Chat Application -   Tiago: Analise 100% Design 100%  Implementação 50% (Aguarda Funcionalidade de outro caso de uso) Testes 66% (Faltam parte dos Unitarios.)
- * Test: Debug. Inclusion of unit test of interface comparable for maps, detected bug in which this interface was not there and it was corrected. General Debuging.
- * 
+ *  Situation Report transcription:  <br>
+ *      4/06/2017 Sunday(Domingo) 16:00 <br>
+ *      IPC01.1 Start Sharing -   Fernando: Analise - 100%; Design - 100%; Implementação - 66%; Testes - 0% <br>
+ *      IPC02.1 Find Workbook -       Hugo: Analysis 100%,  Design 50% (falta documentar coisas), Implementacion 100% Test 80%  <br>
+ *      IPC04.1 Import Export Text - Pedro: Analise - 100%; Design - 95%; Implementação - 95%; Testes - 50% <br>
+ *      IPC05.1 Chat Application -   Tiago: Analise 100% Design 100%  Implementação 50% (Aguarda Funcionalidade de outro caso de uso) Testes 66% (Faltam parte dos Unitarios.) <br>
+ * Test: Debug. Inclusion of unit test of interface comparable for maps, detected bug in which this interface was not there and it was corrected. General Debuging. <br>
+ *  <br> 
  * 
  * <p>
  * -In this section you should register important notes regarding your work during the sprint. <br>
@@ -155,11 +155,142 @@
  * 
  * <h2>4.2 UC Realization</h2>
  * 
- * <h3>4.2.1 Class Diagram</h3>
+ *  To realize this user story we will need to create a subclass of Extension. We will also need to create a subclass of UIExtension to return a JPannel sidebar. 
+ *  This JPannel will be our use case UI. That will need a controller to interact with the core use case classes.
+ *  We will need a class (FileFinder)to find the files, someway to distinguish the clean sheets workbooks (FilenameFilter), and someplace to deliver them (FileContainer).
+ *  This file information (FileDTO) should be delivered to our end user through the UI (SearchWorkbookPannel). To open a workbook we will need to access the Cleensheets app load functionality.
+ *  We did this through opening a path in the UIController class.
+ * 
+ * <h3>4.2.1 Sequence Diagrams </h3>
+ * <img src="s1_ipc_findworkbook_design_02.png" alt="image">
+ * Main use case implementation. <br>
+ * 
+ * The algorithm for finding a file is recursive algorithm that finds every file in the root directory, then for each sub-directory found calls itself again for that sub directory.
+ * Before searching a sub directory the algorithm always checks with the container if it should terminate. This allows us to avoid wasting processor and disk access time.  <br>
+ * Class FileFinder calls this algorithm, indicating the root directory of the search. <br>
+ * 
+ * <pre>
+ * Code snippet:
+ *  * {@code 
+ * 	public void searchInDir(File dir){
+ *           File[] filelist = dir.listFiles(this.filenameFilter);
+ *           for(File file : filelist){
+ *               if(file.isFile())this.container.insertFile(file);
+ *           }
+ *           File[] dirList = dir.listFiles();
+ *           for(File localDir : dirList){
+ *               if(localDir.isDirectory() && !container.isToExit()){
+ *                   searchInDir(localDir);
+ *               }
+ *           }
+ *       }
+ * }
+ * </pre>
+ * 
+ * For the opening of the file, we have the controller tunnel through UIController to the CleanSheets class. This was the less intrusive way of performing this requirement. <br>
+ * <img src="s1_ipc_findworkbook_design_03.png" alt="image">
+ * 
+ * <h2>4.3 Classes</h2>
+ * 
+ * The following diagram shows the created classes and it's interactions.
+ * 
+ * <h3>4.3.1 Class Diagram</h3>
  * <img src="s1_ipc_findworkbook_design_01.png" alt="image">
  * 
- * <h3>4.2.2 Sequence Diagram</h3>
- * <img src="s1_ipc_findworkbook_design_02.png" alt="image">
+ * 
+ * <h3>4.4. Design Patterns and Best Practices</h3>
+ * 
+ * <h4>4.4.1 Strategy </h4>
+ * This design pattern was used to allow FileFinder to search for multiple type of files.
+ * Instead of having the file identification hard-coded to FileFinder its implemented on an 
+ * object of the FilenameFilter interface. This allows us to easily modify the file acceptance criteria of the search in future sprints.
+ * 
+ * <h4>4.4.2 DTO</h4>
+ * The information that leaves the File search Thread and is transmitted to the UI is not a File object, but information about the File object found.
+ * This allows us to use a <b>immutable</b> object, FileDTO, avoiding corruption by thread interference or caught in an inconsistent state. 
+ * The Comparable interface was added to the object to allow him to further be used in other sprints inside maps.
+ * 
+ * <h4>4.4.3 Observer (GOF) / Event </h4> 
+ * In order to update the file list for the User, the UI observes the Container that stores the information. 
+ * This container, every time it receives a discovered File (Event), it converts to a FileDTO and sends it as an event update for the UI.
+ * 
+ * <h4>Protected variation </h4> 
+ * I coded the FileFinder and FileContainer with the intent of them being able to be used for any type of File search in a concurrent environment, for future requirements.
+ * Ergo the Strategy used FileFinder above. <br>
+ *   
+ * 
+ * <h2>5. Implementation</h2>
+ * 
+ * The only existing code that was updated was UIController. All other classes are new.
+ * <p>
+ * -Also refer all other artifacts that are related to the implementation and where used in this issue. As far as possible you should use links to the commits of your work-
+ * 
+ * <h2>6. Integration/Demonstration</h2>
+ * 
+ * All testes were run and no anomaly was detected. The planned demonstration is to run the functional test as an user and demonstrate the correct implementation.
+ * There wasn't the need to integrate this use case with other use cases, only to plan ahead for the second sprint and see how one could turn our code reusable for the next iteration.
+ * 
+ * The most central commit was <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/20c3cfd0b3733adff476d7dd6b38f7e13fb08207">https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/20c3cfd0b3733adff476d7dd6b38f7e13fb08207</a> <br>
+ * It deals with FileContainer FileDTO FileFinder FilenameFilterBasic classes implementation. Some corrections were latter made to them, but the basic can be seen.<br>
+ *   
+ * <i>Again we call the main search algorithm:</i> <br>
+ *  <pre>
+ * Code snippet:
+ *  * {@code 
+ * 	public void searchInDir(File dir){
+ *           File[] filelist = dir.listFiles(this.filenameFilter);
+ *           for(File file : filelist){
+ *               if(file.isFile())this.container.insertFile(file);
+ *           }
+ *           File[] dirList = dir.listFiles();
+ *           for(File localDir : dirList){
+ *               if(localDir.isDirectory() && !container.isToExit()){
+ *                   searchInDir(localDir);
+ *               }
+ *           }
+ *       }
+ * }
+ * </pre>
+ * 
+ * 
+ * <h2>7. Final Remarks</h2>
+ * 
+ * There are many alternatives for solving this use case. I didn't like my solution for opening the file. I had to tunnel through "core" class UIController. 
+ * But I could not find a less intrusive alternative, perhaps due to lack of knowledge or time. <br>
+ * <p>
+ * I also think that I should have implemented a <b>Factory</b> for the FilenameFilter interface objects like FilenameFilterBasic, but I didn't wish to intrude to much in the next sprint subject.
+ * Although I shall be suggesting who ever implements the next sprint version of this use case, this approach. <br>
+ * I have to admit that I didn't need to have a FileContainer for FileFinder but I find this option a lot better than having FileFinder notify the UI of File objects.
+ * Still I couldn't devise a way to turn FileContainer into a Container that only uses generic types as was my original plan.
+ * <p>
+ * I liked my use case theme. I never had the chance to work very much with File, and knew I was lacking knowledge in File Searching, which had shown in our RCOMP code assignment.
+ * And although my use case wasn't to hard for me, I find that our time is never enough, having to work during the weekends and give up our personal life. <br>
+ * 
+ * <p>
+ * * 
+ * <h2>8. Work Log</h2> 
+ * 
+ * Please check notes at item 2 at the top of this page, or the Jira issues for time logging.
+ * 
+ * <h2>9. Self Assessment</h2> 
+ * 
+ * Self-assessment of the work during this sprint regarding Rubrics R3, R6 and R7.
+ * 
+ * <h3>R3. Rubric Requirements Fulfilment: 3</h3>
+ * 
+ * 3- some defects. The student did fulfil all the requirements and also did justify the eventual options related to the interpretation/analysis of the problem.
+ * 
+ * <h3>R6. Rubric Requirements Analysis: 3 or 2</h3>
+ * 
+ * 3- some defects. There is a robust analisys of the problem with well chosen technical artifacts (diagrams, grammars, etc.) for its documentation although some may have erros, such as referencing inexistent artifacts or having small notation errors. <br>
+ * or  <br>
+ * 2- many defects. There is some technical documentation about the user story that goes further from the description of the requirement. It should include records about "studies" relating to the problem that make sense to the user story but are incomplete and are not sufficient to justify a possible solution. The analysis is essentially supported by textual descriptions. <br>
+ * 
+ * <h3>R7. Rubric Design and Implement: 3</h3>
+ * 
+ * 3- some defects. Unit tests do cover a significant amount of functionalities (e.g., more than 80%) and there are some evidences of a test first approach. The code does not "break" the design options of the original project code and the code follows the good practices of the technical area (e.g., synchronization for IPC, design patterns, grammar design for Lang). Also, the technical documentation (e.g., diagrams) is very complete and without significant errors.
+ *  
+ * 
  * 
  * 
  * 

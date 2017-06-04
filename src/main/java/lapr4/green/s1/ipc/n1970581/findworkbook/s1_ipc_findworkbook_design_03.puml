@@ -1,0 +1,22 @@
+@startuml s1_ipc_findworkbook_design_03.png
+
+
+participant "ui : SearchWorkbookPannel" as ui
+participant "ctrl : SearchWorkbookController" as ctrl
+participant "file : File" as file
+
+participant " uiController : UiController" as uiController
+participant " app : CleanSheets" as app
+
+
+ui -> ctrl : openWorkbook(fileDTO) 
+activate ctrl
+ctrl --> file : create()
+uiController <- ctrl : load(file)
+activate uiController
+app <- uiController : load(file)
+deactivate uiController
+deactivate ctrl
+
+
+@enduml

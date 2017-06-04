@@ -1,7 +1,7 @@
 @startuml s1_ipc_findworkbook_design_02.png
 
     participant " u : User" as u
-    participant "ui : SearchWorkbookUIExtension" as ui
+    participant "ui : SearchWorkbookPannel" as ui
     participant "ctrl : SearchWorkbookController" as ctrl
     participant " t: Thread" as t
     participant " ff : FileFinder" as ff
@@ -42,8 +42,8 @@
         create fDTO
         fc -> fDTO : create(File)
         fc -> fc : notifyObservers(Event)
-        fc --> ui : update(Event)
-        ui --> u : show new workbook
+        fc --> ui : update(Event : FileDTO)
+        ui --> u : show new workbook name
     end
     
     deactivate fc
@@ -52,7 +52,7 @@
     deactivate ctrl
     deactivate ui
 
-    u -> ui : double-clicks workbook
+    u -> ui : double-clicks workbook name
     activate ui
     ui -> ctrl : openWorkbook(woorkbook)
     
