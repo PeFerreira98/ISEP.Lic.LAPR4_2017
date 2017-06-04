@@ -1,14 +1,28 @@
 @startuml
-actor system
+actor System
 participant "<<compiler>>\nExcelExpressionCompiler" as Compiler
-participant "<<variable>>\nTemporary" as Variable
+participant "<<variable>>\nTemporaryReference" as Variable
+participant "<<operator>>\nAssignmentOperator" as Operator
+participant "<<repository>>\nTemporaryStorage" as Repository
+participant "<<domain>>\nTemporary" as Domain
+
 activate Compiler
-system-> Compiler :compile(Cell cell, String source)
-Compiler->Compiler:convert(Cell cell, Tree node)
+System-> Compiler : compile(Cell cell, String source)
+Compiler->Compiler: compile(Cell cell, Tree node)
+
 activate Variable
-Compiler->Variable: Temporary(Cell cell, String name)
-Compiler->Variable:aplyTo(String name, Cell cell)
-Variable->Variable:value = new Value((Number)v)
-Variable->Compiler:value
-deactivate Variable
+Compiler->Variable: TemporaryReference(Cell cell, String name)
+Compiler->Variable: applyTo(String name)
+Variable->Compiler: value
+
+activate Operator
+Compiler->Operator: applyTo(Expression left, Expression right)
+
+activate Repository
+Operator->Repository: exists(String left)
+Operator->Repository: add(String left, Value right)
+Repository->Domain: Temporary(String left, Value right)
+
+Operator->Compiler: value
+
 @enduml

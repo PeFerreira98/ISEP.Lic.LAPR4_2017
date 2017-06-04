@@ -1,22 +1,36 @@
 @startuml domain_model_variables.png
 
-class ExcelExpressionCompiler <<Compiler>> {
+class ExcelExpressionCompiler {
     +compile(Cell cell, String source)
-    +convert(Cell cell, Tree node)
+    +compile(Cell cell, Tree node)
 }
 
 interface Variable <extends Expression> {
     +Value applyTo(String name)
     +Value.Type getOperandValueType()
 }
-interface Expression {
+
+interface Expression 
+interface BinaryOperator <extends Operator>
+interface Operator
+
+class TemporaryReference <implements Variable> {
+    +applyTo(String name)
 }
 
-class Temporary <implements Variable> {
-    +applyTo(String name, Cell cell)
+class AssignmentOperator <implements BinaryOperator> {
+    +applyTo(Expression left, Expression right)
 }
 
-Temporary --> Variable
-ExcelExpressionCompiler <|-- Temporary
+class TemporaryStorage {
+    +exists(String left)
+    +add(String left, Value right)
+}
+
+
+TemporaryReference --> Variable
 Expression <|-- Variable
+
+AssignmentOperator --> BinaryOperator
+BinaryOperator --|> Operator
 @enduml
