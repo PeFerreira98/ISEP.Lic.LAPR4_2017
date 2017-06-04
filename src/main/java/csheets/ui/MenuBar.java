@@ -162,6 +162,7 @@ public class MenuBar extends JMenuBar {
 
 		// Creates the help menu
 		JMenu helpMenu = addMenu("Help", KeyEvent.VK_H);
+                helpMenu.add(actionManager.getAction("functionWizard"));
 		helpMenu.add(actionManager.getAction("help"));
 		helpMenu.addSeparator();
 		helpMenu.add(actionManager.getAction("license"));

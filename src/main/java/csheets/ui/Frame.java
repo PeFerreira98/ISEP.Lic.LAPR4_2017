@@ -73,6 +73,7 @@ import csheets.ui.ext.UIExtension;
 import csheets.ui.sheet.AddressBox;
 import csheets.ui.sheet.CellEditor;
 import csheets.ui.sheet.WorkbookPane;
+import lapr4.blue.s1.lang.n1140948.functionwizard.FunctionWizardAction;
 
 /**
  * The main frame of the GUI.
@@ -133,6 +134,9 @@ public class Frame extends JFrame implements SelectionListener {
 		actionManager.registerAction("removecolumn", new RemoveColumnAction());
 		actionManager.registerAction("insertrow", new InsertRowAction());
 		actionManager.registerAction("removerow", new RemoveRowAction());
+                
+                //Registers funtions actions
+                actionManager.registerAction("functionWizard", new FunctionWizardAction(uiController));
 
 		// Registers help actions
 		actionManager.registerAction("help", new HelpAction());
