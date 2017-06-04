@@ -101,6 +101,6 @@
  *
  * <b>Code</b><p>
  *
- * @author Rafael Vieira <1141233@isep.ipp.pt>
+ * @author Rafael Vieira
  */
 package lapr4.blue.s1.lang.n1141233.formula;
