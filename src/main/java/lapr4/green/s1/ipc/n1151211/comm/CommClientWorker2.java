@@ -21,20 +21,31 @@ public class CommClientWorker2  extends Thread implements SendDto{
   
     private final Socket socket;
     private CommServer2 commServer;
-
-    private ObjectInputStream inStream;
-    private ObjectOutputStream outStream; 
+    private Peer peer = null;
+    private ObjectInputStream inStream = null;
+    private ObjectOutputStream outStream = null;
+    private boolean status = false;
     
         
-    public CommClientWorker2 (Socket theSocket, CommServer2 srvr) {
+    public CommClientWorker2 (Socket theSocket, CommServer2 srvr, Peer pr) {
         socket=theSocket;
         commServer = srvr;
-        inStream=null;
-        outStream=null;
+        peer = pr;
+        try {
+            inStream=new ObjectInputStream(socket.getInputStream());
+        } catch (IOException ex) {
+            Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try { 
+            outStream= new ObjectOutputStream( socket.getOutputStream() );
+        } catch (IOException ex) {
+            Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public synchronized ObjectOutputStream getObjectOutputStream() throws IOException {
-        if (outStream!=null) return outStream;
+        if (outStream!=null)
+            return outStream;
         else {
             outStream = new ObjectOutputStream(socket.getOutputStream()); 
             
@@ -43,7 +54,8 @@ public class CommClientWorker2  extends Thread implements SendDto{
     }
     
     public synchronized ObjectInputStream getObjectInputStream() throws IOException {
-        if (inStream!=null) return inStream;
+        if (inStream!=null) 
+            return inStream;
         else {
             inStream = new ObjectInputStream(socket.getInputStream());
             
@@ -86,46 +98,61 @@ public class CommClientWorker2  extends Thread implements SendDto{
    
     @Override
     public void run() {
-        // A loop receiving and processing DTOs...
-        try {
-            
-            getObjectOutputStream();
-            getObjectInputStream();
-
-            
-            for (;;) {
-                Object dto  = inStream.readObject();
-            
-                processIncommingDTO(dto);
-            }
-            
-        } catch (EOFException ex) {
-            Logger.getLogger(CommClientWorker2.class.getName()).log(Level.WARNING, "EOF. The server seems to have closed the connection. Will terminate the worker thread.");            
-        } catch (java.net.SocketException ex) {
-            Logger.getLogger(CommClientWorker2.class.getName()).log(Level.WARNING, "The server seems to have closed the connection. Will terminate the worker thread.");                        
-        } catch (IOException ex) {
-            Logger.getLogger(CommClientWorker2.class.getName()).log(Level.WARNING, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
+        if( inStream != null && outStream != null ){
+            status = true;
+            // A loop receiving and processing DTOs...
             try {
-                if (inStream!=null) inStream.close();
-                if (outStream!=null) outStream.close();
-                socket.close();
+
+                for (;;) {
+                    Object dto  = inStream.readObject();
+
+                    processIncommingDTO(dto);
+                }
+
+            } catch (EOFException ex) {
+                Logger.getLogger(CommClientWorker2.class.getName()).log(Level.WARNING, "EOF. The server seems to have closed the connection. Will terminate the worker thread.");            
+            } catch (java.net.SocketException ex) {
+                Logger.getLogger(CommClientWorker2.class.getName()).log(Level.WARNING, "The server seems to have closed the connection. Will terminate the worker thread.");                        
             } catch (IOException ex) {
                 Logger.getLogger(CommClientWorker2.class.getName()).log(Level.WARNING, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                try {
+                    if (inStream!=null) inStream.close();
+                    if (outStream!=null) outStream.close();
+                    socket.close();
+                } catch (IOException ex) {
+                    Logger.getLogger(CommClientWorker2.class.getName()).log(Level.WARNING, null, ex);
+                }
             }
         }
+        
+        
+        peer.workerDown();
+        status = false;
+        System.out.println("CommClientWorker2 exit run");
     }
 
     @Override
     public boolean sendDto( Object dto ){
+        if( status == false )
+            return false;
         
         try {
+            if( outStream == null )
+                System.out.println("outStream == null");
+                
+            if( dto == null )
+                System.out.println("dto == null");
+                
             outStream.writeObject(dto);
             return true;
+            
         } catch (IOException ex) {
             Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
+            status = false;
+            peer.workerDown();
             return false;
         }
     }

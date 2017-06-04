@@ -11,7 +11,10 @@ import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
+import lapr4.green.s1.ipc.n1151211.comm.CommClientWorker2;
 import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
+import lapr4.green.s1.ipc.n1151211.comm.EchoReply;
+import lapr4.green.s1.ipc.n1151211.comm.EchoRequest;
 import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
 //import javax.swing.JOptionPane;
 
@@ -23,6 +26,7 @@ public class ClientTestAction2 extends BaseAction implements Observer{
    private ListenerServer listenerServer;
    private CommPing ping = null;
 
+   private int pingNumber = 0;
     /**
      * The user interface controller
      */
@@ -53,38 +57,10 @@ public class ClientTestAction2 extends BaseAction implements Observer{
      */
     public void actionPerformed(ActionEvent event) {
 
-       ping = new CommPing();
+       ping = new CommPing( this );
        listenerServer = ListenerServer.getServer();
 
         listenerServer.addObserver(this);
-        
-
-        // We will test the CommServer by connecting and sending the HelloRequestDTO
-//        Socket clientSocket;
-//        try {
-//            clientSocket = new Socket(InetAddress.getLocalHost(), 15000);
-////            client.connect(new InetSocketAddress(InetAddress.getLocalHost(), 15000));
-////            client.setSoTimeout(500);
-//            CommClientWorker client=new CommClientWorker(clientSocket);
-//            
-//            ObjectOutputStream outStream=client.getObjectOutputStream();
-//
-//            outStream.writeObject(new HelloRequestDTO("Hello!"));
-//            clientSocket.close();
-//        } catch (IOException ex) {
-//            Logger.getLogger(ClientTestAction2.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//		// Lets user select a font
-//		int result=JOptionPane.showConfirmDialog(null, "You have selected the Example option. Do you want to set cell A1 to 'Changed'");
-//		
-//		if (result==JOptionPane.YES_OPTION) {
-//		// Vamos exemplificar como se acede ao modelo de dominio (o workbook)
-//		try {
-//			this.uiController.getActiveSpreadsheet().getCell(0, 0).setContent("Changed");
-//		} catch (Exception ex) {
-//			// para ja ignoramos a excepcao
-//		}
-//		}
     }
 
         @Override
@@ -94,6 +70,17 @@ public class ClientTestAction2 extends BaseAction implements Observer{
         System.out.println("update " + peers + "  " + arg);
         
         ping.updatePeers( peers );
+    }
+
+    protected void doPing(String peerSelected ) {
+        CommClientWorker2 toPeer = listenerServer.getCommClientWorker2( peerSelected );
+        if( toPeer == null )
+            return;
+        
+        listenerServer.addHandler(EchoReply.class, ping );
+
+        EchoRequest echoRequest = new EchoRequest( CommExtension2.NAME, ++pingNumber );
+        toPeer.sendDto(echoRequest);
     }
 
 }

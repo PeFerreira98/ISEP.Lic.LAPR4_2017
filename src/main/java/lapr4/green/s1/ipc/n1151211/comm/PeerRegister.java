@@ -94,7 +94,16 @@ public class PeerRegister extends Observable {
         return sleep;
     }
 
-
+    protected CommClientWorker2 getCommClientWorker2(String peerSelected, CommServer2 commSever, int serverPort) {
+        String[] split = peerSelected.split("@");
+        if( split.length != 2)
+            return null;
+        Peer peer = peers.get( split[ 1 ] );
+        if( peer == null )
+            return null;
+        
+        return peer.getCommClientWorker2( commSever, serverPort );
+    }
 }
 
 

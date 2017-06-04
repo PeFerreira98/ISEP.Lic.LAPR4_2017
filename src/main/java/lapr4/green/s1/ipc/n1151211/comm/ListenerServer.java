@@ -171,5 +171,11 @@ public class ListenerServer extends Thread{
         return peerRegister.getServicePeers(NAME);
     }
 
-    
+    public CommClientWorker2 getCommClientWorker2(String peerSelected) {
+        return  peerRegister.getCommClientWorker2( peerSelected, commSever, serverPort );
+    }
+
+    public void addHandler(Class dto, CommHandler2 handler) {
+        commSever.addHandler( dto, handler );
+    }
 }

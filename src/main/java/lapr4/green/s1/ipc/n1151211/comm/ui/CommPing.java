@@ -24,30 +24,34 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
+import lapr4.green.s1.ipc.n1151211.comm.CommHandler2;
+import lapr4.green.s1.ipc.n1151211.comm.EchoReply;
 import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
+import lapr4.green.s1.ipc.n1151211.comm.SendDto;
 
 /**
  *
  * @author Fernando
  */
-public class CommPing extends JFrame {
+public class CommPing extends JFrame implements CommHandler2 {
 
     private static final int WINDOW_WIDTH = 200;
 
     private static final int WINDOW_HEIGHT = 350;
-   
 
-    
     private DefaultListModel<String> listModel = new DefaultListModel<>();
 
     private JList<String> peerList;
-    
+
     private JButton btPing;
     private JScrollPane scrollPane;
-    
-    public CommPing() {
+    private ClientTestAction2 controller;
+
+    public CommPing(ClientTestAction2 cntrl) {
 
         super("Ping Peers");
+
+        controller = cntrl;
 
         BorderLayout bl = new BorderLayout();
         setLayout(bl);
@@ -55,19 +59,14 @@ public class CommPing extends JFrame {
         buildComponents();
 
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
+
         setLocationRelativeTo(null);
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
-        Dimension dim = new Dimension( WINDOW_WIDTH, WINDOW_HEIGHT );
+        Dimension dim = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setMaximumSize(dim);
-        
 
         setVisible(true);
     }
-
-
-
-            
 
     private void buildComponents() {
         makeButton();
@@ -75,18 +74,16 @@ public class CommPing extends JFrame {
         pNorth.setBackground(Color.YELLOW);
         pNorth.add(btPing);
         add(pNorth, BorderLayout.NORTH);
-        
-        
+
         //create the list
         peerList = new JList<>(listModel);
         peerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        scrollPane = new JScrollPane(peerList );
+        scrollPane = new JScrollPane(peerList);
 
-        add( scrollPane );
+        add(scrollPane);
 
     }
-    
-    
+
     private void makeButton() {
 
         btPing = new JButton("Ping");
@@ -101,28 +98,68 @@ public class CommPing extends JFrame {
         btPing.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(CommPing.this, "Carregou em " + e.getActionCommand());
+                String oneSelected = peerList.getSelectedValue();
+
+                if (oneSelected != null) {
+                    controller.doPing( oneSelected );
+                    JOptionPane.showMessageDialog(CommPing.this, "Carregou em " + oneSelected + "  " + e.getActionCommand());
+                }
+
             }
         });
 
     }
 
     void updatePeers(ArrayList<String> peers) {
-        if( listModel.isEmpty() && peers.isEmpty() ){
+        if (listModel.isEmpty() && peers.isEmpty()) {
             return;
-        }else if( peers.isEmpty() ){
+        } else if (peers.isEmpty()) {
             listModel.clear();
-        }if( listModel.size() == peers.size() ){
-            
-        }else{
+        } else {
+
+            if (theSamePeers(peers)) {
+                return;
+            }
+
+            String selected = null;
+            selected = peerList.getSelectedValue();
+
             listModel.clear();
-            for( int i = 0; i < peers.size(); ++i ){
-                
+            for (int i = 0; i < peers.size(); ++i) {
+                listModel.add(i, peers.get(i));
+            }
+            if (selected != null && listModel.contains(selected)) {
+                peerList.setSelectedValue(selected, false);
             }
         }
-        
+
     }
 
+    private boolean theSamePeers(ArrayList<String> peers) {
+        if (peers.size() != listModel.size()) {
+            return false;
+        }
 
+        boolean same = true;
+        for (int i = 0; i < peers.size(); ++i) {
+            same = peers.get(i).equals(listModel.get(i));
+            if (!same) {
+                break;
+            }
+        }
+
+        return same;
+    }
+
+    @Override
+    public void handleDTO(Object dto, SendDto commWorker) {
+        EchoReply echoReply = (EchoReply)dto;
+        System.out.println( echoReply.whoAsk() + " <-> " + echoReply.whoAnswered() + " : " + echoReply.theRequest() );
+    }
+
+    @Override
+    public Object getLastReceivedDTO() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
 }

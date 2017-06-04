@@ -83,6 +83,8 @@ public class CommServerWorker2 extends Thread implements SendDto {
                 Logger.getLogger(CommServerWorker2.class.getName()).log(Level.WARNING, null, ex);
             }
         }
+        
+        System.out.println("CommServerWorker2 exit run");
     }
     
     
@@ -92,7 +94,7 @@ public class CommServerWorker2 extends Thread implements SendDto {
             outStream.writeObject(dto);
             return true;
         } catch (IOException ex) {
-            Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CommClientWorker2.class.getName()).log(Level.WARNING, null, ex);
             return false;
         }
     }
