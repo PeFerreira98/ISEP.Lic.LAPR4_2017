@@ -66,6 +66,9 @@
  * problem regarding this issue.
  *
  * <h2>4. Design</h2>
+ * <p>
+ * <img src="lang04.1_design.png" alt="image">
+ * <p>
  *
  * <h3>4.1. Functional Tests</h3>
  * TODO: in next phase
@@ -129,40 +132,33 @@
  *		4. Criação do package para documentação do use case "Lang04.1"
  *		5. Atribuição das tarefas no JIRA e criação de sub-tasks [Analysis, Design, Implementation, Testing].
  * <p>
- * * <b>Daily Log (Wednesday 31/05/2017)</b>
+ * <b>Daily Log (Wednesday 31/05/2017)</b>
  * <p>	
  *	TEAM BLUE	
  *		1. Documentação do use case Lang04.1
  *		2. Construção de SSD e análise do use case
  *
- * <h2>9. Self Assessment</h2>
- *
- * -Insert here your self-assessment of the work during this sprint regarding
- * Rubrics R3, R6 and R7.-
- *
- * <h3>R3. Rubric Requirements Fulfilment: 3</h3>
- *
- * 3- some defects. The student did fulfil all the requirements and also did
- * justify the eventual options related to the interpretation/analysis of the
- * problem.
- *
- * <h3>R6. Rubric Requirements Analysis: 4</h3>
- *
- * 4- correct. There is a robust and very complete analysis of the problem with
- * well chosen technical artifacts (diagrams, grammars, etc.) for its
- * documentation and without errors.
- *
- * <h3>R7. Rubric Design and Implement: 2</h3>
- *
- * 2- many defects. The code follows good practices although some design
- * patterns should have been applied. The technical documentation covers the
- * majority of the solution although it may have some errors. However the
- * appropriate type of technical artifacts for documenting design are present
- * and the ideia behind the solution is understandable. Code does not "goes
- * against" the design options of the original code of the project. Unit tests
- * seem to cover a significant amount of functionalities (e.g., more than 50%)
- * but there was not test first approach.
- *
+ * <b>Daily Log (Thursday 01/06/2017)</b>
+ * <p>	
+ *	TEAM BLUE	
+ *		1. Conclusão da análise e início da implementação do caso de uso
+ *		2. Criação da GUI para o function Wizard
+ *              3. Implementação dos botões
+ * 
+ * <b>Daily Log (Friday 02/06/2017)</b>
+ * <p>	
+ *	TEAM BLUE	
+ *		1. Continuação da implementação do caso de uso
+ *		2. Implementação das listas de funções disponíveis
+ *              3. Apresentação da syntax da função selecionada
+ * 
+ * <b>Daily Log (Saturday 03/06/2017)</b>
+ * <p>	
+ *	TEAM BLUE	
+ *		1. Finalização da implementação
+ *		2. Início e finalização do design
+ * 
+ * 
  * @author Tiago Silvestre
  */
 package lapr4.blue.s1.lang.n1140948.functionwizard;

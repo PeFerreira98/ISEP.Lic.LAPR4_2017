@@ -1,0 +1,32 @@
+@startuml lang04.1_design.png
+
+skinparam sequenceMessageAlign center
+skinparam monochrome true
+
+actor User
+participant "FunctionWizardAction" as Action
+participant "FunctionWizardGUI" as GUI
+participant "UIController" as Controller
+participant "AddFunctionController" as FunctionController
+
+User->Action: actionPerformed()
+create GUI
+Action->GUI: create()
+GUI->FunctionController: addFunctionstoList()
+GUI-->User: Shows available functions
+
+loop Until Apply is hit
+User->GUI: Selects function
+GUI->GUI: buildSyntax
+end
+
+User->GUI: Hits Apply
+GUI->Controller: getActiveCell()
+GUI->Controller: setContent(syntax)
+GUI-->User: closes function wizard
+
+
+
+
+
+@enduml

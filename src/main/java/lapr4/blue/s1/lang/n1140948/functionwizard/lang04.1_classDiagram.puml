@@ -8,6 +8,12 @@
     class FunctionWizardGUI << (C, white) >>{
     }
 
+    class AddFunctionController << (C, white) >>{
+    }
+
+    class UIController << (C, lightgray) >>{
+    }
+
     interface Function << (I, lightgray) >>{
     }
 
@@ -20,10 +26,14 @@
     class FunctionCall << (C, lightgray) >>{
     }
 
-    FunctionCall --> Function : getParameters()
+    FunctionCall -up-> Function : getParameters()
 
     Language -up-> FunctionCall : getFunctions()
 
-    FunctionWizardGUI -left-> Language : getFunction(identifier)
+    AddFunctionController -left-> Language : getFunctions()
+
+    FunctionWizardGUI -down-> AddFunctionController: getFunctions()
+
+    FunctionWizardGUI -up-> UIController: getActiveCell()
 
 @enduml
