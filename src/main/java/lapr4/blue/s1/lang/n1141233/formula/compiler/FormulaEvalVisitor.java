@@ -25,7 +25,7 @@ import org.antlr.v4.runtime.Token;
 
 /**
  *
- * @author Rafael Vieira <1141233@isep.ipp.pt>
+ * @author Rafael Vieira
  */
 public class FormulaEvalVisitor extends Formula3BaseVisitor<Expression>
 {

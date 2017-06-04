@@ -12,7 +12,7 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
 /**
  * A factory for creating certain types of language elements.
  *
- * @author Rafael Vieira <1141233@isep.ipp.pt>
+ * @author Rafael Vieira
  */
 public class Language
 {

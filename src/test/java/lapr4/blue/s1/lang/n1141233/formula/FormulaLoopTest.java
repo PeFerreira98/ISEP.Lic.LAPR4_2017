@@ -12,7 +12,7 @@ import org.junit.Test;
 
 /**
  *
- * @author Rafael Vieira <1141233@isep.ipp.pt>
+ * @author Rafael Vieira
  */
 public class FormulaLoopTest
 {
@@ -32,8 +32,7 @@ public class FormulaLoopTest
     }
 
     /**
-     * Test For operator
-     * "=for{(A1:=15);A1<10;1+2;2<1;a1>10}"
+     * Test For operator "=for{(A1:=15);A1<10;1+2;2<1;a1>10}"
      *
      * @throws csheets.core.formula.compiler.FormulaCompilationException
      * @throws csheets.core.IllegalValueTypeException

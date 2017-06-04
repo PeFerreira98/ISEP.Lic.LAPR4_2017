@@ -9,7 +9,7 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
 
 /**
  *
- * @author Rafael Vieira <1141233@isep.ipp.pt>
+ * @author Rafael Vieira
  */
 public class For implements NaryOperator
 {
