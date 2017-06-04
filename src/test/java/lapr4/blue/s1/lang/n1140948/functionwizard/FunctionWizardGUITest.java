@@ -31,7 +31,7 @@ import static org.junit.Assert.*;
 public class FunctionWizardGUITest {
 
     /**
-     * Test of buildSyntax method, of class FunctionWizardGUI.
+     * Test of buildAndSyntax method, of class FunctionWizardGUI.
      */
     @Test
     public void testBuildAndSyntax() {
@@ -47,7 +47,7 @@ public class FunctionWizardGUITest {
     }
     
     /**
-     * Test of buildSyntax method, of class FunctionWizardGUI.
+     * Test of buildSumSyntax method, of class FunctionWizardGUI.
      */
     @Test
     public void testBuildSumSyntax() {
@@ -63,7 +63,7 @@ public class FunctionWizardGUITest {
     }
     
     /**
-     * Test of buildSyntax method, of class FunctionWizardGUI.
+     * Test of buildAverageSyntax method, of class FunctionWizardGUI.
      */
     @Test
     public void testBuildAverageSyntax() {
@@ -79,7 +79,7 @@ public class FunctionWizardGUITest {
     }
     
     /**
-     * Test of buildSyntax method, of class FunctionWizardGUI.
+     * Test of buildCountSyntax method, of class FunctionWizardGUI.
      */
     @Test
     public void testBuildCountSyntax() {
@@ -95,7 +95,7 @@ public class FunctionWizardGUITest {
     }
     
     /**
-     * Test of buildSyntax method, of class FunctionWizardGUI.
+     * Test of buildIfSyntax method, of class FunctionWizardGUI.
      */
     @Test
     public void testBuildIfSyntax() {

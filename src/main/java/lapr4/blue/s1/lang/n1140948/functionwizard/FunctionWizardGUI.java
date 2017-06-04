@@ -5,6 +5,8 @@
  */
 package lapr4.blue.s1.lang.n1140948.functionwizard;
 
+import csheets.core.IllegalValueTypeException;
+import csheets.core.formula.Formula;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
 import csheets.core.formula.compiler.FormulaCompilationException;
@@ -25,7 +27,7 @@ public class FunctionWizardGUI extends javax.swing.JFrame {
 
     /**
      * Creates new FunctionWizardGUI
-     * @param uiController
+     * @param uiController The UI Controller
      */
     public FunctionWizardGUI(UIController uiController) {
         initComponents();

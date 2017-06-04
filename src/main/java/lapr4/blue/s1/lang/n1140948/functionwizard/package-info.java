@@ -66,6 +66,7 @@
  * problem regarding this issue.
  *
  * <h2>4. Design</h2>
+ * The following sequence diagram represents this use case:
  * <p>
  * <img src="lang04.1_design.png" alt="image">
  * <p>
