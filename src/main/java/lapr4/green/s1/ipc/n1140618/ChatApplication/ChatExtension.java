@@ -28,8 +28,7 @@ public class ChatExtension extends Extension implements CommHandler2{
     public ChatExtension() {
         super(NAME);
     }
-    
-    
+ 
     /**
      * Returns the user interface extension of this extension 
      * @param uiController the user interface controller

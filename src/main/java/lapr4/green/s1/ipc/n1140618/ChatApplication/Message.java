@@ -68,8 +68,5 @@ public class Message{
     public void setIdOrig(String idOrig) {
         this.idOrig = idOrig;
     }
-
-    
-    
-    
+   
 }

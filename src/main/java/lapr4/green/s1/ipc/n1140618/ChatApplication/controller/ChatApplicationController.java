@@ -5,22 +5,18 @@
  */
 package lapr4.green.s1.ipc.n1140618.ChatApplication.controller;
 
-import csheets.ui.ctrl.UIController;
-import java.net.InetAddress;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
+import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.SendMessage;
 import lapr4.green.s1.ipc.n1151211.comm.BroadcastServer;
-import lapr4.green.s1.ipc.n1151211.comm.CommHandler2;
 import lapr4.green.s1.ipc.n1151211.comm.CommServer2;
 import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
 import lapr4.green.s1.ipc.n1151211.comm.PeerService;
-import lapr4.green.s1.ipc.n1151211.comm.SendDto;
 
 /**
  *
  * @author Tiago
  */
 public class ChatApplicationController {
-    
     
     private int commServerPort = 16100;
     
@@ -33,6 +29,8 @@ public class ChatApplicationController {
      private BroadcastServer broadcastServer;
      
      private boolean status=true;
+     
+     private Message mess;
     
     /**
      * Creates a new Controller
@@ -45,7 +43,6 @@ public class ChatApplicationController {
         
         broadcastServer.broadcastThisService(new PeerService("Chat", true));
     }
-    
 
     /**
      * verify if the user is connected to the server
@@ -72,15 +69,19 @@ public class ChatApplicationController {
      * @param oUser 
      */
     public void sendMessage(String oUser) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.mess = new Message();
+        mess.setIdDest(oUser);
+        mess.setIdOrig(peerId);
+        
+        SendMessage sm = new SendMessage(this);
     }
 
     /**
-     * MEthod that will send the message to another user
+     * Method that will send the message to another user
      * @param text 
      */
     public void messageSend(String text) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        mess.setContent(text);
     }
     
 }
