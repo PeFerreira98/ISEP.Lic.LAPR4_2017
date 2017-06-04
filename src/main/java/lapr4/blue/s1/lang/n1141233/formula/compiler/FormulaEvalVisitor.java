@@ -18,6 +18,7 @@ import csheets.core.formula.lang.UnknownElementException;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import lapr4.blue.s1.lang.n1140953.variables.temporary.TemporaryReference;
 import lapr4.blue.s1.lang.n1141233.formula.lang.Language;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperation;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
@@ -222,6 +223,11 @@ public class FormulaEvalVisitor extends Formula3BaseVisitor<Expression>
         }
 
         return null;
+    }
+    
+    public Expression visitVariable(Formula3Parser.VariableContext ctx)
+    {
+        return new TemporaryReference(cell, ctx.getText());
     }
 
     @Override

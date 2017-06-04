@@ -5,65 +5,28 @@
  */
 package lapr4.blue.s1.lang.n1140953.variables.temporary;
 
-import csheets.core.Cell;
-import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
-import csheets.core.formula.util.ExpressionVisitor;
-import lapr4.blue.s1.lang.n1140953.variables.Variable;
 
 /**
  *
  * @author zero_
  */
-public class Temporary implements Variable {
-
-    private Cell cell;
+public class Temporary {
+    
     private String name;
-    private double value;
+    private Value value;
 
-    public Temporary(Cell cell, String name, double value) {
-        this.cell = cell;
+    public Temporary(String name, Value value) {
         this.name = name;
         this.value = value;
-    }
-
-    public Temporary(Cell cell, String name) {
-        this(cell, name, 0);
-    }
-
-    public Temporary(Temporary temporary, double value) {
-        this(temporary.cell, temporary.name, value);
-    }
-
-    @Override
-    public Value applyTo(String name) throws IllegalValueTypeException {
-        return new Value(value);
-    }
-
-    @Override
-    public Value.Type getOperandValueType() {
-        return Value.Type.NUMERIC;
-    }
-
-    @Override
-    public Value evaluate() throws IllegalValueTypeException {
-        return this.applyTo(name);
-    }
-
-    @Override
-    public Object accept(ExpressionVisitor visitor) {
-        return visitor.visitVariable(this);
     }
 
     public String getName() {
         return name;
     }
 
-    public double getValue() {
+    public Value getValue() {
         return value;
     }
-
-    public Cell getCell() {
-        return cell;
-    }
+    
 }

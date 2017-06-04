@@ -14,8 +14,9 @@ import csheets.core.formula.Expression;
  * @author zero_
  */
 public interface Variable extends Expression {
-    
-    public Value applyTo(String name) throws IllegalValueTypeException;
-    
+
+    public Value applyTo(String name);
+
     public Value.Type getOperandValueType();
+
 }

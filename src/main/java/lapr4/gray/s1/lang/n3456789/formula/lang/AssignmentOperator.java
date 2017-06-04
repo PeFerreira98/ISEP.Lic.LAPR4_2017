@@ -16,6 +16,7 @@ import java.text.NumberFormat;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr4.blue.s1.lang.n1140953.variables.temporary.Temporary;
+import lapr4.blue.s1.lang.n1140953.variables.temporary.TemporaryReference;
 import lapr4.blue.s1.lang.n1140953.variables.temporary.TemporaryStorage;
 
 /**
@@ -55,26 +56,19 @@ public class AssignmentOperator implements BinaryOperator {
             }
             return value;
         }
-        if (leftOperand instanceof Temporary) {
-            System.out.println("HERE!");
+        if (leftOperand instanceof TemporaryReference) {
+            System.out.println("ENTREI CRL!");
             Value value = rightOperand.evaluate();
-            Temporary left = ((Temporary) leftOperand);
-            if (TemporaryStorage.exists(left.toString())) {
+            TemporaryReference left = (TemporaryReference) leftOperand;
+            if (TemporaryStorage.exists(left.getName())) {
                 System.out.println("TEMPORARY EXISTS");
                 System.out.println(" " + value.toDouble());
-                TemporaryStorage.update(left.toString(), value.toDouble());
+                TemporaryStorage.update(left.getName(), value);
             } else {
                 System.out.println("TEMPORARY NON EXISTS");
-                TemporaryStorage.add(((Temporary) leftOperand).getCell(), left.toString(), value.toDouble());
+                TemporaryStorage.add(left.getName(), value);
             }
             
-            String content = "";
-            try {
-                content = value.toString(new DecimalFormat());
-                left.getCell().setContent(content);
-            } catch (FormulaCompilationException ex) {
-                Logger.getLogger(AssignmentOperator.class.getName()).log(Level.SEVERE, null, ex);
-            }
             return value;
         }
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
