@@ -108,9 +108,18 @@ public class CommPing extends JFrame {
     }
 
     void updatePeers(ArrayList<String> peers) {
-//        if( listModel.isEmpty() && peers.isEmpty() ){
-//            return;
-//        }else if( peers.isEmpty() )
+        if( listModel.isEmpty() && peers.isEmpty() ){
+            return;
+        }else if( peers.isEmpty() ){
+            listModel.clear();
+        }if( listModel.size() == peers.size() ){
+            
+        }else{
+            listModel.clear();
+            for( int i = 0; i < peers.size(); ++i ){
+                
+            }
+        }
         
     }
 

@@ -26,7 +26,7 @@ public class CommServer2 extends Thread {
 
     }
 
-    public static CommServer2 getServer( int svtPrt) {
+    protected static CommServer2 getServer( int svtPrt) {
         if (theCommServer == null) {
             seerverPort = svtPrt;
             theCommServer = new CommServer2();
@@ -35,6 +35,11 @@ public class CommServer2 extends Thread {
         }
         return theCommServer;
     }
+    
+    public  static CommServer2 getServer() {
+        return theCommServer;
+    }
+
 
     public void addHandler(Class dto, CommHandler2 handler) {
         handlers.put(dto, handler);
