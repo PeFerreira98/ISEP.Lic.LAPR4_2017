@@ -20,7 +20,6 @@ public class Language
     private lapr4.gray.s1.lang.n3456789.formula.lang.Language baseInstance = null;
 
     private static final Language INSTANCE = new Language();
-//    private final List<Function> functions = new ArrayList<>();
 
     private final List<NaryOperator> naryOperators = new ArrayList<>();
 
@@ -29,12 +28,10 @@ public class Language
      */
     private Language()
     {
-
         baseInstance = lapr4.gray.s1.lang.n3456789.formula.lang.Language.getInstance();
 
         // IMP: Need to add new function (FOR)
-//        functions.add(new For());
-        naryOperators.add(new For());
+        naryOperators.add(new ForOperator());
     }
 
     /**
@@ -114,22 +111,7 @@ public class Language
      */
     public Function getFunction(String identifier) throws UnknownElementException
     {
-//        try
-//        {
         return baseInstance.getFunction(identifier);
-//        }
-//        catch (UnknownElementException e)
-//        {
-//            for (Function function : functions)
-//            {
-//                if (identifier.equalsIgnoreCase(function.getIdentifier()))
-//                {
-//                    return function;
-//                }
-//            }
-//            throw new UnknownElementException(identifier);
-//        }
-
     }
 
     /**

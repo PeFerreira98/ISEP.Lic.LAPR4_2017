@@ -224,7 +224,8 @@ public class FormulaEvalVisitor extends Formula3BaseVisitor<Expression>
 
         return null;
     }
-    
+
+    @Override
     public Expression visitVariable(Formula3Parser.VariableContext ctx)
     {
         return new TemporaryReference(cell, ctx.getText());
@@ -308,7 +309,7 @@ public class FormulaEvalVisitor extends Formula3BaseVisitor<Expression>
                 // #1 Convert all the child nodes
                 for (int nChild = 2; nChild < ctx.getChildCount(); nChild += 2)
                 {
-                    expressions[(nChild / 2)-1] = visit(ctx.getChild(nChild));
+                    expressions[(nChild / 2) - 1] = visit(ctx.getChild(nChild));
                 }
 
                 // #2 return an instance of the new NaryOperation Class
