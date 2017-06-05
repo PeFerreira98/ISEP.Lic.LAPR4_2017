@@ -200,18 +200,5 @@ public class ContactControllerTest {
         boolean result = controller.removeEvent(aContact, event);
         
         assertEquals(true, result);
-    }
-
-    /**
-     * Test of compareToActualDate method, of class ContactController.
-     */
-    @Test
-    public void testCompareToActualDate() {
-        System.out.println("compareToActualDate");
-        String dateToVerify = "12-12-1212";
-        Calendar expResult = null;
-        Calendar result = controller.compareToActualDate(dateToVerify);
-        assertEquals(expResult, result);
-    }
-    
+    }    
 }

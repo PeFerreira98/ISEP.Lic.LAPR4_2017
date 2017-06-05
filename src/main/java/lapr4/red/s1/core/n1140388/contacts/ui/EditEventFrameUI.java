@@ -166,10 +166,6 @@ public class EditEventFrameUI extends JDialog {
                         throw new IllegalArgumentException("Error. Empty Date");
                     }
 
-                    if (controller.compareToActualDate(time) == null) {
-                        throw new IllegalArgumentException("Error. Date must be for future!");
-                    }
-
                     controller.editEvent(contact, event, description, DateTime.parseDate(time));
                     JOptionPane.showMessageDialog(EditEventFrameUI.this, "Event successfully edited");
 

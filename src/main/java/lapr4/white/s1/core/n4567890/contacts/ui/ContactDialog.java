@@ -130,7 +130,7 @@ public class ContactDialog extends JDialog implements ActionListener {
     private JPanel buttonPanel = null;
 
     private JLabel statusLabel = null;
-    private File photoFile =null;
+    private File photoFile = null;
 
     private void setupContactsWidgets() {
 
@@ -157,15 +157,11 @@ public class ContactDialog extends JDialog implements ActionListener {
         formPanel.add(lastNameLabel);
         formPanel.add(lastNameField);
 
-        
-
         SpringUtilities.makeCompactGrid(formPanel,
                 3, 2, //rows, cols
                 6, 6, //initX, initY
                 10, 10
         );       //xPad, yPad
-
-        
 
         // Last Pane: A row of buttons and the end
         buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEADING));
@@ -179,18 +175,17 @@ public class ContactDialog extends JDialog implements ActionListener {
         buttonPanel.add(cancelButton);
 
         //Photo
-        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));     
+        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEADING));
         panel.setBorder(javax.swing.BorderFactory.createTitledBorder("Photo"));
         panel.setPreferredSize(new Dimension(130, 130));
-       
+
         photoLabel = new JLabel();
         photoLabel.setSize(100, 100);
         panel.add(photoLabel);
         buttonPanel.add(panel);
         JButton btn = createButtonFile();
         buttonPanel.add(btn);
-        
-        
+
         // Final Pane: The status label for messages
         statusLabel = new JLabel();
 
@@ -248,7 +243,7 @@ public class ContactDialog extends JDialog implements ActionListener {
                     System.out.println("You chose to open this file: "
                             + chooser.getSelectedFile().getName());
                 }
-                photoFile=chooser.getSelectedFile();
+                photoFile = chooser.getSelectedFile();
                 photoLabel.setIcon(iconImageFromFile(photoFile));
             }
         }
@@ -292,9 +287,13 @@ public class ContactDialog extends JDialog implements ActionListener {
                 case ADD: {
                     try {
                         // The User confirms the creation of a Contact
-                        _contact = this.ctrl.addContact(this.fullNameField.getText(), this.firstNameField.getText(), this.lastNameField.getText(),Converter.
-									setImage(photoFile));
-
+                        if (photoFile != null) {
+                            _contact = this.ctrl.addContact(this.fullNameField.getText(), this.firstNameField.getText(), this.lastNameField.getText(), Converter.
+                                    setImage(photoFile));
+                        }else{
+                            _contact = this.ctrl.addContact(this.fullNameField.getText(), this.firstNameField.getText(), this.lastNameField.getText(), null);
+                        }
+                        
                         _success = true;
                         // Exit the dialog
                         ContactDialog.dialog.setVisible(false);
@@ -307,8 +306,8 @@ public class ContactDialog extends JDialog implements ActionListener {
                         statusLabel.setForeground(Color.red);
                         statusLabel.setText(CleanSheets.getString("status_data_integrity_error"));
                     } catch (IOException ex) {
-                    Logger.getLogger(ContactDialog.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                        Logger.getLogger(ContactDialog.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                 }
                 break;
 

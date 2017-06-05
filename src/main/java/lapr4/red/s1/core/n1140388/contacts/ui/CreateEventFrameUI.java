@@ -32,7 +32,6 @@ public class CreateEventFrameUI extends JDialog {
     private EventPanel eventPanel;
     private JTextField txtDescription;
     private JTextField txtTime;
-    private File photoFile;
 
     private static final Dimension LABEL_SIZE = new JLabel("Description Text:---").
             getPreferredSize();
@@ -163,10 +162,7 @@ public class CreateEventFrameUI extends JDialog {
                         throw new IllegalArgumentException("Error. Empty Date");
                     }
 
-                    Calendar ca = controller.compareToActualDate(time);
-                    if (ca == null) {
-                        throw new IllegalArgumentException("Error. Date must be for future!");
-                    }
+                    
                     
                     controller.addEvent(contact, description, DateTime.parseDate(time));
 

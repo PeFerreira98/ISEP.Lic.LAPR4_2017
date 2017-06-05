@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.Optional;
 import java.util.Properties;
 import lapr4.white.s1.core.n4567890.contacts.ExtensionSettings;
+import lapr4.white.s1.core.n4567890.contacts.domain.Agenda;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 import lapr4.white.s1.core.n4567890.contacts.domain.Event;
 import lapr4.white.s1.core.n4567890.contacts.persistence.ContactRepository;
@@ -43,7 +44,7 @@ public class ContactController implements Controller {
     public boolean removeContact(Contact contact) throws DataConcurrencyException, DataIntegrityViolationException {
 
         for (Event e : contact.agenda().events()) {
-            if (compareToActualDate(DateTime.format(e.time(), "dd-MM-yyyy")) != null) {
+            if (contact.agenda().compareToActualDate(DateTime.format(e.time(), "dd-MM-yyyy")) != null) {
                 throw new DataIntegrityViolationException();
             }
         }
@@ -87,55 +88,28 @@ public class ContactController implements Controller {
 
     public Event editEvent(Contact contact, Event event, String eventDescription, Calendar dueDate) throws DataConcurrencyException, DataIntegrityViolationException {
 
-        event.setDescription(eventDescription);
-        event.setTime(dueDate);
+        if (contact.agenda().compareToActualDate(DateTime.format(dueDate, "dd-MM-yyyy")) == null) {
+            throw new IllegalArgumentException("Error. Date must be for future!");
+        }
 
-        // TODO: When do we save?...
+        for (Event e : contact.agenda().events()) {
+            if (e.equals(event)) {
+                e.setDescription(eventDescription);
+                e.setTime(dueDate);
+            }
+        }
+
         this.contactsRepository.save(contact);
 
         return event;
     }
 
     public boolean removeEvent(Contact contact, Event event) throws DataConcurrencyException, DataIntegrityViolationException {
-        
+
         contact.agenda().events().remove(event);
 
-        // TODO: When do we save?...
         this.contactsRepository.save(contact);
 
         return true;
-    }
-
-    /**
-     * Check if date is valid
-     *
-     * @param dateToVerify String date
-     * @return true or false, if date is valid or not
-     */
-    public Calendar compareToActualDate(String dateToVerify) {
-
-        if (dateToVerify == null) {
-            return null;
-        }
-
-        Calendar cal = DateTime.parseDate(dateToVerify);
-
-        Calendar now = Calendar.getInstance();
-        int day = now.get(Calendar.DAY_OF_WEEK);
-        int month = now.get(Calendar.DAY_OF_MONTH);
-        int year = now.get(Calendar.DAY_OF_YEAR);
-        if (cal.get(Calendar.DAY_OF_WEEK) == day
-                && cal.get(Calendar.DAY_OF_MONTH) == month
-                && cal.get(Calendar.DAY_OF_YEAR) == year) {
-
-            return cal;
-        }
-
-        if (cal.after(now)) {
-            return cal;
-        } else {
-            return null;
-        }
-
     }
 }

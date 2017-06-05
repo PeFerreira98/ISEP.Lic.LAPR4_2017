@@ -73,4 +73,16 @@ public class AgendaTest {
         assertEquals(expResult, result);
     }
 
+    /**
+     * Test of compareToActualDate method, of class ContactController.
+     */
+    @Test
+    public void testCompareToActualDate() {
+        System.out.println("compareToActualDate");
+        String dateToVerify = "12-12-1212";
+        Agenda instance = new Agenda();
+        Calendar expResult = null;
+        Calendar result = instance.compareToActualDate(dateToVerify);
+        assertEquals(expResult, result);
+    }
 }
