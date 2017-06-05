@@ -101,7 +101,7 @@ When starting, both computers have to broadcast on the network their existence. 
 
 ListenerServer listens to other 'peers' and stores this information. To access this information you can use the following code: </p>
 
-     <p><b>ArrayList <String> peers = ListenerServer.getServer().getServicePeers ("serviceName");</b></p>
+     <p><b>ArrayList (String) peers = ListenerServer.getServer().getServicePeers ("serviceName");</b></p>
 
 <p>Interested services can register an observer from the ListenerServer to be informed of each change in the ListenerServer list of peers. For this use the following code:</p>
 
@@ -133,10 +133,10 @@ ListenerServer listens to other 'peers' and stores this information. To access t
 
 <p>Then send the object with:</p>
 
-<p>  <b>EchoRequest echoRequest = new EchoRequest (CommExtension2.NAME, ++ pingNumber);</p>
-<p>   If (toPeer.sendDto (echoRequest) == false) {</p>
-<p>      ......</p>
-<p>}</b></p>
+<p><b>  EchoRequest echoRequest = new EchoRequest (CommExtension2.NAME, ++ pingNumber);</b></p>
+<p><b>   If (toPeer.sendDto (echoRequest) == false) {</b></p>
+<p><b>      ......</b></p>
+<p><b>}</b></p>
 
 <p>Computer B must have registered with CommServer2 the method that will process the class of the object it will receive:</p>
 
