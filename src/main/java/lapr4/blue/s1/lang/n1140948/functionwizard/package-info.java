@@ -72,7 +72,7 @@
  * <p>
  *
  * <h3>4.1. Functional Tests</h3>
- * TODO: in next phase
+ * All tests were implemented and 100% functional
  * <p>
  *
  * <h3>4.2. UC Realization</h3>
@@ -85,31 +85,83 @@
  * <p>
  * <img src="lang04.1_classDiagram.png" alt="image">
  * <p>
- * Where in lightgray we have the already existing classes and in white we have
+ * Note: In lightgray we have the already existing classes and in white we have
  * the newly created classes. C means class and I means interface.
  * 
  * <h2>5. Implementation</h2>
  *
- * -Reference the code elements that where updated or added-
- * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
+ * Apply Button code: 
+ * <pre>
+ * {@code 
+ *      private void jApplyButtonActionPerformed(java.awt.event.ActionEvent evt) {                                             
+ *          try {
+ *              String syntax = this.jFunctionlbl.getText();
+ *              uiController.getActiveCell().setContent(syntax);
+ *              dispose();
+ *          } catch (FormulaCompilationException a) {
+ *              JOptionPane.showMessageDialog(this, a.getMessage());
+ *          }
+ *      }
+ * }
+ * </pre>
+ * 
+ * Applying the new syntax everytime the user selects a different function:
+ * <pre>
+ * {@code 
+ *      private void jFunctionsListValueChanged(javax.swing.event.ListSelectionEvent evt) {                                            
+ *          int index = this.jFunctionsList.getSelectedIndex();
+ *
+ *          if (index < this.lstFunc.size()) {
+ *              Function func = this.lstFunc.getElementAt(index);
+ *              this.jFunctionlbl.setText(buildSyntax(func, func.getParameters()));
+ *          }
+ *      }
+ * }
+ * </pre>
+ * 
+ * <pre>
+ * {@code 
+ *      public String buildSyntax(Function func, FunctionParameter param[]) {
+ *          String auxHelp = "";
+ *          StringBuilder builder = new StringBuilder();
+ *          int numParam = param.length;
+ *          if (numParam > 0) {
+ *              if (!this.jFunctionsList.getValueIsAdjusting()) {
+ *                  builder.append("=");
+ *                  builder.append(func.getIdentifier());
+ *                  builder.append("(");
+ *                  for (int i = 0; i < numParam; i++) {
+ *                      if (i > 0) {
+ *                          builder.append(";");
+ *                      }
+ *                      builder.append(param[i].getValueType().toString());
+ *                  }
+ *                  builder.append(")");
+ *                  return builder.toString();
+ *              }
+ *          } else{
+ *              builder.append("=");
+ *              this.jFunctionlbl.setText(func.getIdentifier());
+ *              builder.append("(NUMBER)");
+ *              return builder.toString();
+ *          }
+ *          return null;
+ *      }
+ * }
+ * </pre>
  *
  * <h2>6. Integration/Demonstration</h2>
  *
- * -In this section document your contribution and efforts to the integration of
- * your work with the work of the other elements of the team and also your work
- * regarding the demonstration (i.e., tests, updating of scripts, etc.)-
+ * Tests were implemented and 100% functional
  *
  * <h2>7. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
+ * At this point the use case is complete. The syntax cannot be applied to the
+ * formula bar since the parameters are not implemented and the parser does not
+ * permit the given syntax.
  * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
- *
+ * In the next phase, where it is asked to apply the parameters, the apply
+ * button should work with no problems.
  *
  * <h2>8. Work Log</h2>
  *
@@ -117,46 +169,67 @@
  * <b>Daily Log (Monday 29/05/2017)</b>
  * <p>
  *	TEAM BLUE
+ *              <p>
  *		1. Definição das versões dos programas a usar com as restantes equipas, por motivos de compatibilidade;
+ *              <p>
  *		2. Leitura do manual e discussão sobre ele;
- *		3. Identificação dos diferentes tokens;			
+ *              <p>
+ *		3. Identificação dos diferentes tokens;	
+ *              <p>
  *		4. Instalação dos plugins necesários para a abertura do projeto;
+ *              <p>
  *		5. Análise de JavaDocs do projeto,
+ *              <p>
  *		6. Distribuição de casos de uso pelos diferentes elementos da equipa.
  * <p>
  * <b>Daily Log (Tuesday 30/05/2017)</b>
  * <p>	
  *	TEAM BLUE		
+ *              <p>
  *		1. Definição do Scrum Master (Pedro Ferreira);
+ *              <p>
  *		2. Análise dos casos de uso "Lang01.1", "Lang02.1", "Lang03.1", "Lang04.1";
+ *              <p>
  *		3. Análise do código fornecido referente à parte de Lang;
+ *              <p>
  *		4. Criação do package para documentação do use case "Lang04.1"
+ *              <p>
  *		5. Atribuição das tarefas no JIRA e criação de sub-tasks [Analysis, Design, Implementation, Testing].
  * <p>
  * <b>Daily Log (Wednesday 31/05/2017)</b>
  * <p>	
  *	TEAM BLUE	
+ *              <p>
  *		1. Documentação do use case Lang04.1
+ *              <p>
  *		2. Construção de SSD e análise do use case
- *
+ * <p>
  * <b>Daily Log (Thursday 01/06/2017)</b>
  * <p>	
- *	TEAM BLUE	
+ *	TEAM BLUE
+ *              <p>
  *		1. Conclusão da análise e início da implementação do caso de uso
+ *              <p>
  *		2. Criação da GUI para o function Wizard
+ *              <p>
  *              3. Implementação dos botões
- * 
+ * <p>
  * <b>Daily Log (Friday 02/06/2017)</b>
  * <p>	
  *	TEAM BLUE	
+ *              <p>
  *		1. Continuação da implementação do caso de uso
+ *              <p>
  *		2. Implementação das listas de funções disponíveis
+ *              <p>
  *              3. Apresentação da syntax da função selecionada
- * 
+ * <p>
  * <b>Daily Log (Saturday 03/06/2017)</b>
  * <p>	
  *	TEAM BLUE	
+ *              <p>
  *		1. Finalização da implementação
+ *              <p>
  *		2. Início e finalização do design
  * 
  * 
