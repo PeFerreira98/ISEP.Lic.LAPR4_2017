@@ -25,7 +25,7 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  */
 public class ChatApplicationController implements CommHandler2 {
 
-    private String peerId = "Teste";
+    private String peerId;
 
     private CommServer2 commServer;
 
@@ -105,7 +105,7 @@ public class ChatApplicationController implements CommHandler2 {
     public void messageSend(String text) {
         mess.setContent(text);
         
-        CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(mess.getIdDest());
+        CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(peerId);
         if(toPeer==null){
             JOptionPane.showMessageDialog(null, "NO COMUNICATION TO PEER!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -132,6 +132,10 @@ public class ChatApplicationController implements CommHandler2 {
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
         this.mess = (Message) dto;
+        
+        this.peerId=commWorker.peerAddress().split("@")[1];
+        
+        System.out.println(commWorker.peerAddress());
         
         ReceiveMessage rm = new ReceiveMessage(this);
     }
