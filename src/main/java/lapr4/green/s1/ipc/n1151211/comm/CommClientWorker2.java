@@ -161,4 +161,8 @@ public class CommClientWorker2  extends Thread implements SendDto{
             return false;
         }
     }
+    @Override
+    public String peerAddress() {
+        return System.getProperty("user.name") + "@" + socket.getInetAddress().toString();
+    }
 }

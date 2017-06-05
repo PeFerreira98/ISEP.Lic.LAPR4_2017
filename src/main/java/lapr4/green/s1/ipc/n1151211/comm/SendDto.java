@@ -10,5 +10,9 @@ package lapr4.green.s1.ipc.n1151211.comm;
  * @author Fernando
  */
 public interface SendDto {
-        public boolean sendDto( Object dto );
+
+    public boolean sendDto(Object dto);
+
+    public String peerAddress();
+
 }
