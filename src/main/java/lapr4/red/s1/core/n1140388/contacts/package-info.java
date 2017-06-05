@@ -143,7 +143,7 @@
  *
  * <h3>3.2 Domain Model</h3>
  * <p>
- * <img src="lapr4.white.contacts_domain_model.png" alt="image">
+ * <img src="lapr4/white/s1/core/n4567890/contacts/contacts_domain_model.png" alt="image">
  *
  *
  *
@@ -228,7 +228,7 @@
  * represents this business rule.
  *
  * <p>
- * see: <code>lapr4.white.s1.core.n4567890.domain.ContactTest</code>
+ * see: <code>lapr4.red.s1.core.n1140388.contacts.domain.EventTest</code>
  * </p>
  *
  *
@@ -285,7 +285,7 @@
  *
  * <b>UC1.1 Create Contact (from US1)</b>
  * <p>
- * <img src="../../../../lapr4.white.s1.core.n4567890.contacts.uc_create_contact.png" alt="image">
+ * <img src="../lapr4/white/s1/core/n4567890/contacts/uc_create_contact.png" alt="image">
  * <p>
  *
  * <b>UC1.2 Edit Contact (from US1)</b>
@@ -356,14 +356,12 @@
  * {@link lapr4.white.s1.core.n4567890.contacts.domain.Agenda}
  * {@link lapr4.white.s1.core.n4567890.contacts.domain.Event}
  *
- * <p>
- * -Also refer all other artifacts that are related to the implementation and
- * where used in this issue. As far as possible you should use links to the
- * commits of your work-
- * </p>
- * see:
- * <a href="../../../../csheets/persistence/package-summary.html">csheets.persistence</a>
- *
+ * {@link lapr4.red.s1.core.n1140388.contacts.ui.CreateEventFrameUI}
+ * {@link lapr4.red.s1.core.n1140388.contacts.ui.EditEventFrameUI}
+ * {@link lapr4.red.s1.core.n1140388.contacts.ui.RemoveEventFrameUI}
+ * {@link lapr4.red.s1.core.n1140388.contacts.ui.PopUp}
+ * {@link lapr4.red.s1.core.n1140388.contacts.ui.EventPanel}
+ * {@link lapr4.red.s1.core.n1140388.contacts.ui.UIExtensionEvents}
  *
  *
  *
@@ -378,11 +376,6 @@
  *
  * <h2>7. Final Remarks</h2>
  *
- * -In this section present your views regarding alternatives, extra work and
- * future work on the issue.-
- * <p>
- * As an extra this use case also implements a small cell visual decorator if
- * the cell has a comment. This "feature" is not documented in this page.
  *
  *
  * <h2>8. Work Log</h2>
@@ -449,17 +442,52 @@
  * <p>
  * 2. Know how the evidence analysis works.
  *
+ * <b>Thrusday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Design
+ * <p>
+ * Today
+ * <p>
+ * 1. Implementation of UI.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
  *
+ * <b>Friday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Implementation
+ * <p>
+ * Today
+ * <p>
+ * 1. Implementation.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. Put the photograph on contact.
+ * <b>Saturday</b>
+ * <p>
+ * Yesterday I worked on:
+ * <p>
+ * 1. Implementation
+ * <p>
+ * Today
+ * <p>
+ * 1. Unit testing.
+ * <p>
+ * Blocking:
+ * <p>
+ * 1. -nothing-
  *
  *
  * <h2>9. Self Assessment</h2>
  *
- * -Insert here your self-assessment of the work during this sprint regarding
- * Rubrics R3, R6 and R7.-
- *
- * This sprint was very thight in time. He had to add the persistence framework,
- * design our solution, implement it and deal with swing design (UI) to make
- * things prettier.
+ * This sprint was very thight in time. He had to design our solution, implement
+ * it and deal with swing design (UI).
  *
  * Overall it was a good sprint because we accomplished our requirements with
  * what we think it was a good solution.
@@ -488,11 +516,6 @@
  * seem to cover a significant amount of functionalities (e.g., more than 50%)
  * but there was not test first approach.
  *
- *
- *
- *
- * Since it was a feature with a lot of things added to the code I generated a
- * lot of commits. It's easier to check commits from 1140388.
  *
  *
  * @author Alexandra Ferreira 1140388@isep.ipp.pt
