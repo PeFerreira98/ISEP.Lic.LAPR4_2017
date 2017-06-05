@@ -37,6 +37,7 @@ atom
 	|	LPAR comparison RPAR
 	|	block
 	|	assignment
+        |       variable
 	;
 
 assignment
