@@ -7,7 +7,6 @@ package lapr4.green.s1.ipc.n1140618.ChatApplication.ui;
 
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
-import csheets.ui.ext.CellDecorator;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
 import javax.swing.JComponent;
