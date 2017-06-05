@@ -12,7 +12,7 @@ block
 	;
 
 for_loop
-        : FUNCTION L_CURLY_BRACKET comparison SEMI comparison ( SEMI comparison )* R_CURLY_BRACKET
+        : FUNCTION L_CURLY_BRACKET comparison SEMI comparison SEMI comparison ( SEMI comparison )* R_CURLY_BRACKET
         ;
 
 comparison
