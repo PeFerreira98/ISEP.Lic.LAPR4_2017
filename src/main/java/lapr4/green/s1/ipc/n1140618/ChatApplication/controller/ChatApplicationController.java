@@ -10,6 +10,7 @@ import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.ReceiveMessage;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.SendMessage;
 import lapr4.green.s1.ipc.n1151211.comm.BroadcastServer;
+import lapr4.green.s1.ipc.n1151211.comm.CommClientWorker2;
 import lapr4.green.s1.ipc.n1151211.comm.CommHandler2;
 import lapr4.green.s1.ipc.n1151211.comm.CommServer2;
 import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
@@ -100,6 +101,17 @@ public class ChatApplicationController implements CommHandler2 {
      */
     public void messageSend(String text) {
         mess.setContent(text);
+        
+        CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(mess.getIdDest());
+        if(toPeer==null){
+            JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        
+        if(toPeer.sendDto(mess)==false){
+            JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
+        }
+        
     }
 
     public String getUser() {
