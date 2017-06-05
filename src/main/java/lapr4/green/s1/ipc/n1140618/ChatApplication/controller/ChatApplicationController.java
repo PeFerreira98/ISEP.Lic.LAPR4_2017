@@ -124,6 +124,10 @@ public class ChatApplicationController implements CommHandler2 {
     public Message getMessage() {
         return this.mess;
     }
+    
+    public ListenerServer getListener(){
+        return this.listenerServer;
+    }
 
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
