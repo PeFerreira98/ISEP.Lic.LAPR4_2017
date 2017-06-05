@@ -24,6 +24,7 @@ import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 
 /**
+ * A panel to create an event.
  *
  * @author Alexandra Ferreira - 1140388@isep.ipp.pt
  */
@@ -162,15 +163,13 @@ public class CreateEventFrameUI extends JDialog {
                         throw new IllegalArgumentException("Error. Empty Date");
                     }
 
-                    
-                    
                     controller.addEvent(contact, description, DateTime.parseDate(time));
 
                     JOptionPane.
                             showMessageDialog(CreateEventFrameUI.this, "Event successfully created");
-                    
+
                     eventPanel.updateEventList();
-                    
+
                     dispose();
 
                 } catch (Exception ex) {

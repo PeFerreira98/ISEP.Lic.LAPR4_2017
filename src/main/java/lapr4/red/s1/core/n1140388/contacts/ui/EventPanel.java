@@ -13,22 +13,18 @@ import csheets.ui.ctrl.UIController;
 import eapli.util.DateTime;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JToolBar;
-import javax.swing.border.EmptyBorder;
 import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
 import lapr4.white.s1.core.n4567890.contacts.ContactsExtension;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
@@ -325,12 +321,14 @@ public class EventPanel extends JPanel implements SelectionListener {
 
         String[] names = new String[contact.agenda().events().size()];
 
+        Object[] data = (Object[]) (Object) contact.agenda().events().
+                toArray(new Object[contact.agenda().events().size()]);
+
+        eventsList = data;
+
         if (contact.agenda().events().isEmpty()) {
             return names;
         }
-
-        Object[] data = (Object[]) (Object) contact.agenda().events().
-                toArray(new Object[contact.agenda().events().size()]);
 
         for (Object o : data) {
             Event e = (Event) o;
@@ -339,8 +337,6 @@ public class EventPanel extends JPanel implements SelectionListener {
                     + DateTime.format(e.time(), "dd-MM-yyyy");
             i++;
         }
-
-        eventsList = data;
 
         return names;
     }

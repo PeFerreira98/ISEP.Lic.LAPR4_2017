@@ -19,7 +19,7 @@ import org.jfree.xml.util.Base64;
 
 /**
  *
- * @author
+ * @author Alexandra Ferreira - 1140388@isep.ipp.pt
  */
 public final class Converter {
 

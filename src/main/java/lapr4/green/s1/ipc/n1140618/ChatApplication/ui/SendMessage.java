@@ -21,6 +21,8 @@ public class SendMessage extends javax.swing.JFrame {
     public SendMessage(ChatApplicationController controller) {
         this.controller=controller;
         initComponents();
+        
+        this.setVisible(true);
     }
 
     /**

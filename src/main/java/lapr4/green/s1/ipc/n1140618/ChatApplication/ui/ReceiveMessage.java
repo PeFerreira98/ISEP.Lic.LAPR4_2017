@@ -32,11 +32,13 @@ public class ReceiveMessage extends javax.swing.JFrame {
         
         createThread();
         
+        this.setVisible(true);
+        
     }
     
     public Thread createThread() {
 
-        /*        Thread close window after 5 seconds        */
+        /*Thread close window after 5 seconds        */
         return new Thread(new Runnable() {
             @Override
             public void run() {

@@ -8,17 +8,21 @@ package lapr4.green.s1.ipc.n1140618.ChatApplication.ui;
 import csheets.ui.ctrl.UIController;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationController;
+import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
 
 /**
  *
  * @author Tiago
  */
-public class ChatPanel extends javax.swing.JPanel {
+public class ChatPanel extends javax.swing.JPanel implements Observer{
 
     private UIController uiController;
 
@@ -36,46 +40,22 @@ public class ChatPanel extends javax.swing.JPanel {
         this.thisPanel=this;
         initComponents();
         
-        createThread();
+        controller.getListener().addObserver(this);
     }
     
     public String getName(){
         return "Chat";
     }
 
-    public Thread createThread() {
-
-        /*        Thread updates online user's list every 5 seconds        */
-        return new Thread(new Runnable() {
-            @Override
-            public void run() {
-
-                while (controller.isOnline()) {
-
-                    jList1.setModel(updateList());
-
-                    try {
-
-                        Thread.sleep(5000);
-
-                    } catch (InterruptedException ex) {
-
-                        Logger.getLogger(ChatPanel.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }
-            }
-        });
-    }
-
-    public DefaultListModel updateList() {
+    public void updateList(ArrayList<String> list) {
 
         DefaultListModel model = new DefaultListModel();
 
-        for (String onlineUser : controller.getOnlineUsers()) {
+        for (String onlineUser : list) {
             model.addElement(onlineUser);
         }
 
-        return model;
+        jList1.setModel(model);
     }
 
     /**
@@ -155,4 +135,12 @@ public class ChatPanel extends javax.swing.JPanel {
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
+        
+        updateList(peers);
+        
+    }
 }
