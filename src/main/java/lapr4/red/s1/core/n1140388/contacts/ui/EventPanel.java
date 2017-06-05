@@ -325,12 +325,14 @@ public class EventPanel extends JPanel implements SelectionListener {
 
         String[] names = new String[contact.agenda().events().size()];
 
+        Object[] data = (Object[]) (Object) contact.agenda().events().
+                toArray(new Object[contact.agenda().events().size()]);
+
+        eventsList = data;
+
         if (contact.agenda().events().isEmpty()) {
             return names;
         }
-
-        Object[] data = (Object[]) (Object) contact.agenda().events().
-                toArray(new Object[contact.agenda().events().size()]);
 
         for (Object o : data) {
             Event e = (Event) o;
@@ -339,8 +341,6 @@ public class EventPanel extends JPanel implements SelectionListener {
                     + DateTime.format(e.time(), "dd-MM-yyyy");
             i++;
         }
-
-        eventsList = data;
 
         return names;
     }
