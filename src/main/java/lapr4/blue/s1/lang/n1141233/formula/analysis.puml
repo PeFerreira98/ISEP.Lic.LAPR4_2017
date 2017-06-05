@@ -1,0 +1,16 @@
+@startuml lang03.1_analysis.png
+
+skinparam sequenceMessageAlign center
+
+actor User
+participant "System" as sys
+
+User->sys: Selects the cell
+
+sys-->User: Ask for information (Formula)
+
+User->sys: Inserts Formula
+
+sys->User:Update the envolved cell's content through the formula's result
+
+@enduml

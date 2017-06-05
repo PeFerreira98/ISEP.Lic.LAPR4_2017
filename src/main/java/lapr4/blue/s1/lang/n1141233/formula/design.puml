@@ -1,0 +1,78 @@
+@startuml
+
+skinparam sequenceMessageAlign center
+
+actor User
+participant "Cell" as cell
+participant "FormulaCompiler" as fc
+participant "ExcelExpressionCompiler" as eec
+participant "Formula3Parser" as f3p
+participant "FormulaEvalVisitor" as fev
+participant "Formula" as form
+participant "Expression" as exp
+participant "ForOperator" as for
+participant "SequenceOperator" as seq
+
+
+activate User
+User->cell: setContent(String content)
+
+activate cell
+cell->cell: storeContent(content)
+
+
+cell->fc: compile(Cell cell, String source)
+
+activate fc
+fc->eec: compile(Cell cell, String source)
+
+activate eec
+eec->f3p: expression()
+
+activate f3p
+f3p-->eec: tree
+deactivate f3p
+eec->fev: visit(tree)
+
+activate fev
+fev-->eec: expression
+deactivate fev
+
+eec-->fc: expression
+deactivate eec
+
+fc-->form: create(cell, expression)
+activate form
+deactivate form
+fc-->cell: formula
+deactivate fc
+
+cell->cell: fireContentChanged()
+cell->cell: reevaluate()
+
+cell->form: evaluate()
+activate form
+
+form->for: applyTo(Expression[] arguments)
+
+activate for
+for->for: initialization
+
+loop until boundary condition is false
+for->seq: applyTo(body)
+
+activate seq
+seq-->for: value
+deactivate seq
+
+end
+
+for-->form: value
+deactivate for
+
+form-->cell: value
+deactivate form
+
+deactivate cell
+
+@enduml

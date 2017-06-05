@@ -5,7 +5,29 @@
  * <b>Attention: This feature increment and this documentation are work in
  * progress! You should question what is already done!</b><p>
  *
- * <b>Requirement</b><p>
+ *
+ * <h2>1. Notes</h2><p>
+ *
+ * -Notes about the sprint's work.-
+ * <p>
+ * -In this section you should register important notes regarding your work
+ * during the sprint. For instance, if you spend significant time helping a
+ * colleague or if you work in more than one feature.-
+ * <p>
+ * <p>
+ * - Helped in LANG03.1 - Conditional Formating implementation, colleague was
+ * having trouble updating cells formating after altering the content more than
+ * once.
+ * <p>
+ * - Tried to fix a bug from AssignmentOperator that caused it to loop when
+ * incrementing a cell's value(wasn't able to fix it, setContent() calls
+ * reevaluate() which causes all dependent cells to evaluate the expression
+ * again, and after finishing the reevaluation it calls the setContent() to
+ * update the cell's value).
+ * <p>
+ *
+ *
+ * <h2>2. Requirement</h2><p>
  * Add the possibility of writing blocks (or sequences) of instructions. A block
  * must be delimited by curly braces and its instructions must be separated by
  * ";". The instructions of a block are executed sequentially and the block
@@ -23,13 +45,81 @@
  * <pre>{@code "= FOR {A1: = 1 ; A1 < 10; A2: = A2 + A1; A1: = A1 + 1 }"}</pre>
  * executes a for loop in which: the first expression is the initialization, the
  * second term is the boundary condition, all other expressions are performed
- * for each iteration of the loop.<p>
+ * for each iteration of the loop.
+ * <p>
  *
  * <b>Attention:</b><p>
  * In the class lapr4.gray.s1.lang.n3456789.formula.lang.Language it was
- * necessary to add a new function (FOR) to support the new formula.<p>
+ * necessary to add a new function (FOR) to support the new formula, since it
+ * already contains the AssignmentOperator and SequenceOperator.
+ * <p>
  *
- * <b>Analysis</b><p>
+ *
+ * <h2>3. Analysis</h2><p>
+ *
+ * <h3>3.1 User Stories</h3><p>
+ *
+ * <b>US1.</b> As a CRM User I want to be able to use formulas to assign values
+ * to cell's.(already implemented)<br>
+ * <b>US2.</b> As a CRM User I want to be able to use formulas to execute
+ * several expressions at once, in a block.(already implemented)<br>
+ * <b>US3.</b> As a CRM User I want to be able to use formulas to execute a
+ * block of instructions in a loop, until a boundary condition is reached.<br>
+ * <p>
+ *
+ *
+ * <h3>3.2 Domain Model</h3><p>
+ * <p>
+ * <img src="domain_model_formulas.png" alt="image">
+ * <p>
+ *
+ *
+ * <h3>3.3 Use Cases (Scenarios)</h3><p>
+ *
+ * <b>UC1.1 Execute a For Loop (from US1)</b>
+ * <p>
+ * <img src="analysis.png" alt="image">
+ * <p>
+ * Alternative and Exception Scenarios<br>
+ * Exception 1: Malformed Expression. Repeat use case. <br>
+ * Exception 2: Not enough arguments. Repeat use case. <br>
+ * <p>
+ *
+ *
+ * <h3>3.4 Acceptance Tests</h3><p>
+ *
+ * <b>Exception 1</b><br>
+ * <pre>
+ * {@code
+ * Given
+ *   Malformed Expression
+ * Then
+ *   System throws Exception
+ * }
+ * </pre>
+ * <p>
+ *
+ * <b>Exception 2</b><br>
+ * <pre>
+ * {@code
+ * Given
+ *   Expression without the minimum amount of arguments
+ * Then
+ *   System throws Exception
+ * }
+ * </pre>
+ *
+ *
+ * <h2>4. Design</h2><p>
+ *
+ * <b>Sequence Diagrams</b><p>
+ * <img src="design.png" alt="image">
+ * <p>
+ *
+ * <b>Class Diagram</b>
+ * <p>
+ *
+ *
  *
  * <b>Notes</b><p>
  * - This use case regards essentially the formula compiler and executer. It
@@ -40,8 +130,8 @@
  * <p>
  * -- storeContent(content); = this compiles the content and produces a Formula
  * object and updates cell dependencies based on the Formula<p>
- * -- fireContentChanged(); = this notifies listenners about content changes<p>
- * -- reevaluate(); = this executes the Formula and notifies listenners about
+ * -- fireContentChanged(); = this notifies listeners about content changes<p>
+ * -- reevaluate(); = this executes the Formula and notifies listeners about
  * value changes
  * <p>
  * <b>storeContent</b><p>
@@ -72,8 +162,8 @@
  * The next diagram illustrates the Expression interface and its hierarchy.<p>
  * For the block the idea is to have a new class to support n-ary operations<p>
  * For the assignment the idea is to implement it as a binary operator<p>
- * <img src="domain_model_formulas.png" alt="image">
  * <p>
+ *
  * <b>Tests</b><p>
  * Formulas can be tested interactively using
  * <b>{@link csheets.core.formula.compiler.Console}</b><p>
@@ -92,14 +182,10 @@
  * initialization, the second expression is the limit condition and all the
  * other expressions are to be executed for each iteration of the cycle.<p>
  * <b>=FOR{ a1:=1; a1&lt;10; a2:=a2+a1; a1:=a1+1 }</b><p>
- * See Package lapr4.gray.s1.lang.n3456789.formula:
+ * See Package lapr4.blue.s1.lang.n1141233.formula:
  * <p>
  * FormulaLoopTest (Should we move/refactor this test to Acceptance Test?)
  * <p>
- *
- * <b>Design</b><p>
- *
- * <b>Code</b><p>
  *
  * @author Rafael Vieira
  */

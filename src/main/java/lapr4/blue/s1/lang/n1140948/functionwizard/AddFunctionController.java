@@ -17,7 +17,7 @@ import csheets.core.formula.lang.Language;
  */
 public class AddFunctionController {
     
-    private Function[] m_listFunctions;
+    private final Function[] m_listFunctions;
     
     public AddFunctionController(){
         this.m_listFunctions = Language.getInstance().getFunctions();
@@ -36,7 +36,7 @@ public class AddFunctionController {
      * Method that compiles a determined expression returning due formula with
      * its result.
      *
-     * @param formulaData
+     * @param formulaData data
      * @return Formula corresponding expression or error if the expression is
      * not recognized.
      * @throws FormulaCompilationException
