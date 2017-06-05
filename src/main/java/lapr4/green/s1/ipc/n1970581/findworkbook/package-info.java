@@ -52,8 +52,11 @@
  * Test: Debug. Inclusion of unit test of interface comparable for maps, detected bug in which this interface was not there and it was corrected. General Debuging. <br>
  * Design: Documentation, updating the javadoc and cleanup. Deleted TestIgnoreThis class used for making the documentation show up on the package (when empty).  <br>
  *  <br> 
+ * Work notes/log: S1 05-06-2017 (segunda) <br>
+ * Daily scrumm meeting, check the Jira issue: <br>
+ * Tests, console testes. Minor documentation bugs correction. <br>
  * 
- * <p>
+ * 
  * -In this section you should register important notes regarding your work during the sprint. <br>
  * For instance, if you spend significant time helping a colleague or if you work in more than a feature. <br>
  *
@@ -163,7 +166,7 @@
  *  We did this through opening a path in the UIController class.
  * 
  * <h3>4.2.1 Sequence Diagrams </h3>
- * <img src="s1_ipc_findworkbook_design_02.png" alt="image">
+ * <img src="s1_ipc_findworkbook_design_02.png" alt="image"> <br>
  * Main use case implementation. <br>
  * 
  * The algorithm for finding a file is recursive algorithm that finds every file in the root directory, then for each sub-directory found calls itself again for that sub directory.
@@ -187,7 +190,7 @@
  *       }
  * }
  * </pre>
- * 
+ * <br>
  * For the opening of the file, we have the controller tunnel through UIController to the CleanSheets class. This was the less intrusive way of performing this requirement. <br>
  * <img src="s1_ipc_findworkbook_design_03.png" alt="image">
  * 
@@ -223,20 +226,13 @@
  * <h2>5. Implementation</h2>
  * 
  * The only existing code that was updated was UIController. All other classes are new.
- * <p>
- * -Also refer all other artifacts that are related to the implementation and where used in this issue. As far as possible you should use links to the commits of your work-
- * 
- * <h2>6. Integration/Demonstration</h2>
- * 
- * All testes were run and no anomaly was detected. The planned demonstration is to run the functional test as an user and demonstrate the correct implementation.
- * There wasn't the need to integrate this use case with other use cases, only to plan ahead for the second sprint and see how one could turn our code reusable for the next iteration.
- * 
+ *  <p>
  * The most central commit was <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/20c3cfd0b3733adff476d7dd6b38f7e13fb08207">https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/20c3cfd0b3733adff476d7dd6b38f7e13fb08207</a> <br>
  * It deals with FileContainer FileDTO FileFinder FilenameFilterBasic classes implementation. Some corrections were latter made to them, but the basic can be seen.<br>
  *   
  * <i>Again we call the main search algorithm:</i> <br>
  *  <pre>
- * Code snippet:
+ * Code snippet:<br>
  *  * {@code 
  * 	public void searchInDir(File dir){
  *           File[] filelist = dir.listFiles(this.filenameFilter);
@@ -252,7 +248,14 @@
  *       }
  * }
  * </pre>
+ *
  * 
+ * <h2>6. Integration/Demonstration</h2>
+ * 
+ * All testes were run and no anomaly was detected. The planned demonstration is to run the functional test as an user and demonstrate the correct implementation.
+ * There wasn't the need to integrate this use case with other use cases, only to plan ahead for the second sprint and see how one could turn our code reusable for the next iteration.
+ * 
+  
  * 
  * <h2>7. Final Remarks</h2>
  * 
