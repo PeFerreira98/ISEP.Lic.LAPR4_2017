@@ -5,7 +5,9 @@
  */
 package lapr4.green.s1.ipc.n1140618.ChatApplication.controller;
 
+import java.util.Observer;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.ReceiveMessage;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.SendMessage;
@@ -76,7 +78,8 @@ public class ChatApplicationController implements CommHandler2 {
      *
      * @return
      */
-    public Iterable<String> getOnlineUsers() {
+    public Iterable<String> getOnlineUsers(Observer ui) {
+        listenerServer.addObserver(ui);
         return this.listenerServer.getServicePeers(peerId);
     }
 

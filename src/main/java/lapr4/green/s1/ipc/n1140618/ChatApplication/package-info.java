@@ -25,6 +25,7 @@
  *
  * <b>Analysis</b><p>
  *
+ * <img src="ipc05.1_Analysis.png" alt="image">
  * <p>
  * <b>Notes:</b><p>
  * Class CommWorker: This class is a thread that has the responsibility of

@@ -4,9 +4,11 @@ participant "ChatExtension"
 participant "CommServer2" <<singleton>>
 participant "Message"
 participant "CommServerWorker2"
+participant "ListenerServer"
+participant "BroadcastServer"
 
 create CommServer2
-ChatExtension -> CommServer2 : getCommServer(port)
+ChatExtension -> CommServer2 : getCommServer()
 
 create Message
 ChatExtension -> Message : new()
@@ -15,6 +17,17 @@ ChatExtension -> Message : writeMessage()
 ChatExtension -> CommServer2 : addHandler(Message)
 
 create CommServerWorker2
-CommServer2 -> CommServerWorker2 : create()
+CommServer2 -> CommServerWorker2 : getServer()
+
+create ListenerServer
+ChatExtension -> ListenerServer : getServer()
+
+create BroadcastServer
+ChatExtension -> BroadcastServer : getServer()
+
+ChatExtension -> CommServer2 : addHandler(Message, this)
+ChatExtension -> BroadcastServer : addService(chat,this)
+
+CommServerWorker2 ->ChatExtension : handleDTO(Message)
 
 @enduml

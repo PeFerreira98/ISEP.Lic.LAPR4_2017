@@ -8,6 +8,8 @@ package lapr4.green.s1.ipc.n1140618.ChatApplication.ui;
 import csheets.ui.ctrl.UIController;
 import java.io.IOException;
 import java.net.InetAddress;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -18,7 +20,7 @@ import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationCon
  *
  * @author Tiago
  */
-public class ChatPanel extends javax.swing.JPanel {
+public class ChatPanel extends javax.swing.JPanel implements Observer{
 
     private UIController uiController;
 
@@ -50,8 +52,8 @@ public class ChatPanel extends javax.swing.JPanel {
             @Override
             public void run() {
 
-                while (controller.isOnline()) {
-
+                while (true) {
+                    System.out.println("entra\n");
                     jList1.setModel(updateList());
 
                     try {
@@ -71,7 +73,7 @@ public class ChatPanel extends javax.swing.JPanel {
 
         DefaultListModel model = new DefaultListModel();
 
-        for (String onlineUser : controller.getOnlineUsers()) {
+        for (String onlineUser : controller.getOnlineUsers(this)) {
             model.addElement(onlineUser);
         }
 
@@ -155,4 +157,9 @@ public class ChatPanel extends javax.swing.JPanel {
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("recebi");
+    }
 }
