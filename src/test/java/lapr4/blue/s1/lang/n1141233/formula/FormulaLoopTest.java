@@ -7,6 +7,7 @@ import csheets.core.IllegalValueTypeException;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import org.junit.After;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -32,13 +33,13 @@ public class FormulaLoopTest
     }
 
     /**
-     * Test For operator "=for{(A1:=15);A1<10;1+2;2<1;a1>10}"
+     * Test ForOperator "=for{(A1:=15);A1<10;1+2;2<1;a1>10}"
      *
      * @throws csheets.core.formula.compiler.FormulaCompilationException
      * @throws csheets.core.IllegalValueTypeException
      */
     @Test
-    public void testFor() throws FormulaCompilationException, IllegalValueTypeException
+    public void testForOperator() throws FormulaCompilationException, IllegalValueTypeException
     {
         String content = "=for{(A1:=15);A1<10;1+2;2<1;a1>10}";
         Cell cellA1 = app.getWorkbooks()[0].getSpreadsheet(0).getCell(new Address(0, 0));
@@ -52,6 +53,65 @@ public class FormulaLoopTest
 
         assertTrue(cellA1.getValue().toDouble() == 15.0);
         assertTrue(cellA2.getValue().toBoolean() == true);
+    }
+
+    /**
+     * Test ForOperator insuficient arguments expression "=for{(A1:=23);A1<20}"
+     *
+     * @throws csheets.core.formula.compiler.FormulaCompilationException
+     * @throws csheets.core.IllegalValueTypeException
+     */
+    @Test
+    public void testForOperatorNotEnoughArguments() throws FormulaCompilationException, IllegalValueTypeException
+    {
+        String content = "=for{(A1:=23);A1<20}";
+
+        Cell cellA1 = app.getWorkbooks()[0].getSpreadsheet(0).getCell(new Address(0, 0));
+        cellA1.setContent("5");
+
+        Cell cellA2 = app.getWorkbooks()[0].getSpreadsheet(0).getCell(new Address(0, 1));
+
+        // #2 test
+        // test expression with not enough arguments
+        try
+        {
+            cellA2.setContent(content);
+            fail();
+        }
+        catch (FormulaCompilationException e)
+        {
+            System.out.println("success");
+        }
+    }
+
+    /**
+     * Test ForOperator malformed expression
+     * "=for{(A1:=15):A1<10;1+2,2<1;a1>10)"
+     *
+     * @throws csheets.core.formula.compiler.FormulaCompilationException
+     * @throws csheets.core.IllegalValueTypeException
+     */
+    @Test
+    public void testForOperatorMalformedExpression() throws FormulaCompilationException, IllegalValueTypeException
+    {
+        String content = "=for{(A1:=15):A1<10;1+2,2<1;a1>10)";
+
+        Cell cellA1 = app.getWorkbooks()[0].getSpreadsheet(0).getCell(new Address(0, 0));
+        cellA1.setContent("5");
+
+        Cell cellA2 = app.getWorkbooks()[0].getSpreadsheet(0).getCell(new Address(0, 1));
+
+        // #2 test
+        // test expression with not enough arguments
+        try
+        {
+            cellA2.setContent(content);
+            fail();
+        }
+        catch (FormulaCompilationException e)
+        {
+            System.out.println("success");
+        }
     }
 
     @After
