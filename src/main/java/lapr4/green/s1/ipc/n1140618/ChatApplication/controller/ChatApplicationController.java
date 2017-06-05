@@ -22,8 +22,6 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  */
 public class ChatApplicationController implements CommHandler2 {
 
-    private int commServerPort = 16100;
-
     private String peerId = "Teste";
 
     private CommServer2 commServer;
@@ -114,7 +112,7 @@ public class ChatApplicationController implements CommHandler2 {
 
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
-        Message messag = (Message) dto;
+        this.mess = (Message) dto;
         
         ReceiveMessage rm = new ReceiveMessage(this);
     }

@@ -23,6 +23,8 @@ public class ChatPanel extends javax.swing.JPanel {
     private UIController uiController;
 
     private ChatApplicationController controller;
+    
+    ChatPanel thisPanel;
 
     /**
      * Creates new form ChatPanel
@@ -31,9 +33,14 @@ public class ChatPanel extends javax.swing.JPanel {
     public ChatPanel(UIController uiController) {
         this.uiController = uiController;
         this.controller = new ChatApplicationController();
+        this.thisPanel=this;
         initComponents();
         
         createThread();
+    }
+    
+    public String getName(){
+        return "Chat";
     }
 
     public Thread createThread() {

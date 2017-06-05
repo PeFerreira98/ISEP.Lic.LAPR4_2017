@@ -7,6 +7,7 @@ package lapr4.green.s1.ipc.n1140618.ChatApplication.ui;
 
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
+import csheets.ui.ext.CellDecorator;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -21,7 +22,9 @@ public class UIExtensionChat extends UIExtension {
      * The icon to display with the extension's name
      */
     private Icon icon;
-
+    
+    /** A cell decorator that visualizes comments on cells */
+    private CellDecorator cellDecorator;
     /**
      * A side bar that provides editing of comments
      */

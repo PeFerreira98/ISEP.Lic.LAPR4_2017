@@ -18,9 +18,7 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  */
 public class ChatExtension extends Extension {
 
-    public static String NAME = "Chat";
-    
-    private Message message;
+    public static final String NAME = "Chat";
 
     /**
      * Creates a new chat extension
