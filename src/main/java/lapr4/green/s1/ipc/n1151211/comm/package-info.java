@@ -86,6 +86,64 @@
 * <img src="BroadcastServer.png" alt="image"> 
 * 
 * 
+*  <h2>How to use</h2>
+* 
+* 
+*  <p>To use Network Services you must be aware that there are two instances of CleanSheets on different computers. It must be programmed on both sides.
+
+When starting, both computers have to broadcast on the network their existence. To do this execute the code:
+</p>
+
+         <p><b>BroadcastServer.getServer ().broadcastThisService (new PeerService ("ServiceName", true));</b> </p>
+ * 
+
+<p>The other peers (CleanSheets) know the existence of the service and the pc where it is.
+
+ListenerServer listens to other 'peers' and stores this information. To access this information you can use the following code: </p>
+
+     <p><b>ArrayList <String> peers = ListenerServer.getServer().getServicePeers ("serviceName");</b></p>
+
+<p>Interested services can register an observer from the ListenerServer to be informed of each change in the ListenerServer list of peers. For this use the following code:</p>
+
+<p><b>ListenerServer.getServer ().addObserver (Observer obj);</b> </p>
+
+<p>The 'obj' class has to implement the java Observer interface.</p>
+
+<p>Arrived here, the peers are aware of each other's existence.</p>
+
+
+
+<p>In order to send objects from one instance to another you have to do operations on both computers.</p>
+* 
+* <p><b>All the objects that will pass in the network have to be of classes that implement the interface Serializable</b></p>
+* <p><b>public class EchoReply implements Serializable{</b></p>
+
+
+<p>Computer A wants to send objects to computer B. It starts by getting a connection to computer B:</p>
+
+        <p><b>CommClientWorker2 toPeer = ListenerServer.getServer ().getCommClientWorker2 (peerSelected);</b> </p>
+
+<p>The 'peerSelected' is a string obtained with getServicePeers ().</p>
+
+<p>It registers the handler that will process the response (if there is an answer):</p>
+
+<p><b>ListenerServer.getServer ().addHandler (EchoReply.class, ping);</b></p>
+
+<p>'ping' is the object that will receive the response. Implements the CommHandler2 interface.</p>
+
+<p>Then send the object with:</p>
+
+<p>  <b>EchoRequest echoRequest = new EchoRequest (CommExtension2.NAME, ++ pingNumber);</p>
+<p>   If (toPeer.sendDto (echoRequest) == false) {</p>
+<p>      ......</p>
+<p>}</b></p>
+
+<p>Computer B must have registered with CommServer2 the method that will process the class of the object it will receive:</p>
+
+<p><b>CommServer2.getServer (). addHandler (EchoRequest.class, handler);</b> </p>
+
+
+<p>The previous steps have to be repeated for all classes to be transferred.</p>
  *
  *
  * @author Fernando Borges

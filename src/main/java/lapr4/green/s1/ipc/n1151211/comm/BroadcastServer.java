@@ -171,7 +171,6 @@ public class BroadcastServer extends Thread {
         byte[] octetos = text.getBytes();
         udpPacket.setData(octetos);
         udpPacket.setLength(octetos.length);
-
         for (int i = 0; i < listOfBroadcasts.size(); ++i) {
             udpPacket.setAddress(listOfBroadcasts.get(i));
             try {
@@ -193,11 +192,11 @@ public class BroadcastServer extends Thread {
             boolean makeBroadcast = true;
             PeerService svc = services.get( service.serviceName() );
         
-            if( svc == null )
+            if( svc == null ){
                 services.put( service.serviceName(), service );
-            else
+            }else{
                 makeBroadcast = svc.updateStatus(service.statusOn());
-            
+            }
             if( makeBroadcast )
                 lock.notifyAll();
         }

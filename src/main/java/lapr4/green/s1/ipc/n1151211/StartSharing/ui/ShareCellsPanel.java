@@ -109,7 +109,7 @@ public class ShareCellsPanel extends JPanel implements Observer {
             }
         });
 
-        btStatus = new JButton("On/Off");
+        btStatus = new JButton("On-Off");
         //btStatus.setForeground(Color.BLACK);
         btStatus.setPreferredSize(new Dimension(50, 50));
         

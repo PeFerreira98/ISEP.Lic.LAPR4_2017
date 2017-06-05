@@ -73,6 +73,7 @@ public class ClientTestAction2 extends BaseAction implements Observer{
     protected void doPing(String peerSelected ) {
         CommClientWorker2 toPeer = listenerServer.getCommClientWorker2( peerSelected );
         if( toPeer == null ){
+            ping.communicationFailure();
             return;
         }
         

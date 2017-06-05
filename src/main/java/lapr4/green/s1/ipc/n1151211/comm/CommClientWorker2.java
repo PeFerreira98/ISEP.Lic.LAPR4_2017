@@ -24,7 +24,7 @@ public class CommClientWorker2  extends Thread implements SendDto{
     private Peer peer = null;
     private ObjectInputStream inStream = null;
     private ObjectOutputStream outStream = null;
-    private boolean status = false;
+    private boolean status = true;
     
         
     public CommClientWorker2 (Socket theSocket, CommServer2 srvr, Peer pr) {
@@ -34,11 +34,13 @@ public class CommClientWorker2  extends Thread implements SendDto{
         try {
             inStream=new ObjectInputStream(socket.getInputStream());
         } catch (IOException ex) {
+            status = false;
             Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
         }
         try { 
             outStream= new ObjectOutputStream( socket.getOutputStream() );
         } catch (IOException ex) {
+            status = false;
             Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
