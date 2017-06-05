@@ -5,6 +5,7 @@
  */
 package lapr4.green.s1.ipc.n1140618.ChatApplication;
 
+import java.io.Serializable;
 import lapr4.green.s1.ipc.n1151211.comm.CommHandler2;
 import lapr4.green.s1.ipc.n1151211.comm.SendDto;
 
@@ -12,7 +13,7 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  *
  * @author Tiago
  */
-public class Message{
+public class Message implements Serializable{
     
     
     private String content;
