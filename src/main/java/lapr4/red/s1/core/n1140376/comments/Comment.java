@@ -30,17 +30,11 @@ public class Comment implements Serializable {
 	 * The text of the comment
 	 */
 	private String text;
-
-	/**
-	 * List of Comments
-	 */
-	private ArrayList<Comment> history;
        
 	public Comment(String userName, String text) {
 		this.userName = userName;
 		this.text = text;
-		this.history = new ArrayList<>();
-		history.add(this);
+		
 	}
 
 	/**
@@ -83,19 +77,6 @@ public class Comment implements Serializable {
 		final Comment other = (Comment) obj;
 		return Objects.equals(this.userName, other.userName);
 	}
-
-	/**
-	 * Method that modifies the comment
-	 *
-	 * @param comment Comment
-	 */
-	public void setComment(Comment comment) {
-		Comment version = new Comment(this.userName(), this.text());
-		history.add(version);
-		this.text = comment.text();
-	}
-
-	public List<Comment> commentHistory() {
-		return this.history;
-	}
 }
+
+	
