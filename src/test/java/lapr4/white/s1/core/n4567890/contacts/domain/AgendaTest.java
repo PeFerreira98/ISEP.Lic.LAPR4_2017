@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lapr4.red.s1.core.n1140388.contacts.domain;
+package lapr4.white.s1.core.n4567890.contacts.domain;
 
 import java.awt.List;
 import java.util.Calendar;

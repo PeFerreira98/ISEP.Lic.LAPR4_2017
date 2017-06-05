@@ -61,7 +61,6 @@ public class CreateEventFrameUI extends JDialog {
         //Creates panels
         JPanel p1 = createDescriptionPanel();
         JPanel p2 = createTimePanel();
-//        JPanel p3 = createPhotoPanel();
         JPanel p3 = createButtonsPanel();
 
         //Add panels
