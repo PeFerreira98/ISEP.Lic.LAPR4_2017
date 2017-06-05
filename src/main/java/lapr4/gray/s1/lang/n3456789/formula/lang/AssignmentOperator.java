@@ -57,15 +57,13 @@ public class AssignmentOperator implements BinaryOperator {
             return value;
         }
         if (leftOperand instanceof TemporaryReference) {
-            System.out.println("ENTREI CRL!");
             Value value = rightOperand.evaluate();
             TemporaryReference left = (TemporaryReference) leftOperand;
             if (TemporaryStorage.exists(left.getName())) {
-                System.out.println("TEMPORARY EXISTS");
-                System.out.println(" " + value.toDouble());
+                System.out.println("TEMPORARY EXISTS" + " " + value.toDouble());
                 TemporaryStorage.update(left.getName(), value);
             } else {
-                System.out.println("TEMPORARY NON EXISTS");
+                System.out.println("TEMPORARY NON EXISTS" + " " + value.toDouble());
                 TemporaryStorage.add(left.getName(), value);
             }
             

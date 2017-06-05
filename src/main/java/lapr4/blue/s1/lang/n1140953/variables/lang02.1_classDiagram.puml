@@ -1,4 +1,4 @@
-@startuml domain_model_variables.png
+@startuml lang02.1_classDiagram.png
 
 class ExcelExpressionCompiler {
     +compile(Cell cell, String source)

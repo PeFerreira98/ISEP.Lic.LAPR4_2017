@@ -1,4 +1,4 @@
-@startuml
+@startuml lang02.1_sequenceDiagram.png
 actor System
 participant "<<compiler>>\nExcelExpressionCompiler" as Compiler
 participant "<<variable>>\nTemporaryReference" as Variable
