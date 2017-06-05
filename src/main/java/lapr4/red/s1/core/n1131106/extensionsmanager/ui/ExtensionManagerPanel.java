@@ -113,6 +113,7 @@ public class ExtensionManagerPanel extends JPanel implements SelectionListener {
 
         /**
          * Creates a new apply action.
+         * @param i
          */
         public ApplyAction(int i) {
             posExtension = i;
