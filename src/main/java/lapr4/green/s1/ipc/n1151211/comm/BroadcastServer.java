@@ -168,7 +168,6 @@ public class BroadcastServer extends Thread {
     }
 
     private void broadcastPacket(String text, DatagramPacket udpPacket) {
-        System.out.println("broadcastPacket");
         byte[] octetos = text.getBytes();
         udpPacket.setData(octetos);
         udpPacket.setLength(octetos.length);

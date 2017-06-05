@@ -66,21 +66,21 @@ public class ClientTestAction2 extends BaseAction implements Observer{
         @Override
     public void update(Observable o, Object arg) {
         ArrayList<String> peers = listenerServer.getServicePeers(CommExtension2.NAME);
-        
-        System.out.println("update " + peers + "  " + arg);
-        
+                
         ping.updatePeers( peers );
     }
 
     protected void doPing(String peerSelected ) {
         CommClientWorker2 toPeer = listenerServer.getCommClientWorker2( peerSelected );
-        if( toPeer == null )
+        if( toPeer == null ){
             return;
+        }
         
         listenerServer.addHandler(EchoReply.class, ping );
 
         EchoRequest echoRequest = new EchoRequest( CommExtension2.NAME, ++pingNumber );
-        toPeer.sendDto(echoRequest);
+        if( toPeer.sendDto(echoRequest) == false )
+            ping.communicationFailure();
     }
 
 }

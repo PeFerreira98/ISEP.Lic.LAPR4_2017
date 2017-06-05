@@ -18,6 +18,7 @@ import java.util.Observer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -45,6 +46,8 @@ public class CommPing extends JFrame implements CommHandler2 {
 
     private JButton btPing;
     private JScrollPane scrollPane;
+    private JLabel answer;
+    
     private ClientTestAction2 controller;
 
     public CommPing(ClientTestAction2 cntrl) {
@@ -64,7 +67,7 @@ public class CommPing extends JFrame implements CommHandler2 {
         setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
         Dimension dim = new Dimension(WINDOW_WIDTH, WINDOW_HEIGHT);
         this.setMaximumSize(dim);
-
+        setResizable(false);
         setVisible(true);
     }
 
@@ -74,6 +77,12 @@ public class CommPing extends JFrame implements CommHandler2 {
         pNorth.setBackground(Color.YELLOW);
         pNorth.add(btPing);
         add(pNorth, BorderLayout.NORTH);
+        
+        JPanel pSouth = new JPanel();
+
+        answer = new JLabel("answer", JLabel.CENTER );
+        pSouth.add(answer);
+        add(pSouth, BorderLayout.SOUTH);
 
         //create the list
         peerList = new JList<>(listModel);
@@ -102,9 +111,7 @@ public class CommPing extends JFrame implements CommHandler2 {
 
                 if (oneSelected != null) {
                     controller.doPing( oneSelected );
-                    JOptionPane.showMessageDialog(CommPing.this, "Carregou em " + oneSelected + "  " + e.getActionCommand());
                 }
-
             }
         });
 
@@ -154,12 +161,16 @@ public class CommPing extends JFrame implements CommHandler2 {
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
         EchoReply echoReply = (EchoReply)dto;
-        System.out.println( echoReply.whoAsk() + " <-> " + echoReply.whoAnswered() + " : " + echoReply.theRequest() );
+        answer.setText(echoReply.whoAsk() + " <-> " + echoReply.whoAnswered() + " : " + echoReply.theRequest() );
     }
 
     @Override
     public Object getLastReceivedDTO() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    void communicationFailure() {
+        answer.setText( "communication failure");
     }
 
 }

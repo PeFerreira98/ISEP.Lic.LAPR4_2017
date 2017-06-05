@@ -88,8 +88,6 @@ public class PeerRegister extends Observable {
             }
         }
         
-                System.out.println("peersClean " + change );
-
         hasChange( change );
         return sleep;
     }
