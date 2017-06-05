@@ -32,6 +32,8 @@ public class ReceiveMessage extends javax.swing.JFrame {
         
         createThread();
         
+        this.setVisible(true);
+        
     }
     
     public Thread createThread() {
