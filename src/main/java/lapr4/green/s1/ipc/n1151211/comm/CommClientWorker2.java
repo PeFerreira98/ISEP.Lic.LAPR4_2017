@@ -136,8 +136,11 @@ public class CommClientWorker2  extends Thread implements SendDto{
 
     @Override
     public boolean sendDto( Object dto ){
-        if( status == false )
+        if( status == false ){
+            System.out.println("Status off");
             return false;
+        }
+            
         
         try {
             if( outStream == null )

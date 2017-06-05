@@ -138,7 +138,6 @@ public class ChatPanel extends javax.swing.JPanel implements Observer{
 
     @Override
     public void update(Observable o, Object arg) {
-        System.out.println("entra");
         ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
         
         updateList(peers);
