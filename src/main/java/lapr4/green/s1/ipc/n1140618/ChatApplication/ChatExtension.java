@@ -16,7 +16,7 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  *
  * @author Tiago
  */
-public class ChatExtension extends Extension implements CommHandler2{
+public class ChatExtension extends Extension {
 
     public static String NAME = "Chat";
     
@@ -39,15 +39,6 @@ public class ChatExtension extends Extension implements CommHandler2{
     	return new UIExtensionChat(this, uiController);
     }  
 
-    @Override
-    public void handleDTO(Object dto, SendDto commWorker) {
-        Message messag = (Message) dto;
-        commWorker.sendDto(messag);
-    }
 
-    @Override
-    public Message getLastReceivedDTO() {
-        return this.message;
-    }
 
 }

@@ -32,6 +32,8 @@ public class ChatPanel extends javax.swing.JPanel {
         this.uiController = uiController;
         this.controller = new ChatApplicationController();
         initComponents();
+        
+        createThread();
     }
 
     public Thread createThread() {
