@@ -6,26 +6,22 @@
 package lapr4.red.s1.core.n1140388.contacts.ui;
 
 import eapli.util.DateTime;
-import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 import lapr4.white.s1.core.n4567890.contacts.domain.Event;
 
 /**
+ * A panel to remove an event.
  *
  * @author Alexandra Ferreira - 1140388@isep.ipp.pt
  */

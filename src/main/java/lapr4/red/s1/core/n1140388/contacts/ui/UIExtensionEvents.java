@@ -11,7 +11,10 @@ import csheets.ui.ext.UIExtension;
 import javax.swing.JComponent;
 
 /**
+ * This class implements the UI interface extension for the events extension.
+ * A UI interface extension must extend the UIExtension abstract class.
  *
+ * @see UIExtension
  * @author Alexandra Ferreira 1140388
  */
 public class UIExtensionEvents extends UIExtension {

@@ -11,7 +11,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Calendar;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -24,8 +23,9 @@ import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 import lapr4.white.s1.core.n4567890.contacts.domain.Event;
 
 /**
+ * A panel to edit an event.
  *
- * Alexandra Ferreira - 1140388@isep.ipp.pt
+ * @author Alexandra Ferreira - 1140388@isep.ipp.pt
  */
 public class EditEventFrameUI extends JDialog {
 
