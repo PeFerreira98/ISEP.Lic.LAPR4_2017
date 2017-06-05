@@ -186,7 +186,7 @@ public class CondFormDialog extends javax.swing.JFrame {
 
     private void txtValueKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtValueKeyTyped
         char vchar = evt.getKeyChar();
-        if (!(Character.isDigit(vchar)) || (vchar == KeyEvent.VK_BACKSPACE) || (vchar == KeyEvent.VK_DELETE)) {
+        if (!(Character.isDigit(vchar) || (vchar == KeyEvent.VK_COMMA)) || (vchar == KeyEvent.VK_BACKSPACE) || (vchar == KeyEvent.VK_DELETE)) {
             evt.consume();
         }
     }//GEN-LAST:event_txtValueKeyTyped

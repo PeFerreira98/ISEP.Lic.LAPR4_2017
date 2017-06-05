@@ -5,6 +5,7 @@
  */
 package lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui;
 
+import com.sun.glass.events.KeyEvent;
 import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
 import java.awt.BorderLayout;
@@ -13,6 +14,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import javafx.scene.control.ComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -61,14 +63,14 @@ public class FormatingPanel extends JPanel implements ActionListener {
 
         mainPanel = new JPanel(new GridLayout(2, 1));
         JPanel optionButtonsPanel = new JPanel(new GridLayout(6, 2));
-        JPanel confirmButtonsPanel = new JPanel (new GridLayout(5,0));
+        JPanel confirmButtonsPanel = new JPanel(new GridLayout(5, 0));
 
         // Adds borders
 //        TitledBorder border = BorderFactory.createTitledBorder("Formating Settings");
 //        border.setTitleJustification(TitledBorder.CENTER);
 //        contactsPane.setBorder(border);
         cmbOperators = new JComboBox(items);
-        txtValue = new JTextField();
+        txtValue = createTxtValue();
         btnTrue = createBtnTrue();
         btnFalse = createBtnFalse();
         btnOK = createBtnOK();
@@ -79,15 +81,34 @@ public class FormatingPanel extends JPanel implements ActionListener {
         optionButtonsPanel.add(new JToolBar.Separator(new Dimension(10, 10)));
         optionButtonsPanel.add(btnTrue);
         optionButtonsPanel.add(btnFalse);
-        
+
         confirmButtonsPanel.add(btnOK);
 
         // Creates side bar
-        add(mainPanel,BorderLayout.NORTH);
-        add(optionButtonsPanel,BorderLayout.CENTER);
-        add(confirmButtonsPanel,BorderLayout.SOUTH);
+        add(mainPanel, BorderLayout.NORTH);
+        add(optionButtonsPanel, BorderLayout.CENTER);
+        add(confirmButtonsPanel, BorderLayout.SOUTH);
     }
 
+    private JTextField createTxtValue() {
+        JTextField txt = new JTextField();
+        txt.addKeyListener(new KeyListener() {
+            @Override
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                char vchar = evt.getKeyChar();
+                if (!(Character.isDigit(vchar) || (vchar == KeyEvent.VK_COMMA)) || (vchar == KeyEvent.VK_BACKSPACE) || (vchar == KeyEvent.VK_DELETE)) {
+                    evt.consume();
+                }
+            }
+
+            @Override
+            public void keyPressed(java.awt.event.KeyEvent e) {}
+
+            @Override
+            public void keyReleased(java.awt.event.KeyEvent e) {}
+        });
+        return txt;
+    }
 
     private JButton createBtnTrue() {
         JButton btnTrue = new JButton("True");
