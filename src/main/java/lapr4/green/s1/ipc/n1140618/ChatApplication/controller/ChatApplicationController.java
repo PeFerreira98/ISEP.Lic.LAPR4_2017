@@ -34,7 +34,6 @@ public class ChatApplicationController {
     
     /**
      * Creates a new Controller
-     * @param uiController the user interface controller
      */
     public ChatApplicationController(){
         this.commServer= CommServer2.getServer();   

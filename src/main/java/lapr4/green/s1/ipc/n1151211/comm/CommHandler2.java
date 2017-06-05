@@ -11,7 +11,7 @@ public interface CommHandler2 {
     /**
      * 
      * @param dto the object received by the socket
-     * @param outStream the output stream to be used to send a reply/response to the socket
+     * @param commWorker the output stream to be used to send a reply/response to the socket
      */
     public void handleDTO(Object dto, SendDto commWorker);
     
