@@ -107,7 +107,7 @@ public class ChatApplicationController implements CommHandler2 {
         
         CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(mess.getIdDest());
         if(toPeer==null){
-            JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "NO COMUNICATION TO PEER!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
         
