@@ -25,7 +25,7 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  */
 public class ChatApplicationController implements CommHandler2 {
 
-    private String peerId;
+    private String peerId ="Teste";
 
     private CommServer2 commServer;
 

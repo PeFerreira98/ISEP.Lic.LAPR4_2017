@@ -30,7 +30,7 @@ public class ReceiveMessage extends javax.swing.JFrame {
         jTextArea1.setText(controller.getMessage().getContent());
         jTextArea1.setEditable(false);
         
-        createThread();
+        createThread().start();
         
         this.setVisible(true);
         
