@@ -1,0 +1,10 @@
+@startuml analysis_lang01.2.png
+
+participant "User" as User
+participant "Cell" as Cell
+
+ User -> Cell : Insert monetary operation
+ Cell->Fomula : Calculates the result
+ Cell->User : Show the result
+
+@enduml
