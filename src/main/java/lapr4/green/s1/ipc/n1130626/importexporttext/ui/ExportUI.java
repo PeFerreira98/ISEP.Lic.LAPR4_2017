@@ -14,22 +14,30 @@ import lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextC
 
 /**
  * User interface for the use case: IPC04.1 Import/Export Text
+ *
  * @author Pedro Pereira
  */
-public class ExportUI extends javax.swing.JFrame {
+public class ExportUI extends javax.swing.JFrame
+{
 
-    /**The controller for the use case*/
-    private ImportExportTextController controller;
-    
-    /**A matrix of cells selected by the user*/
-    private Cell[][] selectedCells;
-    
+    /**
+     * The controller for the use case
+     */
+    private final ImportExportTextController controller;
+
+    /**
+     * A matrix of cells selected by the user
+     */
+    private final Cell[][] selectedCells;
+
     /**
      * Creates new form ExportUI
+     *
      * @param selectedCells the cells selected by the user
      * @param uiController the user interface controller
      */
-    public ExportUI(Cell[][] selectedCells, UIController uiController) {    
+    public ExportUI(Cell[][] selectedCells, UIController uiController)
+    {
         initComponents();
         this.controller = new ImportExportTextController(uiController);
         this.selectedCells = selectedCells;
@@ -138,14 +146,18 @@ public class ExportUI extends javax.swing.JFrame {
     }//GEN-LAST:event_textSpecialCharActionPerformed
 
     private void exportButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_exportButtonActionPerformed
-        try {
+        try
+        {
             this.controller.checkCells(this.textSpecialChar.getText(), selectedCells);
             JFileChooser fileChooser = new JFileChooser();
-            if(fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION){
-                this.controller.exportToTextFile(selectedCells, fileChooser.getSelectedFile().getAbsolutePath(), this.textSpecialChar.getText());
+            if (fileChooser.showSaveDialog(this) == JFileChooser.APPROVE_OPTION)
+            {
+                this.controller.exportToTextFile(selectedCells, fileChooser.getSelectedFile().getAbsolutePath(), this.textSpecialChar.getText().trim());
                 this.dispose();
             }
-        } catch (Exception ex) {
+        }
+        catch (Exception ex)
+        {
             Logger.getLogger(ExportUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_exportButtonActionPerformed
@@ -154,7 +166,6 @@ public class ExportUI extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_cancelButtonActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;

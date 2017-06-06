@@ -31,6 +31,7 @@ public class ImportAction extends FocusOwnerAction {
             return "Import data from a text file";
         }
 
+        @Override
         protected void defineProperties() {
 	}
         

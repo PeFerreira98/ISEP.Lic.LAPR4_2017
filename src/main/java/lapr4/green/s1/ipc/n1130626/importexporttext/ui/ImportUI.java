@@ -13,18 +13,24 @@ import lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextC
 
 /**
  * User interface for the use case: IPC04.1 Import/Export Text
+ *
  * @author Pedro Pereira
  */
-public class ImportUI extends javax.swing.JFrame {
-    
-    /**The controller for the use case*/
-    private ImportExportTextController controller;
+public class ImportUI extends javax.swing.JFrame
+{
+
+    /**
+     * The controller for the use case
+     */
+    private final ImportExportTextController controller;
 
     /**
      * Creates new form ImportUI
+     *
      * @param uiController the user interface controller
      */
-    public ImportUI(UIController uiController) {
+    public ImportUI(UIController uiController)
+    {
         initComponents();
         this.controller = new ImportExportTextController(uiController);
         this.lblActiveCell.setText(uiController.getActiveCell().getAddress().toString());
@@ -37,7 +43,8 @@ public class ImportUI extends javax.swing.JFrame {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents()
+    {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
@@ -45,8 +52,6 @@ public class ImportUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         nameTextFile = new javax.swing.JTextField();
         btnFindTextFile = new javax.swing.JButton();
-        jLabel5 = new javax.swing.JLabel();
-        textSpecialChar = new javax.swing.JTextField();
         checkHeader = new javax.swing.JCheckBox();
         btnImport = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
@@ -63,26 +68,30 @@ public class ImportUI extends javax.swing.JFrame {
         jLabel4.setText("Text file to import:");
 
         btnFindTextFile.setText("Find...");
-        btnFindTextFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnFindTextFile.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 btnFindTextFileActionPerformed(evt);
             }
         });
 
-        jLabel5.setText("Special character:");
-
         checkHeader.setText("First line of the text file should be treated as containing the header of the columns");
 
         btnImport.setText("Import");
-        btnImport.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnImport.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 btnImportActionPerformed(evt);
             }
         });
 
         btnCancel.setText("Cancel");
-        btnCancel.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
+        btnCancel.addActionListener(new java.awt.event.ActionListener()
+        {
+            public void actionPerformed(java.awt.event.ActionEvent evt)
+            {
                 btnCancelActionPerformed(evt);
             }
         });
@@ -95,17 +104,14 @@ public class ImportUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                         .addGroup(layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jLabel5)
-                                .addComponent(jLabel4))
+                            .addGap(8, 8, 8)
+                            .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(layout.createSequentialGroup()
                                     .addComponent(nameTextFile, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGap(18, 18, 18)
                                     .addComponent(btnFindTextFile))
-                                .addComponent(textSpecialChar, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(checkHeader)))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGap(209, 209, 209)
@@ -137,17 +143,13 @@ public class ImportUI extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(nameTextFile, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFindTextFile))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(textSpecialChar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(40, 40, 40)
                 .addComponent(checkHeader)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnImport)
                     .addComponent(btnCancel))
-                .addContainerGap(12, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -155,7 +157,8 @@ public class ImportUI extends javax.swing.JFrame {
 
     private void btnFindTextFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFindTextFileActionPerformed
         JFileChooser fc = new JFileChooser();
-        if(fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION)
+        {
             this.nameTextFile.setText(fc.getSelectedFile().toString());
         }
     }//GEN-LAST:event_btnFindTextFileActionPerformed
@@ -165,15 +168,17 @@ public class ImportUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
-        try {
-            this.controller.importFromTextFile(nameTextFile.getText(), textSpecialChar.getText(), checkHeader.isSelected());
-        } catch (Exception ex) {
+        try
+        {
+            this.controller.importFromTextFile(nameTextFile.getText(), checkHeader.isSelected());
+        }
+        catch (Exception ex)
+        {
             Logger.getLogger(ImportUI.class.getName()).log(Level.SEVERE, null, ex);
         }
         this.dispose();
     }//GEN-LAST:event_btnImportActionPerformed
 
-    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancel;
@@ -183,9 +188,7 @@ public class ImportUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel lblActiveCell;
     private javax.swing.JTextField nameTextFile;
-    private javax.swing.JTextField textSpecialChar;
     // End of variables declaration//GEN-END:variables
 }
