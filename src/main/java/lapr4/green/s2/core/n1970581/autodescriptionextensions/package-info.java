@@ -17,10 +17,17 @@
  * Work notes/log: S2 6-05-2017 (terca) <br>
  * During the morning we had a meeting with the client. <br>
  * We also had the daily scrum meeting, where each chose a use case of core. <br>
- * During the afternoon we did our IPC presentation of Sprint 1
- * We closed sprint 1 with the sprint review meeting.
- * Sprint 2 was initiated. We created Jira tasks.
- * Analysis was initiated.
+ * During the afternoon we did our IPC presentation of Sprint 1 <br>
+ * We closed sprint 1 with the sprint review meeting. <br>
+ * Sprint 2 was initiated. We created Jira tasks. <br>
+ * Analysis was initiated. <br>
+ * 
+ * 
+ * Work notes/log: S2 7-05-2017 (quarta) <br> 
+ * Scrum meeting: check Jira report <br>
+ * Checking UC's requirements with team. <br>
+ * Asked Core Teacher opinion regarding my analysis. Teacher suggested that I update the existing extensions to use the new Constructor. <br>
+ * Started testing documentation and user functionl test. <br>
  * 
  * <h2>2. Requirement</h2>
  * 
@@ -75,6 +82,46 @@
  *  * <h3>3.1 First "Analysis" class diagram</h3>
  * <img src="core01_2_02_analysis.png" alt="image">
  * 
+ * <h2>4. Design</h2>
+ *
+ * <h3>4.1. Testing </h3>
+ * Basically, from requirements and also analysis, we see that the core functionality of this use case is to be able to select the extensions to load according to their version, before the application fully starts.<br>
+ * Then allowing the program to finish fully loading. <br>
+ * <p>
+ * What should we test: <br> 
+ * <ul>
+ * <li> The UI.</li> 
+ * <li> That in the UI that we can see all the extensions in the properties files and that they display the metadata information. </li> 
+ * <li> That we cannot load two versions of the same extension.</li> 
+ * <li> That the available extensions are the ones that we selected.</li> 
+ * </ul>
+ * 
+ * Blockages: <br>
+ *  We can't code automatic tests for the UI. But we can use Functional tests with a user to test it. <br>
+ *
+ *  
+ * <h3>4.1.1 Main Functional Test </h3>
+ * 
+ *  This test represent a user following the use case. It describes the user actions and the expected outcome.<p>
+ *  
+ *  <b>Pre conditions:</b><p>
+ *  There should be several extensions in the extensions.prop properties file. Some should have the same name, but diferent versions. <br>
+ *  
+ * 
+ *  <b>Test:</b>
+ *  <ul>
+ *  <li>The user start the Cleansheets program.</li>
+ *  <li>A menu for the selection of extensions shows up.</li>
+ *  <li>There should be a preselection of extensions for load on the right loading list.</li>
+ *  <li>The user should select an extension on the left , the available list and the metadata information should appear.</li>
+ *  <li>Selecting the button add on that extension should add it to the loading list.</li>
+ *  <li>Selecting an extension that is already on the loading list should block the add funcionality.</li>
+ *  <li>Selecting an extension from the loading list and pressing the remove button should move the extension to the available list.</li>
+ *  <li>Pressing the load button should close the menu, and continue the loading of the application.</li>
+ *  <li>Once all the application finishes loading, the extensions should be available on  view > sidebar or in extensions list of the menu bar.</li>
+ *  </ul>
+ * 
+ * <h3>4.1.2 Unit Tests </h3>
  * 
  * 
  * @author Hugo Bento 1970581
