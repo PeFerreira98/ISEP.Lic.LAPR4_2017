@@ -22,16 +22,27 @@
  * 
  * <h2>3. Analysis</h2>
  * 
- * Analyze how to associate the extensions to a window, which can be enabled and disabled.
- * How do we enable and disable an extension.
- * This window will also be an extension, it will be a SideBar on the View menu that can be enabled and disabled.
- * This extension will serve as manager of all others.
- * The implementation will pass by creating a subclass of abstract class Extension.
+ * This case requires in first change the Formula.g file so it can be possible
+ * to accept the symbol "@", with grammar changed and can accept this character
+ * followed by a string with the variable name is already possible to interpret
+ * and create Lexer associated tokens. 
+ * <p>
+ * Then you must create a class that is
+ * responsible the creation of the Variable object, which will have a name and a
+ * value spreadshet. The name will be a string to identify the variable, the
+ * value It will be a double with the contents of the variable, and the
+ * spreadsheet will be the current Spreadsheet. 
+ * <p>
+ * To persists global variables I create a list of all global variables in class Workbook and when the
+ * workbook is saved, the list is saved to. To accomplish this Requirement, 
+ * first of all I Will create an class called GlobalVariable, which is responsable for 
+ * creating a variable when the grammar finds the TOKEN variable, in other words, 
+ * a String starting with an "@".
  * 
  * <img src="lang02_02_analysis.png" alt="image"> 
  * 
  * <h2>4. Design</h2>
- * <p>
+ * 
  * 
  * 
  *

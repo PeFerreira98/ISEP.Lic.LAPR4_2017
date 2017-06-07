@@ -1,0 +1,86 @@
+@startuml lang02_02_design.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+title Global Variables Design
+
+actor User
+participant "CellEditor" as UICE
+participant "UIController" as UICTRL
+participant "CellImpl" as CI
+participant "FormulaCompiler" as FC
+participant "ExcelExpressionCompiler" as EXCEL
+participant "VariableReference" as VARREF
+participant "Workbook" as WORKB
+participant "GlobalVariable" as GLVAR
+participant "ANTLRStringStream" as ANT
+participant "FormulaLexer" as LEX
+participant "CommonTokenStream" as CTS
+participant "FormulaParser" as PARS
+participant "CommonTree" as TREE
+
+
+activate User
+User ->UICE : Assign a value to a variable
+deactivate User
+
+activate UICE
+
+UICE ->UICE : stopCellEditing()
+UICE ->CI : setContent(content)
+
+activate CI
+CI -> CI : storeContent(content)
+CI -> FC : formula = compile(cell, instruction)
+
+activate FC
+	loop for each ExpressionCompiler
+	alt first char is '='
+	FC -> EXCEL : expression = compile(cell, instruction)
+	create ANT
+	activate EXCEL
+	EXCEL -> ANT : input = new(instruction)
+	create LEX
+	EXCEL -> LEX : lexer = new(input)
+	create CTS
+	EXCEL -> CTS : tokens = new(lexer)
+	create PARS
+	EXCEL -> PARS : parser = new(tokens)
+	EXCEL -> TREE : tree = parser.expression().getTree()
+	note right of FC : the convert function verifies all nodes,\n if they don't have children the function returns\n the type of content; If they have children it will call \n itself recursively until the end of leaf nodes;\n After this returns the type of content.
+	EXCEL -> EXCEL : expression = convert(cell, tree)
+
+	create VARREF
+	EXCEL ->VARREF : new(variable,spreadsheet)
+
+	activate VARREF
+	VARREF ->WORKB : Variable var= findVariable(variable, spreadsheet)
+
+	 alt if variable not exist
+	 VARREF ->WORKB : createVariable(variable, new Value(),spreadsheet);
+
+	 create GLVAR
+     WORKB ->GLVAR : 	GlobalVariable glVar = new GlobalVariable(glVarName, varValue, spreadsheet);
+	 WORKB -> WORKB : addVariable(glVar);
+
+	else if variable exists
+	WORKB -> UICE : showMessage(variavelExiste)
+	end
+
+    CI -> CI : updateDependencies()
+	CI -> CI : fireContentChanged()
+	note right : notifies listeners the cell value has changed
+	CI -> CI : reevaluate()
+	deactivate CI
+
+	UICE->UICTRL : setActiveCell(cell)
+	deactivate UICE
+    deactivate FC
+	deactivate CI
+
+end
+
+@enduml
