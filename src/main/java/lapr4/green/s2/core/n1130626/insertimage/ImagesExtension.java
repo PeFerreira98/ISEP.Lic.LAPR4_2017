@@ -7,6 +7,9 @@ package lapr4.green.s2.core.n1130626.insertimage;
 
 import csheets.core.Cell;
 import csheets.ext.Extension;
+import csheets.ui.ctrl.UIController;
+import csheets.ui.ext.UIExtension;
+import lapr4.green.s2.core.n1130626.insertimage.ui.UIExtensionImages;
 
 /**
  *
@@ -15,7 +18,7 @@ import csheets.ext.Extension;
 public class ImagesExtension extends Extension {
     
         /** The name of the extension */
-	public static final String NAME = "Insert images";
+	public static final String NAME = "Images";
 
         /**
          * Creates a new Image Extension.
@@ -31,5 +34,14 @@ public class ImagesExtension extends Extension {
          */
         public ImagenableCell extend(Cell cell){
             return new ImagenableCell(cell);
+        }
+        
+        /**
+         * Returns the user interface extension of this extension
+         * @param uiController the user interface controller
+         * @return a user interface extension, or null if none is provided
+         */
+        public UIExtension getUIExtension(UIController uiController){
+            return new UIExtensionImages(this, uiController);
         }
 }
