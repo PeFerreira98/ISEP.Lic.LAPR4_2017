@@ -86,7 +86,7 @@ public class UIExtensionImages extends UIExtension {
      */
     public JComponent getSideBar(){
         if(sideBar == null){
-            
+            sideBar = new ImagesPanel(uiController);
         }
         return sideBar;
     }
