@@ -80,7 +80,7 @@
  * <p>
  * 
  *  * <h3>3.1 First "Analysis" class diagram</h3>
- * <img src="core01_2_02_analysis.png" alt="image">
+ * <img src="core01_2_02_analysis.png" alt="image filed to load">
  * 
  * <h2>4. Design</h2>
  *
@@ -118,10 +118,22 @@
  *  <li>Selecting an extension that is already on the loading list should block the add funcionality.</li>
  *  <li>Selecting an extension from the loading list and pressing the remove button should move the extension to the available list.</li>
  *  <li>Pressing the load button should close the menu, and continue the loading of the application.</li>
- *  <li>Once all the application finishes loading, the extensions should be available on  view > sidebar or in extensions list of the menu bar.</li>
+ *  <li>Once all the application finishes loading, the extensions should be available on  view - sidebar or in extensions list of the menu bar.</li>
  *  </ul>
  * 
  * <h3>4.1.2 Unit Tests </h3>
+ * 
+ * 
+ * <b>Diagrama de classes</b> <p>
+ * 
+ *  <img src="core01_2_03_design.png" alt="image failed to load">
+ * <p>
+ *  <b>SD new loading</b> <p>
+ *  <img src="core01_2_04_design.png" alt="image failed to load">
+ *  <p>
+ *  <b>SD metadata building</b> <p>
+ *  <img src="core01_2_05_design.png" alt="image failed to load">
+ *  <p>
  * 
  * 
  * @author Hugo Bento 1970581

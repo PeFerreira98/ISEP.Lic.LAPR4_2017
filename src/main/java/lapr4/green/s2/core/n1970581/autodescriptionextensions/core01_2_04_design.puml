@@ -1,0 +1,76 @@
+@startuml core01_2_04.png
+
+
+'DescriptionExtensionLoader
+'DescriptionExtensionLoaderUI
+'DescriptionExtensionLoaderController
+'Metadata
+'Name
+'Version
+'Description
+'MetadataFactory
+'ExtensionDTO
+'CleanSheets
+'ExtensionManager
+'Metadatable
+
+participant "app : CleanSheets" as app
+participant "manager : ExtensionManager" as manager
+participant "loader : DescriptionExtensionLoader" as loader
+participant "ctrl : DescriptionExtensionLoaderController" as ctrl
+'participant "thread : Thread" as thread
+participant "ui : DescriptionExtensionLoaderUI" as ui
+
+
+'participant "metadata : Metadata" as metadata
+'participant "dto : ExtensionDTO" as dto
+'participant "name : Name" as name
+'participant "version : Version" as version
+'participant "desc : Description" as desc
+'participant "factory : MetadataFactory" as factory
+'participant " : Metadatable" as interface
+
+
+app -> manager : getInstance()
+create loader
+app --> loader : create()
+
+app -> loader : retrieveAllExtensions()
+app -> loader : buildDefaultLoadList()
+app -> loader : contactUser()
+activate loader
+
+create ctrl
+loader --> ctrl : create(loader, extensionDTOList, defaultList)
+create ui
+loader --> ui :  create(ctrl, extensionDTOList, defaultList)
+
+loader -> loader : sleep()
+note left
+ The main thread will sleep
+ until the UI is finished
+end note
+
+'ui -> ctrl : getDefaultLoadList()
+'ctrl -> loader : getDefaultLoadList()
+
+activate ui
+ui -> ui : processLoadList()
+ui -> ctrl : loadList(List ExtensionDTO)
+
+activate ctrl
+    ctrl -> loader : clearExtensionManager()
+    loader -> manager : clear()
+loop for each ExtensionDTO in loadList
+    ctrl --> loader : load(ExtensionDTO)
+    loader --> manager : load(String classPath)
+end
+    ctrl --> ui : number errors
+deactivate ctrl
+
+ui -> ui : dispose()
+ui --> loader : [wake signal]
+deactivate ui
+
+deactivate loader
+@enduml

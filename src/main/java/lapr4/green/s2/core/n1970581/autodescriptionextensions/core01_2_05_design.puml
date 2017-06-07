@@ -1,0 +1,56 @@
+@startuml core01_2_05_design.png
+
+
+'participant "app : CleanSheets" as app
+'participant "manager : ExtensionManager" as manager
+'participant "loader : DescriptionExtensionLoader" as loader
+'participant "ctrl : DescriptionExtensionLoaderController" as ctrl
+'participant "thread : Thread" as thread
+'participant "ui : DescriptionExtensionLoaderUI" as ui
+
+
+
+
+
+'participant "metadata : Metadata" as metadata
+'participant "dto : ExtensionDTO" as dto
+'participant "name : Name" as name
+'participant "version : Version" as version
+'participant "desc : Description" as desc
+'participant "factory : MetadataFactory" as factory
+'participant " : Metadatable" as interface
+
+participant "o : Object " as o
+participant "exI : ExtensionInstance " as exI
+participant "ex : Extension << abstract >>" as ex
+participant "factory : MetadataFactory" as factory
+participant "metadata : Metadata" as metadata
+participant "name : Name" as name
+participant "version : Version" as version
+participant "desc : Description" as desc
+
+create exI 
+o --> exI : create()
+exI --> ex : super(String name, int version, String desc)
+create factory
+ex -> factory : instance()
+
+ex -> factory : buildMetadata(String name, int version, String desc)
+activate factory
+create metadata
+
+factory --> metadata : create(String name, int version, String desc)
+activate metadata
+create Name
+metadata --> Name : create()
+create Version
+metadata --> Version : create()
+create Description
+metadata --> Description : create()
+deactivate metadata
+factory --> ex : metadata Metadata
+
+
+deactivate factory
+
+@enduml

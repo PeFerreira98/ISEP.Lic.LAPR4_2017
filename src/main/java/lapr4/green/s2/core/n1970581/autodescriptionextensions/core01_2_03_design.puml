@@ -1,0 +1,109 @@
+@startuml  core01_2_03_design.png
+
+class CleanSheets {
+ }
+class ExtensionManager << singleton >> {
+    + load(String classPath)
+ }
+abstract class Extension {
+    + Extension(String name)
+    + Extension(String name, int version, String desc)
+ }
+
+class DescriptionExtensionLoader {
+    - Map String , ExtensionClassName
+ }
+
+class DescriptionExtensionLoaderUI {
+    - controller
+ }
+
+class DescriptionExtensionLoaderController {
+  - DescriptionExtensionLoader
+ }
+
+interface Metadatable {
+    + metadata()
+    + name()
+    + version()
+    + description()
+}
+
+class Metadata << (C,orchid)  immutable >>{
+ - Name
+ - Version
+ - Description
+ + name()
+ + version()
+ + description()
+}
+
+class Name << (C,orchid)  immutable >>{
+ - String
+}
+class Version << (C,orchid)  immutable >>{
+ - int
+}
+class Description << (C,orchid)  immutable >>{
+ - String
+}
+class MetadataFactory {
+ + buildMetadata(String name)
+ + buildMetadata (String name, int version, String desc)
+}
+
+class ExtensionDTO << (C,orchid)  immutable >>{
+  - Metadata
+  - String classname
+  + metadata()
+  + name()
+  + version()
+  + description()
+  + toString()
+  + classname()
+}
+
+
+
+'DescriptionExtensionLoader
+'DescriptionExtensionLoaderUI
+'DescriptionExtensionLoaderController
+'Metadata
+'Name
+'Version
+'Description
+'MetadataFactory
+'ExtensionDTO
+'CleanSheets
+'ExtensionManager
+
+
+DescriptionExtensionLoaderController --> DescriptionExtensionLoader
+DescriptionExtensionLoaderUI --> DescriptionExtensionLoaderController
+DescriptionExtensionLoader --> ExtensionManager
+ExtensionManager o-- Extension
+
+DescriptionExtensionLoader --> Extension
+DescriptionExtensionLoader --> ExtensionDTO
+DescriptionExtensionLoader --> Metadata
+
+DescriptionExtensionLoaderUI --> ExtensionDTO
+DescriptionExtensionLoaderController --> ExtensionDTO
+
+CleanSheets --> ExtensionManager
+
+Metadata --> Name
+Metadata --> Version
+Metadata --> Description
+
+MetadataFactory --> Metadata
+
+ExtensionDTO --> Metadata
+
+Extension ..|> Metadatable
+ExtensionDTO ..|> Metadatable
+Metadata ..|> Metadatable
+
+
+
+@enduml
