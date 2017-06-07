@@ -61,6 +61,7 @@ public class ClientTestAction2 extends BaseAction implements Observer{
        listenerServer = ListenerServer.getServer();
 
         listenerServer.addObserver(this);
+        update( null, null );
     }
 
         @Override

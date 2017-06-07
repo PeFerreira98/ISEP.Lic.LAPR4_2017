@@ -21,7 +21,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ *Function: listens and keeps track of the ads of the peers and thei services and status.
+ * It makes this information available for other services.
+ * Accepts observers who are notified whenever changes are detected to the status of the information collected.
+ * 
+ * Provides service to connect to peers that have been located on the network.
+ * 
+ * The server is a singleton
+ * 
  * @author Fernando
  */
 public class ListenerServer extends Thread{
@@ -43,6 +50,14 @@ public class ListenerServer extends Thread{
 
     }
     
+    /**
+     *  Used to start the service.
+     *  Used by the CommExtension just once.
+     * 
+     * @param svtPrt
+     * @param commSvr
+     * @return
+     */
     protected static ListenerServer getServer(  int svtPrt, CommServer2 commSvr  ) {
         if (theListenerServer == null) {
             theListenerServer = new ListenerServer();
@@ -62,6 +77,12 @@ public class ListenerServer extends Thread{
         }
         return theListenerServer;
     }
+    
+    /**
+     *  Returns the reference to the server instance.
+     * 
+     * @return
+     */
     public static ListenerServer getServer( ) {
         return theListenerServer;
     }
@@ -94,13 +115,14 @@ public class ListenerServer extends Thread{
                             
                 String text = new String(udpPacket.getData(), 0, udpPacket.getLength());
                 String[] split = text.split("::");
-
+                
                 if(split.length < 3){
                     continue;
                 }
                 Peer peer = new Peer( split[0], udpPacket.getAddress().toString() );
-                for(int i = 1; i < split.length ; i += 2 )
+                for(int i = 1; i < split.length ; i += 2 ){
                     peer.addService( new PeerService(split[ i ], "on".equals(split[ i + 1] ) ) );
+                }
                 
                 peerRegister.addPeer( peer );
             }
@@ -159,22 +181,53 @@ public class ListenerServer extends Thread{
         }
     }
     
-   public void addObserver( Observer o ){
-       peerRegister.addObserver(o);
+    /**
+     * Register a method to be invoked whenever the state of the peers changes
+     * @param o
+     */
+    public void addObserver( Observer o ){
+       peerRegister.addObserver_(o);
    }
 
+   /**
+     * Removes a method from being invoked whenever the state of the peers changes
+     * 
+     * @param o
+     */
    public void deleteObserver( Observer o ){
        peerRegister.deleteObserver(o);
    }
 
+    /**
+     * Returns a list of peers that have the service named NAME active.
+     * The returned string can be used for viewing and to identify the peer
+     * by the server to open connections to the peer.
+     * 
+     * @param NAME
+     * @return
+     */
     public ArrayList<String> getServicePeers(String NAME) {
         return peerRegister.getServicePeers(NAME);
     }
 
+    /**
+     * Returns an instance object that allows objects to be transmitted over the network.
+     * You should get an updated instance whenever you want to send objects over the network.
+     * 
+     * @param peerSelected
+     * @return
+     */
     public CommClientWorker2 getCommClientWorker2(String peerSelected) {
         return  peerRegister.getCommClientWorker2( peerSelected, commSever, serverPort );
     }
 
+    /**
+     *  Registers the association of a class with the hander that will process the objects of this class.
+     * It's redirected to the commSever
+     * 
+     * @param dto
+     * @param handler
+     */
     public void addHandler(Class dto, CommHandler2 handler) {
         commSever.addHandler( dto, handler );
     }

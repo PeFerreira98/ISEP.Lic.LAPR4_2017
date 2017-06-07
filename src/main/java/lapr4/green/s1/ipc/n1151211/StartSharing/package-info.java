@@ -25,34 +25,50 @@
  *
  *
  * <b>Analysis</b><p>
- * <img src="ipc04.1_analysis.png" alt="image">
- * <p>
- * <b>Notes:</b><p>
- * In this analysis section, it was created a SSD to simulate a scenario between the system and the user<p>
- * in this respective use case.<p>
- * It is simulating a scenario without errors.<p>
+ * <p>The analysis of this use case makes it clear that a network communications service must also be built.
+ * Although the sharing of cells needs it, due to the specifics of the network service I decided
+ * to split it into two use cases. This use case deals only with cell sharing.
+ * The network service is handled in the case of 'Comm'.</p>
+ * 
+ * <p>O utilizador deve ser capaz de:</p>
+ *<p>activar e desactivar  a partilha</p>
+<p>Ver os peers que têm o serviço activo</p>
+<p>Selecionar as células que quer partilhar.</p>
+<p>Selecionar o peer a quem quer enviar as células.</p>
  * 
  *
- * <b>Tests</b><p>
- * This should include not only unit tests (e.g., class-oriented tests) but also
- * use case tests (e.g., like in the TDD approach).<p>
- *
- * Import data from a text file Functional/Integration Test:<p>
- *      1. The user should start the CleanSheets Application<p>
+ *<p> <b>Tests</b></p>
+ * <p>To teste this service is necessary at least 2 peers. </p>
+ * 
+
+<p> The user, with CleanSheets running, should be able to:  </p>
+<p> 1 View the SharedCells panel  </p>
+<p>2 Hide the SharedCells panel  </p>
+<p>3 Enable the SharedCells service.  </p>
+<p>4 When SharedCells is enabled, the user's computer must be visible to other peers.  </p>
+<p>5 With SharedCells off other peers should not be able to see this computer.  </p>
+<p>6 choose the cells you want to share.  </p>
+<p>7 choose the peer with whom you want to share. </p>
+<p>8 choose the spreadsheet </p>
+<p>9 when triggering the Shared Cells button, the chosen cells should appear
+* in the other peeer in the same spreadsheet and in the same position. </p>
+<p>10 be informed of the success of the operation. </p>
  * <p>
  *
- * Export data to a text file Functional/Integration Test:<p>
  * <p>
  *
  * <b>Design</b><p>
  *
  * <p>
  *
- * <b>Code</b><p>
- * The following classes and interfaces implement this use case.<p>
- * Package lapr4.green.s1.ipc.n1151211.StartSharing:
- *
- *
+ * <p><b>What is done.</b></p>
+ * <p>This use case is done.</p>
+ * 
+ *<p> What needs improments.</p>
+ * <p>Documentation</p>
+ * <p>Slpit this use case in two user case. </p>
+ * 
+ * 
  * @author Fernando Borges
  */
 package lapr4.green.s1.ipc.n1151211.StartSharing;

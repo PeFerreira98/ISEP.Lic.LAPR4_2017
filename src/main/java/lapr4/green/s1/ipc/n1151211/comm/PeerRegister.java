@@ -5,20 +5,25 @@
  */
 package lapr4.green.s1.ipc.n1151211.comm;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Observable;
+import java.util.Observer;
 
 /**
  *
  * @author Fernando
  */
+
+
 public class PeerRegister extends Observable {
 
     private HashMap<String, Peer> peers = null;
     private Object lock = null;
+    private Instant lastChange = Instant.now();
 
     public PeerRegister() {
         lock = new Object();
@@ -28,24 +33,26 @@ public class PeerRegister extends Observable {
     public void addPeer(Peer peer) {
         boolean change = false;
         synchronized (lock) {
-
+            
             Peer pr = peers.get(peer.peerAddress());
 
             if (pr == null) {
                 peers.put(peer.peerAddress(), peer);
                 change = true;
             } else {
-                change = peer.updateServices(pr);
+                if( pr.updateServices(peer) )
+                    change = true;
             }
         }
 
-        hasChange(true);
+        hasChange(change);
     }
 
     private void hasChange(boolean change) {
-        if (change) {
+        if (change || (Instant.now().getEpochSecond() - lastChange.getEpochSecond()) > 60){
             setChanged();
             notifyObservers(null);
+            lastChange = Instant.now();
         }
     }
 
@@ -102,17 +109,9 @@ public class PeerRegister extends Observable {
         
         return peer.getCommClientWorker2( commSever, serverPort );
     }
+
+    protected void addObserver_(Observer o) {
+        addObserver( o );
+        hasChange( true );
+    }
 }
-
-
-/*
-     Set set = hm.entrySet();
-                                 Iterator it = set.iterator();
-   
-                                 while (it.hasNext()) {
-                                                 Map.Entry m = (Map.Entry) it.next();
-                                                 System.out.println(m.getKey() + ":" + m.getValue());
-   
-                                 }
-
-*/

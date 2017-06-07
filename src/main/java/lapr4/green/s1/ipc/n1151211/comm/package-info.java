@@ -40,6 +40,21 @@
  * to / from other instances. The connections to the other instances are made with the
  * information collected from the ads made by those same instances on the local network.
  * 
+ * <h2>Tests</h2>
+ * <p>The user should be able:</p>
+ * <p>to see the other peers on the network</p>
+ * <p>be seen by others</p>
+ * <p>ping other peers</p>
+ * <p>be pinged by other peers.</p>
+ * <p>Must be able to change the network port used.</p>
+ * 
+ * <h2>Done</h2>
+ * <p>Everything but change the port</p>
+ * 
+ *  * <h2>Improvements</h2>
+ * <p>better documentation</p>
+ * <p>split this use case in two use case, comms and Shared Cells </p>
+
  * 
  * <h2>Design</h2>
 
@@ -86,7 +101,7 @@
 * <img src="BroadcastServer.png" alt="image"> 
 * 
 * 
-*  <h2>How to use</h2>
+*  <h2>How to use - cliente servidor</h2>
 * 
 * 
 *  <p>To use Network Services you must be aware that there are two instances of CleanSheets on different computers. It must be programmed on both sides.
@@ -94,18 +109,18 @@
 When starting, both computers have to broadcast on the network their existence. To do this execute the code:
 </p>
 
-         <p><b>BroadcastServer.getServer ().broadcastThisService (new PeerService ("ServiceName", true));</b> </p>
+         <code>BroadcastServer.getServer().broadcastThisService(new PeerService ("ServiceName", true)); // the service is on</code>
  * 
 
 <p>The other peers (CleanSheets) know the existence of the service and the pc where it is.
 
 ListenerServer listens to other 'peers' and stores this information. To access this information you can use the following code: </p>
 
-     <p><b>ArrayList (String) peers = ListenerServer.getServer().getServicePeers ("serviceName");</b></p>
+     <code>ArrayList (String) peers = ListenerServer.getServer().getServicePeers ("serviceName");</code>
 
 <p>Interested services can register an observer from the ListenerServer to be informed of each change in the ListenerServer list of peers. For this use the following code:</p>
 
-<p><b>ListenerServer.getServer ().addObserver (Observer obj);</b> </p>
+    <code>ListenerServer.getServer ().addObserver (Observer obj);</code>
 
 <p>The 'obj' class has to implement the java Observer interface.</p>
 
@@ -116,35 +131,52 @@ ListenerServer listens to other 'peers' and stores this information. To access t
 <p>In order to send objects from one instance to another you have to do operations on both computers.</p>
 * 
 * <p><b>All the objects that will pass in the network have to be of classes that implement the interface Serializable</b></p>
-* <p><b>public class EchoReply implements Serializable{</b></p>
+* <code>public class EchoReply implements Serializable{
+*   .
+*   .
+*   .
+* }</code>
 
 
 <p>Computer A wants to send objects to computer B. It starts by getting a connection to computer B:</p>
 
-        <p><b>CommClientWorker2 toPeer = ListenerServer.getServer ().getCommClientWorker2 (peerSelected);</b> </p>
+        <code>CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(peerSelected);</code>
 
 <p>The 'peerSelected' is a string obtained with getServicePeers ().</p>
 
 <p>It registers the handler that will process the response (if there is an answer):</p>
 
-<p><b>ListenerServer.getServer ().addHandler (EchoReply.class, ping);</b></p>
+    <code>ListenerServer.getServer ().addHandler (EchoReply.class, ping);   // 'ping' Implements the CommHandler2 interface</code>
 
 <p>'ping' is the object that will receive the response. Implements the CommHandler2 interface.</p>
 
 <p>Then send the object with:</p>
 
-<p><b>  EchoRequest echoRequest = new EchoRequest (CommExtension2.NAME, ++ pingNumber);</b></p>
-<p><b>   If (toPeer.sendDto (echoRequest) == false) {</b></p>
-<p><b>      ......</b></p>
-<p><b>}</b></p>
+<code>EchoRequest echoRequest = new EchoRequest (CommExtension2.NAME, ++ pingNumber);
+    If (toPeer.sendDto (echoRequest) == false) {
+        ......
+    }</code>
 
 <p>Computer B must have registered with CommServer2 the method that will process the class of the object it will receive:</p>
 
-<p><b>CommServer2.getServer (). addHandler (EchoRequest.class, handler);</b> </p>
+<code>CommServer2.getServer().addHandler(EchoRequest.class, handler);</code>
 
 
 <p>The previous steps have to be repeated for all classes to be transferred.</p>
  *
+ * 
+ * <h2>How to use - cliente cliente</h2>
+ * 
+ * <p>Each peer is both client and server. All transmissions are made from the client to the server.</p>
+ *<p> When there is a client on each side the other peer receives the objects in the server situation.</p>
+ * <p>In order to communicate as a client you need the identification of the other peer.</p>
+ * <p>The Listener server can not provide it. It only provides the peers  identified by broadcast.</p>
+ * <p>To obtain this ID, the SendDto interface provides the <b>peerAddress()</b> method.</p>
+ * <p>This method returns a String with an identifier of the other peer.</p>
+ * <p>The address is obtained from the socket. This string has sufficient information</p>
+ * <p>to get a connections with the other peer in the client server relationship with the method</p>
+ * 
+ * <code>CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(peerSelected);</code>
  *
  * @author Fernando Borges
  */

@@ -14,7 +14,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Function: Send objects over the local network 
+ * Features: Send objects by location to the peer you are connected to
+ * 
+ * Requirement:
+ * The objects classes have to implement the Serializable interface
+ * Each transmitted class must have a handler registered in ComServer2.
+ * This handler has to implement the CommHandler2 interface
+ * 
  * @author Fernando
  */
 public class CommClientWorker2  extends Thread implements SendDto{
@@ -45,25 +52,25 @@ public class CommClientWorker2  extends Thread implements SendDto{
         }
     }
     
-    public synchronized ObjectOutputStream getObjectOutputStream() throws IOException {
-        if (outStream!=null)
-            return outStream;
-        else {
-            outStream = new ObjectOutputStream(socket.getOutputStream()); 
-            
-            return outStream;
-        }
-    }
-    
-    public synchronized ObjectInputStream getObjectInputStream() throws IOException {
-        if (inStream!=null) 
-            return inStream;
-        else {
-            inStream = new ObjectInputStream(socket.getInputStream());
-            
-            return inStream;
-        }
-    }
+//    public synchronized ObjectOutputStream getObjectOutputStream() throws IOException {
+//        if (outStream!=null)
+//            return outStream;
+//        else {
+//            outStream = new ObjectOutputStream(socket.getOutputStream()); 
+//
+//            return outStream;
+//        }
+//    }
+//
+//    public synchronized ObjectInputStream getObjectInputStream() throws IOException {
+//        if (inStream!=null) 
+//            return inStream;
+//        else {
+//            inStream = new ObjectInputStream(socket.getInputStream());
+//
+//            return inStream;
+//        }
+//    }
 
     /**
      * Will close the socket which will result in the thread being terminated  
@@ -136,13 +143,22 @@ public class CommClientWorker2  extends Thread implements SendDto{
         System.out.println("CommClientWorker2 exit run");
     }
 
+    /**
+     *Invoked by network clients to send objects over the local network to the peer to which it is connected.
+     * The classes of the objects have to implement the Serializable interface
+     * 
+     * @param dto
+     * @return
+     */
     @Override
     public boolean sendDto( Object dto ){
+        System.out.println("sendDto.1");
+        
         if( status == false ){
             System.out.println("Status off");
             return false;
         }
-            
+        System.out.println("sendDto.2");
         
         try {
             if( outStream == null )
@@ -152,15 +168,27 @@ public class CommClientWorker2  extends Thread implements SendDto{
                 System.out.println("dto == null");
                 
             outStream.writeObject(dto);
+          System.out.println("sendDto.3");
             return true;
             
         } catch (IOException ex) {
             Logger.getLogger(CommClientWorker2.class.getName()).log(Level.SEVERE, null, ex);
-            status = false;
+          System.out.println("sendDto.4");
+          status = false;
             peer.workerDown();
             return false;
         }
     }
+    
+    /**
+     *This method only makes sense on the server side.
+     * It is used to obtain the identification of the peer that sent the object.
+     * This information allows this peer to connect to the other peer as a client.
+     * The peerId is not correct, it is only to maintain the structure
+     * of the internal identification of the peer.
+     * 
+     * @return
+     */
     @Override
     public String peerAddress() {
         return System.getProperty("user.name") + "@" + socket.getInetAddress().toString();

@@ -14,7 +14,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+Function: receives objects sent by peers and invokes the previously
+* registered handler for the object class.
+* Implements the Sendto interface that allows you to return a response
+* in server mode without local user intervention.
+* 
+ * Requirement:
+ * The objects classes have to implement the Serializable interface
+ * Each transmitted class must have a handler registered in ComServer2.
+ * This handler has to implement the CommHandler2 interface
+ * 
  * @author Fernando implements SenDto
  */
 public class CommServerWorker2 extends Thread implements SendDto {
@@ -39,10 +48,12 @@ public class CommServerWorker2 extends Thread implements SendDto {
      */
     private void processIncommingDTO(Object inDTO) {
         CommHandler2 handler=server.getHandler(inDTO.getClass());
-        
         if (handler!=null) {
+
             handler.handleDTO(inDTO, this );
+
         }
+
     }
     
     @Override
@@ -55,7 +66,6 @@ public class CommServerWorker2 extends Thread implements SendDto {
 
             for (;;) {
                 Object dto  = inStream.readObject();
-                
                 processIncommingDTO(dto);
             }
             
@@ -84,10 +94,16 @@ public class CommServerWorker2 extends Thread implements SendDto {
             }
         }
         
-        System.out.println("CommServerWorker2 exit run");
     }
     
-    
+    /**
+     * Sends response objects to the peer to which it is attached.
+     * The response is done in server mode without requiring a local user intervention.
+     * 
+     * @param dto
+     * @return
+     */
+    @Override
     public boolean sendDto( Object dto ){
         
         try {
@@ -98,6 +114,16 @@ public class CommServerWorker2 extends Thread implements SendDto {
             return false;
         }
     }
+    
+    /**
+     * It is used to obtain the identification of the peer that sent the object.
+     * This information allows this peer to connect to the other peer as a client.
+     * The peerId is not correct, it is only to maintain the structure
+     * of the internal identification of the peer
+     * 
+     * 
+     * @return
+     */
     @Override
     public String peerAddress() {
         return System.getProperty("user.name") + "@" + socket.getInetAddress().toString();

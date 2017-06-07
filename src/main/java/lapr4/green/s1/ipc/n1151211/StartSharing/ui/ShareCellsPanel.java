@@ -5,6 +5,7 @@
  */
 package lapr4.green.s1.ipc.n1151211.StartSharing.ui;
 
+import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -12,8 +13,6 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -31,45 +30,39 @@ import lapr4.green.s1.ipc.n1151211.comm.PeerService;
  *
  * @author Fernando
  */
-public class ShareCellsPanel extends JPanel implements Observer {
+public class ShareCellsPanel extends JPanel {
 
     private JList<String> peerList;
-    private DefaultListModel<String> listModel = new DefaultListModel<>();
-    private UIStartSharing controller;
+    private final DefaultListModel<String> listModel = new DefaultListModel<>();
+    private final UIStartSharing controller;
+    private final UIController uiCntrl;
 
-    private JPanel jPanel2;
     private JButton btPing;
     private JButton btStatus;
     private JScrollPane scrollPane;
     private JLabel answer;
-    private boolean status = false;
-    private JPanel pNorth;
+    private JPanel pButtons;
 
     public ShareCellsPanel(UIController uiController, UIStartSharing cntrl) {
         setName(StartSharingExtension.NAME);
         controller = cntrl;
-        jPanel2 = new JPanel();
-        BorderLayout bl = new BorderLayout();
-        setLayout(bl);
+        uiCntrl = uiController;
 
         buildComponents();
 
         // Configuring the Echo Reply Service
-        BroadcastServer.getServer().broadcastThisService(new PeerService(NAME, status));
     }
 
     private void buildComponents() {
-        makeButtons();
+        BorderLayout bl = new BorderLayout();
+        setLayout(bl);
 
-        pNorth = new JPanel();
-        if (status == true) {
-            pNorth.setBackground(Color.YELLOW);
-        } else {
-            pNorth.setBackground(Color.GRAY);
-        }
+        JPanel pNorth = new JPanel();
 
-        pNorth.add(btPing);
-        pNorth.add(btStatus);
+        pButtons = makeButtons();
+        changesColorButtons();
+        pNorth.add(pButtons);
+
         add(pNorth, BorderLayout.NORTH);
 
         JPanel pSouth = new JPanel();
@@ -84,15 +77,15 @@ public class ShareCellsPanel extends JPanel implements Observer {
         scrollPane = new JScrollPane(peerList);
 
         add(scrollPane);
-
     }
 
-    private void makeButtons() {
+    private JPanel makeButtons() {
+        final int BUTTON_WIDTH = 100, BUTTON_ALTURA = 30;
 
         btPing = new JButton("Share Cells");
         btPing.setForeground(Color.BLUE);
-        final int BUTTON_WIDTH = 90, BUTTON_ALTURA = 50;
         btPing.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
+
 
         /* 
          * Regista uma classe interna anónima destinada a executar o método de 
@@ -101,18 +94,23 @@ public class ShareCellsPanel extends JPanel implements Observer {
         btPing.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String oneSelected = peerList.getSelectedValue();
-
-                if (oneSelected != null) {
-                    //controller.doPing(oneSelected);
+                if (controller.getStatus() == false) {
+                    return;
                 }
+
+                String oneSelected = peerList.getSelectedValue();
+                if (oneSelected == null) {
+                    answer.setText("No peer selected!");
+                    return;
+                }
+
+                answer.setText( controller.theOnesChosen( oneSelected ));
             }
         });
 
         btStatus = new JButton("On-Off");
-        //btStatus.setForeground(Color.BLACK);
-        btStatus.setPreferredSize(new Dimension(50, 50));
-        
+
+        btStatus.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
 
         /* 
          * Regista uma classe interna anónima destinada a executar o método de 
@@ -121,39 +119,49 @@ public class ShareCellsPanel extends JPanel implements Observer {
         btStatus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                status = !status;
-                if (status == true) {
-                    pNorth.setBackground(Color.YELLOW);
-                } else {
-                    pNorth.setBackground(Color.GRAY);
-                }
-                
-                BroadcastServer.getServer().broadcastThisService(new PeerService(NAME, status));
+                controller.changeStatus();
+                changesColorButtons();
             }
         });
 
+        JPanel pPanel = new JPanel();
+
+        pPanel.add(btStatus);
+        pPanel.add(btPing);
+
+        return pPanel;
+    }
+
+    private void changesColorButtons() {
+        if (controller.getStatus() == true) {
+            pButtons.setBackground(Color.YELLOW);
+            btStatus.setText("ON");
+            btStatus.setForeground(Color.BLUE);
+        } else {
+            btStatus.setText("OFF");
+            btStatus.setForeground(Color.BLACK);
+            pButtons.setBackground(Color.GRAY);
+        }
     }
 
     protected void updatePeers(ArrayList<String> peers) {
-        if (listModel.isEmpty() && peers.isEmpty()) {
-            return;
-        } else if (peers.isEmpty()) {
-            listModel.clear();
-        } else {
+        if( listModel.isEmpty() || peers.isEmpty() ) {
+            if (peers.isEmpty()) {
+                listModel.clear();
+            } else {
+                if (theSamePeers(peers)) {
+                    return;
+                }
 
-            if (theSamePeers(peers)) {
-                return;
-            }
+                String selected = peerList.getSelectedValue();
 
-            String selected = null;
-            selected = peerList.getSelectedValue();
-
-            listModel.clear();
-            for (int i = 0; i < peers.size(); ++i) {
-                listModel.add(i, peers.get(i));
-            }
-            if (selected != null && listModel.contains(selected)) {
-                peerList.setSelectedValue(selected, false);
+                listModel.clear();
+                for (int i = 0; i < peers.size(); ++i) {
+                    listModel.add(i, peers.get(i));
+                }
+                if (selected != null && listModel.contains(selected)) {
+                    peerList.setSelectedValue(selected, false);
+                }
             }
         }
 
@@ -175,10 +183,7 @@ public class ShareCellsPanel extends JPanel implements Observer {
         return same;
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        ArrayList<String> peers = ListenerServer.getServer().getServicePeers(StartSharingExtension.NAME);
-
-        updatePeers(peers);
+    protected void reply( String messageText ){
+        answer.setText( messageText );
     }
 }

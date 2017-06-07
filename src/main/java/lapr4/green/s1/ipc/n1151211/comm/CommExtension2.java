@@ -11,7 +11,9 @@ import csheets.ui.ext.UIExtension;
 import lapr4.green.s1.ipc.n1151211.comm.ui.UICommExtension2;
 
 /**
- *
+ * It is the extension that initiates the communications service.
+ * Respond to ping requests
+ * 
  * @author Fernando
  */
 public class CommExtension2 extends Extension implements CommHandler2 {
@@ -21,7 +23,7 @@ public class CommExtension2 extends Extension implements CommHandler2 {
      */
     public static final String NAME = "CommServer";
     protected static final int PACKET_SIZE_RECEIVE = 1452;
-    private String peerId = "Teste";
+    private String peerId = System.getProperty("user.name");
     private EchoRequest echoRequet;
 
     /*
@@ -50,7 +52,7 @@ public class CommExtension2 extends Extension implements CommHandler2 {
         
         // Configuring the Echo Reply Service
         commServer.addHandler(EchoRequest.class, this);
-        broadcastServer.broadcastThisService( new PeerService (NAME, true ) );
+        broadcastServer.broadcastThisService( NAME, true );
     }
 
     @Override

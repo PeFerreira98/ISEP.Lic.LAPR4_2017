@@ -48,7 +48,6 @@ public class Peer implements Comparable<Peer> {
             return true;
         }
 
-        hour = Instant.now();
         return svc.updateStatus(service.statusOn());
     }
 
@@ -71,14 +70,21 @@ public class Peer implements Comparable<Peer> {
      * @return
      */
     protected boolean updateServices(Peer pr) {
+        hour = Instant.now();
+  
         boolean change = false;
+        if( alive == false){
+            alive = true;
+            change = true;
+        }
 
-        Collection<PeerService> cps = services.values();
+        
+        Collection<PeerService> cps = pr.services.values();
         Iterator it = cps.iterator();
 
         while (it.hasNext()) {
             PeerService svc = (PeerService) it.next();
-            if (pr.addService(svc)) {
+            if (addService(svc)) {
                 change = true;
             }
         }
@@ -90,8 +96,9 @@ public class Peer implements Comparable<Peer> {
         if (!isAlive()) {
             return null;
         }
-
-        if (services.containsKey(serviceName)) {
+        
+        PeerService ps = services.get(serviceName);
+        if (ps != null && ps.statusOn()) {
             return peerId + "@" + inetAddress;
         } else {
             return null;
@@ -112,6 +119,7 @@ public class Peer implements Comparable<Peer> {
             return ALIVE;
         } else {
             alive = false;
+            servicesOff();
             return -1;
         }
     }
@@ -134,14 +142,21 @@ public class Peer implements Comparable<Peer> {
 
     }
 
-    void workerDown() {
+    protected void workerDown() {
         synchronized (peerLock) {
             commClientWorker = null;
         }
 
     }
-    
-    
-    
-  
-}
+
+    private void servicesOff() {
+      Collection<PeerService> cps = services.values();
+        Iterator it = cps.iterator();
+
+        System.out.println("servicesOff");
+        while (it.hasNext()) {
+            PeerService svc = (PeerService) it.next();
+            svc.updateStatus(false);
+        }
+    }
+ }

@@ -22,15 +22,19 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
- *
+ * Function: Broadcast the available services on the local network and their status.
+ * Functionality: Registration / change of status, of available services
+ * Its a singleton.
+ * 
  * @author Fernando
  */
+
 public class BroadcastServer extends Thread {
 
     private static BroadcastServer theBroadcastServer = null;
 
     private int serverPort = 16100;
-    private long sleep = 10000;
+    private long sleep = 20000;
     private Object lock = null;
 
     private String peerId = null;
@@ -44,6 +48,13 @@ public class BroadcastServer extends Thread {
 
     }
 
+    /**
+     * Starts the broadcast server. It is called by the communications extension only once.
+     * 
+     * @param svrPrt    
+     * @param id
+     * @return
+     */
     protected static BroadcastServer getServer(int svrPrt, String id) {
         if (theBroadcastServer == null) {
             theBroadcastServer = new BroadcastServer();
@@ -60,13 +71,16 @@ public class BroadcastServer extends Thread {
         return theBroadcastServer;
     }
 
+    /**
+     * Returns the reference to the server instance.
+     * @return
+     */
     public static BroadcastServer getServer() {
         return theBroadcastServer;
     }
-
+    
     /**
-     * Starts the server
-     *
+     * Server method
      */
     @Override
     public void run() {
@@ -185,6 +199,8 @@ public class BroadcastServer extends Thread {
      *  Add/update a service to/in the list of services broadcasted.
      *  If the servide is new or change the status a broadcast is made immediately
      * 
+     * Obsolete. Use the method broadcastThisService(String serviceName, boolean status) 
+     * 
      * @param service
      */
     public void broadcastThisService( PeerService service){
@@ -196,6 +212,28 @@ public class BroadcastServer extends Thread {
                 services.put( service.serviceName(), service );
             }else{
                 makeBroadcast = svc.updateStatus(service.statusOn());
+            }
+            if( makeBroadcast )
+                lock.notifyAll();
+        }
+    }
+
+    /**
+     *  Add/update a service to/in the list of services broadcasted.
+     *  If the servide is new or change the status a broadcast is made immediately
+     * 
+     * @param serviceName
+     * @param status
+     */
+    public void broadcastThisService(String serviceName, boolean status) {
+        synchronized (lock) {
+            boolean makeBroadcast = true;
+            PeerService svc = services.get( serviceName );
+        
+            if( svc == null ){
+                services.put( serviceName, new PeerService( serviceName, status) );
+            }else{
+                makeBroadcast = svc.updateStatus(status);
             }
             if( makeBroadcast )
                 lock.notifyAll();
