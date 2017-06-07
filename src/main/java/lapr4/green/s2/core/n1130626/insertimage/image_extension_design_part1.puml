@@ -1,0 +1,17 @@
+  @startuml image_extension_design_part1.png
+
+  actor User 
+  participant ImageUI as UI
+  participant ImageCtrl as ctrl
+  participant Spreadsheet as sheet
+  participant Cell as cell
+  User -> UI : selectCell()
+  activate UI 
+  UI -> ctrl : getCellImage()
+  activate ctrl
+  ctrl -> sheet : getCell()
+  ctrl -> cell : getImage()
+  deactivate ctrl
+  UI -> UI : displayImage()
+  deactivate UI
+  @enduml

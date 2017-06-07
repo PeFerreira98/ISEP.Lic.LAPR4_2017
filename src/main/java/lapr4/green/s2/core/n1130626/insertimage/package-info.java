@@ -52,8 +52,9 @@
  * <p>
  * 
  * <b>Part 1:</b><p>
- * A class diagram is shown here in part 1 to know how the extension of this use case is created:<p>
+ * The delegation design pattern is used in the cell extension mechanism of cleansheets. The following class diagram depicts the relations between classes in the "Cell" hierarchy.<p>
  * 
+ * <img src="core06_01_cell_delegate.png" alt="image">
  * 
  * <p>
  * 
