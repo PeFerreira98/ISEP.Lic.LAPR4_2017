@@ -1,0 +1,27 @@
+@startuml core02_03_analysis_SSD.png
+  
+  skinparam SequenceMessageAlign center
+  Actor User
+  participant System
+ 
+    User -> System : The user selects the side bar option "Comments" and selects a cell from spreadsheet
+    System --> User : The system presents a window to user add a comment, edit a comment,search for comments and make new version of a comment based in a old one.
+        alt Add Comment
+            User ->System :The user selects the button : Add and introduces the comment and author and chooses the format to the comment
+            System --> User : The comment is added to the cell
+        else Edit Comment 
+            User ->System :The user selects the button : Edit and introduces the new comment,new author and the new format to the comment
+            System --> User : The comment is updated and the old comment is added to the history of changes of that comment.
+        else Make New Version
+            User ->System :The user selects the button : New Version and to do that, previously, selects a comment from the history of changes
+            System --> User : The system asks the user for the new data
+            User -> System : The user introduces the data
+            System --> User : The comment is updated and the old comment is added to the history of changes of that comment.
+       else Search for comments
+            User -> System :The user selects the button : Search to search comments based on text patterns
+            System --> User : The system asks the user for the text to search
+            User -> System : The user inserts the text
+            System --> User : The system shows to the user the result of the search
+        end  
+        System --> User : Success
+@enduml

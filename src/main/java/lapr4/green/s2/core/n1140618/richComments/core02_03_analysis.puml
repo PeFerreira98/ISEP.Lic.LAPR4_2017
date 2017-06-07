@@ -1,0 +1,70 @@
+@startuml core02_03_analysis.png
+
+class CommentsExtension {
+    -String NAME;
+    -String DESCRIPTION;
+    -float VERSION;
+}
+
+class CommentController{
+    -UIController uiController;
+    -CommentPanel uiPanel;
+}
+class CommentPanel{
+    -CommentController controller;
+    -CommentableCell cell;
+    -JButton addButton;
+    -JButton editButton;
+    -JButton searchButton;
+    -JButton makeVersionButton;
+    -JList commentList;
+    -DefaultListModel listModel;
+    -JList historyList;
+    -DefaultListModel historyModel;
+}
+
+class UIExtensionComments {
+    -JComponent sideBar;
+}
+
+class Comment{
+    - String comment;
+    - String author;
+    - ArrayList<CommentChange> historyComments;
+}
+
+class CommentChange{
+    - Sring oldComment;
+}
+
+class AddCommentUI{
+    - CommentPanel panel;
+    - CommentController controller;
+}
+
+class MakeNewVersionEditUI{
+     - Comment commentList;
+     - Comment historyList;
+     - CommentController controller;
+     - CommentableCell cell;
+}
+
+class ShowHistoryUI{
+     - CommentableCell cell;
+     - CommentController controller;
+     - String search;
+}
+
+CommentsExtension -> UIExtensionComments
+UIExtensionComments -> CommentPanel
+CommentPanel --> AddCommentUI
+CommentPanel --> MakeNewVersionEditUI
+CommentPanel --> ShowHistoryUI
+AddCommentUI --> CommentController
+MakeNewVersionEditUI --> CommentController
+ShowHistoryUI --> Controller
+CommentController --> Comment
+CommentController --> CommentChange
+CommentController --> CommentableCell
+
+@enduml
