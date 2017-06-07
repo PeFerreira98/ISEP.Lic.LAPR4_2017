@@ -43,10 +43,14 @@
  * 
  * <h2>4. Design</h2>
  * 
- * 
+ * <img src="lang02_02_design.png" alt="image"> 
  * 
  *
  * <h3>4.1. Functional Tests</h3>
+ * 
+ *  It should be tested for ability to persist global variables that is, whenever one workbook 
+ * is stored global variables are associated with the same. It should also be tested the ability 
+ * to record a global variable with "@ " , ie test the validity of grammar.
  * 
  * 
  * <h3>4.2. Classes</h3>

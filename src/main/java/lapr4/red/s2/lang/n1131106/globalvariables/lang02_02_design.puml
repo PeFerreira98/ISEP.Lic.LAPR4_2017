@@ -20,7 +20,7 @@ participant "ANTLRStringStream" as ANT
 participant "FormulaLexer" as LEX
 participant "CommonTokenStream" as CTS
 participant "FormulaParser" as PARS
-participant "CommonTree" as TREE
+participant "ParseTree" as TREE
 
 
 activate User
@@ -49,7 +49,7 @@ activate FC
 	EXCEL -> CTS : tokens = new(lexer)
 	create PARS
 	EXCEL -> PARS : parser = new(tokens)
-	EXCEL -> TREE : tree = parser.expression().getTree()
+	EXCEL -> TREE : tree = parser.expression()
 	note right of FC : the convert function verifies all nodes,\n if they don't have children the function returns\n the type of content; If they have children it will call \n itself recursively until the end of leaf nodes;\n After this returns the type of content.
 	EXCEL -> EXCEL : expression = convert(cell, tree)
 
