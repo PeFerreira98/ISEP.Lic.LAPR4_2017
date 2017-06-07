@@ -1,0 +1,31 @@
+@startuml design_lang01.2.png
+
+skinparam sequenceMessageAlign center
+
+actor User
+participant "Cell" as ce
+participant "FormulaCompiler" as fc
+participant "MonetaryExpressionCompiler" as mec
+participant "ANTLRStringStream" as ant
+participant "FormulaLexer" as fl
+participant "Formula3Parser" as f3p
+participant "CommonTokenStream" as cts
+participant "CommonTree" as cmt
+participant "Monetary Operator" as mo
+
+User->ce: setContent(String content)
+ce->ce: storeContent(content)
+ce->fc: formula = compile(Cell cell, String source)
+fc->mec: expression = compile(Cell cell, String source)
+
+mec -> ant : input = create(Content)
+mec -> fl : lexer = create(input)
+mec -> cts : tokens = create(lexer)
+mec -> f3p : parser = create(tokens)
+mec -> cmt : tree = parser.expresion().getTree()
+mec -> mec : expression = convert(Cell , Tree)
+mec -> mo : expression = new MonetaryOperator()
+fc -> fc : compile(cell, expression)
+ce -> ce : reevaluate()
+
+@enduml
