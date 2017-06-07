@@ -41,12 +41,12 @@ create metadata
 
 factory --> metadata : create(String name, int version, String desc)
 activate metadata
-create Name
-metadata --> Name : create()
-create Version
-metadata --> Version : create()
-create Description
-metadata --> Description : create()
+create name
+metadata --> name : create()
+create version
+metadata --> version : create()
+create desc
+metadata --> desc : create()
 deactivate metadata
 factory --> ex : metadata Metadata
 

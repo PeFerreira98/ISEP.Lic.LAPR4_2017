@@ -28,6 +28,8 @@
  * Checking UC's requirements with team. <br>
  * Asked Core Teacher opinion regarding my analysis. Teacher suggested that I update the existing extensions to use the new Constructor. <br>
  * Started testing documentation and user functionl test. <br>
+ * Started Design: Documentation Class diagram, SD new load mechanism, SD new Extension creation process. <br>
+ * Design: Documentation SD ExtensionDTO building process <br>
  * 
  * <h2>2. Requirement</h2>
  * 
@@ -131,9 +133,12 @@
  *  <b>SD new loading</b> <p>
  *  <img src="core01_2_04_design.png" alt="image failed to load">
  *  <p>
- *  <b>SD metadata building</b> <p>
+ *  <b>SD metadata building detail </b> <p>
  *  <img src="core01_2_05_design.png" alt="image failed to load">
  *  <p>
+ *
+ *   <b>SD ExtensionDTO building detail</b> <p>
+ *  <img src="core01_2_06_design.png" alt="image failed to load">
  * 
  * 
  * @author Hugo Bento 1970581

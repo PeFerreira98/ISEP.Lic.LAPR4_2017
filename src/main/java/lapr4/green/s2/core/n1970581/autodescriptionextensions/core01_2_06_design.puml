@@ -1,0 +1,59 @@
+@startuml core01_2_06_design.png
+
+'participant "app : CleanSheets" as app
+'participant "manager : ExtensionManager" as manager
+'participant "loader : DescriptionExtensionLoader" as loader
+'participant "ctrl : DescriptionExtensionLoaderController" as ctrl
+'participant "thread : Thread" as thread
+'participant "ui : DescriptionExtensionLoaderUI" as ui
+
+
+
+
+
+
+'participant "dto : ExtensionDTO" as dto
+'participant "name : Name" as name
+'participant "version : Version" as version
+'participant "desc : Description" as desc
+'participant "factory : MetadataFactory" as factory
+'participant " ex : Metadatable <<Interface>>" as interface
+
+participant "loader : DescriptionExtensionLoader" as loader
+participant "c: Class" as c
+participant "ex : Extension << abstract >> << Metadatable >>" as ex
+participant " ex : Metadatable <<Interface>>" as interface
+participant "factory : MetadataFactory" as factory
+participant "metadata : Metadata" as metadata
+participant "dto : ExtensionDTO" as dto
+
+loader -> c : forName(String className)
+loader -> c : newInstance()
+create ex
+c -> ex : create()
+c --> loader : ex
+note left 
+ex 
+end note
+
+loader -> factory : buildMetadataDTO(Metadatable ex)
+activate factory
+
+factory -> interface : metadata()
+factory -> metadata : clone()
+factory -> interface : getClass()
+factory -> c : getCanonicalName()
+create dto
+factory --> dto : create(Metadata metadata , String className)
+factory --> loader : dto
+note left
+dto
+end note
+
+deactivate factory
+
+
+
+
+
+@enduml
