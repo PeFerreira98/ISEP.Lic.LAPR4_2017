@@ -49,10 +49,16 @@ public class CondFormattingController{
     }
 
     /*
-    Metodo to get all selectedCells
+    Method to get all selectedCells
     */
     public Cell[][] getAllSelectCells() {
         return this.uiController.focusOwner().getSelectedCells();
+    }
+    /*
+    Method to clear all selection of cells
+    */
+    public void clearAllSelectedCells(){
+        this.uiController.focusOwner().clearSelectedCells();
     }
 //    /**
 //     * this method will return a list of cells by receiving two strings and will converts that strings to integer to get the correct possition on the vector.

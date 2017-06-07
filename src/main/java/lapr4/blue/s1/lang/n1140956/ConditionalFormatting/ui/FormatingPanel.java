@@ -7,8 +7,11 @@ package lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui;
 
 import com.sun.glass.events.KeyEvent;
 import csheets.core.Cell;
+import csheets.ext.style.StylableCell;
+import csheets.ext.style.StyleExtension;
 import csheets.ui.ctrl.UIController;
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -49,6 +52,7 @@ public class FormatingPanel extends JPanel implements ActionListener {
     private final JButton btnTrue;
     private final JButton btnFalse;
     private final JButton btnOK;
+    private final JButton btnReset;
     private final Object[] items = {">", "<", "<=", ">=", "=", "<>"};
 
     private final JTextField txtValue;
@@ -80,6 +84,7 @@ public class FormatingPanel extends JPanel implements ActionListener {
         btnTrue = createBtnTrue();
         btnFalse = createBtnFalse();
         btnOK = createBtnOK();
+        btnReset = createBtnReset();
      
         mainPanel.add(txtValue);
         mainPanel.add(cmbOperators);
@@ -89,6 +94,7 @@ public class FormatingPanel extends JPanel implements ActionListener {
         optionButtonsPanel.add(btnFalse);
 
         confirmButtonsPanel.add(btnOK);
+        confirmButtonsPanel.add(btnReset);
 
         // Creates side bar
         add(mainPanel, BorderLayout.NORTH);
@@ -137,6 +143,28 @@ public class FormatingPanel extends JPanel implements ActionListener {
             }
         });
         return btnFalse;
+    }
+    
+    private JButton createBtnReset(){
+        JButton btnReset = new JButton("Reset");
+        btnReset.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!txtValue.getText().isEmpty()) {
+                    array = controller.getAllSelectCells();
+                    for(int i=0 ; i <array.length ;i++){
+                        for(int j=0 ; j <array[i].length ;j++){
+                        Cell cell = array[i][j];
+                            StylableCell stylableCell = (StylableCell) cell.getExtension(StyleExtension.NAME);
+                            stylableCell.setBackgroundColor(new Color(255, 255, 255));
+                        }
+                    }
+                    //Not needed
+                    //controller.clearAllSelectedCells();
+                }
+            }
+        });
+        return btnReset;
     }
 
     private JButton createBtnOK() {
