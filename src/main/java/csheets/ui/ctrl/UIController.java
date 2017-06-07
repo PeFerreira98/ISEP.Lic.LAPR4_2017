@@ -42,6 +42,7 @@ import csheets.ext.Extension;
 import csheets.ext.ExtensionManager;
 import csheets.ui.ext.UIExtension;
 import csheets.ui.sheet.CellTransferHandler;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.InvalidClassException;
@@ -55,7 +56,7 @@ import javax.swing.JOptionPane;
  * workbooks and of user interface extensions.
  * @author Einar Pehrson
  */
-public class UIController implements SpreadsheetAppListener {
+public class UIController extends FocusOwnerAction implements SpreadsheetAppListener {
 
 	/** The active workbook */
 	private Workbook activeWorkbook;
@@ -354,6 +355,16 @@ public class UIController implements SpreadsheetAppListener {
 				new EditListener[editListeners.size()]))
 			listener.workbookModified(event);
 	}
+        
+       @Override
+        protected String getName() {
+            return "UIController";
+        }
+        
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+        }
 
 	/**
 	 * A utility for dispatching events on the AWT event dispatching thread.

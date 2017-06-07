@@ -48,14 +48,18 @@ public class CondFormattingController{
         return falseBackColor;
     }
 
-    
-    //TODO: metodo para a sprint 2
-    /**
-     * this method will return a list of cells by receiving two strings and will converts that strings to integer to get the correct possition on the vector.
-     * @param firstCell ex: A1
-     * @param lastCell  ex: B6
-     * @return An sorted list of cells.
-     */
+    /*
+    Metodo to get all selectedCells
+    */
+    public Cell[][] getAllSelectCells() {
+        return this.uiController.focusOwner().getSelectedCells();
+    }
+//    /**
+//     * this method will return a list of cells by receiving two strings and will converts that strings to integer to get the correct possition on the vector.
+//     * @param firstCell ex: A1
+//     * @param lastCell  ex: B6
+//     * @return An sorted list of cells.
+//     */
 //    public SortedSet<Cell> getCells(String firstCell, String lastCell) {
 //        String columnAux = firstCell.substring(0, 1);
 //        char option = columnAux.charAt(0);

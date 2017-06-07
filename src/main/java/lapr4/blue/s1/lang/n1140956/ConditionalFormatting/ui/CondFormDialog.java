@@ -8,7 +8,9 @@ package lapr4.blue.s1.lang.n1140956.ConditionalFormatting.ui;
 import com.sun.glass.events.KeyEvent;
 import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
+import java.util.Iterator;
 import java.util.SortedSet;
+import java.util.TreeSet;
 import javax.swing.JOptionPane;
 import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingController;
 
@@ -27,8 +29,12 @@ public class CondFormDialog extends javax.swing.JFrame {
      * Crontroller to formating cells UC
      */
     private final CondFormattingController controller;
+    
 
-    private SortedSet<Cell> array;
+    // Array of cells
+    int rowCount;
+    int colCount;
+    Cell[][] array;
 
     /**
      * Creates new form CondFormDialog
@@ -36,8 +42,12 @@ public class CondFormDialog extends javax.swing.JFrame {
     public CondFormDialog(UIController uiCtrl) {
         initComponents();
         controller = new CondFormattingController(uiCtrl);
-
+        
         this.uiController = uiCtrl;
+        
+        rowCount = uiController.focusOwner().getSelectedRowCount();
+        colCount = uiController.focusOwner().getSelectedColumnCount();
+        array = new Cell[rowCount][colCount];
 
         setTitle("Conditional Formatting");
         setVisible(true);
@@ -168,15 +178,13 @@ public class CondFormDialog extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(CondFormDialog.this, "You have to select format options", "Conditional Formating", JOptionPane.INFORMATION_MESSAGE);
 
         } else if (!txtValue.getText().isEmpty()) {
-            Cell cell = uiController.getActiveCell();
-            /* TODO: sprint 2, setting a range of cells
-            array = controller.getCells("A1", "C6");
-            for(Cell cellAux:array){
-                System.out.println(cellAux.getAddress()+"-");
+            array = controller.getAllSelectCells();
+            for (int i = 0; i < colCount; i++) {
+                for (int j = 0; j < rowCount; j++) {
+                    Cell cell = array[i][j];
+                    controller.addListener(txtValue.getText(), cmbOperators.getSelectedItem().toString(), cell);
+                }
             }
-             */
-
-            controller.addListener(txtValue.getText(), cmbOperators.getSelectedItem().toString(), cell);
             dispose();
 
         } else {

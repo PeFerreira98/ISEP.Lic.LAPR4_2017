@@ -52,4 +52,8 @@ public abstract class FocusOwnerAction extends BaseAction implements PropertyCha
 		if (o instanceof SpreadsheetTable)
 			focusOwner = (SpreadsheetTable)o;
 	}
+        
+        public SpreadsheetTable focusOwner(){
+            return focusOwner;
+        }
 }
