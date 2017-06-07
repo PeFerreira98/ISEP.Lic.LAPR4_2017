@@ -4,27 +4,19 @@ actor User
 
 participant "System" as s
 
-alt the user selects the import data from a text file option
-User->s: Selects a range of cells to be used as destination for the operation
+User->s: Select the image extension
+s->User: The sidebar with the image features appears
+User->s: Select the insert image option
+
+loop the user wants to select more than 1 image
+User->s: Finds the the image he wants to insert
+s->User: The image appears in the sidebar with the URL/Link
 end
 
-alt the user selects the export data to a text file option
-User->s: Selects a range of cells to be used as source for the operation
-end
-
-User->s: Selects the import/export text extension
-
-alt the user had selected the import data from a text file option
-User->s: finds the location of the text file he wants to import
-User->s: configures a special character to separate columns
-User->s: check if he want the first line of the text be treated as containing the header of the columns or as regular row
-s->User: updates the cells selected by the user with the data from the imported text file
-end
-
-alt the user had selected the export data to a text file option
-User->s: choose a location and writes the name of the exported text file
-User->s: configures a special character to separate columns
-s->User: creates the text file with the data on the cells selected by the user
+alt the user wants to delete an image
+User->s: Select the delete image option
+s->User: A window appear with the URL/Links of the images
+User->s: Selects the URL/Link of the image he wants to delete
 end
 
 s->User: success
