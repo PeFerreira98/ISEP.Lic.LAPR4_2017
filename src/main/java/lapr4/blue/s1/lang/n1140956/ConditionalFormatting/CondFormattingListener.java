@@ -18,7 +18,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import lapr4.blue.s1.lang.n1140956.ConditionalFormatting.CondFormattingController;
 
 /**
  *
