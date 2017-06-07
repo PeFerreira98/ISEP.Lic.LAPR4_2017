@@ -49,5 +49,46 @@
  * CommentableCell to this cell, to active comments for the cell.
  *
  * <p>
+ *<h3>3.2. UC Realization</h3>
+ *
+ * <p>
+ * To implement this use case, it is required a sidebar, functionality that was
+ * already implemented and have some changes. I have to modify code in the
+ * classes previously developed, to realize this use case.
+ *
+ * <p>
+ * The sidebar window associated to this use case is a JPanel, that contais two
+ * JLists. One of them, corresponds to the list of comments of a selected
+ * cell,and the other corresponds to the history of changes of a particular
+ * comment. In this JPanel, there are four buttons: Add,Edit,Search Feature and
+ * New Version.
+ *
+ * <p>
+ * The first and the second buttons represents the adding and edditing of a
+ * specific comment, where it opens a new window to indroduce the comment,
+ * author and choose the style to the comment. When a comment is edited, the old
+ * comment is saved, and it will show in the list of history changes. To show
+ * the history of a comment, it is necessary click in a comment of the first
+ * JList, and the list of histoy(second JList) show the history of that comment.
+ *
+ * <p>
+ * The button "New Version" is used to make a new version of a comment based in
+ * a old one and it's possible to introduce the new comment,author and style to
+ * the comment.
+ * <p>
+ * The button "Search Feature" is used for the user search for comments based on
+ * text patterns. The result of the search will appear in a new windows.
+ *
+ * <p>
+ * When the user selects a cell, the JList(first) it will show the existing
+ * comments of that cell.
+ *
+ * <p>
+ *
+ * For the user interaction in the use case Core 02.3 - Rich Comments and
+ * History, I have the following sequence diagram:
+ * <img src="core02_03_design.png" alt="design">
+ *
+ *
  */
 package lapr4.green.s2.core.n1140618.richComments;

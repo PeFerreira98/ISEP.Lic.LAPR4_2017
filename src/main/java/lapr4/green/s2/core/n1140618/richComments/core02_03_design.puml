@@ -1,0 +1,70 @@
+@startuml core02_03_design.png
+ 
+skinparam SequenceMessageAlign right
+actor User
+participant CommentPanel as Panel
+participant AddCommentUI as addUI
+participant CommentController as controller
+participant CommentableCell as cell
+participant MakeNewVersionEditUI as edit
+participant Comment as Comment
+participant ShowHistoryUI as history
+
+User -> Panel : Selects the cell and choose an option
+    alt Add Button 
+        Panel -> addUI : create(cell,controller)
+        addUI --> User : asks for comment and format of the comment
+        User -> addUI : introduces the data
+        Panel -> controller : setComment(cell,comment,author,color,style)
+        controller -> cell :setUserComment(comment,author,color,style)
+        cell -> Comment : comment = new Comment(comment,author,color,style)
+        cell -> cell : ArrayList<Comment> userComments = userComments.add(comment)
+        cell -> cell :fireCommentsChanged()
+            note right of controller
+            JListComment cell is update.
+            Contais all comments of a particular cell
+            end note
+    else Edit Button (User choose a comment from the JList to edit)      
+        Panel -> edit : create(cell,controller)
+        User -> jlistComment : selects the comment from the list of comments
+        edit --> User : asks for the new data
+        User -> edit : Introduces the new data
+        edit -> controller : editComment(cell,comment,author,color,style)
+        controller -> Comment : oldComment = comment.clone()
+        controller -> Comment : setData(comment,author,color,style)
+        controller -> Comment : c.addChange(oldComment)
+        Comment -> Comment : historyComments.add(oldComment)
+        cell -> cell : fireCommentsChanged()
+            note right of controller
+            JListComment of cell is update.
+            JListHistory of comments is update.
+            Contais all history comments of a particular comment
+            end note
+    else NewVersion Button
+        Panel -> edit : create(cell,controller)
+        User -> jlistHistory : selects the comment from the list of history comments
+        edit --> User : asks for the new data
+        User -> edit : Introduces the new data
+        edit -> controller : editComment(cell,comment,author,color,style)
+        controller -> Comment : oldComment = comment.clone()
+        controller -> Comment : setData(comment,author,color,style)
+        controller -> Comment : c.addChange(oldComment)
+        Comment -> Comment : historyComments.add(oldComment)
+        cell -> cell : fireCommentsChanged()
+            note right of controller
+            JListComment of cell is update.
+            JListHistory of comments is update.
+            Contais all history comments of a particular comment
+            end note
+    else SearchFeature Button
+        Panel --> User : asks the user for the text to search in comment(including in history)
+        User -> Panel : introduces the text
+        Panel -> history : create(cell,text,controller)
+        history -> controller : String search = searchCommentsByText(text)
+        controller -> cell : getAllHistoryComments()
+            note right of history
+            This UI is a textArea that show the result of the search
+            end note
+    end
+
+@enduml
