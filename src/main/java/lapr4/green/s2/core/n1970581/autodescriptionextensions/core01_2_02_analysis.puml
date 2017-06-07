@@ -1,0 +1,103 @@
+@startuml core01_2_02_analysis.png
+
+class CleanSheets <<Analysis>>{
+ }
+class ExtensionManager <<Analysis>>{
+ }
+class Extension <<Analysis>>{
+ }
+
+class DescriptionExtensionLoader <<Analysis>>{
+    - Map String , ExtensionClassName
+ }
+
+class DescriptionExtensionLoaderUI <<Analysis>>{
+    - controller
+ }
+
+class DescriptionExtensionLoaderController <<Analysis>>{
+  - DescriptionExtensionLoader
+ }
+
+class Metadata <<Analysis>>{
+ - Name
+ - Version
+ - Description
+ + name()
+ + version()
+ + description()
+}
+
+class Name <<Analysis>>{
+ - String
+}
+class Version <<Analysis>>{
+ - int
+}
+class Description <<Analysis>>{
+ - String
+}
+class MetadataFactory <<Analysis>>{
+}
+
+
+
+class ExtensionDTO <<Analysis>>{
+  - Metadata
+  + metadata()
+  + name()
+  + version()
+  + description()
+  + toString()
+}
+
+
+
+'DescriptionExtensionLoader
+'DescriptionExtensionLoaderUI
+'DescriptionExtensionLoaderController
+'Metadata
+'Name
+'Version
+'Description
+'MetadataFactory
+'ExtensionDTO
+'CleanSheets
+'ExtensionManager
+
+
+DescriptionExtensionLoaderController --> DescriptionExtensionLoader
+DescriptionExtensionLoaderUI --> DescriptionExtensionLoaderController
+DescriptionExtensionLoader --> ExtensionManager
+ExtensionManager --> Extension
+
+DescriptionExtensionLoader --> Extension
+DescriptionExtensionLoader --> ExtensionDTO
+DescriptionExtensionLoader --> Metadata
+
+DescriptionExtensionLoaderUI --> ExtensionDTO
+DescriptionExtensionLoaderController --> ExtensionDTO
+
+CleanSheets --> ExtensionManager
+
+Metadata --> Name
+Metadata --> Version
+Metadata --> Description
+
+MetadataFactory --> Metadata
+
+ExtensionDTO --> Metadata
+
+
+
+'SearchWorkbookUIExtension <-- SearchWorkbookExtension
+'SearchWorkbookController <-- SearchWorkbookUIExtension
+'FileSearch <-- SearchWorkbookController
+'Container <-- SearchWorkbookController
+'Container o-- FileDTO
+'Container <-- FileSearch
+'Event <.. Container
+'SearchWorkbookUIExtension <.. Event
+'SearchWorkbookUIExtension <.. Container :   _[EVENT ???]
+
+@enduml
