@@ -25,6 +25,7 @@ import javafx.scene.control.ComboBox;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -56,6 +57,7 @@ public class FormatingPanel extends JPanel implements ActionListener {
     private final Object[] items = {">", "<", "<=", ">=", "=", "<>"};
 
     private final JTextField txtValue;
+    private final JTextField selection;
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -85,10 +87,13 @@ public class FormatingPanel extends JPanel implements ActionListener {
         btnFalse = createBtnFalse();
         btnOK = createBtnOK();
         btnReset = createBtnReset();
+        selection = createSelectionTxt();
      
         mainPanel.add(txtValue);
         mainPanel.add(cmbOperators);
-
+        mainPanel.add(selection);
+        
+        optionButtonsPanel.add(selection);
         optionButtonsPanel.add(new JToolBar.Separator(new Dimension(10, 10)));
         optionButtonsPanel.add(btnTrue);
         optionButtonsPanel.add(btnFalse);
@@ -154,7 +159,7 @@ public class FormatingPanel extends JPanel implements ActionListener {
                     array = controller.getAllSelectCells();
                     for(int i=0 ; i <array.length ;i++){
                         for(int j=0 ; j <array[i].length ;j++){
-                        Cell cell = array[i][j];
+                            Cell cell = array[i][j];
                             StylableCell stylableCell = (StylableCell) cell.getExtension(StyleExtension.NAME);
                             stylableCell.setBackgroundColor(new Color(255, 255, 255));
                         }
@@ -166,7 +171,7 @@ public class FormatingPanel extends JPanel implements ActionListener {
         });
         return btnReset;
     }
-
+    
     private JButton createBtnOK() {
               
         JButton btnOK = new JButton("OK");
@@ -184,7 +189,7 @@ public class FormatingPanel extends JPanel implements ActionListener {
                         controller.addListener(txtValue.getText(), cmbOperators.getSelectedItem().toString(), cell);
                         }
                     }
-
+                    selectionTypeChange(array);
                 } else {
                     JOptionPane.showMessageDialog(mainPanel, "You have to insert a formula ", "Conditional Formating", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -192,5 +197,23 @@ public class FormatingPanel extends JPanel implements ActionListener {
         });
         this.txtValue.setText("");
         return btnOK;
+    }
+    private JTextField createSelectionTxt(){
+        JTextField selectionTxT = new JTextField();
+        selectionTxT.setText("No Cell Selected");
+        selectionTxT.setEditable(false);
+        return selectionTxT;
+    }
+    
+    
+    
+    private void selectionTypeChange(Cell[][] arrayCells) {
+        String selectionType = "No Cell Selected";
+        if (arrayCells.length == 1) {
+            selectionType = "Single Selection";
+        } else if (arrayCells.length > 1) {
+            selectionType = "Multiple Selection";
+        }
+        selection.setText(selectionType);
     }
 }
