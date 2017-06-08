@@ -1,0 +1,15 @@
+@startuml ipc05.2_analysis.png
+
+actor User
+
+participant "System" as s
+
+User->s: Select Settings option
+s->User: A window pop-up so the user can update his info like nickname and photo
+User->s: Update his perfil
+s->User: success
+
+
+
+
+@enduml
