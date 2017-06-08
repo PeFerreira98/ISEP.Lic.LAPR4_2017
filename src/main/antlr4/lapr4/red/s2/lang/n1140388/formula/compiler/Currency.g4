@@ -22,6 +22,7 @@ currenciesSymb
 currenciesCount
 	:money arithmetic_basic currenciesCount
         |money arithmetic_pro NUMBER
+		|NUMBER arithmetic_pro money
 		|money
 	;
 
