@@ -60,4 +60,22 @@ public class MetadataFactory {
         Description d = new Description(DEFAULT_DESCRIPTION);
         return new Metadata(n, v, d);
     }
+    
+    /**
+     * Builds the Extension DTO based on the Metadatalbe extension
+     * @param extension the Metadatable Extension
+     * @return the ExtensionDTO
+     */
+    public ExtensionDTO buildExtensionDTO(Metadatable extension){
+        if(extension == null) throw new IllegalArgumentException("Null extension passed to MetadataFactory in buildExtensionDTO");
+        
+        String className = extension.getClass().getCanonicalName();
+        
+        
+        return new ExtensionDTO(extension.metadata().clone(), className);
+    }
+    
+    
+    
+    
 }
