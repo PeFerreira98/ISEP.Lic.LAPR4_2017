@@ -24,18 +24,27 @@ import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
+import lapr4.green.s2.core.n1970581.autodescriptionextensions.Metadata;
+import lapr4.green.s2.core.n1970581.autodescriptionextensions.MetadataFactory;
+import lapr4.green.s2.core.n1970581.autodescriptionextensions.Metadatable;
 
 /**
  * An interface for extensions to the CleanSheets application.
  * @author Einar Pehrson
  */
-public abstract class Extension implements Comparable<Extension> {
+public abstract class Extension implements Comparable<Extension> , Metadatable {
 
 	/** The name of the extension */
 	private final String name;
 
 	/** The base key to use for properties of the extension */
 	private final String basePropKey;
+        
+        // New code Hugo Sprint 2 Core01.2
+        /** The metadata associated with this extension */
+        private final Metadata metadata;
+        
+        
 
 	/**
 	 * Creates a new extension.
@@ -43,6 +52,26 @@ public abstract class Extension implements Comparable<Extension> {
 	 */
 	public Extension(String name) {
 		this.name = name;
+                
+                // Extra code for backward compatibility (Hugo)
+                this.metadata = MetadataFactory.instance().buildMetadata(name);  
+
+		// Builds UI extension base property key
+		String basePropKey = "";
+		for (String token : name.toLowerCase().split(" "))
+			basePropKey += token;
+		this.basePropKey = basePropKey + ".ui.";
+	}
+        
+	/**
+	 * Creates a new extension.
+	 * @param name the name of the extension
+	 */
+	public Extension(String name , int version , String description) {
+		this.name = name;
+                
+                // Extra code for backward compatibility (Hugo)
+                this.metadata = MetadataFactory.instance().buildMetadata(name , version , description);  
 
 		// Builds UI extension base property key
 		String basePropKey = "";
@@ -103,4 +132,19 @@ public abstract class Extension implements Comparable<Extension> {
 	public UIExtension getUIExtension(UIController uiController) {
 		return null;
 	}
+
+    @Override
+    public int version() {
+        return this.metadata.version();
+    }
+
+    @Override
+    public String description() {
+        return this.metadata.description();
+    }
+
+    @Override
+    public Metadata metadata() {
+        return this.metadata.clone();
+    }
 }
