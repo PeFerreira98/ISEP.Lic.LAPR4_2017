@@ -5,7 +5,6 @@
  */
 package lapr4.blue.s2.ipc.n1140956.ChatApplication;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 /**
@@ -13,27 +12,36 @@ import java.util.HashMap;
  * @author Marcos
  */
 public class ChatUsersStorage {
-    
-    private static HashMap<String,ChatUser> chatUsersList;
+
+    private static HashMap<String, ChatUser> chatUsersList;
 
     public ChatUsersStorage() {
         this.chatUsersList = new HashMap<>();
     }
 
-    public ChatUsersStorage(HashMap<String,ChatUser> chatUsersList) {
+    public ChatUsersStorage(HashMap<String, ChatUser> chatUsersList) {
         this.chatUsersList = chatUsersList;
     }
-    
-    public void addUser(ChatUser chatUser){
+
+    public void addUser(ChatUser chatUser) {
         this.chatUsersList.put(chatUser.getIp(), chatUser);
     }
-    
-    public ChatUser getUserByIP(String ip){
+
+    public ChatUser getUserByIP(String ip) {
         return this.chatUsersList.get(ip);
     }
-    
-    public HashMap<String,ChatUser> getUserList(){
+
+    public ChatUser getUserByNickname(String nick) {
+        for (ChatUser cUser : this.chatUsersList.values()) {
+            if (cUser.getNickname().equals(nick)) {
+                return cUser;
+            }
+        }
+        return null;
+    }
+
+    public HashMap<String, ChatUser> getUserList() {
         return this.chatUsersList;
     }
-    
+
 }

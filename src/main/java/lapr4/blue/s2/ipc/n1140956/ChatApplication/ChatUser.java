@@ -29,6 +29,7 @@ public class ChatUser {
     }
 
     public ChatUser(String machineName, String ip) {
+        this.nickname = "";
         this.machineName = machineName;
         this.ip = ip;
     }

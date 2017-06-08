@@ -5,16 +5,12 @@
  */
 package lapr4.green.s1.ipc.n1140618.ChatApplication.controller;
 
-import eapli.framework.persistence.DataConcurrencyException;
-import eapli.framework.persistence.DataIntegrityViolationException;
 import java.util.ArrayList;
 import java.util.Observer;
-import java.util.Properties;
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUsersStorage;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ConversationStorage;
-import lapr4.blue.s2.ipc.n1140956.ChatApplication.persistence.UserRepository;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.ReceiveMessage;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.SendMessage;
@@ -25,9 +21,6 @@ import lapr4.green.s1.ipc.n1151211.comm.CommServer2;
 import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
 import lapr4.green.s1.ipc.n1151211.comm.PeerService;
 import lapr4.green.s1.ipc.n1151211.comm.SendDto;
-import lapr4.white.s1.core.n4567890.contacts.ExtensionSettings;
-import lapr4.white.s1.core.n4567890.contacts.persistence.PersistenceContext;
-
 /**
  *
  * @author Tiago

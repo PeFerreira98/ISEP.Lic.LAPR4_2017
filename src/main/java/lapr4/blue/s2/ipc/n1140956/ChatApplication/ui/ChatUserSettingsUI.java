@@ -5,7 +5,26 @@
  */
 package lapr4.blue.s2.ipc.n1140956.ChatApplication.ui;
 
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
+import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationController;
+import lapr4.red.s1.core.n1140388.contacts.ui.Converter;
+import lapr4.white.s1.core.n4567890.contacts.ui.ContactDialog;
 
 /**
  *
@@ -13,14 +32,30 @@ import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
  */
 public class ChatUserSettingsUI extends javax.swing.JFrame {
 
-    
+    private JFileChooser chooser;
+    private File photoFile = null;
+
     private ChatUser chatUser;
+    private ChatApplicationController controller;
+
     /**
      * Creates new form ChatUserSettings
      */
-    public ChatUserSettingsUI(ChatUser chatUser) {
+    public ChatUserSettingsUI(ChatApplicationController ctrl, ChatUser chatUser) {
+        this.controller = ctrl;
         this.chatUser = chatUser;
+        
         initComponents();
+        
+        panelPhoto.setBorder(javax.swing.BorderFactory.createTitledBorder("Photo"));
+        panelPhoto.setPreferredSize(new Dimension(130, 130));
+        jLabel2.setSize(100, 100);
+        panelPhoto.add(jLabel2);
+        
+        setTitle("User Settings");
+        setVisible(true);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
 
     /**
@@ -35,29 +70,71 @@ public class ChatUserSettingsUI extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         btnOK = new javax.swing.JButton();
+        btnPhoto = new javax.swing.JButton();
+        lblPhoto = new javax.swing.JLabel();
+        panelPhoto = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Nickname:");
 
-        jTextField1.setText("jTextField1");
-
         btnOK.setText("OK");
+        btnOK.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOKActionPerformed(evt);
+            }
+        });
+
+        btnPhoto.setText("...");
+        btnPhoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPhotoActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panelPhotoLayout = new javax.swing.GroupLayout(panelPhoto);
+        panelPhoto.setLayout(panelPhotoLayout);
+        panelPhotoLayout.setHorizontalGroup(
+            panelPhotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPhotoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        panelPhotoLayout.setVerticalGroup(
+            panelPhotoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelPhotoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+                .addContainerGap())
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(51, 51, 51)
-                .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(103, Short.MAX_VALUE))
+                .addGap(87, 87, 87)
+                .addComponent(lblPhoto)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnOK)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(51, 51, 51)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(btnPhoto)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(panelPhoto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jTextField1))))
+                        .addGap(0, 90, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnOK)))
+                .addGap(20, 20, 20))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -66,18 +143,71 @@ public class ChatUserSettingsUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 109, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnPhoto)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(lblPhoto)
+                .addGap(35, 35, 35)
                 .addComponent(btnOK)
-                .addGap(20, 20, 20))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private ImageIcon iconImageFromFile(File photoFile) {
+        try {
+            BufferedImage img = ImageIO.read(photoFile);
+            return scaledImageIcon(img);
+        } catch (IOException ex) {
+            JOptionPane.
+                    showMessageDialog(this, "Error opening file!", "User photo", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+    }
+
+    private ImageIcon scaledImageIcon(Image theImage) {
+        return new ImageIcon(theImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+    }
+
+    private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
+        String nickname = jTextField1.getText();
+
+        this.controller.getChatUsersList().getUserByIP(this.chatUser.getIp()).setNickname(nickname);
+        if (photoFile != null) {
+            try {
+                this.controller.getChatUsersList().getUserByIP(this.chatUser.getIp()).setImage(Converter.setImage(photoFile));
+            } catch (IOException ex) {
+                Logger.getLogger(ChatUserSettingsUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }//GEN-LAST:event_btnOKActionPerformed
+
+    private void btnPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhotoActionPerformed
+        chooser = new JFileChooser();
+        FileNameExtensionFilter filter = new FileNameExtensionFilter(
+                "JPG & GIF Images", "jpg", "gif", "png");
+        chooser.setFileFilter(filter);
+        int returnVal = chooser.showOpenDialog(ChatUserSettingsUI.this);
+        if (returnVal == JFileChooser.APPROVE_OPTION) {
+            System.out.println("You chose to open this file: "
+                    + chooser.getSelectedFile().getName());
+        }
+        photoFile = chooser.getSelectedFile();
+        jLabel2.setIcon(iconImageFromFile(photoFile));
+
+    }//GEN-LAST:event_btnPhotoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnOK;
+    private javax.swing.JButton btnPhoto;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel lblPhoto;
+    private javax.swing.JPanel panelPhoto;
     // End of variables declaration//GEN-END:variables
 }
