@@ -6,10 +6,12 @@
 package lapr4.red.s2.lang.n1140388.formula.compiler;
 
 import csheets.core.Cell;
+import csheets.core.Value;
 import csheets.core.formula.BinaryOperation;
 import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Literal;
+import csheets.core.formula.UnaryOperation;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.core.formula.lang.CellReference;
 import java.math.BigDecimal;
@@ -60,6 +62,13 @@ public class CurrencyEvalVisitor extends CurrencyBaseVisitor<Expression> {
     @Override
     public Expression visitCurrenciesCount(CurrencyParser.CurrenciesCountContext ctx) {
         try {
+//            if (ctx.getChildCount() == 1) // Convert unary operation
+//            {
+//                return new UnaryOperation(
+//                        Language.getInstance().getUnaryOperator(ctx.getText()),
+//                        convert(cell, ctx.getChild(0)));
+//            }
+
             if (ctx.getChildCount() == 3) {
 
                 // Convert binary operation
@@ -69,7 +78,6 @@ public class CurrencyEvalVisitor extends CurrencyBaseVisitor<Expression> {
                         visit(ctx.getChild(2))
                 );
             }
-
         } catch (FormulaCompilationException ex) {
             addVisitError(ex.getMessage());
         }
@@ -81,10 +89,17 @@ public class CurrencyEvalVisitor extends CurrencyBaseVisitor<Expression> {
     public Expression visitMoney(CurrencyParser.MoneyContext ctx) {
 
         String number = ctx.getChild(0).getText();
-        String currency = ctx.getChild(1).getText();
         MoneyRate mr = new MoneyRate();
 
-        return new Literal(mr.calculateValue(currencyName, number, currency));
+        if (ctx.getChildCount() == 1) {
+            
+            return new Literal(mr.calculateValueWithoutCurrency(currencyName, number));
+        } else {
+
+            String currency = ctx.getChild(1).getText();
+            return new Literal(mr.calculateValue(currencyName, number, currency));
+        }
+
     }
 
     @Override

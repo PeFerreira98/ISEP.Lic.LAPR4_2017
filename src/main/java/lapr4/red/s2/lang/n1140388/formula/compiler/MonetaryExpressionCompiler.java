@@ -12,10 +12,8 @@ import csheets.core.formula.Expression;
 import csheets.core.formula.Literal;
 import csheets.core.formula.compiler.ExpressionCompiler;
 import csheets.core.formula.compiler.FormulaCompilationException;
-import csheets.core.formula.lang.Language;
 import java.util.Collections;
 import java.util.List;
-import lapr4.red.s2.lang.n1140388.formula.lang.MoneyRate;
 import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.BaseErrorListener;
 import org.antlr.v4.runtime.CommonTokenStream;
@@ -23,7 +21,6 @@ import org.antlr.v4.runtime.Parser;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.Recognizer;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.Tree;
 
 /**
  * A compiler that generates Monetary-style formulas from strings.
@@ -36,9 +33,6 @@ public class MonetaryExpressionCompiler implements ExpressionCompiler {
      * The character that signals that a cell's content is a formula ('#')
      */
     public static final char FORMULA_STARTER = '#';
-
-    private String currencyName;
-    public static final MoneyRate ml = new MoneyRate();
 
     /**
      * Creates the Monetary expression compiler.

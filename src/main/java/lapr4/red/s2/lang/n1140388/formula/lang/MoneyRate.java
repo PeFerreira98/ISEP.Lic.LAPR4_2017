@@ -92,6 +92,30 @@ public class MoneyRate {
         return excPoundToEuro;
     }
 
+    public static void setExcDollarToEuro(BigDecimal excDollarToEuro) {
+        MoneyRate.excDollarToEuro = excDollarToEuro;
+    }
+
+    public static void setExcDollarToPound(BigDecimal excDollarToPound) {
+        MoneyRate.excDollarToPound = excDollarToPound;
+    }
+
+    public static void setExcEuroToDollar(BigDecimal excEuroToDollar) {
+        MoneyRate.excEuroToDollar = excEuroToDollar;
+    }
+
+    public static void setExcEuroToPound(BigDecimal excEuroToPound) {
+        MoneyRate.excEuroToPound = excEuroToPound;
+    }
+
+    public static void setExcPoundToDollar(BigDecimal excPoundToDollar) {
+        MoneyRate.excPoundToDollar = excPoundToDollar;
+    }
+
+    public static void setExcPoundToEuro(BigDecimal excPoundToEuro) {
+        MoneyRate.excPoundToEuro = excPoundToEuro;
+    }
+
     public Value calculateValue(String currencyName, String value, String currencySymbol) {
         if (value.contains(",")) {
             value = value.replace(',', '.');
@@ -141,6 +165,19 @@ public class MoneyRate {
             }
         }
 
+        return null;
+    }
+
+    public Value calculateValueWithoutCurrency(String currencyName, String value) {
+        if (value.contains(",")) {
+            value = value.replace(',', '.');
+        }
+
+        BigDecimal result = new BigDecimal(value);
+        
+        if (currencyName.contains(EURO_NAME) || currencyName.contains(DOLLAR_NAME) || currencyName.contains(POUND_NAME)) {
+            return new Value(result);
+        }
         return null;
     }
 }
