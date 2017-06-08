@@ -63,13 +63,26 @@ public class CurrencyEvalVisitor extends CurrencyBaseVisitor<Expression> {
     public Expression visitCurrenciesCount(CurrencyParser.CurrenciesCountContext ctx) {
         try {
             if (ctx.getChildCount() == 3) {
-
                 // Convert binary operation
                 BinaryOperator operator = Language.getInstance().getBinaryOperator(ctx.getChild(1).getText());
-                return new BinaryOperation(visit(ctx.getChild(0)),
-                        operator,
-                        visit(ctx.getChild(2))
-                );
+                if (operator.equals(Language.getInstance().getBinaryOperator("+"))
+                        || operator.equals(Language.getInstance().getBinaryOperator("-"))) {
+
+                    return new BinaryOperation(visit(ctx.getChild(0)),
+                            operator,
+                            visit(ctx.getChild(2))
+                    );
+                }
+
+                if (operator.equals(Language.getInstance().getBinaryOperator("*"))
+                        || operator.equals(Language.getInstance().getBinaryOperator("/"))) {
+                    
+                    MoneyRate mr = new MoneyRate();
+
+                    return new BinaryOperation(visit(ctx.getChild(0)),
+                            operator,
+                            new Literal(mr.calculateValueWithoutCurrency(currencyName, ctx.getChild(2).getText())));
+                }
             }
         } catch (FormulaCompilationException ex) {
             addVisitError(ex.getMessage());
@@ -83,16 +96,9 @@ public class CurrencyEvalVisitor extends CurrencyBaseVisitor<Expression> {
 
         String number = ctx.getChild(0).getText();
         MoneyRate mr = new MoneyRate();
-
-        if (ctx.getChildCount() == 1) {
-            
-            return new Literal(mr.calculateValueWithoutCurrency(currencyName, number));
-        } else {
-
-            String currency = ctx.getChild(1).getText();
-            return new Literal(mr.calculateValue(currencyName, number, currency));
-        }
-
+        String currency = ctx.getChild(1).getText();
+        
+        return new Literal(mr.calculateValue(currencyName, number, currency));
     }
 
     @Override
