@@ -55,6 +55,15 @@ public class ImageController {
         return true;
     }
     
+    public boolean removingImage(ImagenableCell cell, String location){
+        //Removes the image
+        cell.removeImage(location);
+        if(uiController != null){
+            uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+        }
+        return true;
+    }
+    
     /**
      * Returns all the images in this cell 
      * @param cell the cell whose images changed

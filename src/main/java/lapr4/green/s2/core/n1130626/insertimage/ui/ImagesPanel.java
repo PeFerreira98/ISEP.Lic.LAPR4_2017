@@ -9,11 +9,18 @@ import csheets.core.Cell;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import lapr4.green.s2.core.n1130626.insertimage.ImagenableCell;
 import lapr4.green.s2.core.n1130626.insertimage.ImagenableCellListener;
 import lapr4.green.s2.core.n1130626.insertimage.Images;
@@ -42,6 +49,8 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
     
     
     DefaultListModel<String> diretorioLista;
+    
+    private BufferedImage image;
     
     /**
      * Creates new form ImagesPanel
@@ -75,10 +84,16 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
         jLabel2 = new javax.swing.JLabel();
         jButtonAddImage = new javax.swing.JButton();
         jButtonRemoveImage = new javax.swing.JButton();
+        jPanelImageView = new javax.swing.JPanel();
 
         jLabel1.setText("Links of the images:");
 
         jListURL.setModel(new DefaultListModel<String>());
+        jListURL.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListURLMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListURL);
 
         jLabel2.setText("Image:");
@@ -97,19 +112,33 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
             }
         });
 
+        jPanelImageView.setBackground(new java.awt.Color(51, 51, 255));
+
+        javax.swing.GroupLayout jPanelImageViewLayout = new javax.swing.GroupLayout(jPanelImageView);
+        jPanelImageView.setLayout(jPanelImageViewLayout);
+        jPanelImageViewLayout.setHorizontalGroup(
+            jPanelImageViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        jPanelImageViewLayout.setVerticalGroup(
+            jPanelImageViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 159, Short.MAX_VALUE)
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1)
-                    .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanelImageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addComponent(jButtonAddImage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 265, Short.MAX_VALUE)
                         .addComponent(jButtonRemoveImage))
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addComponent(jLabel2))
@@ -125,7 +154,9 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelImageView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButtonAddImage)
                     .addComponent(jButtonRemoveImage))
@@ -145,8 +176,30 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
     }//GEN-LAST:event_jButtonAddImageActionPerformed
 
     private void jButtonRemoveImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveImageActionPerformed
-        // TODO add your handling code here:
+        int urlIndex = this.jListURL.getSelectedIndex();
+        if(urlIndex >= 0){
+            String urlRemoving = this.jListURL.getModel().getElementAt(urlIndex);
+            if(cell != null){
+                this.diretorioLista.remove(urlIndex);
+                controller.removingImage(cell, urlRemoving);
+            }
+        } else {
+            JOptionPane.showMessageDialog(this, "Please select an url", "Warning", JOptionPane.WARNING_MESSAGE);
+        }
     }//GEN-LAST:event_jButtonRemoveImageActionPerformed
+
+    private void jListURLMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListURLMouseClicked
+        try {
+            // TODO add your handling code here:
+            String imageName = this.jListURL.getSelectedValue();
+            this.image = ImageIO.read(new File(imageName));
+        } catch (IOException ex) {
+            Logger.getLogger(ImagesPanel.class.getName()).log(Level.SEVERE, null, ex);
+            return;
+        }
+        this.jPanelImageView.getGraphics().drawImage(image, 0, 0, this.jPanelImageView.getWidth(), this.jPanelImageView.getHeight(), null);
+        
+    }//GEN-LAST:event_jListURLMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -155,6 +208,7 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList<String> jListURL;
+    private javax.swing.JPanel jPanelImageView;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
