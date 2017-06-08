@@ -18,14 +18,14 @@ import java.util.Locale;
  */
 public class MoneyRate {
 
-    private static BigDecimal excDollarToEuro = new BigDecimal(0.88775);
-    private static BigDecimal excDollarToPound = new BigDecimal(0.77464);
+    private BigDecimal excDollarToEuro ;
+    private BigDecimal excDollarToPound;
 
-    private static BigDecimal excEuroToDollar = new BigDecimal(1.12632);
-    private static BigDecimal excEuroToPound = new BigDecimal(0.87254);
+    private BigDecimal excEuroToDollar;
+    private BigDecimal excEuroToPound;
 
-    private static BigDecimal excPoundToDollar = new BigDecimal(1.29072);
-    private static BigDecimal excPoundToEuro = new BigDecimal(1.14587);
+    private BigDecimal excPoundToDollar;
+    private BigDecimal excPoundToEuro;
 
     private static final String EURO_SYMB = "\u20AC";
     private static final String DOLLAR_SYMB = "$";
@@ -36,6 +36,12 @@ public class MoneyRate {
     private static final String POUND_NAME = "pound";
 
     public MoneyRate() {
+        this.excDollarToEuro = new BigDecimal(0.88775);
+        this.excDollarToPound = new BigDecimal(0.77464);
+        this.excEuroToDollar = new BigDecimal(1.12632);
+        this.excEuroToPound = new BigDecimal(0.87254);
+        this.excPoundToDollar = new BigDecimal(1.29072);
+        this.excPoundToEuro = new BigDecimal(1.14587);
     }
 
     /**
@@ -43,7 +49,7 @@ public class MoneyRate {
      *
      * @return value of the exchange dollar to euro.
      */
-    public static BigDecimal excDollarToEuro() {
+    public BigDecimal excDollarToEuro() {
         return excDollarToEuro;
     }
 
@@ -52,7 +58,7 @@ public class MoneyRate {
      *
      * @return value of the exchange dollar to pound.
      */
-    public static BigDecimal excDollarToPound() {
+    public BigDecimal excDollarToPound() {
         return excDollarToPound;
     }
 
@@ -61,7 +67,7 @@ public class MoneyRate {
      *
      * @return value of the exchange euro to dollar.
      */
-    public static BigDecimal excEuroToDollar() {
+    public BigDecimal excEuroToDollar() {
         return excEuroToDollar;
     }
 
@@ -70,7 +76,7 @@ public class MoneyRate {
      *
      * @return value of the exchange euro to pound.
      */
-    public static BigDecimal excEuroToPound() {
+    public BigDecimal excEuroToPound() {
         return excEuroToPound;
     }
 
@@ -79,7 +85,7 @@ public class MoneyRate {
      *
      * @return value of the exchange pound to dollar.
      */
-    public static BigDecimal excPoundToDollar() {
+    public BigDecimal excPoundToDollar() {
         return excPoundToDollar;
     }
 
@@ -88,32 +94,32 @@ public class MoneyRate {
      *
      * @return value of the exchange pound to euro.
      */
-    public static BigDecimal excPoundToEuro() {
+    public BigDecimal excPoundToEuro() {
         return excPoundToEuro;
     }
 
-    public static void setExcDollarToEuro(BigDecimal excDollarToEuro) {
-        MoneyRate.excDollarToEuro = excDollarToEuro;
+    public void setExcDollarToEuro(BigDecimal excDollarToEuro) {
+        this.excDollarToEuro = excDollarToEuro;
     }
 
-    public static void setExcDollarToPound(BigDecimal excDollarToPound) {
-        MoneyRate.excDollarToPound = excDollarToPound;
+    public void setExcDollarToPound(BigDecimal excDollarToPound) {
+        this.excDollarToPound = excDollarToPound;
     }
 
-    public static void setExcEuroToDollar(BigDecimal excEuroToDollar) {
-        MoneyRate.excEuroToDollar = excEuroToDollar;
+    public void setExcEuroToDollar(BigDecimal excEuroToDollar) {
+        this.excEuroToDollar = excEuroToDollar;
     }
 
-    public static void setExcEuroToPound(BigDecimal excEuroToPound) {
-        MoneyRate.excEuroToPound = excEuroToPound;
+    public void setExcEuroToPound(BigDecimal excEuroToPound) {
+        this.excEuroToPound = excEuroToPound;
     }
 
-    public static void setExcPoundToDollar(BigDecimal excPoundToDollar) {
-        MoneyRate.excPoundToDollar = excPoundToDollar;
+    public void setExcPoundToDollar(BigDecimal excPoundToDollar) {
+        this.excPoundToDollar = excPoundToDollar;
     }
 
-    public static void setExcPoundToEuro(BigDecimal excPoundToEuro) {
-        MoneyRate.excPoundToEuro = excPoundToEuro;
+    public void setExcPoundToEuro(BigDecimal excPoundToEuro) {
+        this.excPoundToEuro = excPoundToEuro;
     }
 
     public Value calculateValue(String currencyName, String value, String currencySymbol) {

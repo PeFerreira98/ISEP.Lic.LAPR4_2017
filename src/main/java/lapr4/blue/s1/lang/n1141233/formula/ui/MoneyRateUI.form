@@ -53,37 +53,38 @@
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
+                          <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jLabel7" alignment="0" max="32767" attributes="0"/>
+                              </Group>
+                              <Component id="btnExchange" min="-2" pref="100" max="-2" attributes="0"/>
+                          </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" attributes="0">
-                                  <EmptySpace min="-2" pref="34" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                      <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel4" alignment="0" max="32767" attributes="0"/>
-                                      <Component id="jLabel5" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel6" alignment="0" min="-2" max="-2" attributes="0"/>
-                                      <Component id="jLabel7" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtDollarToEuro" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtDollarToPound" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtEuroToDollar" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtEuroToPound" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtPoundToDollar" alignment="0" max="32767" attributes="0"/>
+                                      <Component id="txtPoundToEuro" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
                                   </Group>
-                                  <EmptySpace min="-2" pref="51" max="-2" attributes="0"/>
                               </Group>
                               <Group type="102" alignment="1" attributes="0">
-                                  <EmptySpace max="-2" attributes="0"/>
-                                  <Component id="btnExchange" min="-2" pref="80" max="-2" attributes="0"/>
-                                  <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
+                                  <EmptySpace pref="39" max="32767" attributes="0"/>
+                                  <Component id="btnExit" min="-2" pref="101" max="-2" attributes="0"/>
                               </Group>
-                          </Group>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="txtDollarToEuro" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtDollarToPound" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtEuroToDollar" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtEuroToPound" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtPoundToDollar" alignment="0" max="32767" attributes="0"/>
-                              <Component id="txtPoundToEuro" alignment="0" min="-2" pref="105" max="-2" attributes="0"/>
-                              <Component id="btnExit" alignment="0" min="-2" pref="79" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
-                  <EmptySpace pref="42" max="32767" attributes="0"/>
+                  <EmptySpace pref="38" max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>

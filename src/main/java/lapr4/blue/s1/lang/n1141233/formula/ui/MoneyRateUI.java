@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import lapr4.red.s2.lang.n1140388.formula.lang.MoneyRate;
 
 /**
@@ -16,18 +17,21 @@ import lapr4.red.s2.lang.n1140388.formula.lang.MoneyRate;
  * @author Alexandra Ferreira 1140388
  */
 public class MoneyRateUI extends javax.swing.JFrame {
-    
+
+    private MoneyRate money;
+
     /**
      * Creates new form MoneyRateUI
      */
     public MoneyRateUI() {
+        this.money = new MoneyRate();
         initComponents();
-        txtDollarToEuro.setText(String.valueOf(MoneyRate.excDollarToEuro()));
-        txtDollarToPound.setText(String.valueOf(MoneyRate.excDollarToPound()));
-        txtEuroToDollar.setText(String.valueOf(MoneyRate.excEuroToDollar()));
-        txtEuroToPound.setText(String.valueOf(MoneyRate.excEuroToPound()));
-        txtPoundToDollar.setText(String.valueOf(MoneyRate.excPoundToDollar()));
-        txtPoundToEuro.setText(String.valueOf(MoneyRate.excPoundToEuro()));
+        txtDollarToEuro.setText(String.format("%10.5f", money.excDollarToEuro()));
+        txtDollarToPound.setText(String.format("%10.5f", money.excDollarToPound()));
+        txtEuroToDollar.setText(String.format("%10.5f", money.excEuroToDollar()));
+        txtEuroToPound.setText(String.format("%10.5f", money.excEuroToPound()));
+        txtPoundToDollar.setText(String.format("%10.5f", money.excPoundToDollar()));
+        txtPoundToEuro.setText(String.format("%10.5f", money.excPoundToEuro()));
     }
 
     /**
@@ -96,30 +100,30 @@ public class MoneyRateUI extends javax.swing.JFrame {
                         .addGap(95, 95, 95)
                         .addComponent(jLabel1))
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel3)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5)
+                                .addComponent(jLabel8)
+                                .addComponent(jLabel6)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(btnExchange, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(34, 34, 34)
+                                .addGap(31, 31, 31)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel3)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel8)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(51, 51, 51))
+                                    .addComponent(txtDollarToEuro)
+                                    .addComponent(txtDollarToPound)
+                                    .addComponent(txtEuroToDollar)
+                                    .addComponent(txtEuroToPound)
+                                    .addComponent(txtPoundToDollar)
+                                    .addComponent(txtPoundToEuro, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(btnExchange, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(33, 33, 33)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtDollarToEuro)
-                            .addComponent(txtDollarToPound)
-                            .addComponent(txtEuroToDollar)
-                            .addComponent(txtEuroToPound)
-                            .addComponent(txtPoundToDollar)
-                            .addComponent(txtPoundToEuro, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(42, Short.MAX_VALUE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -182,32 +186,25 @@ public class MoneyRateUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnExchangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExchangeActionPerformed
-        txtDollarToEuro.getText();
-        MoneyRate.setExcDollarToEuro(new BigDecimal(txtDollarToEuro.getText()));
-        txtDollarToEuro.setText(String.valueOf(MoneyRate.excDollarToEuro()));
         
-        txtDollarToPound.getText();
-        MoneyRate.setExcDollarToPound(new BigDecimal(txtDollarToPound.getText()));
-        txtDollarToPound.setText(String.valueOf(MoneyRate.excDollarToPound()));
-        
-        txtEuroToDollar.getText();
-        MoneyRate.setExcEuroToDollar(new BigDecimal(txtEuroToDollar.getText()));
-        txtEuroToDollar.setText(String.valueOf(MoneyRate.excEuroToDollar()));
-        
-        txtEuroToPound.getText();
-        MoneyRate.setExcEuroToPound(new BigDecimal(txtEuroToPound.getText()));
-        txtEuroToPound.setText(String.valueOf(MoneyRate.excEuroToPound()));
-        
-        txtPoundToDollar.getText();
-        MoneyRate.setExcPoundToDollar(new BigDecimal(txtPoundToDollar.getText()));
-        txtPoundToDollar.setText(String.valueOf(MoneyRate.excPoundToDollar()));
-        
-        txtPoundToEuro.getText();
-        MoneyRate.setExcPoundToEuro(new BigDecimal(txtPoundToEuro.getText()));
-        txtPoundToEuro.setText(String.valueOf(MoneyRate.excPoundToEuro()));
+        money.setExcDollarToEuro(new BigDecimal(txtDollarToEuro.getText().trim().replace(",", ".")));
+
+        money.setExcDollarToPound(new BigDecimal(txtDollarToPound.getText().trim().replace(",", ".")));
+
+        money.setExcEuroToDollar(new BigDecimal(txtEuroToDollar.getText().trim().replace(",", ".")));
+
+        money.setExcEuroToPound(new BigDecimal(txtEuroToPound.getText().trim().replace(",", ".")));
+
+        money.setExcPoundToDollar(new BigDecimal(txtPoundToDollar.getText().trim().replace(",", ".")));
+
+        money.setExcPoundToEuro(new BigDecimal(txtPoundToEuro.getText().trim().replace(",", ".")));
+
+        JOptionPane.showMessageDialog(MoneyRateUI.this,
+                "Money Rate Successfully Exchanged!",
+                "Money Exchange",
+                JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnExchangeActionPerformed
 
-    
     public JMenuItem createMonetaryLanguageManager() {
         JMenuItem menuItem = new JMenuItem("Money Exchange");
         menuItem.addActionListener(new ActionListener() {
@@ -220,7 +217,7 @@ public class MoneyRateUI extends javax.swing.JFrame {
 
         return menuItem;
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnExchange;
     private javax.swing.JButton btnExit;
