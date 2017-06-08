@@ -24,13 +24,13 @@
  * <p>
  * 
  * <b>Classes</b><p>
- * Variable
- * Temporary
- * TemporaryStorage
- * TemporaryReference
- * FormulaEvalVisitor (Changed)
- * Formula3.g4 (Changed)
- * AssignmentOperator (Changed)
+ * Variable<p>
+ * Temporary<p>
+ * TemporaryStorage<p>
+ * TemporaryReference<p>
+ * FormulaEvalVisitor (Changed)<p>
+ * Formula3.g4 (Changed)<p>
+ * AssignmentOperator (Changed)<p>
  * 
  * 
  * @author pedroferreira(1140953)
