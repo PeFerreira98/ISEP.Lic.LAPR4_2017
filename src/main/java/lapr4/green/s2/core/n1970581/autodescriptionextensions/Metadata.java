@@ -61,7 +61,9 @@ public class Metadata implements Comparable<Metadata>, Metadatable, Cloneable{
 
     @Override
     public int compareTo(Metadata o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        int result = this.name.compareTo(o.getName());
+        if (result !=0 ) return result;
+        return this.version.compareTo(o.version());
     }
 
     @Override

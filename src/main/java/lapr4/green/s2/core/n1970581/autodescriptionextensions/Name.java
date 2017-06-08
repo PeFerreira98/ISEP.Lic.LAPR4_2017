@@ -29,7 +29,7 @@ public class Name implements Comparable<String> , Cloneable{
      * Returns the stored name as string.
      * @return Returns the stored name as string.
      */
-    public String name(){return this.name();}
+    public String name(){return this.name;}
 
     @Override
     public int hashCode() {

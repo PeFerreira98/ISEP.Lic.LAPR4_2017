@@ -31,6 +31,7 @@
  * Started Design: Documentation Class diagram, SD new load mechanism, SD new Extension creation process. <br>
  * Design: Documentation SD ExtensionDTO building process <br>
  * Implementation: Name Version Description Metadata MetadataFactory Metadatable (interface) <br>
+ * Test: unit tests MetadataFactory , Metadata (bugs found and corrected. Name, version, Description should be ok, since they are used a lot.)<br>
  * 
  * <h2>2. Requirement</h2>
  * 

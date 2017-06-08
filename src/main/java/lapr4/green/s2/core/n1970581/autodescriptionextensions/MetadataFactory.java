@@ -29,8 +29,8 @@ public class MetadataFactory {
      * How to get the factory
      * @return the factory
      */
-    public MetadataFactory instance(){
-        return this.instance();
+    public static MetadataFactory instance(){
+        return instance;
     }
     
     /**
