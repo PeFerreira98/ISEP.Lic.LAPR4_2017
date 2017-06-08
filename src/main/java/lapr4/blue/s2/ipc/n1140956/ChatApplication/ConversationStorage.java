@@ -16,6 +16,10 @@ public class ConversationStorage {
     
     ArrayList<Message> lst_Conversations = new ArrayList<>();
 
+    public ConversationStorage() {
+        lst_Conversations = new ArrayList<>();
+    }
+   
     public ArrayList<Message> getLst_Conversations() {
         return lst_Conversations;
     }

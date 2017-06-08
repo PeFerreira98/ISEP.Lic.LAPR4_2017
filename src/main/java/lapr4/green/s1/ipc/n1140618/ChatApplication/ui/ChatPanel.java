@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
+import lapr4.blue.s2.ipc.n1140956.ChatApplication.ui.ChatUserSettingsUI;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationController;
 import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
 
@@ -39,7 +40,7 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
      */
     public ChatPanel(UIController uiController) {
         this.uiController = uiController;
-        this.controller = new ChatApplicationController();
+        this.controller = new ChatApplicationController(/*uiController.getUserProperties()*/);
         this.thisPanel = this;
         initComponents();
 
@@ -58,7 +59,11 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
 //            model.addElement(onlineUser);
 //        }
         list.values().stream().forEach((object) -> {
-            model.addElement(object.getMachineName() + object.getIp());
+            if (object.isOnline()) {
+                model.addElement(object.getMachineName() + object.getIp() + "(Online)");
+            } else {
+                model.addElement(object.getMachineName() + object.getIp() + "(Offline)");
+            }
         });
 
         jList1.setModel(model);
@@ -77,6 +82,7 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
+        btnSettings = new javax.swing.JButton();
 
         jLabel1.setText("Users Online");
 
@@ -88,6 +94,13 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnSettings.setText("Settings");
+        btnSettings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSettingsActionPerformed(evt);
             }
         });
 
@@ -104,7 +117,9 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGap(0, 70, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -116,7 +131,9 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
-                .addContainerGap(22, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btnSettings)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -126,16 +143,20 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
             JOptionPane.showMessageDialog(null, "Select the user you wish to talk to!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
 
         } else {
-
-            String oUser = jList1.getSelectedValue();
-
+            String oUser = jList1.getSelectedValue().split(("\\("))[0];
             controller.sendMessage(oUser);
 
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
+
+//        new ChatUserSettingsUI(this.controller.getChatUsersList().);
+    }//GEN-LAST:event_btnSettingsActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnSettings;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
@@ -145,18 +166,31 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
     @Override
     public void update(Observable o, Object arg) {
         ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
-
+        System.out.println(".." + peers);
         for (String user : peers) {
 
             String tmp[] = user.split("@");
-            
+
             String machineName = tmp[0] + "@";
             String id = tmp[1];
 
             ChatUser chatUser = new ChatUser(machineName, id);
-
             if (!this.controller.getChatUsersList().getUserList().containsKey(id)) {
+                chatUser.setStatus(true);
                 this.controller.addChatUser(chatUser);
+            } else {
+                this.controller.getChatUsersList().getUserByIP(id).setStatus(true);
+            }
+
+        }
+
+        for (ChatUser user : this.controller.getChatUsersList().getUserList().values()) {
+
+            String aux = user.getMachineName() + user.getIp();
+            System.out.println(aux);
+            System.out.println(peers);
+            if (!peers.contains(aux)) {
+                user.setStatus(false);
             }
         }
 

@@ -10,17 +10,17 @@ package lapr4.blue.s2.ipc.n1140956.ChatApplication;
  * @author Marcos
  */
 public class ChatUser {
-        
+
     private String nickname;
     private String machineName;
     private byte[] image;
     private String ip;
     private boolean status;
-    
-    public ChatUser(){
-        
+
+    public ChatUser() {
+
     }
-    
+
     public ChatUser(String nickname, String machineName, byte[] image, String ip, Boolean status) {
         this.nickname = nickname;
         this.machineName = machineName;
@@ -32,9 +32,14 @@ public class ChatUser {
         this.machineName = machineName;
         this.ip = ip;
     }
-    
-    
 
+    public void setStatus(Boolean b) {
+        this.status = b;
+    }
+
+    public boolean isOnline(){
+        return this.status;
+    }
     /**
      * @return the nickname
      */
@@ -90,5 +95,5 @@ public class ChatUser {
     public void setIp(String ip) {
         this.ip = ip;
     }
-    
+
 }
