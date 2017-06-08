@@ -5,20 +5,17 @@
  */
 package lapr4.red.s2.lang.n1140388.formula.lang;
 
-import com.ibm.icu.text.NumberFormat;
-import com.ibm.icu.util.ULocale;
 import csheets.core.Value;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.Locale;
 
 /**
+ * This class was created to save the exchanges of money.
  *
  * @author Alexandra Ferreira 1140388
  */
 public class MoneyRate {
 
-    private BigDecimal excDollarToEuro ;
+    private BigDecimal excDollarToEuro;
     private BigDecimal excDollarToPound;
 
     private BigDecimal excEuroToDollar;
@@ -35,6 +32,9 @@ public class MoneyRate {
     private static final String DOLLAR_NAME = "dollar";
     private static final String POUND_NAME = "pound";
 
+    /**
+     * Creates a new Money Rate.
+     */
     public MoneyRate() {
         this.excDollarToEuro = new BigDecimal(0.88775);
         this.excDollarToPound = new BigDecimal(0.77464);
@@ -98,30 +98,68 @@ public class MoneyRate {
         return excPoundToEuro;
     }
 
+    /**
+     * Modify the value of the exchange dollar to euro.
+     *
+     * @param excDollarToEuro the new value of exchange
+     */
     public void setExcDollarToEuro(BigDecimal excDollarToEuro) {
         this.excDollarToEuro = excDollarToEuro;
     }
 
+    /**
+     * Modify the value of the exchange dollar to pound.
+     *
+     * @param excDollarToPound the new value of exchange
+     */
     public void setExcDollarToPound(BigDecimal excDollarToPound) {
         this.excDollarToPound = excDollarToPound;
     }
 
+    /**
+     * Modify the value of the exchange euro to dollar.
+     *
+     * @param excEuroToDollar the new value of exchange
+     */
     public void setExcEuroToDollar(BigDecimal excEuroToDollar) {
         this.excEuroToDollar = excEuroToDollar;
     }
 
+    /**
+     * Modify the value of the exchange euro to pound.
+     *
+     * @param excEuroToPound the new value of exchange
+     */
     public void setExcEuroToPound(BigDecimal excEuroToPound) {
         this.excEuroToPound = excEuroToPound;
     }
 
+    /**
+     * Modify the value of the exchange pound to dollar.
+     *
+     * @param excPoundToDollar the new value of exchange
+     */
     public void setExcPoundToDollar(BigDecimal excPoundToDollar) {
         this.excPoundToDollar = excPoundToDollar;
     }
 
+    /**
+     * Modify the value of the exchange pound to euro.
+     *
+     * @param excPoundToEuro the new value of exchange
+     */
     public void setExcPoundToEuro(BigDecimal excPoundToEuro) {
         this.excPoundToEuro = excPoundToEuro;
     }
 
+    /**
+     * Converts the given expression to a value.
+     *
+     * @param currencyName the currency that we want the final result
+     * @param value the value of the operand
+     * @param currencySymbol the currency of the operand
+     * @return the value of the exchange
+     */
     public Value calculateValue(String currencyName, String value, String currencySymbol) {
         if (value.contains(",")) {
             value = value.replace(',', '.');
@@ -174,13 +212,20 @@ public class MoneyRate {
         return null;
     }
 
+    /**
+     * Converts the given expression to a value.
+     *
+     * @param currencyName the currency that we want the final result
+     * @param value the value of the operand
+     * @return the value of the exchange
+     */
     public Value calculateValueWithoutCurrency(String currencyName, String value) {
         if (value.contains(",")) {
             value = value.replace(',', '.');
         }
 
         BigDecimal result = new BigDecimal(value);
-        
+
         if (currencyName.contains(EURO_NAME) || currencyName.contains(DOLLAR_NAME) || currencyName.contains(POUND_NAME)) {
             return new Value(result);
         }

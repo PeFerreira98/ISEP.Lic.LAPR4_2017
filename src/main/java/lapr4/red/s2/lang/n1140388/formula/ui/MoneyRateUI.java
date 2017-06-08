@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lapr4.blue.s1.lang.n1141233.formula.ui;
+package lapr4.red.s2.lang.n1140388.formula.ui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +13,15 @@ import javax.swing.JOptionPane;
 import lapr4.red.s2.lang.n1140388.formula.lang.MoneyRate;
 
 /**
+ * Creates a UI to change the money rate.
  *
  * @author Alexandra Ferreira 1140388
  */
 public class MoneyRateUI extends javax.swing.JFrame {
 
+    /**
+     * The money rate.
+     */
     private MoneyRate money;
 
     /**
@@ -186,7 +190,7 @@ public class MoneyRateUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnExitActionPerformed
 
     private void btnExchangeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExchangeActionPerformed
-        
+
         money.setExcDollarToEuro(new BigDecimal(txtDollarToEuro.getText().trim().replace(",", ".")));
 
         money.setExcDollarToPound(new BigDecimal(txtDollarToPound.getText().trim().replace(",", ".")));
@@ -205,6 +209,11 @@ public class MoneyRateUI extends javax.swing.JFrame {
                 JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_btnExchangeActionPerformed
 
+    /**
+     * Create a menu item to open the MoneyRateUI.
+     *
+     * @return a menu item
+     */
     public JMenuItem createMonetaryLanguageManager() {
         JMenuItem menuItem = new JMenuItem("Money Exchange");
         menuItem.addActionListener(new ActionListener() {

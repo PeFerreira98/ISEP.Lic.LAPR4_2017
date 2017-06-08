@@ -6,10 +6,7 @@
 package lapr4.red.s2.lang.n1140388.formula.compiler;
 
 import csheets.core.Cell;
-import csheets.core.formula.BinaryOperation;
-import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
-import csheets.core.formula.Literal;
 import csheets.core.formula.compiler.ExpressionCompiler;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import java.util.Collections;
@@ -43,9 +40,9 @@ public class MonetaryExpressionCompiler implements ExpressionCompiler {
     /**
      * Compiles the ANTLR tree and returns a monetary expression
      *
-     * @param cell
-     * @param source
-     * @return
+     * @param cell the selected cell
+     * @param source the input of the cell
+     * @return the result of the expression
      * @throws FormulaCompilationException
      */
     @Override
@@ -89,6 +86,9 @@ public class MonetaryExpressionCompiler implements ExpressionCompiler {
         return FORMULA_STARTER;
     }
 
+    /**
+     * Creates the error listener.
+     */
     public static class CurrencyErrorListener extends BaseErrorListener {
 
         private StringBuilder buf;

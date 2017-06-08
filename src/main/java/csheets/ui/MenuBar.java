@@ -39,7 +39,7 @@ import csheets.ui.ext.SideBarAction;
 import csheets.ui.ext.TableDecorator;
 import csheets.ui.ext.TableDecoratorAction;
 import csheets.ui.ext.UIExtension;
-import lapr4.blue.s1.lang.n1141233.formula.ui.MoneyRateUI;
+import lapr4.red.s2.lang.n1140388.formula.ui.MoneyRateUI;
 
 /**
  * The menu bar.
