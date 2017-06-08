@@ -79,9 +79,17 @@ public class CurrencyEvalVisitor extends CurrencyBaseVisitor<Expression> {
                     
                     MoneyRate mr = new MoneyRate();
 
-                    return new BinaryOperation(visit(ctx.getChild(0)),
+                    if(ctx.getChild(0).getChildCount() == 0){
+                        return new BinaryOperation(new Literal(mr.calculateValueWithoutCurrency(currencyName, ctx.getChild(0).getText())),
+                            operator,
+                            visit(ctx.getChild(2)));
+                    }else{
+                        return new BinaryOperation(visit(ctx.getChild(0)),
                             operator,
                             new Literal(mr.calculateValueWithoutCurrency(currencyName, ctx.getChild(2).getText())));
+                    }
+                    
+                    
                 }
             }
         } catch (FormulaCompilationException ex) {
