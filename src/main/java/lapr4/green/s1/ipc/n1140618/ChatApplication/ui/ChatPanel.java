@@ -9,12 +9,14 @@ import csheets.ui.ctrl.UIController;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationController;
 import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
 
@@ -22,38 +24,42 @@ import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
  *
  * @author Tiago
  */
-public class ChatPanel extends javax.swing.JPanel implements Observer{
+public class ChatPanel extends javax.swing.JPanel implements Observer {
 
     private UIController uiController;
 
     private ChatApplicationController controller;
-    
+
     ChatPanel thisPanel;
 
     /**
      * Creates new form ChatPanel
+     *
      * @param uiController
      */
     public ChatPanel(UIController uiController) {
         this.uiController = uiController;
         this.controller = new ChatApplicationController();
-        this.thisPanel=this;
+        this.thisPanel = this;
         initComponents();
-        
+
         controller.getListener().addObserver(this);
     }
-    
-    public String getName(){
+
+    public String getName() {
         return "Chat";
     }
 
-    public void updateList(ArrayList<String> list) {
+    public void updateList(HashMap<String, ChatUser> list) {
 
         DefaultListModel model = new DefaultListModel();
 
-        for (String onlineUser : list) {
-            model.addElement(onlineUser);
-        }
+//        for (String onlineUser : list) {
+//            model.addElement(onlineUser);
+//        }
+        list.values().stream().forEach((object) -> {
+            model.addElement(object.getMachineName() + object.getIp());
+        });
 
         jList1.setModel(model);
     }
@@ -120,7 +126,7 @@ public class ChatPanel extends javax.swing.JPanel implements Observer{
             JOptionPane.showMessageDialog(null, "Select the user you wish to talk to!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
 
         } else {
-            
+
             String oUser = jList1.getSelectedValue();
 
             controller.sendMessage(oUser);
@@ -139,8 +145,23 @@ public class ChatPanel extends javax.swing.JPanel implements Observer{
     @Override
     public void update(Observable o, Object arg) {
         ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
-        
-        updateList(peers);
-        
+
+        for (String user : peers) {
+
+            String tmp[] = user.split("@");
+            
+            String machineName = tmp[0] + "@";
+            String id = tmp[1];
+
+            ChatUser chatUser = new ChatUser(machineName, id);
+
+            if (!this.controller.getChatUsersList().getUserList().containsKey(id)) {
+                this.controller.addChatUser(chatUser);
+            }
+        }
+
+        updateList(this.controller.getChatUsersList().getUserList());
+//        updateList(peers);
+
     }
 }

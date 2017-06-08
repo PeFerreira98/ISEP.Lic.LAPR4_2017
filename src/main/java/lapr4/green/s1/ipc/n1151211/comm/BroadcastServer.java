@@ -34,7 +34,7 @@ public class BroadcastServer extends Thread {
     private static BroadcastServer theBroadcastServer = null;
 
     private int serverPort = 16100;
-    private long sleep = 20000;
+    private final long sleep = 20000;
     private Object lock = null;
 
     private String peerId = null;

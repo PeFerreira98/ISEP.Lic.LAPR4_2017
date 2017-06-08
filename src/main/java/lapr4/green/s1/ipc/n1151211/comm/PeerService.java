@@ -10,7 +10,7 @@ package lapr4.green.s1.ipc.n1151211.comm;
  * @author Fernando
  */
 public class PeerService implements Comparable<PeerService> {
-    private String name;
+    private final String name;
     private boolean status;
     
     public PeerService( String nm, boolean stts ){

@@ -8,6 +8,9 @@ package lapr4.green.s1.ipc.n1140618.ChatApplication.controller;
 import java.util.Observer;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
+import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUsersStorage;
+import lapr4.blue.s2.ipc.n1140956.ChatApplication.ConversationStorage;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.ReceiveMessage;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.SendMessage;
@@ -36,6 +39,10 @@ public class ChatApplicationController implements CommHandler2 {
     private boolean status = true;
 
     private Message mess;
+    
+    private ChatUsersStorage lst_Users;
+
+    private ConversationStorage lst_Conversations;
 
     /**
      * Creates a new Controller
@@ -55,7 +62,7 @@ public class ChatApplicationController implements CommHandler2 {
         this.commServer = CommServer2.getServer();
         this.listenerServer = ListenerServer.getServer();
         this.broadcastServer = BroadcastServer.getServer();
-        
+        this.lst_Users = new ChatUsersStorage();
         commServer.addHandler(Message.class, this);
         broadcastServer.broadcastThisService(new PeerService("Chat", true));
     }
@@ -79,10 +86,12 @@ public class ChatApplicationController implements CommHandler2 {
      * @return
      */
     public Iterable<String> getOnlineUsers(Observer ui) {
+        
+        
         listenerServer.addObserver(ui);
         return this.listenerServer.getServicePeers(peerId);
     }
-
+    
     /**
      * Especify the user to who the message will be sent, creating a frame for
      * enter text
@@ -93,8 +102,16 @@ public class ChatApplicationController implements CommHandler2 {
         this.mess = new Message();
         mess.setIdDest(oUser);
         mess.setIdOrig(peerId);
+        
+        String tmp[] = oUser.split("@");
+            String machineName = tmp[0] + "@";
+            String id = tmp[1];
 
-        SendMessage sm = new SendMessage(this);
+            ChatUser chatUser2 = new ChatUser(machineName, id);
+
+            
+        SendMessage sm = 
+        new SendMessage(this, this.lst_Conversations.getConversationUsers(chatUser2, chatUser2));
     }
 
     /**
@@ -105,7 +122,7 @@ public class ChatApplicationController implements CommHandler2 {
     public void messageSend(String text) {
         mess.setContent(text);
         
-        CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(peerId);
+        CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(mess.getIdDest());
         if(toPeer==null){
             JOptionPane.showMessageDialog(null, "NO COMUNICATION TO PEER!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -113,6 +130,8 @@ public class ChatApplicationController implements CommHandler2 {
         
         if(toPeer.sendDto(mess)==false){
             JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
+        }else{
+            this.lst_Conversations.addMessage(mess);
         }
         
     }
@@ -143,5 +162,13 @@ public class ChatApplicationController implements CommHandler2 {
     @Override
     public Message getLastReceivedDTO() {
         return this.mess;
+    }
+    
+    public void addChatUser(ChatUser cu){
+       this.lst_Users.addUser(cu);
+    }
+    
+    public ChatUsersStorage getChatUsersList(){
+        return this.lst_Users;
     }
 }
