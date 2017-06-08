@@ -62,13 +62,6 @@ public class CurrencyEvalVisitor extends CurrencyBaseVisitor<Expression> {
     @Override
     public Expression visitCurrenciesCount(CurrencyParser.CurrenciesCountContext ctx) {
         try {
-//            if (ctx.getChildCount() == 1) // Convert unary operation
-//            {
-//                return new UnaryOperation(
-//                        Language.getInstance().getUnaryOperator(ctx.getText()),
-//                        convert(cell, ctx.getChild(0)));
-//            }
-
             if (ctx.getChildCount() == 3) {
 
                 // Convert binary operation
@@ -100,16 +93,6 @@ public class CurrencyEvalVisitor extends CurrencyBaseVisitor<Expression> {
             return new Literal(mr.calculateValue(currencyName, number, currency));
         }
 
-    }
-
-    @Override
-    public Expression visitArithmetic_basic(CurrencyParser.Arithmetic_basicContext ctx) {
-        return null;
-    }
-
-    @Override
-    public Expression visitArithmetic_pro(CurrencyParser.Arithmetic_proContext ctx) {
-        return null;
     }
 
     @Override
