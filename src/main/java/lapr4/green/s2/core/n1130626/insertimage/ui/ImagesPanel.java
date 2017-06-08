@@ -9,17 +9,21 @@ import csheets.core.Cell;
 import csheets.ui.ctrl.SelectionEvent;
 import csheets.ui.ctrl.SelectionListener;
 import csheets.ui.ctrl.UIController;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
+import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
 import lapr4.green.s2.core.n1130626.insertimage.ImagenableCell;
 import lapr4.green.s2.core.n1130626.insertimage.ImagenableCellListener;
+import lapr4.green.s2.core.n1130626.insertimage.Images;
 import lapr4.green.s2.core.n1130626.insertimage.ImagesExtension;
 
 /**
  *
  * @author Pedro Pereira
  */
-public class ImagesPanel extends javax.swing.JPanel implements SelectionListener, ImagenableCellListener{
+public class ImagesPanel extends javax.swing.JPanel implements SelectionListener, ImagenableCellListener, Observer{
 
     /**
      * The imagenable cell currently being displayed in the panel
@@ -36,6 +40,9 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
      */
     private final UIController uiController;
     
+    
+    DefaultListModel<String> diretorioLista;
+    
     /**
      * Creates new form ImagesPanel
      * @param uiController the UIController
@@ -43,10 +50,14 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
     public ImagesPanel(UIController uiController) {
         setName(ImagesExtension.NAME);
         initComponents();
+        
+        //creates controller
         controller = new ImageController(uiController);
         uiController.addSelectionListener(this);
-        this.uiController = uiController;
         
+        this.uiController = uiController;
+        this.diretorioLista = (DefaultListModel) this.jListURL.getModel();
+        this.update(null, null);
     }
 
     /**
@@ -60,25 +71,31 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
 
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jListURL = new javax.swing.JList<>();
         jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButtonAddImage = new javax.swing.JButton();
+        jButtonRemoveImage = new javax.swing.JButton();
 
         jLabel1.setText("Links of the images:");
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public String getElementAt(int i) { return strings[i]; }
-        });
-        jScrollPane1.setViewportView(jList1);
+        jListURL.setModel(new DefaultListModel<String>());
+        jScrollPane1.setViewportView(jListURL);
 
         jLabel2.setText("Image:");
 
-        jButton1.setText("Add Image");
+        jButtonAddImage.setText("Add Image");
+        jButtonAddImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddImageActionPerformed(evt);
+            }
+        });
 
-        jButton2.setText("Remove Image");
+        jButtonRemoveImage.setText("Remove Image");
+        jButtonRemoveImage.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveImageActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -89,9 +106,9 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(jButtonAddImage)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 265, Short.MAX_VALUE)
-                        .addComponent(jButton2))
+                        .addComponent(jButtonRemoveImage))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -110,22 +127,41 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 183, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(jButtonAddImage)
+                    .addComponent(jButtonRemoveImage))
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonAddImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddImageActionPerformed
+        JFileChooser fc = new JFileChooser();
+        if (fc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION){
+            if(cell != null){
+                this.diretorioLista.addElement(fc.getSelectedFile().toString());
+                controller.setImage(cell, fc.getSelectedFile().toString());
+            }
+        }
+            
+    }//GEN-LAST:event_jButtonAddImageActionPerformed
+
+    private void jButtonRemoveImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveImageActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonRemoveImageActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButtonAddImage;
+    private javax.swing.JButton jButtonRemoveImage;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JList<String> jListURL;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 
+    /**
+     * Updates the images field
+     * @param event the selection event that was fired
+     */
     @Override
     public void selectionChanged(SelectionEvent event) {
         Cell selectedCell = event.getCell();
@@ -134,21 +170,49 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
             activeCell.addImagenableCellListener(this);
             imageChanged(activeCell);
         }
+        
+        if(event.getPreviousCell() != null){
+            ((ImagenableCell) event.getPreviousCell().getExtension(ImagesExtension.NAME)).removeImagenableCellListener(this);
+        }
     }
 
+    /**
+     * Updates the images field when the images of the active cell is
+     * changed.
+     * @param cell the cell whose images changed
+     */
     @Override
     public void imageChanged(ImagenableCell cell) {
         this.cell = cell;
         
         if(this.cell.hasImages()){
-            this.jList1.removeAll();
+            //this.jListURL.removeAll();
+            this.diretorioLista.clear();
+            List<Images> imagesList = controller.getImagesList(this.cell);
+            for(Images img : imagesList){
+                String imageLocation = img.urlLink();
+                this.diretorioLista.addElement(imageLocation);
+            }
             this.revalidate();
             this.repaint();
         } else {
-            this.jList1.removeAll();
+            //this.jListURL.removeAll();
+            this.diretorioLista.clear();
             this.revalidate();
             this.repaint();
         }
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+        this.diretorioLista.clear();
+            List<Images> imagesList = controller.getImagesList(this.cell);
+            for(Images img : imagesList){
+                String imageLocation = img.urlLink();
+                this.diretorioLista.addElement(imageLocation);
+            }
+            this.revalidate();
+            this.repaint();
     }
 
     

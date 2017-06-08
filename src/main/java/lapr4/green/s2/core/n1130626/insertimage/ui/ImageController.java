@@ -39,6 +39,23 @@ public class ImageController {
     }
     
     /**
+     * Attempts to create a new image from the given location (string).
+     * If successful, adds the image to the given cell.
+     * If the input string is empty or null, the image is set to null.
+     * @param cell the cell for which the image should be set
+     * @param location the location of the image, as entered by the user
+     * @return true if the cell's image was changed
+     */
+    public boolean setImage(ImagenableCell cell, String location){
+        //Stores the image
+        cell.addImage(location);
+        if(uiController != null){
+            uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+        }
+        return true;
+    }
+    
+    /**
      * Returns all the images in this cell 
      * @param cell the cell whose images changed
      * @return 

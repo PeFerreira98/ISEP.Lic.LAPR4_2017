@@ -97,8 +97,9 @@ public class ImagenableCell extends CellExtension {
         fireImagesChanged();
     }
     
-    public void removeImage(Images imageRemoving){
-        imagesList.remove(imageRemoving);
+    public void removeImage(String urlLink){
+        Images oldImage = new Images(urlLink);
+        imagesList.remove(oldImage);
         // Notifies listeners
         fireImagesChanged();
     }
