@@ -131,14 +131,10 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
     }
 
     private String selectedPeer;
-    
-    Cell[][] getAllSelectedCells() {
-        return this.uiController.focusOwner().getSelectedCells();
-    }
 
-    void addListener(Cell cell) {
+    void addSpreadsheetListener() {
         SharingAutomaticUpdateCellListener sharingAutomaticUpdateCellListener = new SharingAutomaticUpdateCellListener(this);
-        cell.addCellListener(sharingAutomaticUpdateCellListener);
+        uiController.getActiveSpreadsheet().addCellListener(sharingAutomaticUpdateCellListener);
     }
     
     void lockPeer(String peer){

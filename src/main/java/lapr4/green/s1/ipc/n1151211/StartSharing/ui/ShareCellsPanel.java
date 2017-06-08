@@ -137,15 +137,8 @@ public class ShareCellsPanel extends JPanel {
                 }
                 
                 controller.lockPeer(peerList.getSelectedValue());
-                Cell[][] array;
-                array = controller.getAllSelectedCells();
-                for (int i = 0; i < array.length; i++) {
-                    for (int j = 0; j < array[i].length; j++) {
-                        Cell cell = array[i][j];
-                        controller.addListener(cell);
-                    }
-                }
-                answer.setText("Region & Selected Peer Locked!");
+                controller.addSpreadsheetListener();
+                answer.setText("Selected Peer Locked!");
             }
         });
 
