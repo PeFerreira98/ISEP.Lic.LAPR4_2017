@@ -1,19 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr4.blue.s2.ipc.n1141233.importexportlink.ui;
 
 import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1141233.importexportlink.controller.ImportExportTextLinkController;
 
 /**
- * User interface for the use case: IPC04.1 Import/Export Text
+ * User interface for the use case: IPC04.2 Export Text Link
  *
  * @author Pedro Pereira
  */
@@ -23,7 +17,7 @@ public class ExportLinkUI extends javax.swing.JFrame
     /**
      * The controller for the use case
      */
-    private final ImportExportTextLinkController controller;
+    private transient final ImportExportTextLinkController controller;
 
     /**
      * A matrix of cells selected by the user
@@ -31,7 +25,7 @@ public class ExportLinkUI extends javax.swing.JFrame
     private final Cell[][] selectedCells;
 
     /**
-     * Creates new form ExportUI
+     * Creates new form ExportLinkUI
      *
      * @param selectedCells the cells selected by the user
      * @param uiController the user interface controller
@@ -165,7 +159,8 @@ public class ExportLinkUI extends javax.swing.JFrame
         }
         catch (Exception ex)
         {
-            Logger.getLogger(ExportLinkUI.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(ExportLinkUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
     }//GEN-LAST:event_exportButtonActionPerformed
 

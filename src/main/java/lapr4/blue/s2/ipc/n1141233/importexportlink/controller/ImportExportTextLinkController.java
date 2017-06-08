@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr4.blue.s2.ipc.n1141233.importexportlink.controller;
 
 import csheets.core.Cell;
@@ -52,7 +47,8 @@ public class ImportExportTextLinkController
     }
 
     /**
-     * This method uses the necessary data to import from a text file
+     * This method creates a new Thread that imports the data from the file and
+     * updates the cells everytime the file is altered
      *
      * @param filename the name of the text file of the columns or is a regular
      * row
@@ -60,77 +56,31 @@ public class ImportExportTextLinkController
      */
     public void importFromTextFile(String filename) throws Exception
     {
+        //trimming
+        filename = filename.trim();
+
+        // validations
         if (filename.isEmpty())
         {
-            throw new Exception("Please insert a name");
+            throw new Exception("Please insert a file name");
         }
 
-        if (new File(filename).exists())
+        if (!new File(filename).exists())
         {
-            throw new Exception("The text file already exists");
+            throw new Exception("The text file doesn't exist");
         }
+        // validations end
 
         Cell activeCell = uiController.getActiveCell();
-//        Spreadsheet activeSpreadsheet = uiController.getActiveSpreadsheet();
 
         ImportLinkRunnable importLinkRunnable = new ImportLinkRunnable(uiController, activeCell, filename);
 
         new Thread(importLinkRunnable).start();
-//        int row;
-//        int column;
-//
-//        if (containsHeader)
-//        {
-//            row = 0;
-//            column = 0;
-//        }
-//        else
-//        {
-//            row = activeCell.getAddress().getRow();
-//            column = activeCell.getAddress().getColumn();
-//        }
-//
-//        Scanner scanner = new Scanner(new File(filename));
-//        boolean flag = true;
-//
-//        List<String[]> matrix = new ArrayList<>();
-//        String[] line;
-//        String specialChar = "";
-//
-//        while (scanner.hasNext())
-//        {
-//            if (flag)
-//            {
-//                specialChar = scanner.nextLine().trim();
-//                flag = false;
-//            }
-//            else
-//            {
-//                line = scanner.nextLine().split(specialChar);
-//                if (line.length > 0)
-//                {
-//                    matrix.add(line);
-//                }
-//            }
-//        }
-//        scanner.close();
-//
-//        int size;
-//        int max;
-//        for (int i = 0; i < matrix.size(); i++)
-//        {
-//            size = matrix.get(i).length;
-//            max = size + column;
-//            for (int j = column; j < max; j++)
-//            {
-//                Cell cell = activeSpreadsheet.getCell(new Address(j, row + i));
-//                cell.setContent(matrix.get(i)[j - column]);
-//            }
-//        }
     }
 
     /**
-     * This method uses the necessary data to export to a text file
+     * This method creates a cell listener that exports the data to a file and
+     * adds the listener to all the selected cells
      *
      * @param selectedCells the cells selected by the user
      * @param filename the name of the text file
@@ -140,22 +90,26 @@ public class ImportExportTextLinkController
      */
     public void exportToTextFile(Cell[][] selectedCells, String filename, String specialChar) throws Exception
     {
+        //trimming
         specialChar = specialChar.trim();
+        filename = filename.trim().endsWith(".txt") ? filename.trim() : filename.trim() + ".txt";
+
+        // validations
+        if (specialChar.isEmpty())
+        {
+            throw new Exception("Please insert a valid special character");
+        }
 
         if (filename.isEmpty())
         {
-            throw new Exception("Please insert a name");
-        }
-
-        if (!filename.endsWith(".txt"))
-        {
-            filename = filename + ".txt";
+            throw new Exception("Please insert a file name");
         }
 
         if (new File(filename).exists())
         {
             throw new Exception("The text file already exists");
         }
+        // validations end
 
         CellListener listener = new ExportLinkListener(selectedCells, filename, specialChar);
 
@@ -166,29 +120,6 @@ public class ImportExportTextLinkController
                 columns.addCellListener(listener);
             }
         }
-
-//        Formatter fOut = new Formatter(new File(filename));
-//
-//        fOut.format(specialChar + "\n");
-//
-//        for (Cell[] rows : selectedCells)
-//        {
-//            String text = "";
-//            for (Cell columns : rows)
-//            {
-//                if (columns.getContent().isEmpty())
-//                {
-//                    text += " " + specialChar;
-//                }
-//                else
-//                {
-//                    text += columns.getContent() + specialChar;
-//                }
-//            }
-//            text += "\n";
-//            fOut.format(text);
-//        }
-//        fOut.close();
     }
 
     /**
@@ -210,7 +141,7 @@ public class ImportExportTextLinkController
                 {
                     if (columns.getContent().contains(specialChar))
                     {
-                        throw new Exception("This cell contains the special character that you selected, please replace it");
+                        throw new Exception("Invalid special character, please replace it");
                     }
                 }
             }

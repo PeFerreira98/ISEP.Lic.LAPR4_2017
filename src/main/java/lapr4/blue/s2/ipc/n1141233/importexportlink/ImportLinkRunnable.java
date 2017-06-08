@@ -12,6 +12,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * ExportLinkListener implements CellListener and is responsible for importing
+ * the data from the file to the cells everytime the file's content is changed
  *
  * @author Rafael Vieira
  */
@@ -33,7 +35,7 @@ public class ImportLinkRunnable implements Runnable
     {
         this.uiController = uiController;
         this.originCell = activeCell;
-        this.filename = filename;
+        this.filename = filename.trim();
         this.timeStamp = 0;
         this.keepGoing = true;
     }

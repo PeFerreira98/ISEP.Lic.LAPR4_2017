@@ -1,18 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr4.blue.s2.ipc.n1141233.importexportlink.ui;
 
 import csheets.ui.ctrl.UIController;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1141233.importexportlink.controller.ImportExportTextLinkController;
 
 /**
- * User interface for the use case: IPC04.2 Import/Export Text Link
+ * User interface for the use case: IPC04.2 Export Text Link
  *
  * @author Rafael Vieira
  */
@@ -22,10 +16,10 @@ public class ImportLinkUI extends javax.swing.JFrame
     /**
      * The controller for the use case
      */
-    private final ImportExportTextLinkController controller;
+    private transient final ImportExportTextLinkController controller;
 
     /**
-     * Creates new form ImportUI
+     * Creates new form ImportLinkUI
      *
      * @param uiController the user interface controller
      */
@@ -175,7 +169,8 @@ public class ImportLinkUI extends javax.swing.JFrame
         }
         catch (Exception ex)
         {
-            Logger.getLogger(ImportLinkUI.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(ImportLinkUI.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
         }
         this.dispose();
     }//GEN-LAST:event_btnImportActionPerformed

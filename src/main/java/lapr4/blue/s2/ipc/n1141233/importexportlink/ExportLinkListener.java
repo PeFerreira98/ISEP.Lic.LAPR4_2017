@@ -8,6 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
+ * ExportLinkListener implements CellListener and is responsible for exporting
+ * the data to the file everytime the cells' content is changed
  *
  * @author Rafael Vieira
  */
@@ -21,7 +23,7 @@ public class ExportLinkListener implements CellListener
     public ExportLinkListener(Cell[][] exportedCells, String filename, String specialChar)
     {
         this.exportedCells = exportedCells;
-        this.filename = filename;
+        this.filename = filename.trim();
         this.specialChar = specialChar.trim();
     }
 
@@ -59,6 +61,14 @@ public class ExportLinkListener implements CellListener
     @Override
     public void cellCleared(Cell cell)
     {
+        try
+        {
+            exportToTextFile();
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(ImportLinkRunnable.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     @Override
@@ -80,7 +90,7 @@ public class ExportLinkListener implements CellListener
             throw new Exception("Please insert a name");
         }
 
-        Formatter fOut = new Formatter(new File(filename.endsWith(".txt") ? filename : filename + ".txt"));
+        Formatter fOut = new Formatter(new File(filename));
 
         fOut.format(specialChar + "\n");
 
