@@ -1,0 +1,27 @@
+@startuml ipc02.02_design.png
+
+
+participant "UI" as UI
+participant "SearchWorkbookController" as ctrl
+participant "DescodificadorWorkbook" as dw
+participant "PreviewUI" as preview
+
+UI->ctrl:create()
+group  find
+
+UI->ctrl: findWorkbooks(FileDTO file)
+note left: IPC02.1
+group file extension finder
+ctrl->UI:found(FileDTO file)
+note right: override the interface method
+end group
+end group
+opt
+UI -> UI: list.getSelectedValue()
+UI -> ctrl:previewWorkbook(file)
+ctrl -> dw: create(file)
+dw -> dw:descodificaWorkbook(file)
+ctrl -> preview: create(descodificador)
+preview->preview: showWorkbook()
+end opt
+@enduml
