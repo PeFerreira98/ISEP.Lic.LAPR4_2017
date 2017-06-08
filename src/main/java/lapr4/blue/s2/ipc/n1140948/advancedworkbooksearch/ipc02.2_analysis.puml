@@ -1,0 +1,23 @@
+@startuml ipc02.2_analysis.png
+
+skinparam sequenceMessageAlign center
+skinparam monochrome true
+
+actor User
+participant "System" as s
+
+User->s: Find Workbook
+note left
+    **Opening**
+end note
+s-->User: Finds Workbook
+loop Preview
+User->s: Previews Selected Workbook
+s-->User: Show Workbook
+end
+User->s: Close or Open Previewed Workbook
+note left
+    **End of Use Case**
+end note
+
+@enduml
