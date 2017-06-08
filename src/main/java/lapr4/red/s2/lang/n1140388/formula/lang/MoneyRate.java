@@ -36,12 +36,12 @@ public class MoneyRate {
      * Creates a new Money Rate.
      */
     public MoneyRate() {
-        this.excDollarToEuro = new BigDecimal(0.88775);
-        this.excDollarToPound = new BigDecimal(0.77464);
-        this.excEuroToDollar = new BigDecimal(1.12632);
-        this.excEuroToPound = new BigDecimal(0.87254);
-        this.excPoundToDollar = new BigDecimal(1.29072);
-        this.excPoundToEuro = new BigDecimal(1.14587);
+        this.excDollarToEuro = BigDecimal.valueOf(0.88775);
+        this.excDollarToPound = BigDecimal.valueOf(0.77464);
+        this.excEuroToDollar = BigDecimal.valueOf(1.12632);
+        this.excEuroToPound = BigDecimal.valueOf(0.87254);
+        this.excPoundToDollar = BigDecimal.valueOf(1.29072);
+        this.excPoundToEuro = BigDecimal.valueOf(1.14587);
     }
 
     /**

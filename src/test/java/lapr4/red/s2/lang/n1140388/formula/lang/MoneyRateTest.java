@@ -46,7 +46,7 @@ public class MoneyRateTest {
     public void testExcDollarToEuro() {
         System.out.println("excDollarToEuro");
         MoneyRate instance = new MoneyRate();
-        BigDecimal expResult = new BigDecimal(0.88775);
+        BigDecimal expResult = BigDecimal.valueOf(0.88775);
         BigDecimal result = instance.excDollarToEuro();
         assertEquals(expResult, result);
     }
@@ -58,7 +58,7 @@ public class MoneyRateTest {
     public void testExcDollarToPound() {
         System.out.println("excDollarToPound");
         MoneyRate instance = new MoneyRate();
-        BigDecimal expResult = new BigDecimal(0.77464);
+        BigDecimal expResult = BigDecimal.valueOf(0.77464);
         BigDecimal result = instance.excDollarToPound();
         assertEquals(expResult, result);
     }
@@ -70,7 +70,7 @@ public class MoneyRateTest {
     public void testExcEuroToDollar() {
         System.out.println("excEuroToDollar");
         MoneyRate instance = new MoneyRate();
-        BigDecimal expResult = new BigDecimal(1.12632);
+        BigDecimal expResult = BigDecimal.valueOf(1.12632);
         BigDecimal result = instance.excEuroToDollar();
         assertEquals(expResult, result);
     }
@@ -82,7 +82,7 @@ public class MoneyRateTest {
     public void testExcEuroToPound() {
         System.out.println("excEuroToPound");
         MoneyRate instance = new MoneyRate();
-        BigDecimal expResult = new BigDecimal(0.87254);
+        BigDecimal expResult = BigDecimal.valueOf(0.87254);
         BigDecimal result = instance.excEuroToPound();
         assertEquals(expResult, result);
     }
@@ -94,7 +94,7 @@ public class MoneyRateTest {
     public void testExcPoundToDollar() {
         System.out.println("excPoundToDollar");
         MoneyRate instance = new MoneyRate();
-        BigDecimal expResult = new BigDecimal(1.29072);
+        BigDecimal expResult = BigDecimal.valueOf(1.29072);
         BigDecimal result = instance.excPoundToDollar();
         assertEquals(expResult, result);
     }
@@ -106,7 +106,7 @@ public class MoneyRateTest {
     public void testExcPoundToEuro() {
         System.out.println("excPoundToEuro");
         MoneyRate instance = new MoneyRate();
-        BigDecimal expResult = new BigDecimal(1.14587);
+        BigDecimal expResult = BigDecimal.valueOf(1.14587);
         BigDecimal result = instance.excPoundToEuro();
         assertEquals(expResult, result);
     }

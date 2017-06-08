@@ -69,7 +69,7 @@ public class MonetaryExpressionCompiler implements ExpressionCompiler {
         }
 
         // Visit the expression and returns it
-        CurrencyEvalVisitor eval = new CurrencyEvalVisitor(cell);
+        CurrencyEvalVisitor eval = new CurrencyEvalVisitor();
         Expression result = eval.visit(tree);
         if (eval.getNumberOfErrors() > 0) {
             throw new FormulaCompilationException(eval.getErrorsMessage());

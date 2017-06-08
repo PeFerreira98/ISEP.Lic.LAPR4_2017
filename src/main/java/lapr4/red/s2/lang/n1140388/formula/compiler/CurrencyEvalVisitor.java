@@ -26,10 +26,8 @@ public class CurrencyEvalVisitor extends CurrencyBaseVisitor<Expression> {
 
     /**
      * Creates the currency eval visitor.
-     * 
-     * @param cell the cell of the input
      */
-    public CurrencyEvalVisitor(Cell cell) {
+    public CurrencyEvalVisitor() {
         numberOfErros = 0;
         errorBuffer = new StringBuilder();
     }
