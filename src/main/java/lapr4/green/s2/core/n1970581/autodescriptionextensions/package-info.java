@@ -33,6 +33,13 @@
  * Implementation: Name Version Description Metadata MetadataFactory Metadatable (interface) <br>
  * Test: unit tests MetadataFactory , Metadata (bugs found and corrected. Name, version, Description should be ok, since they are used a lot.)<br>
  * 
+ *  
+ * Work notes/log: S2 8-05-2017 (quinta) <br> 
+ * Scrum meeting: check Jira report <br>
+ * Implementation: of MEtadatable interface in Extension class. Extension now suports Metadata and has a new constructor. <br>
+ * Warned class about the new Extension versions. <br>
+ * Implementation: ExtensionDTO, and builder in MetadataFactory<br>
+ * 
  * <h2>2. Requirement</h2>
  * 
  * <h3>2.1 Client requirements</h3>
