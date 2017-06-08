@@ -69,7 +69,11 @@ literal
 fragment LETTER: ('a'..'z'|'A'..'Z') ;
   
 TEMPORARY
-        :       UNDSCR ( LETTER )+
+        :       UNDSCR ( NUMBER | LETTER )+
+        ;
+		
+GLOBAL
+        :       ARROBA ( NUMBER | LETTER )+
         ;
 
 FUNCTION : 
@@ -121,6 +125,7 @@ fragment ABS : '$' ;
 fragment EXCL: '!' ;
 COLON        : ':' ;
 UNDSCR       : '_' ;
+ARROBA		 : '@' ;
  
 /* Miscellaneous operators */
 COMMA	: ',' ;
