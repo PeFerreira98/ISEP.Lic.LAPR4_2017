@@ -45,7 +45,7 @@ public class ImportLinkRunnable implements Runnable
      *
      * @throws Exception if the name is not inserted
      */
-    public void importFromTextFile() throws Exception
+    public synchronized void importFromTextFile() throws Exception
     {
         if (filename.isEmpty())
         {
@@ -117,13 +117,13 @@ public class ImportLinkRunnable implements Runnable
     /**
      * stops the the run method when called
      */
-    public void stop()
+    public synchronized void stop()
     {
         keepGoing = false;
     }
 
     @Override
-    public void run()
+    public synchronized void run()
     {
         while (keepGoing)
         {

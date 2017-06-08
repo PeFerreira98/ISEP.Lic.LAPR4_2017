@@ -1,7 +1,11 @@
 package lapr4.blue.s2.ipc.n1141233.importexportlink.ui;
 
 import csheets.ui.ctrl.UIController;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1141233.importexportlink.controller.ImportExportTextLinkController;
 
@@ -26,6 +30,26 @@ public class ImportLinkUI extends javax.swing.JFrame
     public ImportLinkUI(UIController uiController)
     {
         initComponents();
+
+        // dont exit on close
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        WindowListener exitListener = new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                int confirm = JOptionPane.showOptionDialog(
+                        ImportLinkUI.this, "Are You Sure to Close this window?",
+                        "Close Confirmation", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (confirm == 0)
+                {
+                    dispose();
+                }
+            }
+        };
+        this.addWindowListener(exitListener);
+
         this.controller = new ImportExportTextLinkController(uiController);
         this.lblActiveCell.setText(uiController.getActiveCell().getAddress().toString());
     }

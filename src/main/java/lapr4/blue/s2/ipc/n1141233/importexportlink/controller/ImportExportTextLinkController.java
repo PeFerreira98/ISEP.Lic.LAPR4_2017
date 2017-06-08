@@ -111,7 +111,8 @@ public class ImportExportTextLinkController
         }
         // validations end
 
-        CellListener listener = new ExportLinkListener(selectedCells, filename, specialChar);
+        ExportLinkListener listener = new ExportLinkListener(selectedCells, filename, specialChar);
+        listener.exportToTextFile();
 
         for (Cell[] rows : selectedCells)
         {

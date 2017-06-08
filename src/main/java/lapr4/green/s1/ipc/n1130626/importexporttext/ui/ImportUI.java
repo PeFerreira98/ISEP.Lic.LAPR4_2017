@@ -6,14 +6,21 @@
 package lapr4.green.s1.ipc.n1130626.importexporttext.ui;
 
 import csheets.ui.ctrl.UIController;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextController;
 
 /**
  * User interface for the use case: IPC04.1 Import/Export Text
  *
+ * changed default close operation - Rafael Vieira 08/06/2017
+ * 
  * @author Pedro Pereira
  */
 public class ImportUI extends javax.swing.JFrame
@@ -32,6 +39,26 @@ public class ImportUI extends javax.swing.JFrame
     public ImportUI(UIController uiController)
     {
         initComponents();
+        
+        // dont exit on close
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+        WindowListener exitListener = new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                int confirm = JOptionPane.showOptionDialog(
+                        ImportUI.this, "Are You Sure to Close this window?",
+                        "Close Confirmation", JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE, null, null, null);
+                if (confirm == 0)
+                {
+                    dispose();
+                }
+            }
+        };
+        this.addWindowListener(exitListener);
+        
         this.controller = new ImportExportTextController(uiController);
         this.lblActiveCell.setText(uiController.getActiveCell().getAddress().toString());
     }
