@@ -1,7 +1,7 @@
 @startuml ipc04_2_cd.png
   class ImportAction
 
-  class ExportAction
+  class ExportLinkAction
    
   class ImportExportMenu
   class ExtensionImportExport {
@@ -9,7 +9,7 @@
   }
 
   class UIController
-  class ImportUI{
+  class ImportLinkUI{
    -UIController uiController;
   }
 
@@ -17,12 +17,12 @@
 
   class JMenuItem
 
-  class ExportUI{
+  class ExportLinkUI{
     -Cell[][] selectedCells;
     -UIController uiController;
   }
 
-  class ImportExportTextController{
+  class ImportExportTextLinkController{
     +checkCells(this.textSpecialChar.getText(), selectedCells);
     +importFromTextFile(String filename, String specialChar, boolean containsHeader);
     +exportToTextFile(selectedCells, fileChooser.getSelectedFile().getAbsolutePath(), this.textSpecialChar.getText());
@@ -31,11 +31,11 @@
   ExtensionImportExport -> UIExtensionImportExport : getUIExtension(UIController)
   UIExtensionImportExport -> ImportExportMenu : getMenu()
   ImportExportMenu -> JMenuItem : 'items'
-  JMenuItem o-> ImportAction : action
-  ImportAction -> ImportUI
-  UIController -> ImportExportTextController
-  ImportUI -> ImportExportTextController
-  JMenuItem o-> ExportAction : action
-  ExportAction -> ExportUI
-  ExportUI -> ImportExportTextController
+  JMenuItem o-> ImportLinkAction : action
+  ImportAction -> ImportLinkUI
+  UIController -> ImportExportTextLinkController
+  ImportLinkUI -> ImportExportTextLinkController
+  JMenuItem o-> ExportLinkAction : action
+  ExportAction -> ExportLinkUI
+  ExportLinkUI -> ImportExportTextLinkController
 @enduml
