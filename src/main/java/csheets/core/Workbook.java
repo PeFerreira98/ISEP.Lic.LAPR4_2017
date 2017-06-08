@@ -303,4 +303,13 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
         return null;
     }
 
+    /**
+     * Method that returns the list of variables
+     *
+     * @return the list of variables
+     */
+    public ArrayList<GlobalVariable> getListOfVariables() {
+        return variablesList;
+    }
+
 }

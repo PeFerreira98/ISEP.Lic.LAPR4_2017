@@ -22,6 +22,7 @@ import lapr4.blue.s1.lang.n1140953.variables.temporary.TemporaryReference;
 import lapr4.blue.s1.lang.n1141233.formula.lang.Language;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperation;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
+import lapr4.red.s2.lang.n1131106.globalvariables.GlobalVariableReference;
 import org.antlr.v4.runtime.Token;
 
 /**
@@ -230,6 +231,7 @@ public class FormulaEvalVisitor extends Formula3BaseVisitor<Expression>
     {
         return new TemporaryReference(cell, ctx.getText());
     }
+    
 
     @Override
     public Expression visitAssignment(Formula3Parser.AssignmentContext ctx)

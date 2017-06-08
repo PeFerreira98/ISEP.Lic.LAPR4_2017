@@ -7,6 +7,7 @@ package lapr4.gray.s1.lang.n3456789.formula.lang;
 
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
+import csheets.core.Workbook;
 import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;
 import csheets.core.formula.compiler.FormulaCompilationException;
@@ -18,12 +19,15 @@ import java.util.logging.Logger;
 import lapr4.blue.s1.lang.n1140953.variables.temporary.Temporary;
 import lapr4.blue.s1.lang.n1140953.variables.temporary.TemporaryReference;
 import lapr4.blue.s1.lang.n1140953.variables.temporary.TemporaryStorage;
+import lapr4.red.s2.lang.n1131106.globalvariables.GlobalVariableReference;
 
 /**
  *
  * @author alexandrebraganca
  */
 public class AssignmentOperator implements BinaryOperator {
+
+    Value value = null;
 
     @Override
     public Value applyTo(Expression leftOperand, Expression rightOperand) throws IllegalValueTypeException {
@@ -57,7 +61,7 @@ public class AssignmentOperator implements BinaryOperator {
             return value;
         }
         if (leftOperand instanceof TemporaryReference) {
-            Value value = rightOperand.evaluate();
+            value = rightOperand.evaluate();
             TemporaryReference left = (TemporaryReference) leftOperand;
             if (TemporaryStorage.exists(left.getName())) {
                 System.out.println("TEMPORARY EXISTS" + " " + value.toDouble());
@@ -66,9 +70,16 @@ public class AssignmentOperator implements BinaryOperator {
                 System.out.println("TEMPORARY NON EXISTS" + " " + value.toDouble());
                 TemporaryStorage.add(left.getName(), value);
             }
-            
+
+            return value;
+        } else if (leftOperand instanceof GlobalVariableReference) {
+            value = rightOperand.evaluate();
+            GlobalVariableReference varRef = (GlobalVariableReference) leftOperand;
+            Workbook w = new Workbook();
+            w.createVariable(varRef.getVariable(), varRef.givePosition(), value, varRef.getSpreadSheet());
             return value;
         }
+
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 

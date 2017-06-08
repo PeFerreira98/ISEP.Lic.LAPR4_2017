@@ -9,6 +9,7 @@ import csheets.core.Spreadsheet;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
 import csheets.core.formula.util.ExpressionVisitor;
+import lapr4.blue.s1.lang.n1140953.variables.Variable;
 import lapr4.red.s2.lang.n1131106.globalvariables.domain.GlobalVariable;
 
 /**
@@ -108,8 +109,7 @@ public class GlobalVariableReference implements Expression {
     }
 
     public Object accept(ExpressionVisitor visitor) {
-        //return visitor.visitVariableReference(this); TODO
-        return null;
+        return visitor.visitGlobalVariableReference(this);
     }
 
 }

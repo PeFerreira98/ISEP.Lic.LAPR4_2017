@@ -28,6 +28,7 @@ import csheets.core.formula.Reference;
 import csheets.core.formula.UnaryOperation;
 import lapr4.blue.s1.lang.n1140953.variables.Variable;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperation;
+import lapr4.red.s2.lang.n1131106.globalvariables.GlobalVariableReference;
 
 /**
  * A default implementation of an expression visitor, that simply visits all
@@ -78,5 +79,9 @@ public abstract class AbstractExpressionVisitor implements ExpressionVisitor {
         
         public Object visitVariable(Variable variable) {
 		return variable;
+	}
+        
+        public Object visitGlobalVariableReference(GlobalVariableReference vRef) {
+		return vRef;
 	}
 }

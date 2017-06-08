@@ -47,6 +47,10 @@ literal
 	
 
 fragment LETTER: ('a'..'z'|'A'..'Z') ;
+
+GLOBAL
+        :       ARROBA ( NUMBER | LETTER )+
+        ;
   
 FUNCTION : 
 	  ( LETTER )+ 
@@ -97,6 +101,7 @@ PERCENT : '%' ;
 fragment ABS : '$' ;
 fragment EXCL:  '!'  ;
 COLON	: ':' ;
+ARROBA  : '@' ;
  
 /* Miscellaneous operators */
 COMMA	: ',' ;
