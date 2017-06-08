@@ -5,6 +5,8 @@
  */
 package lapr4.green.s2.core.n1970581.autodescriptionextensions;
 
+import csheets.ext.Extension;
+import csheets.ext.simple.ExtensionExample;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -86,6 +88,37 @@ public class MetadataFactoryTest {
         
         assertTrue(result.description() != null);
         
+        
+    }
+
+    /**
+     * Test of buildExtensionDTO method, of class MetadataFactory.
+     */
+    @Test
+    public void testBuildExtensionDTO() {
+        System.out.println("buildExtensionDTO");
+        
+        Extension ex1 = new ExtensionExample();
+        Extension ex2 = new ExtensionExample2();
+        
+        ExtensionDTO exDTO1 = MetadataFactory.instance().buildExtensionDTO(ex1);
+        ExtensionDTO exDTO2 = MetadataFactory.instance().buildExtensionDTO(ex2);
+        
+        assertEquals(exDTO1.getName(), ex1.getName());
+        assertEquals(exDTO2.getName(), ex2.getName());
+        assertEquals(exDTO1.version(), ex1.version());
+        assertEquals(exDTO1.description(), ex1.description());
+        
+        assertEquals(exDTO1.className(), ex1.getClass().getCanonicalName());
+        assertEquals(exDTO2.className(), ex2.getClass().getCanonicalName());
+        
+        try {
+            ExtensionDTO nullavel = MetadataFactory.instance().buildExtensionDTO(null);
+            fail();
+        }
+        catch(IllegalArgumentException ex){
+            assertTrue(ex != null);
+        }
         
     }
     

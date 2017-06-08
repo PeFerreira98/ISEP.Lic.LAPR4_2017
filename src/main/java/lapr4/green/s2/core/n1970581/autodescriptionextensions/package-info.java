@@ -39,6 +39,7 @@
  * Implementation: of MEtadatable interface in Extension class. Extension now suports Metadata and has a new constructor. <br>
  * Warned class about the new Extension versions. <br>
  * Implementation: ExtensionDTO, and builder in MetadataFactory<br>
+ * Test: unit tests of ExtensionDTO, and builder in MetadataFactory. Bug fixing.<br>
  * 
  * <h2>2. Requirement</h2>
  * 

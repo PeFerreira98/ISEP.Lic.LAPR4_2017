@@ -11,7 +11,7 @@ import java.util.Objects;
  * This class represents the information ragarding an extension.
  * @author Hugo
  */
-public class ExtensionDTO implements Metadatable{
+public class ExtensionDTO implements Metadatable , Comparable<ExtensionDTO>{
     
     //* The metadata of the Extension */
     private final Metadata metadata;
@@ -60,7 +60,7 @@ public class ExtensionDTO implements Metadatable{
     @Override
     public int hashCode() {
         int hash = 3;
-        hash = 47 * hash + Objects.hashCode(this.className);
+        hash = 79 * hash + Objects.hashCode(this.metadata);
         return hash;
     }
 
@@ -73,15 +73,22 @@ public class ExtensionDTO implements Metadatable{
             return false;
         }
         final ExtensionDTO other = (ExtensionDTO) obj;
-        if (!Objects.equals(this.className, other.className)) {
+        if (!Objects.equals(this.metadata, other.metadata)) {
             return false;
         }
         return true;
     }
 
+    
+
     @Override
     public String toString() {
         return this.metadata.getName() + "  v " + this.metadata.version();
+    }
+
+    @Override
+    public int compareTo(ExtensionDTO o) {
+        return this.metadata.compareTo(o.metadata());
     }
 
     
