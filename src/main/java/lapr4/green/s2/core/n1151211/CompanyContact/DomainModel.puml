@@ -1,0 +1,11 @@
+@startuml
+left to right direction
+class pessoa
+class profissao
+class empresa
+
+profissao "1" -- "*" pessoa : tem uma profissao <
+
+pessoa "1" -- "*" empresa :trabalha para >
+
+@enduml

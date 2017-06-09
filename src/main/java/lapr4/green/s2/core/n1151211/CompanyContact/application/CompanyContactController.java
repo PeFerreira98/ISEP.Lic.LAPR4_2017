@@ -3,12 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lapr4.green.s2.core.n1151211.CompanyContact;
+package lapr4.green.s2.core.n1151211.CompanyContact.application;
 
 /**
  *
  * @author Fernando
  */
-public class CompanyContact {
+public class CompanyContactController {
     
 }
