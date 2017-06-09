@@ -128,7 +128,7 @@ public class ChatApplicationController implements CommHandler2 {
 //        }
         
             SendMessage sm
-                    = new SendMessage(this, this.lst_Conversations.getConversationUsersTest(chatUser2));
+                    = new SendMessage(this, chatUser2, this.lst_Conversations.getConversationUsersTest(chatUser2));
         
 
     }
@@ -198,6 +198,10 @@ public class ChatApplicationController implements CommHandler2 {
 //    }
     public ChatUsersStorage getChatUsersList() {
         return this.lst_Users;
+    }
+    
+    public ArrayList<Message> refreshConversation(ChatUser user){
+        return this.lst_Conversations.getConversationUsersTest(user);
     }
 
 //    public Iterable<ChatUser> allContacts() {

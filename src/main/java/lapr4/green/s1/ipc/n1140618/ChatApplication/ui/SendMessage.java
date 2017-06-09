@@ -5,8 +5,9 @@
  */
 package lapr4.green.s1.ipc.n1140618.ChatApplication.ui;
 
+import java.awt.Color;
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
+import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationController;
 
@@ -18,26 +19,51 @@ public class SendMessage extends javax.swing.JFrame {
 
     private final ChatApplicationController controller;
     private ArrayList<Message> conversation;
+    private ChatUser user;
 
     /**
      * Creates new form SendMessage
      *
      * @param controller
+     * @param user
      * @param conversation
      */
-    public SendMessage(ChatApplicationController controller, ArrayList<Message> conversation) {
+    public SendMessage(ChatApplicationController controller, ChatUser user,ArrayList<Message> conversation) {
         this.controller = controller;
         this.conversation = conversation;
-        initComponents();
-        String chat = "";
-        for (int i = 0; i < this.conversation.size(); i++) {
-            chat = chat + "\n" + this.conversation.get(i).getContent();
-        }
+        this.user = user;
 
-        this.txtConversation.setText(chat);
+        initComponents();
+        initChat();
+        getContentPane().setBackground(Color.DARK_GRAY);
+
+        String chat = "";
+//        for (int i = 0; i < this.conversation.size(); i++) {
+//
+//            chat = chat + "\n" + this.conversation.get(i).getContent();
+//        }
+
+        
+//        this.txtConversation.setText(chat);
 
         this.setVisible(true);
     }
+    
+    public void initChat() {
+        this.lblPerson.setText(this.user.getMachineName()+this.user.getIp());
+        this.conversation = this.controller.refreshConversation(this.user);
+        String chat = "";
+        for (Message m : this.conversation) {
+            if (m.getIdOrig().equals(this.controller.getUser())) {
+                chat += "\n" + m.getIdOrig() + ": " + m.getContent();
+            } else {
+                chat += "\n" + m.getIdDest() + ": " + m.getContent();
+            }
+        }
+
+        textArea1.setText(chat);
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -50,72 +76,81 @@ public class SendMessage extends javax.swing.JFrame {
 
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
-        txtConversation = new javax.swing.JTextField();
+        textArea1 = new java.awt.TextArea();
+        lblPerson = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
+        jTextField1.setBackground(new java.awt.Color(51, 51, 51));
+        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
 
-        jButton1.setText("Send");
+        jButton1.setBackground(new java.awt.Color(102, 102, 102));
+        jButton1.setForeground(new java.awt.Color(204, 204, 204));
+        jButton1.setText("SEND");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        txtConversation.setEditable(false);
-        txtConversation.setFocusable(false);
-        txtConversation.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtConversationActionPerformed(evt);
-            }
-        });
+        textArea1.setBackground(new java.awt.Color(51, 51, 51));
+        textArea1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        textArea1.setForeground(new java.awt.Color(255, 255, 255));
+
+        lblPerson.setForeground(new java.awt.Color(255, 255, 255));
+        lblPerson.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 233, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
-            .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtConversation)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addComponent(jTextField1)
+                            .addGap(18, 18, 18)
+                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textArea1, javax.swing.GroupLayout.PREFERRED_SIZE, 489, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblPerson))
+                .addGap(0, 19, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(txtConversation, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(23, 23, 23)
+                .addComponent(lblPerson)
+                .addGap(1, 1, 1)
+                .addComponent(textArea1, javax.swing.GroupLayout.DEFAULT_SIZE, 230, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
-                .addContainerGap())
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 56, Short.MAX_VALUE)
+                    .addComponent(jTextField1))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (jTextField1.getText().compareTo("") == 0) {
-            JOptionPane.showMessageDialog(null, "Write something!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
-        } else {
+//        if (jTextField1.getText().compareTo("") == 0) {
+//            JOptionPane.showMessageDialog(null, "Write something!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
+//        } else {
+//            controller.messageSend(jTextField1.getText());
+//        }
+
+        if (jTextField1.getText().compareTo("") != 0) {
             controller.messageSend(jTextField1.getText());
-            dispose();
+            
+//            this.jTextField1.setText("");initChat();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void txtConversationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConversationActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtConversationActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -124,6 +159,7 @@ public class SendMessage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField txtConversation;
+    private javax.swing.JLabel lblPerson;
+    private java.awt.TextArea textArea1;
     // End of variables declaration//GEN-END:variables
 }
