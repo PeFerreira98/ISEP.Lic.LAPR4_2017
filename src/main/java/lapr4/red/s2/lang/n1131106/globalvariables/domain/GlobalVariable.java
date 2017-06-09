@@ -17,7 +17,7 @@ import java.util.List;
  */
 public class GlobalVariable implements Serializable {
 
-private String name;
+    private String name;
     private Value value;
     private Spreadsheet ss;
 

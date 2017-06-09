@@ -61,9 +61,6 @@ public class GlobalVariableReference implements Expression {
         return workbook.findVariable(spreadsheetG, variableG).getValue();
     }
 
-//    public Object accept(ExpressionVisitor visitor) {
-//        return visitor.visitGlobalVariableReference(this);
-//    }
     /**
      * Returns the name of the global variableG
      *

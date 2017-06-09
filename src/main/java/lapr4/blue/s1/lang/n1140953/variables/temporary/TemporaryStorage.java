@@ -16,7 +16,7 @@ import java.util.Map;
 public class TemporaryStorage {
 
     private static Map<String, Temporary> temporaryMap = new HashMap<>();
-    
+
     public static void update(String left, Value value) {
         add(left, value);
     }
@@ -24,8 +24,8 @@ public class TemporaryStorage {
     public static boolean exists(String left) {
         return temporaryMap.containsKey(left);
     }
-    
-    public static Temporary getTemporaryByName(String name){
+
+    public static Temporary getTemporaryByName(String name) {
         return temporaryMap.get(name);
     }
 
@@ -33,5 +33,9 @@ public class TemporaryStorage {
         Temporary temporary = new Temporary(left, value);
         temporaryMap.put(left, temporary);
     }
-    
+
+    public static void cleanList() {
+        temporaryMap.clear();
+    }
+
 }
