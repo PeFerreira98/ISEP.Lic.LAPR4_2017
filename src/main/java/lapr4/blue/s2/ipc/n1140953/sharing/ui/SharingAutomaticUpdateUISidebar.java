@@ -22,6 +22,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import lapr4.blue.s2.ipc.n1140953.sharing.SharingAutomaticUpdateController;
+import static lapr4.green.s1.ipc.n1151211.StartSharing.StartSharingExtension.NAME;
+import lapr4.green.s1.ipc.n1151211.comm.BroadcastServer;
+import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
 
 /**
  *
@@ -29,7 +32,6 @@ import lapr4.blue.s2.ipc.n1140953.sharing.SharingAutomaticUpdateController;
  */
 public class SharingAutomaticUpdateUISidebar extends JPanel implements Observer {
 
-    private final UIController uiController;
     private final SharingAutomaticUpdateController controller;
 
     private final JLabel statusLabel = new JLabel("Status", JLabel.CENTER);
@@ -46,11 +48,12 @@ public class SharingAutomaticUpdateUISidebar extends JPanel implements Observer 
 
         // Creates controller
         this.controller = new SharingAutomaticUpdateController(uiController);
-        this.uiController = uiController;
 
         buildComponents();
 
+        ListenerServer.getServer().addObserver(this);
         this.update(null, null);
+        BroadcastServer.getServer().broadcastThisService(NAME, true);
     }
 
     private void buildComponents() {
@@ -75,16 +78,10 @@ public class SharingAutomaticUpdateUISidebar extends JPanel implements Observer 
         final int BUTTON_WIDTH = 100, BUTTON_ALTURA = 30;
 
         this.btPing = new JButton("Automatic Sharing");
-        this.btPing.setForeground(Color.BLUE);
         this.btPing.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
         this.btPing.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (peerList.getSelectedValue() == null) {
-                    statusLabel.setText("No peer selected!");
-                    return;
-                }
-
                 statusLabel.setText(controller.choosePeer(peerList.getSelectedValue()));
             }
         });
@@ -94,7 +91,7 @@ public class SharingAutomaticUpdateUISidebar extends JPanel implements Observer 
         this.btStatus.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                controller.startStopAutoSharing();
+                statusLabel.setText(controller.startStopAutoSharing());
             }
         });
 

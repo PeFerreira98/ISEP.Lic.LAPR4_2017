@@ -31,48 +31,15 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  */
 public class SharingAutomaticUpdateController implements CommHandler2 {
 
-    private final UIController uiController;
-
     private Object lastDto;
-    private boolean status = true;
     private CellsSelected cellsSelected;
     private HandleReceiveSharedCells handleReceiveSC;
     private String choosedPeer;
+    private boolean enableSharing = false;
 
     public SharingAutomaticUpdateController(UIController uiController) {
-        this.uiController = uiController;
-
-        BroadcastServer.getServer().broadcastThisService(NAME, status);
         handleReceiveSC = new HandleReceiveSharedCells(uiController);
         CommServer2.getServer().addHandler(SendSharedCellsDTO.class, handleReceiveSC);
-
-    }
-
-    protected String shareCells() {
-        Cell[][] theChosen = cellsSelected.theOnesChosen();
-        if (theChosen == null || theChosen.length == 0) {
-            return "No cells selected!";
-        }
-
-        CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(this.choosedPeer);
-        if (toPeer == null) {
-            return "ERROR: Could not connect to peer!";
-        }
-
-        ListenerServer.getServer().addHandler(ReplySendSharedCellsDTO.class, this);
-
-        BroadcastServer.getServer().broadcastThisService(NAME, status);
-
-        SendSharedCellsDTO dto = new SendSharedCellsDTO(theChosen);
-        if (toPeer.sendDto(dto) == false) {
-            return "ERROR: Communication failure in sending the cells";
-        } else {
-            return "Waiting for peer response";
-        }
-    }
-
-    public String choosePeer(String selectedPeer) {
-        return this.choosedPeer = selectedPeer;
     }
 
     @Override
@@ -86,8 +53,53 @@ public class SharingAutomaticUpdateController implements CommHandler2 {
         return lastDto;
     }
 
-    public void startStopAutoSharing() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public String choosePeer(String selectedPeer) {
+        if (selectedPeer == null) {
+            return "No peer selected!";
+        }
+        return this.choosedPeer = selectedPeer;
+    }
+
+    public String startStopAutoSharing() {
+        if (!this.enableSharing) {
+            if (this.choosedPeer == null) {
+                return "Select a Peer!";
+            }
+            this.enableSharing = true;
+            return "Auto Sharing Active";
+        }
+        this.enableSharing = false;
+        return "Auto Sharing Deactivated!";
+    }
+
+    public void quickShare() {
+        System.out.println("QuickSharing...");
+        if (this.enableSharing) {
+            shareCells();
+        }
+    }
+
+    public String shareCells() {
+        Cell[][] theChosen = cellsSelected.theOnesChosen();
+        if (theChosen == null || theChosen.length == 0) {
+            return "No cells selected!";
+        }
+
+        CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(this.choosedPeer);
+        if (toPeer == null) {
+            return "ERROR: Could not connect to peer!";
+        }
+
+        ListenerServer.getServer().addHandler(ReplySendSharedCellsDTO.class, this);
+
+        BroadcastServer.getServer().broadcastThisService(NAME, true);
+
+        SendSharedCellsDTO dto = new SendSharedCellsDTO(theChosen);
+        if (toPeer.sendDto(dto) == false) {
+            return "ERROR: Communication failure in sending the cells";
+        } else {
+            return "Waiting for peer response";
+        }
     }
 
     public ArrayList<String> getPeers() {

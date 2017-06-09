@@ -21,14 +21,13 @@
  * <img src="ipc01.2_sequenceDiagram.png" alt="image">
  * <p>
  * <p>
- * <b>Classes (change)</b><p>
- * Variable<p>
- * Temporary<p>
- * TemporaryStorage<p>
- * TemporaryReference<p>
+ * <b>Classes</b><p>
+ * SharingAutomaticUpdateExtension<p>
+ * SharingAutomaticUpdateUI<p>
+ * SharingAutomaticUpdateUISidebar<p>
+ * SharingAutomaticUpdateController<p>
+ * 
  * FormulaEvalVisitor (Changed)<p>
- * Formula3.g4 (Changed)<p>
- * AssignmentOperator (Changed)<p>
  * <p>
  * <b>Work Log</b><p>
  * <b>Daily Log (Monday 05/06/2017) - </b>
@@ -38,9 +37,11 @@
  * Use case analysis & study. Documentation Creation.<p>
  * 
  * <b>Daily Log (Wednesday 07/06/2017) - </b>
- * Analysis continuation. Start Design. <p>
+ * Analysis continuation. Start Design.<p>
  * 
- * <b>Daily Log (Thursday 08/06/2017) - </b><p>
+ * <b>Daily Log (Thursday 08/06/2017) - </b>
+ * Analysis continuation. Start Implementation along design.<p>
+ * 
  * <b>Daily Log (Friday 09/06/2017) - </b><p>
  * <b>Daily Log (Monday 12/06/2017) - </b><p>
  * 
