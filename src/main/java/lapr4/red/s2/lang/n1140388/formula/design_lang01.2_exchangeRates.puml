@@ -1,0 +1,37 @@
+@startuml design_lang01.2_exchangeRates.png
+
+    actor User
+    participant "MoneyRateUI" as Win
+    participant "MoneyRate" as MR
+
+    activate User
+        User -> Win : Choose exchange rates option
+    deactivate User
+
+    activate Win
+        Win -> User : Show the exchange values
+    deactivate Win
+
+    activate User
+        opt
+            User -> Win : Change the values
+        end
+    deactivate User
+
+    activate Win
+
+        Win -> MR : setExcDollarToEuro(valueOfWindow);
+
+        Win -> MR : setExcDollarToPound(valueOfWindow);
+
+        Win -> MR : setExcEuroToDollar(valueOfWindow);
+
+        Win -> MR : setExcEuroToPound(valueOfWindow);
+
+        Win -> MR : setExcPoundToDollar(valueOfWindow);
+
+        Win -> MR : setExcPoundToEuro(valueOfWindow);
+
+    deactivate Win
+    
+@enduml

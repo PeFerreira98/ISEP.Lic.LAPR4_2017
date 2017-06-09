@@ -5,7 +5,6 @@
  */
 package lapr4.red.s2.lang.n1140388.formula.compiler;
 
-import csheets.core.Cell;
 import csheets.core.formula.BinaryOperation;
 import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Expression;

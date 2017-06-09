@@ -161,11 +161,7 @@ public class MoneyRate {
      * @return the value of the exchange
      */
     public Value calculateValue(String currencyName, String value, String currencySymbol) {
-        if (value.contains(",")) {
-            value = value.replace(',', '.');
-        }
-
-        BigDecimal result = new BigDecimal(value);
+        BigDecimal result = new BigDecimal(value.replace(',', '.'));
 
         if (currencyName.contains(EURO_NAME)) {
             if (currencySymbol.contains(EURO_SYMB)) {
@@ -220,11 +216,7 @@ public class MoneyRate {
      * @return the value of the exchange
      */
     public Value calculateValueWithoutCurrency(String currencyName, String value) {
-        if (value.contains(",")) {
-            value = value.replace(',', '.');
-        }
-
-        BigDecimal result = new BigDecimal(value);
+        BigDecimal result = new BigDecimal(value.replace(',', '.'));
 
         if (currencyName.contains(EURO_NAME) || currencyName.contains(DOLLAR_NAME) || currencyName.contains(POUND_NAME)) {
             return new Value(result);

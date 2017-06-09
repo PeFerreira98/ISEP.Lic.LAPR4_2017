@@ -1,0 +1,79 @@
+@startuml domain_model_formulas.png
+
+class CellImpl {
+		+setContent(String content);
+        -storeContent(String content);
+        -String checkType(String content);
+		-updateDependencies();
+		-fireContentChanged();
+		-reevaluate();
+}
+
+interface Cell {
+}
+
+class FormulaCompiler {
+        +Formula compile(Cell cell, String instruction);
+}
+
+class MonetaryExpressionCompiler {
+        +getStarter();
+        +Expression compile(Cell cell, String instruction);
+}
+
+
+
+class MoneyRates{
+	+excDollarToEuro();
+	+excDollarToPound();
+	+excEuroToDollar();
+        +excEuroToPound();
+        +excPoundToDollar();
+        +excPoundToEuro();
+        +calculateValue(String currencyName, String value, String currencySymbol);
+        +calculateValueWithoutCurrency(String currencyName, String value);
+}
+
+
+
+
+
+
+class ANTLRStringStream {
+		+new ANTLRStringStream(String instruction);
+}
+
+class CurrencyLexer {
+		+new CurrencyLexer(ANTLRStringStream input);
+}
+
+class CommonTokenStream {
+		+new CommonTokenStream(FormulaLexer lexer);
+}
+
+class CurrencyParser {
+		+new CurrencyParser(CommonTokenStream tokens);
+}
+
+class ParseTree {
+		+expression();
+}
+
+class CurrencyEvalVisitor{
+        +visit(tree);
+}
+
+Cell <|-- CellImpl
+FormulaCompiler <|-- CellImpl
+MonetaryExpressionCompiler <|-- FormulaCompiler
+CurrencyLexer <|-- MonetaryExpressionCompiler
+CommonTokenStream <|-- MonetaryExpressionCompiler
+CurrencyParser <|-- MonetaryExpressionCompiler
+ANTLRStringStream <|-- MonetaryExpressionCompiler
+ParseTree <|-- MonetaryExpressionCompiler
+MoneyRates <|-- MonetaryExpressionCompiler
+
+
+
+
+@enduml

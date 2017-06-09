@@ -23,6 +23,8 @@ public class MoneyRateUI extends javax.swing.JFrame {
      * The money rate.
      */
     private MoneyRate money;
+    
+    private static final String FORMAT = "%10.5f";
 
     /**
      * Creates new form MoneyRateUI
@@ -30,12 +32,12 @@ public class MoneyRateUI extends javax.swing.JFrame {
     public MoneyRateUI() {
         this.money = new MoneyRate();
         initComponents();
-        txtDollarToEuro.setText(String.format("%10.5f", money.excDollarToEuro()));
-        txtDollarToPound.setText(String.format("%10.5f", money.excDollarToPound()));
-        txtEuroToDollar.setText(String.format("%10.5f", money.excEuroToDollar()));
-        txtEuroToPound.setText(String.format("%10.5f", money.excEuroToPound()));
-        txtPoundToDollar.setText(String.format("%10.5f", money.excPoundToDollar()));
-        txtPoundToEuro.setText(String.format("%10.5f", money.excPoundToEuro()));
+        txtDollarToEuro.setText(String.format(FORMAT, money.excDollarToEuro()));
+        txtDollarToPound.setText(String.format(FORMAT, money.excDollarToPound()));
+        txtEuroToDollar.setText(String.format(FORMAT, money.excEuroToDollar()));
+        txtEuroToPound.setText(String.format(FORMAT, money.excEuroToPound()));
+        txtPoundToDollar.setText(String.format(FORMAT, money.excPoundToDollar()));
+        txtPoundToEuro.setText(String.format(FORMAT, money.excPoundToEuro()));
     }
 
     /**
@@ -216,12 +218,8 @@ public class MoneyRateUI extends javax.swing.JFrame {
      */
     public JMenuItem createMonetaryLanguageManager() {
         JMenuItem menuItem = new JMenuItem("Money Exchange");
-        menuItem.addActionListener(new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setVisible(true);
-            }
+        menuItem.addActionListener((ActionEvent e) -> {
+            setVisible(true);
         });
 
         return menuItem;

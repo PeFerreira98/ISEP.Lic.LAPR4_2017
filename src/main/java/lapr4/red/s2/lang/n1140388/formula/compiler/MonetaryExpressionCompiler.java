@@ -43,7 +43,6 @@ public class MonetaryExpressionCompiler implements ExpressionCompiler {
      * @param cell the selected cell
      * @param source the input of the cell
      * @return the result of the expression
-     * @throws FormulaCompilationException
      */
     @Override
     public Expression compile(Cell cell, String source) throws FormulaCompilationException {

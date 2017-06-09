@@ -142,7 +142,7 @@
  * currency. So we have created a test that represents this business rule.
  *
  * <p>
- * see: <code>lapr4.red.s2.lang.n1140388.formula.domain.ContactTest</code>
+ * see: <code>lapr4.red.s2.lang.n1140388.formula.lang.MoneyRateTest</code>
  *
  *
  * <p>
@@ -198,14 +198,14 @@
  * The following diagram illustrates what happens when the user insert a formula
  * into the cell.
  * <p>
- * <img src="" alt="image">
+ * <img src="design_lang01.2.png" alt="image">
  * <p>
  *
  * <h3>UC2 - Exchange rates</h3>
  * The following diagram illustrates what happens when the user wants to
  * exchange the rates.
  * <p>
- * <img src="" alt="image">
+ * <img src="design_lang01.2_exchangeRates.png" alt="image">
  * <p>
  *
  *
@@ -220,7 +220,7 @@
  *
  * <h3>4.3. Classes</h3>
  *
- * <img src="" alt="image">
+ * <img src="domain_model_formulas.png" alt="image">
  *
  *
  * <h3>4.4. Design Patterns and Best Practices</h3>
