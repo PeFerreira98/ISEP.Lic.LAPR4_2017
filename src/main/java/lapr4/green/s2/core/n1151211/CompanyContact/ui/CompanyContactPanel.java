@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -30,6 +32,7 @@ import lapr4.green.s2.core.n1151211.CompanyContact.application.CompanyContactCon
  */
 public class CompanyContactPanel extends JPanel {
     static protected final String PUSH_TO_COMPANY_CONTACT = "Push to company contacts";
+    static protected final String PUSH_TO_PERSON_CONTACT = "Push to personal contacts";
     
     static protected final boolean SHOW_PERSON = true;
     static protected final boolean SHOW_COMPANY = false;
@@ -37,10 +40,11 @@ public class CompanyContactPanel extends JPanel {
     static protected final String BT_PERSON_CONTACT = "Contacts";
     static protected final String BT_COMPANY_CONTACT = "Company Contacts";
     
-    static protected final String TITLE_PERSON_CONTACTS = "Contacts - double/right click to edit, create, delete";
-    static protected final String TITLE_COMPANY_CONTACTS = "Contacts - double/right click to edit, create, delete";
+    static protected final String TITLE_CONTACTS = "Contacts - double/right click to edit, create, delete";
     
     static protected final String TITLE_PERSON_EVENTS = "Events - double/right click to edit, create, delete";
+    
+    static protected final String TITLE_RELATED_PERSONS = "Related persons - read only";
     
     static protected final String TITLE_COMPANY_EVENTS = "Events - read only";
     
@@ -106,7 +110,9 @@ public class CompanyContactPanel extends JPanel {
         
         bPushToChange = new JButton( BT_PERSON_CONTACT );
         bPushToChange.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
-        bPushToChange.setFont(bPushToChange.getFont().deriveFont(20));
+        //bPushToChange.setFont(bPushToChange.getFont().deriveFont(20));
+        
+        bPushToChange.addActionListener(new EscutarCancelar());
 
         pPushToChange.add(bPushToChange);
 
@@ -124,7 +130,7 @@ public class CompanyContactPanel extends JPanel {
         lstContcts = new JList<>(new DefaultListModel<>());
         lstContcts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         pContacts = new JScrollPane(lstContcts);
-        pContacts.setBorder(BorderFactory.createTitledBorder(TITLE_PERSON_CONTACTS ) );
+        pContacts.setBorder(BorderFactory.createTitledBorder(TITLE_CONTACTS ) );
       
 
         lstEventsRelated = new JList<>(new DefaultListModel<>());
@@ -154,4 +160,27 @@ public class CompanyContactPanel extends JPanel {
         repaint();
     }
     
+    class EscutarCancelar implements ActionListener {
+
+        @Override
+        public void actionPerformed(ActionEvent event) {
+            personCompany = !personCompany;
+            
+            if( personCompany == SHOW_PERSON ){
+                lPushTo.setText(PUSH_TO_COMPANY_CONTACT);
+                bPushToChange.setText(BT_PERSON_CONTACT);
+                pEventsRelated.setBorder(BorderFactory.createTitledBorder(TITLE_PERSON_EVENTS ) );
+
+            }else{
+                lPushTo.setText(PUSH_TO_PERSON_CONTACT);
+                bPushToChange.setText(BT_COMPANY_CONTACT);
+                pEventsRelated.setBorder(BorderFactory.createTitledBorder(TITLE_RELATED_PERSONS ) );
+            }
+            
+            pCompanyEvents.setVisible(personCompany == SHOW_COMPANY);
+        }
+    }
 }
+
+
+
