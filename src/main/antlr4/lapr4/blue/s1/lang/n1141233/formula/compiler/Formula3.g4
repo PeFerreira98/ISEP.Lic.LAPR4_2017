@@ -57,7 +57,7 @@ reference
 	;
 
 variable
-        :       TEMPORARY
+        :       TEMPORARY | GLOBAL
         ;
 
 literal

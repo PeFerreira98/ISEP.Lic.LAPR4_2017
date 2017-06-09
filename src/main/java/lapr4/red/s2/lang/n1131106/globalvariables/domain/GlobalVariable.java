@@ -9,6 +9,7 @@ import csheets.core.Spreadsheet;
 import csheets.core.Value;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -16,102 +17,80 @@ import java.util.ArrayList;
  */
 public class GlobalVariable implements Serializable {
 
-    private String varName;
-    private ArrayList<Value> varValues = new ArrayList<Value>();
-    private Spreadsheet spreadsheet;
-    private int currentPosition = 1;
+private String name;
+    private Value value;
+    private Spreadsheet ss;
+
+    public static List<GlobalVariable> list = new ArrayList<GlobalVariable>();
 
     /**
-     * Empty constructor
+     * Default empty Constructor
+     *
      */
     public GlobalVariable() {
+
     }
 
     /**
-     * Complete constructor
+     * Constructor
      *
-     * @param varName variable name
-     * @param varPosition the position of the variable
-     * @param varValue variable value
-     * @param spreadsheet variable spreadsheet
+     * @param name name of the Global Variable
+     * @param value Value of the Global Variable
+     * @param ss Spreadsheet where the Variable was created
      */
-    public GlobalVariable(String varName, int varPosition, Value varValue,
-            Spreadsheet spreadsheet) {
-        this.varName = varName;
-        this.currentPosition = varPosition;
-        initiateArray(varPosition);
-        this.varValues.add(varPosition - 1, varValue);
-        this.spreadsheet = spreadsheet;
+    public GlobalVariable(String name, Value value, Spreadsheet ss) {
+        this.name = name;
+        this.value = value;
+        this.ss = ss;
     }
 
     /**
-     * Method that returns the variable name
+     * Method to get the Value
      *
-     * @return variable name
+     * @return Global Variable value
      */
-    public String getVarName() {
-        return varName;
-    }
-
-    private void initiateArray(int varPosition) {
-        int size = varValues.size();
-        for (int i = size; i < varPosition; i++) {
-            this.varValues.add(i, new Value("NULL"));
-        }
+    public Value getValue() {
+        return value;
     }
 
     /**
-     * Method that modifies the variable name
+     * Method to get the Name
      *
-     * @param varName the new variable name
+     * @return Global Variable name
      */
-    public void setVarName(String varName) {
-        this.varName = varName;
+    public String getName() {
+        return name;
     }
 
     /**
-     * Method that returns the variable value
+     * Method to rename our Global Variable
      *
-     * @return the variable value
+     * @param name new name of the Global Variable
      */
-    public ArrayList<Value> getVarValues() {
-        return varValues;
-    }
-
-    public Value getVarValue(int position) {
-        initiateArray(position);
-        return varValues.get(position - 1);
+    public void setName(String name) {
+        this.name = name;
     }
 
     /**
-     * Method that modifies the variable value
+     * Method to change the current value of Global Variable
      *
-     * @param varValue the new variable value
-     * @param position the position of the variable
+     * @param value new value of the Global Variable
      */
-    public void setVarValue(Value varValue, int position) {
-        initiateArray(position);
-        this.varValues.add(position - 1, varValue);
+    public void setValue(Value value) {
+        this.value = value;
     }
 
     /**
-     * Method that returns the variable spreadsheet
+     * Method to get the Spreadsheet where the Global Variable was created
      *
-     * @return variable spreadsheet
+     * @return Global Variable spreadsheet
      */
     public Spreadsheet getSpreadsheet() {
-        return spreadsheet;
+        return ss;
     }
 
-    /**
-     * Method that prints the name and value of the variable
-     *
-     * @return name and value of the variable
-     */
     @Override
     public String toString() {
-        return "Global Variable Name: " + varName + ", Variable Value: " + varValues.
-                get(0);
+        return "Global Variable Name: " + name + " - Value: " + value;
     }
-
 }

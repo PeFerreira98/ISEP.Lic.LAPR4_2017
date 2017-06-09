@@ -73,10 +73,12 @@ public class AssignmentOperator implements BinaryOperator {
 
             return value;
         } else if (leftOperand instanceof GlobalVariableReference) {
-            value = rightOperand.evaluate();
             GlobalVariableReference varRef = (GlobalVariableReference) leftOperand;
-            Workbook w = new Workbook();
-            w.createVariable(varRef.getVariable(), varRef.givePosition(), value, varRef.getSpreadSheet());
+
+            value = rightOperand.evaluate();
+
+            Workbook workbook = new Workbook();
+            workbook.createVariable(varRef.getVariable(), value, varRef.getSpreadSheet());
             return value;
         }
 

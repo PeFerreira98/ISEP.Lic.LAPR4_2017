@@ -7,9 +7,11 @@ package lapr4.red.s2.lang.n1131106.globalvariables;
 
 import csheets.core.Spreadsheet;
 import csheets.core.Value;
+import csheets.core.Workbook;
 import csheets.core.formula.Expression;
 import csheets.core.formula.util.ExpressionVisitor;
-import lapr4.blue.s1.lang.n1140953.variables.Variable;
+import java.util.ArrayList;
+import java.util.List;
 import lapr4.red.s2.lang.n1131106.globalvariables.domain.GlobalVariable;
 
 /**
@@ -18,98 +20,71 @@ import lapr4.red.s2.lang.n1131106.globalvariables.domain.GlobalVariable;
  */
 public class GlobalVariableReference implements Expression {
 
-    private String variable;
-    private int variablePosition = 1;
-    private Spreadsheet spreadsheet;
+    public static List<GlobalVariable> list = new ArrayList<GlobalVariable>();
 
     /**
-     * Empty constructor
+     * The variableG to which the reference points
      */
-    public GlobalVariableReference() {
-
-    }
+    Workbook workbook = new Workbook();
+    private String variableG;
+    private Spreadsheet spreadsheetG;
 
     /**
-     * Complete constructor that create one variable if it not exist in the list
-     * of variables.
+     * Creates a new variableG reference to the given variableG.
      *
-     * @param variable name of the referenced variable
-     * @param spreadsheet spreadsheet of the referenced variable
+     * @param variable variable
+     *
      */
-    public GlobalVariableReference(String variable, Spreadsheet spreadsheet) {
-        separateVariableFromPosition(variable);
-        this.spreadsheet = spreadsheet;
-        GlobalVariable var = this.spreadsheet.getWorkbook().
-                findVariable(spreadsheet, this.variable);
-
-        if (var == null) {
-            this.spreadsheet.getWorkbook().
-                    createVariable(variable, this.variablePosition, new Value(), this.spreadsheet);
-        }
-    }
-
-    private void separateVariableFromPosition(String text) {
-        int firstPos = text.indexOf("[");
-        if (firstPos == -1) {
-
-            this.variable = text;
-
-        } else {
-            this.variable = text.substring(0, firstPos);
-
-            int lastPos = text.indexOf("]");
-            if (lastPos != -1) {
-                String pos;
-                pos = text.substring(firstPos + 1, lastPos);
-                this.variablePosition = Integer.parseInt(pos);
-            }
-        }
-        System.out.println("Variable : " + this.variable);
-        System.out.println("Position : " + this.variablePosition);
-
+    public GlobalVariableReference(String variable) {
+        this.variableG = variable;
     }
 
     /**
-     * Method that returns the name of the global variable reference
+     * Creates a new variableG reference from a string matching the Spreadsheet
+     * spreadsheet and String reference
      *
-     * @return name of the variable reference
+     * @param spreadsheet the spreadsheet of the cell
+     * @param reference a string representation of the reference
+     */
+    public GlobalVariableReference(Spreadsheet spreadsheet, String reference) {
+        variableG = reference;
+        this.spreadsheetG = spreadsheet;
+        GlobalVariable temp = workbook.findVariable(spreadsheet, reference);
+
+        if (temp == null) {
+            workbook.createVariable(reference, new Value(), spreadsheet);
+        }
+
+    }
+
+    public Value evaluate() {
+        return workbook.findVariable(spreadsheetG, variableG).getValue();
+    }
+
+//    public Object accept(ExpressionVisitor visitor) {
+//        return visitor.visitGlobalVariableReference(this);
+//    }
+    /**
+     * Returns the name of the global variableG
+     *
+     * @return variableG
      */
     public String getVariable() {
-        return variable;
-    }
-
-    public int givePosition() {
-        return this.variablePosition;
+        return variableG;
     }
 
     /**
-     * Method that returns the spreadsheet of the variable reference
+     * Returns the spreadsheet to which the global variableG is contained
      *
-     * @return spreadsheet of the variable reference
+     * @return spreadsheet
      */
     public Spreadsheet getSpreadSheet() {
-        return spreadsheet;
+        return spreadsheetG;
     }
 
-    /**
-     * Method that returns the value of the variable
-     *
-     * @return the value of the variable
-     */
-    public Value evaluate() {
-        Value value = new Value();
-
-        GlobalVariable var = this.spreadsheet.getWorkbook().
-                findVariable(spreadsheet, variable);
-        if (var != null) {
-            value = var.getVarValue(this.variablePosition);
-        }
-
-        return value;
-    }
-
+    @Override
     public Object accept(ExpressionVisitor visitor) {
-        return visitor.visitGlobalVariableReference(this);
+        return visitor.visitGlobalReference(this);
     }
 
 }

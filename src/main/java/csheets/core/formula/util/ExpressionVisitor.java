@@ -86,6 +86,6 @@ public interface ExpressionVisitor {
 
     public Object visitVariable(Variable variable);
 
-    public Object visitGlobalVariableReference(GlobalVariableReference athis);
+    public Object visitGlobalReference(GlobalVariableReference gVRef);
 
 }

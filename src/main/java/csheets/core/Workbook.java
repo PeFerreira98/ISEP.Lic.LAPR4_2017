@@ -57,13 +57,13 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
     private int createdSpreadsheets;
 
     /**
+     * this is the list where all Global Variables are stored
+     */
+    private static List<GlobalVariable> list = new ArrayList<GlobalVariable>();
+
+    /**
      * Creates a new empty workbook.
      */
-    /**
-     * ArrayList containing all the variables that go being created
-     */
-    public ArrayList<GlobalVariable> variablesList = new ArrayList<GlobalVariable>();
-
     public Workbook() {
     }
 
@@ -251,20 +251,15 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
     /**
      * Method that creates one variable and add to the variables list
      *
-     * @param varName variable name
-     * @param position selected position (by default is 1).
-     * @param varValue variable value
-     * @param spreadsheet variable spreadsheet
+     * @param name variable name
+     * @param value variable value
+     * @param ss variable spreadsheet
      */
-    public void createVariable(String varName, int position, Value varValue,
-            Spreadsheet spreadsheet) {
-        GlobalVariable var = findVariable(spreadsheet, varName);
-        if (var == null) {
-            var = new GlobalVariable(varName, position, varValue, spreadsheet);
-            addVariable(var);
-        } else {
-            var.setVarValue(varValue, position);
-        }
+    public void createVariable(String name, Value value, Spreadsheet ss) {
+
+        GlobalVariable global = new GlobalVariable(name, value, ss);
+
+        addVariable(global);
 
     }
 
@@ -275,41 +270,45 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
      */
     public void addVariable(GlobalVariable variable) {
 
-        if (findVariable(variable.getSpreadsheet(), variable.getVarName()) == null) {
-            variablesList.add(variable);
+        if (findVariable(variable.getSpreadsheet(), variable.getName()) == null) {
+            list.add(variable);
         } else {
-            for (GlobalVariable var : variablesList) {
-                if (var.getVarName().equalsIgnoreCase(variable.getVarName())) {
-                    variablesList.set(variablesList.indexOf(var), variable);
+            for (GlobalVariable var : list) {
+                if (var.getName().equalsIgnoreCase(variable.getName())) {
+                    list.set(list.indexOf(var), variable);
                 }
             }
         }
     }
 
     /**
-     * Method that searchs if one variable exist in the list of the variable
+     * This method checks if our Variable already exists
      *
-     * @param spreadsheet the variable spreadsheet
-     * @param variable the name of the variable
-     * @return the variable if the variable was founded, else returns null
+     * @param spreadsheet Represent the spreadsheet where the variable was
+     * created
+     * @param reference Represents a reference to the variable we are looking
+     * for
+     * @return temporary variable
      */
-    public GlobalVariable findVariable(Spreadsheet spreadsheet, String variable) {
+    public GlobalVariable findVariable(Spreadsheet spreadsheet, String reference) {
 
-        for (GlobalVariable var : variablesList) {
-            if (var.getVarName().equalsIgnoreCase(variable)) {
+        for (GlobalVariable var : list) {
+            if (var.getName().equalsIgnoreCase(reference)) {
                 return var;
+
             }
         }
+
         return null;
     }
 
     /**
-     * Method that returns the list of variables
+     * Method that allow us to acess the TemporaryVariable List
      *
-     * @return the list of variables
+     * @return our List
      */
-    public ArrayList<GlobalVariable> getListOfVariables() {
-        return variablesList;
+    public List<GlobalVariable> getList() {
+        return list;
     }
 
 }

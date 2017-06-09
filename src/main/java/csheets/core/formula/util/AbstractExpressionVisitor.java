@@ -81,7 +81,7 @@ public abstract class AbstractExpressionVisitor implements ExpressionVisitor {
 		return variable;
 	}
         
-        public Object visitGlobalVariableReference(GlobalVariableReference vRef) {
+        public Object visitGlobalReference(GlobalVariableReference vRef) {
 		return vRef;
 	}
 }

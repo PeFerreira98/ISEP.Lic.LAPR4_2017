@@ -112,7 +112,7 @@ public class ExpressionBuilder implements ExpressionVisitor {
     }
 
     @Override
-    public Object visitGlobalVariableReference(GlobalVariableReference athis) {
-        return new GlobalVariableReference(athis.getVariable(), athis.getSpreadSheet());
+    public Object visitGlobalReference(GlobalVariableReference gVRef) {
+        return gVRef;
     }
 }
