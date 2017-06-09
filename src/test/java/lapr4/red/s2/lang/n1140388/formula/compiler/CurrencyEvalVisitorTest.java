@@ -6,12 +6,7 @@
 package lapr4.red.s2.lang.n1140388.formula.compiler;
 
 import csheets.core.formula.Expression;
-import csheets.core.formula.compiler.FormulaCompilationException;
-import org.antlr.v4.runtime.ANTLRInputStream;
-import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RuleContext;
-import org.antlr.v4.runtime.TokenStream;
-import org.antlr.v4.runtime.tree.ParseTree;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -40,24 +35,6 @@ public class CurrencyEvalVisitorTest {
 
     @Before
     public void setUp() {
-
-        // Creates the lexer and parser
-        ANTLRInputStream input = new ANTLRInputStream("euro{1\u20AC}");
-
-        // create the buffer of tokens between the lexer and parser        
-        CurrencyLexer lexer = new CurrencyLexer(input);
-
-        CommonTokenStream tokens = new CommonTokenStream(lexer);
-
-        parser = new CurrencyParser(tokens);
-
-        MonetaryExpressionCompiler.CurrencyErrorListener formulaErrorListener = new MonetaryExpressionCompiler.CurrencyErrorListener();
-        parser.removeErrorListeners(); // remove default ConsoleErrorListener
-        parser.addErrorListener(formulaErrorListener); // add ours
-
-        // Attempts to match an expression
-        ParseTree tree = parser.expression();
-
     }
 
     @After
