@@ -24,8 +24,6 @@ public class DescriptionExtensionLoader {
     private List <ExtensionDTO> allExtensions;
     /** The default load list shown to the user */
     private List <ExtensionDTO> defaultLoadList;
-    /** if we should use the previous loader or the new one */
-    private boolean abortNewLoad;
     /** used to indicate that the user has finished the selection */
     private boolean userFinishedSelection;
     
@@ -35,7 +33,6 @@ public class DescriptionExtensionLoader {
      * Constructor
      */
     public DescriptionExtensionLoader(){
-        this.abortNewLoad = true;
         this.userFinishedSelection = false;
         this.allExtensions = new ArrayList<>();
         this.defaultLoadList = new ArrayList<>();
@@ -58,12 +55,18 @@ public class DescriptionExtensionLoader {
      */
     public void contactUser(){
         DescriptionExtensionLoaderController ctrl = new DescriptionExtensionLoaderController(this);
-        new DescriptionExtensionLoaderUi(ctrl, allExtensions, defaultLoadList).setVisible(true);
+        List<ExtensionDTO> allExtensionsClone = new ArrayList();
+        for(ExtensionDTO dto : this.allExtensions) allExtensionsClone.add(dto.clone());
+        List<ExtensionDTO> defaultLoadListClone = new ArrayList();
+        for(ExtensionDTO dto : this.defaultLoadList) defaultLoadListClone.add(dto.clone());
+            
         
+        new DescriptionExtensionLoaderUi(ctrl, allExtensionsClone ,defaultLoadListClone ).setVisible(true);
         
-        while(!this.isUserFinishedSelection()){
+        while(!this.isUserFinishedSelection()){  //Block where we pause the main thread while we wait for the UI to finish.
             try {
-                Thread.sleep(500);
+                //Thread.sleep(500);
+                ctrl.waitSignal();
             } catch (InterruptedException ex) {
                 Logger.getLogger(DescriptionExtensionLoader.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -103,11 +106,14 @@ public class DescriptionExtensionLoader {
         return true;
     }
     
-    
-    
-    public synchronized boolean isAbortNewLoad(){ return this.abortNewLoad;}
-    public synchronized void indicateUseNewLoader(){ this.abortNewLoad = false;}
+    /**
+     * Verify if the user has finished the selection
+     * @return true if user has finished the selection
+     */            
     public synchronized boolean isUserFinishedSelection(){ return this.userFinishedSelection;}
+    /**
+     * Used to indicate that the UI or User has finished the selection.
+     */
     public synchronized void indicateUserFinishedSelection(){ this.userFinishedSelection = true;}
     
     

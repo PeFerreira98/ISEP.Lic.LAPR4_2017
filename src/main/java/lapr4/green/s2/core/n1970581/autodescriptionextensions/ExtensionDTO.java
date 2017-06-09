@@ -11,7 +11,7 @@ import java.util.Objects;
  * This class represents the information ragarding an extension.
  * @author Hugo
  */
-public class ExtensionDTO implements Metadatable , Comparable<ExtensionDTO>{
+public class ExtensionDTO implements Metadatable , Comparable<ExtensionDTO>, Cloneable{
     
     //* The metadata of the Extension */
     private final Metadata metadata;
@@ -83,12 +83,17 @@ public class ExtensionDTO implements Metadatable , Comparable<ExtensionDTO>{
 
     @Override
     public String toString() {
-        return this.metadata.getName() + "  v " + this.metadata.version();
+        return this.metadata.getName() + "  v" + this.metadata.version();
     }
 
     @Override
     public int compareTo(ExtensionDTO o) {
         return this.metadata.compareTo(o.metadata());
+    }
+
+    @Override
+    protected ExtensionDTO clone(){
+        return new ExtensionDTO(this.metadata.clone(), this.className);
     }
 
     

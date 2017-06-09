@@ -105,18 +105,7 @@ public class CleanSheets {
 
 		// Loads extensions
 		ExtensionManager.getInstance();
-                
-                // New code for the new extension Manager
-                boolean useNewLoader = false;
-                //useNewLoader = true;
-                if(useNewLoader){
-                    DescriptionExtensionLoader newLoader = new DescriptionExtensionLoader();
-                    newLoader.retrieveAllExtensions();
-                    newLoader.buildDefaultLoadList();
-                    newLoader.contactUser();
-                }
-                // End new code for the extensions properties. (hugo)
-
+                                
 		// Loads default properties
 		Properties defaultProps = new Properties();
 		InputStream defaultStream = CleanSheets.class.getResourceAsStream(DEFAULT_PROPERTIES_FILENAME);
@@ -160,6 +149,18 @@ public class CleanSheets {
 			javax.swing.UIManager.setLookAndFeel("className");
 		} catch (Exception e) {} */
 
+                // New code for the new extension Manager
+                boolean useNewLoader = false;
+                //useNewLoader = true;
+                if(useNewLoader){
+                    DescriptionExtensionLoader newLoader = new DescriptionExtensionLoader();
+                    newLoader.retrieveAllExtensions();
+                    newLoader.buildDefaultLoadList();
+                    newLoader.contactUser();
+                }
+                // End new code for the extensions properties. (hugo)
+                
+                
 		// Creates user interface
 		new csheets.ui.Frame.Creator(app).createAndWait();
 		app.create();

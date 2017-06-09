@@ -45,6 +45,10 @@
  * 
  * Work notes/log: S2 9-05-2017 (sexta) <br>
  * ONLINE Scrum meeting: check Jira report <br>
+ * Implementation DefaultExtensionLoadListBuilder interface and DefaultExtensionLoadListBuilderByLatestVersion (related with creating a auto filled selection of extensions)<br>
+ * Test: unit test of DefaultExtensionLoadListBuilderByLatestVersion <BR>
+ * Implementation: DescriptionExtensionLoader + Controller + UI interconection. New loader 90% functional. Lack UI work and minor fixes.<br>
+ * Implementation/debug Inter-Thread signal implemented using wait() + notifyall() , UI polishing. Clear button. Moving right functional. CleanSheets moving new loader code to another place. <br>
  * 
  * <h2>2. Requirement</h2>
  * 

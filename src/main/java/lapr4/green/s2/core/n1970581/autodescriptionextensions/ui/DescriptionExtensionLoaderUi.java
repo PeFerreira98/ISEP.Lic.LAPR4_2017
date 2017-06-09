@@ -56,11 +56,12 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
         jButtonAbort = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextAreaInfo = new javax.swing.JTextArea();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jButtonAdd = new javax.swing.JButton();
+        jButtonRemove = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
+        jButtonClearLoadList = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Versionated Extension Loader");
@@ -68,6 +69,7 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
 
         jButtonAccept.setBackground(new java.awt.Color(204, 255, 204));
         jButtonAccept.setText("Accept");
+        jButtonAccept.setToolTipText("Load the Extension on the right");
         jButtonAccept.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAcceptActionPerformed(evt);
@@ -75,6 +77,7 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
         });
 
         jListAllExtensions.setModel(new DefaultListModel<ExtensionDTO>());
+        jListAllExtensions.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jListAllExtensions.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jListAllExtensionsMouseClicked(evt);
@@ -83,29 +86,53 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jListAllExtensions);
 
         jListListToload.setModel(new DefaultListModel<ExtensionDTO>());
+        jListListToload.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(jListListToload);
 
         jButtonAbort.setBackground(new java.awt.Color(255, 255, 0));
-        jButtonAbort.setText("Use old loading system");
+        jButtonAbort.setText("Use default configuration");
+        jButtonAbort.setToolTipText("Use default extension.props file");
         jButtonAbort.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAbortActionPerformed(evt);
             }
         });
 
+        jTextAreaInfo.setEditable(false);
         jTextAreaInfo.setColumns(20);
         jTextAreaInfo.setRows(5);
         jScrollPane3.setViewportView(jTextAreaInfo);
 
-        jButton3.setBackground(new java.awt.Color(0, 153, 255));
-        jButton3.setText("ADD");
+        jButtonAdd.setBackground(new java.awt.Color(0, 153, 255));
+        jButtonAdd.setText("ADD");
+        jButtonAdd.setToolTipText("Copy selected item to the right");
+        jButtonAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAddActionPerformed(evt);
+            }
+        });
 
-        jButton4.setBackground(new java.awt.Color(255, 153, 153));
-        jButton4.setText("REMOVE");
+        jButtonRemove.setBackground(new java.awt.Color(255, 153, 153));
+        jButtonRemove.setText("REMOVE");
+        jButtonRemove.setToolTipText("Remove selected item");
+        jButtonRemove.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonRemoveActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Available extensions");
 
         jLabel2.setText("Extensions to load");
+
+        jButtonClearLoadList.setBackground(new java.awt.Color(255, 0, 0));
+        jButtonClearLoadList.setText("Clear");
+        jButtonClearLoadList.setToolTipText("Clear the above list");
+        jButtonClearLoadList.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonClearLoadListActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,17 +150,20 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
                                     .addComponent(jLabel1))
                                 .addGap(18, 18, 18)
                                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jButton3))
+                            .addComponent(jButtonAdd))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(18, 146, Short.MAX_VALUE)
+                                .addGap(18, 134, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jButtonAbort)
                                         .addGap(18, 18, 18)
                                         .addComponent(jButtonAccept)
                                         .addGap(18, 18, 18))
-                                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                        .addComponent(jButtonClearLoadList)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jButtonRemove))))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(26, 26, 26)
                                 .addComponent(jLabel2)
@@ -159,8 +189,9 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
                         .addComponent(jScrollPane1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                    .addComponent(jButtonAdd)
+                    .addComponent(jButtonRemove)
+                    .addComponent(jButtonClearLoadList))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
@@ -181,11 +212,15 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
             int version = dto.version();
             String desc = dto.description();
             String className = dto.className();
-            String text = "Name: " + name + " Version: " + version + "\n" + "Class: " + className + "\nDescription: " + desc;
+            String text = "Name: " + name + " \nVersion: " + version + "\n" + "Class: " + className + "\nDescription: " + desc;
             this.jTextAreaInfo.setText(text);
         }
     }//GEN-LAST:event_jListAllExtensionsMouseClicked
 
+    /**
+     * Abort code of button
+     * @param evt ActionEvent
+     */
     private void jButtonAbortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbortActionPerformed
         // TODO add your handling code here:
         this.ctrl.indicateUserFinishedSelection();
@@ -207,10 +242,45 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
         }
         int errors = 0;
          errors = this.ctrl.loadList(listDTO);
-        JOptionPane.showMessageDialog(this.rootPane, "Errors: " + errors, "Error" , JOptionPane.INFORMATION_MESSAGE);
+        if (errors != 0) JOptionPane.showMessageDialog(this.rootPane, "Extension loading failures: " + errors, "Error" , JOptionPane.INFORMATION_MESSAGE);
         this.ctrl.indicateUserFinishedSelection();
         this.dispose();
     }//GEN-LAST:event_jButtonAcceptActionPerformed
+
+    
+    /**
+     * Moves an extension from the left to the right.
+     * @param evt ActionEvent
+     */
+    private void jButtonAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddActionPerformed
+        // TODO add your handling code here:
+        //if(this.)
+        if (this.jListAllExtensions.isSelectionEmpty()) return;
+        ExtensionDTO selected = (ExtensionDTO)this.jListAllExtensions.getSelectedValue();
+        
+        this.moveToRightList(selected);// Moves to the right list
+    }//GEN-LAST:event_jButtonAddActionPerformed
+
+    /**
+     * Moves an extension from the right to the left.
+     * @param evt ActionEvent
+     */
+    private void jButtonRemoveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveActionPerformed
+        // TODO add your handling code here:
+        if (this.jListListToload.isSelectionEmpty()) return;
+        ExtensionDTO selected = (ExtensionDTO)this.jListListToload.getSelectedValue();
+        
+        this.moveToLeftList(selected);// Moves to the right list
+    }//GEN-LAST:event_jButtonRemoveActionPerformed
+
+    /**
+     * Clears the ListToLoad.
+     * @param evt ActionEvent
+     */
+    private void jButtonClearLoadListActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonClearLoadListActionPerformed
+        // TODO add your handling code here:
+        ((DefaultListModel)this.jListListToload.getModel()).clear();
+    }//GEN-LAST:event_jButtonClearLoadListActionPerformed
 
     /**
      * @param args the command line arguments
@@ -254,10 +324,11 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAbort;
     private javax.swing.JButton jButtonAccept;
+    private javax.swing.JButton jButtonAdd;
+    private javax.swing.JButton jButtonClearLoadList;
+    private javax.swing.JButton jButtonRemove;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JList jListAllExtensions;
@@ -269,8 +340,39 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextAreaInfo;
     // End of variables declaration//GEN-END:variables
 
-
+    /**
+     * Copy an item from the left list to the right list.
+     * @param dto item to move.
+     */
+    public void moveToRightList(ExtensionDTO dto){
+        String name = dto.getName();
+        
+        List <ExtensionDTO> listDTO = new ArrayList();
+        Object toLoad[] = ((DefaultListModel)this.jListListToload.getModel()).toArray();
+        for( Object obj : toLoad){
+            if(obj instanceof ExtensionDTO) listDTO.add((ExtensionDTO)obj);
+        }
+        
+        for(ExtensionDTO aux : listDTO){
+            if(aux.getName().equals(name)) {
+                ((DefaultListModel)this.jListListToload.getModel()).removeElement(aux);
+            }
+        }
+        ((DefaultListModel)this.jListListToload.getModel()).addElement(dto);
+    }
     
+    /**
+     * Copy an item from right to left
+     * @param dto item to copy
+     */
+    public void moveToLeftList(ExtensionDTO dto){
+        String name = dto.getName();
+        
+        //List <ExtensionDTO> listDTO = new ArrayList();
+        //Object allExtensions[] = ((DefaultListModel)this.jListAllExtensions.getModel()).toArray();
+        
+        ((DefaultListModel)this.jListListToload.getModel()).removeElement(dto);
+    }
     
 
 }
