@@ -30,18 +30,7 @@
  * use case tests (e.g., like in the TDD approach).<p>
  *
  * Import data from a text file Functional/Integration Test:<p>
- * 1. The user should start the CleanSheets Application<p>
- * 2. Selects the range of cells he wants to be used<p>
- * 2. Selects the option Extensions<p>
- * 3. Selects the option Import/Export Data<p>
- * 4. Press the "Import from a text file" option to open the feature<p>
- * 5. A window named "Import from a text file" should appear with data to be filled by the user<p>
- * 6. Press the "Find" button to search a text file to import from<p>
- * 7. On the label "Special character" the user writes in the textbox located at the right side of the label, the character that will be used to separate columns<p>
- * 8. Check/Uncheck the option if the first line of the text should be treated as containing the header of the columns<p>
- * 9. Press the "Import" button to import the data<p>
- * 10. The cells selected by the user should have the data from the imported text file<p>
- * 11. No error should occur<p>
+ * 1. To be filled<p>
  * 
  * 
  * <p>
@@ -59,14 +48,16 @@
  * <p>
  * 
  * <b>Part 2:</b><p>
- * A portion of a sequence diagram is shown here in part 2 to know how the extension is load by the ExtensionManager<p>
+ * The following diagram depicts a concept for the realization of the use case. This is a "prototype" diagram because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design.<p>
  * 
+ * <img src="image_extension_design_part2.png" alt="image">
  * 
  * <p>
  * 
  * <b>Part 3:</b><p>
- * Another portion of a sequence diagram is shown here in part 3 to know how the UI (User interface) of the extension is created<p>
+ * The following diagram shows the setup of the "images" extension when cleansheets is run.<p>
  * 
+ * <img src="core06_01_design_part3.png" alt="image">
  * 
  * <p>
  * 

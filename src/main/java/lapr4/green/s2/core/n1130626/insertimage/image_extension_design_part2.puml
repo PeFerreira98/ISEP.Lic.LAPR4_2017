@@ -1,4 +1,4 @@
-  @startuml image_extension_design_part1.png
+  @startuml image_extension_design_part2.png
 
   actor User 
   participant ImageUI as UI
