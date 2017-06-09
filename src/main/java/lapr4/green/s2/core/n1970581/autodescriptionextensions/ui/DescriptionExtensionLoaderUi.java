@@ -7,7 +7,10 @@ package lapr4.green.s2.core.n1970581.autodescriptionextensions.ui;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import lapr4.green.s2.core.n1970581.autodescriptionextensions.ExtensionDTO;
 import lapr4.green.s2.core.n1970581.autodescriptionextensions.controller.DescriptionExtensionLoaderController;
 
@@ -20,6 +23,8 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
     /** The controller for  the UI */
     private final DescriptionExtensionLoaderController ctrl;
     
+    private final DescriptionExtensionLoaderUi janela;
+    
     /**
      * Creates new form DescriptionExtensionLoaderUi
      * @param ctrl The controller for  the UI
@@ -31,6 +36,7 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
         initComponents();
         for(ExtensionDTO exDTO : allExtensionsList){ ((DefaultListModel) this.jListAllExtensions.getModel()).addElement(exDTO);}
         for(ExtensionDTO exDTO : defaultLoadList){ ((DefaultListModel) this.jListListToload.getModel()).addElement(exDTO);}
+        this.janela = this;
     }
 
     /**
@@ -52,14 +58,21 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
         jTextAreaInfo = new javax.swing.JTextArea();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JSeparator();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Versionated Extension Loader");
         setMinimumSize(new java.awt.Dimension(800, 600));
-        setPreferredSize(new java.awt.Dimension(800, 600));
 
         jButtonAccept.setBackground(new java.awt.Color(204, 255, 204));
         jButtonAccept.setText("Accept");
+        jButtonAccept.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAcceptActionPerformed(evt);
+            }
+        });
 
         jListAllExtensions.setModel(new DefaultListModel<ExtensionDTO>());
         jListAllExtensions.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -74,6 +87,11 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
 
         jButtonAbort.setBackground(new java.awt.Color(255, 255, 0));
         jButtonAbort.setText("Use old loading system");
+        jButtonAbort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAbortActionPerformed(evt);
+            }
+        });
 
         jTextAreaInfo.setColumns(20);
         jTextAreaInfo.setRows(5);
@@ -84,6 +102,10 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
 
         jButton4.setBackground(new java.awt.Color(255, 153, 153));
         jButton4.setText("REMOVE");
+
+        jLabel1.setText("Available extensions");
+
+        jLabel2.setText("Extensions to load");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,32 +118,45 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(14, 14, 14)
-                                .addComponent(jButton3))
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 368, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 352, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel1))
+                                .addGap(18, 18, 18)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jButton3))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jButton4)
-                                        .addGap(77, 77, 77))
-                                    .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 146, Short.MAX_VALUE)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                                         .addComponent(jButtonAbort)
                                         .addGap(18, 18, 18)
                                         .addComponent(jButtonAccept)
-                                        .addGap(18, 18, 18)))))))
+                                        .addGap(18, 18, 18))
+                                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(26, 26, 26)
+                                .addComponent(jLabel2)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(jScrollPane2)))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 382, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1))
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 382, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
@@ -150,6 +185,32 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
             this.jTextAreaInfo.setText(text);
         }
     }//GEN-LAST:event_jListAllExtensionsMouseClicked
+
+    private void jButtonAbortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAbortActionPerformed
+        // TODO add your handling code here:
+        this.ctrl.indicateUserFinishedSelection();
+        this.dispose();
+    }//GEN-LAST:event_jButtonAbortActionPerformed
+
+    private void jButtonAcceptActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAcceptActionPerformed
+        // TODO add your handling code here:
+        List <ExtensionDTO> listDTO = new ArrayList();
+        Object toLoad[] = ((DefaultListModel)this.jListListToload.getModel()).toArray();
+        for( Object obj : toLoad){
+            if(obj instanceof ExtensionDTO) listDTO.add((ExtensionDTO)obj);
+        }
+        boolean validate = this.ctrl.validateLoadingList(listDTO);
+        if (!validate) {
+            Logger.getGlobal().log(Level.SEVERE, "DescriptionExtensionLoaderUI - Loading List Validation Failed. The UI should never fail this.");
+            JOptionPane.showMessageDialog(this.rootPane, "Loading List Validation Failed. The UI should never fail this.", "Error" , JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        int errors = 0;
+         errors = this.ctrl.loadList(listDTO);
+        JOptionPane.showMessageDialog(this.rootPane, "Errors: " + errors, "Error" , JOptionPane.INFORMATION_MESSAGE);
+        this.ctrl.indicateUserFinishedSelection();
+        this.dispose();
+    }//GEN-LAST:event_jButtonAcceptActionPerformed
 
     /**
      * @param args the command line arguments
@@ -197,11 +258,19 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButtonAbort;
     private javax.swing.JButton jButtonAccept;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JList jListAllExtensions;
     private javax.swing.JList jListListToload;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextArea jTextAreaInfo;
     // End of variables declaration//GEN-END:variables
+
+
+    
+    
+
 }

@@ -36,5 +36,25 @@ public class DescriptionExtensionLoaderController {
     }
     
     
+    /**
+     * Validates is this list is ok to load. 
+     * @param listToValidateLoad list you wish to validate
+     * @return true is valid, false if invalid
+     */
+    public boolean validateLoadingList(List <ExtensionDTO> listToValidateLoad){
+        return this.loader.validateLoadingListOfUniqueExtensions(listToValidateLoad);
+    }
+    
+    
+    
+    /**
+     * Indicates the loader that we are to use the new loading method.
+     */
+    public synchronized void indicateUseNewLoader(){ this.loader.indicateUseNewLoader();}
+    /**
+     * Indicates the loader that the user has finished it's selection.
+     */
+    public synchronized void indicateUserFinishedSelection(){ this.loader.indicateUserFinishedSelection();}
+    
     
 }
