@@ -40,6 +40,8 @@
  * Warned class about the new Extension versions. <br>
  * Implementation: ExtensionDTO, and builder in MetadataFactory<br>
  * Test: unit tests of ExtensionDTO, and builder in MetadataFactory. Bug fixing.<br>
+ * Implementation of following classes: DescriptionExtensionLoader DescriptionExtensionLoaderController DescriptionExtensionLoaderUI <br>
+ * Edits:    CleanSheets inclusinon of call to the new loader (NOT ACTIVE YET, has bypass)   ExtensionManager  new methods. <br>
  * 
  * <h2>2. Requirement</h2>
  * 

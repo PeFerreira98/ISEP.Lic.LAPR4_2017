@@ -46,6 +46,7 @@ import csheets.io.CodecFactory;
 import csheets.io.NamedProperties;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import lapr4.green.s2.core.n1970581.autodescriptionextensions.DescriptionExtensionLoader;
 
 /**
  * CleanSheets - the main class of the application.
@@ -104,6 +105,17 @@ public class CleanSheets {
 
 		// Loads extensions
 		ExtensionManager.getInstance();
+                
+                // New code for the new extension Manager
+                boolean useNewLoader = false;
+                //useNewLoader = true;
+                if(useNewLoader){
+                    DescriptionExtensionLoader newLoader = new DescriptionExtensionLoader();
+                    newLoader.retrieveAllExtensions();
+                    newLoader.buildDefaultLoadList();
+                    newLoader.contactUser();
+                }
+                // End new code for the extensions properties. (hugo)
 
 		// Loads default properties
 		Properties defaultProps = new Properties();

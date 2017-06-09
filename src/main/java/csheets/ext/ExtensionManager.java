@@ -34,6 +34,8 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import csheets.CleanSheets;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * The class that manages extensions to the CleanSheets application.
@@ -53,6 +55,9 @@ public class ExtensionManager {
 
 	/** The class loader used to load extensions */
 	private Loader loader = new Loader();
+        
+        /** list with all the extensions found in the loading process. (Hugo) */
+        private List<Extension> allExtensionFoundList = new ArrayList<>();
 
 	/**
 	 * Creates the extension manager.
@@ -186,6 +191,7 @@ public class ExtensionManager {
 		try {
 			Extension extension = (Extension)extensionClass.newInstance();
 			extensionMap.put(extension.getName(), extension);
+			this.allExtensionFoundList.add(extension);      // Alteration for the new Loading method. (hugo)
 			return extension;
 		} catch (IllegalAccessException iae) {
 			System.err.println("Could not access extension " + extensionClass.getName() + ".");
@@ -226,4 +232,22 @@ public class ExtensionManager {
 			super.addURL(url);
 		}
 	}
+        
+        
+        /**
+         * Clears all the extensions stored in the ExtensionManager (Hugo)
+         */
+        public void clear(){
+            this.extensionMap.clear();
+        }
+        
+        /**
+         * retrives a list with all the extensions found during the initial loading process. (Hugo)
+         * @return a list with all the extensions found during the initial loading process.
+         */
+        public List<Extension> listAllExtensionFound(){
+            return this.allExtensionFoundList;
+        }
+        
+        
 }
