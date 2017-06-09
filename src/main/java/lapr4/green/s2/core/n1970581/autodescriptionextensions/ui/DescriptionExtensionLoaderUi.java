@@ -12,7 +12,7 @@ import lapr4.green.s2.core.n1970581.autodescriptionextensions.ExtensionDTO;
 import lapr4.green.s2.core.n1970581.autodescriptionextensions.controller.DescriptionExtensionLoaderController;
 
 /**
- *
+ * Ui for the user interacting with the DescriptionExtensionLoader through the controller.
  * @author Hugo
  */
 public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
@@ -23,6 +23,8 @@ public class DescriptionExtensionLoaderUi extends javax.swing.JFrame {
     /**
      * Creates new form DescriptionExtensionLoaderUi
      * @param ctrl The controller for  the UI
+     * @param allExtensionsList a list with all the extensions type ExtensionDTO
+     * @param defaultLoadList a list with the pre selected default extension to load type ExtensionDTO
      */
     public DescriptionExtensionLoaderUi(DescriptionExtensionLoaderController ctrl, List<ExtensionDTO> allExtensionsList , List<ExtensionDTO> defaultLoadList ) {
         this.ctrl = ctrl;

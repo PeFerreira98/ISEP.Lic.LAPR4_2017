@@ -27,6 +27,7 @@ public class DescriptionExtensionLoader {
     /** used to indicate that the user has finished the selection */
     private boolean userFinishedSelection;
     
+    private DefaultExtensionLoadListBuilder defaultListBuilder;
     
     /**
      * Constructor
@@ -36,13 +37,18 @@ public class DescriptionExtensionLoader {
         this.userFinishedSelection = false;
         this.allExtensions = new ArrayList<>();
         this.defaultLoadList = new ArrayList<>();
+        this.defaultListBuilder = new DefaultExtensionLoadListBuilderByLatestVersion();
     }
     
     
     
-    
+    /**
+     * Builds the defaultLoadList
+     */
     public void buildDefaultLoadList(){
-        
+        List<ExtensionDTO> aux = this.defaultListBuilder.buildDefaultLoadList(allExtensions);
+        this.defaultLoadList.clear();
+        for(ExtensionDTO dto : aux) this.defaultLoadList.add(dto);
     }
     
     /**

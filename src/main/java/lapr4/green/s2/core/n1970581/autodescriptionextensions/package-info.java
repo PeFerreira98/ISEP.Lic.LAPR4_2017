@@ -43,6 +43,9 @@
  * Implementation of following classes: DescriptionExtensionLoader DescriptionExtensionLoaderController DescriptionExtensionLoaderUI <br>
  * Edits:    CleanSheets inclusinon of call to the new loader (NOT ACTIVE YET, has bypass)   ExtensionManager  new methods. <br>
  * 
+ * Work notes/log: S2 9-05-2017 (sexta) <br>
+ * ONLINE Scrum meeting: check Jira report <br>
+ * 
  * <h2>2. Requirement</h2>
  * 
  * <h3>2.1 Client requirements</h3>
