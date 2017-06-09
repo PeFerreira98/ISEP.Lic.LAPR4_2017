@@ -17,7 +17,7 @@
     }
     interface CellListenner {
     }
-    class "<<analysis>> CommentableCell" as CommentableCell {
+    class "ImagenableCell" as ImagenableCell {
     }
 
     Extensible <|-- Cell
@@ -30,7 +30,7 @@
 
     CellImpl o- CellExtension : extensions
 
-    CellExtension <|-- CommentableCell
+    CellExtension <|-- ImagenableCell
 
 @enduml
 
