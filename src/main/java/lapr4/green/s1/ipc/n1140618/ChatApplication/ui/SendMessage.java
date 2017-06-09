@@ -16,18 +16,26 @@ import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationCon
  */
 public class SendMessage extends javax.swing.JFrame {
 
-    private ChatApplicationController controller;
+    private final ChatApplicationController controller;
     private ArrayList<Message> conversation;
+
     /**
      * Creates new form SendMessage
+     *
+     * @param controller
+     * @param conversation
      */
-    public SendMessage(ChatApplicationController controller, ArrayList<Message>conversation) {
-        this.controller=controller;
+    public SendMessage(ChatApplicationController controller, ArrayList<Message> conversation) {
+        this.controller = controller;
         this.conversation = conversation;
         initComponents();
-        if(this.conversation.size()!=0)
-        txtConversation.setText(this.conversation.get(0).getContent());
-        
+        String chat = "";
+        for (int i = 0; i < this.conversation.size(); i++) {
+            chat = chat + "\n" + this.conversation.get(i).getContent();
+        }
+
+        this.txtConversation.setText(chat);
+
         this.setVisible(true);
     }
 
@@ -44,7 +52,13 @@ public class SendMessage extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         txtConversation = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
 
         jButton1.setText("Send");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -66,7 +80,7 @@ public class SendMessage extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(0, 195, Short.MAX_VALUE)
+                .addGap(0, 233, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jTextField1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 277, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -79,7 +93,7 @@ public class SendMessage extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(28, 28, 28)
-                .addComponent(txtConversation, javax.swing.GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+                .addComponent(txtConversation, javax.swing.GroupLayout.DEFAULT_SIZE, 262, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -91,9 +105,9 @@ public class SendMessage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if(jTextField1.getText().compareTo("")==0){
+        if (jTextField1.getText().compareTo("") == 0) {
             JOptionPane.showMessageDialog(null, "Write something!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
-        }else{
+        } else {
             controller.messageSend(jTextField1.getText());
             dispose();
         }
@@ -102,6 +116,10 @@ public class SendMessage extends javax.swing.JFrame {
     private void txtConversationActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtConversationActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtConversationActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

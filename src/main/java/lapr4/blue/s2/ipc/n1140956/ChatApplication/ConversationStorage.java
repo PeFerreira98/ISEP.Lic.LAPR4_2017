@@ -40,4 +40,16 @@ public class ConversationStorage {
         return tmp;
     }
     
+    public ArrayList<Message> getConversationUsersTest(ChatUser chatUser){
+        ArrayList<Message> tmp = new ArrayList<>();
+        
+        for(Message m : this.lst_Conversations){
+            if((m.getIdDest().equals(chatUser.getMachineName()+chatUser.getIp()))||
+                    (m.getIdOrig().equals(chatUser.getMachineName()+chatUser.getIp()))){
+                tmp.add(m);
+            }
+        }
+        return tmp;
+    }
+    
 }

@@ -21,6 +21,7 @@ import lapr4.green.s1.ipc.n1151211.comm.CommServer2;
 import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
 import lapr4.green.s1.ipc.n1151211.comm.PeerService;
 import lapr4.green.s1.ipc.n1151211.comm.SendDto;
+
 /**
  *
  * @author Tiago
@@ -47,7 +48,6 @@ public class ChatApplicationController implements CommHandler2 {
 //    private final UserRepository userRepo;
 //    private final PersistenceContext persistenceContext;
 //    private final ExtensionSettings extensionSettings;
-
     /**
      * Creates a new Controller
      */
@@ -57,7 +57,6 @@ public class ChatApplicationController implements CommHandler2 {
 //        this.extensionSettings = new ExtensionSettings(this.appProps);
 //        this.persistenceContext = new PersistenceContext(this.extensionSettings);
 //        this.userRepo = this.persistenceContext.repositories().user();
-
         if (CommServer2.getServer() == null) {
             JOptionPane.showMessageDialog(null, "Server not initialized!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -119,15 +118,18 @@ public class ChatApplicationController implements CommHandler2 {
         String id = tmp[1];
 
         ChatUser chatUser2 = new ChatUser(machineName, id);
-        ChatUser cu = new ChatUser("Marcos@", "/192.168.1.85");
 
-        if (this.lst_Conversations.getConversationUsers(cu, chatUser2) == null) {
+//        if (this.lst_Conversations.getConversationUsers(myIp, chatUser2) == null) {
+//            SendMessage sm
+//                    = new SendMessage(this, new ArrayList<>());
+//        } else {
+//            SendMessage sm
+//                    = new SendMessage(this, this.lst_Conversations.getConversationUsers(cu, chatUser2));
+//        }
+        
             SendMessage sm
-                    = new SendMessage(this, new ArrayList<>());
-        } else {
-            SendMessage sm
-                    = new SendMessage(this, this.lst_Conversations.getConversationUsers(cu, chatUser2));
-        }
+                    = new SendMessage(this, this.lst_Conversations.getConversationUsersTest(chatUser2));
+        
 
     }
 
@@ -138,7 +140,7 @@ public class ChatApplicationController implements CommHandler2 {
      */
     public void messageSend(String text) {
         mess.setContent(text);
-
+        
         CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(mess.getIdDest());
         if (toPeer == null) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION TO PEER!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
@@ -165,15 +167,21 @@ public class ChatApplicationController implements CommHandler2 {
         return this.listenerServer;
     }
 
+    /**
+     * method to receive the message from others. In this case, the destiny of the message is my ip.
+     * @param dto the message
+     * @param commWorker 
+     */
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
         this.mess = (Message) dto;
+        this.peerId = mess.getIdDest();
+        String sourceIP = commWorker.peerAddress();
+        
+        this.mess.setIdOrig(sourceIP);
+        this.lst_Conversations.addMessage(mess);
+        ReceiveMessage rm = new ReceiveMessage(this, sourceIP);
 
-        this.peerId = commWorker.peerAddress().split("@")[1];
-
-        System.out.println(commWorker.peerAddress());
-
-        ReceiveMessage rm = new ReceiveMessage(this);
     }
 
     @Override
@@ -188,11 +196,10 @@ public class ChatApplicationController implements CommHandler2 {
 //    public ChatUser addUser(ChatUser cu) throws DataConcurrencyException, DataIntegrityViolationException {
 //        return this.userRepo.save(cu);
 //    }
-
     public ChatUsersStorage getChatUsersList() {
         return this.lst_Users;
     }
-    
+
 //    public Iterable<ChatUser> allContacts() {
 //        return this.userRepo.findAll();
 //    }
