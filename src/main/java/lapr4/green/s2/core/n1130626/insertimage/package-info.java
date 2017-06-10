@@ -29,12 +29,41 @@
  * This should include not only unit tests (e.g., class-oriented tests) but also
  * use case tests (e.g., like in the TDD approach).<p>
  *
- * Import data from a text file Functional/Integration Test:<p>
- * 1. To be filled<p>
+ * Add an image on the selected cell Functional/Integration Test:<p>
+ * 1. Selects the view option<p>
+ * 2. Selects the cell decorators option<p>
+ * 3. Checks the image option<p>
+ * 4. Selects the view option again<p>
+ * 5. Selects the side bar features<p>
+ * 6. Checks the images extension<p>
+ * 7. Selects one cell of the worksheet<p>
+ * 8. Goes to the sidebar to select the image extension<p>
+ * 9. Press the add image button<p>
+ * 10. A file chooser window appears<p>
+ * 11. Selects the image he wants to insert<p>
+ * 12. Press the ok button<p>
+ * 13. The link (location of the image) appears on the list<p>
+ * 14. The cell selected is marked with a red *<p>
+ * 15. The user click on the link<p>
+ * 16. The image appears below the list<p>
+ * 17. No error should occur<p>
  * 
  * 
  * <p>
  *
+ * Remove an image on the selected cell Functional/Integration Test:<p>
+ * Let's consider there is only one image inserted on the selected cell for this test
+ * and the side bar and cell decorator are already enabled<p>
+ * 1. Selects the cell of the worksheet that contains the inserted image<p>
+ * 2. Goes to the sidebar to select the image extension<p>
+ * 3. Select the link of the image on the list<p>
+ * 4. Press the remove image button<p>
+ * 5. The link and image is removed<p>
+ * 6. The red * marked on the selected cell disappears<p>
+ * 7. No error should occur<p>
+ * 
+ * <p>
+ * 
  * <b>Design</b><p>
  * The design section will be divided by parts, to show in a more easy way the process of this use case<p>
  * 
