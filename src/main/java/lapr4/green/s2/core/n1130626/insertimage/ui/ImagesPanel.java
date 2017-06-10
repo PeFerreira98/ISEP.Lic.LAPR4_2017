@@ -112,7 +112,7 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
             }
         });
 
-        jPanelImageView.setBackground(new java.awt.Color(51, 51, 255));
+        jPanelImageView.setBackground(new java.awt.Color(255, 255, 255));
 
         javax.swing.GroupLayout jPanelImageViewLayout = new javax.swing.GroupLayout(jPanelImageView);
         jPanelImageView.setLayout(jPanelImageViewLayout);

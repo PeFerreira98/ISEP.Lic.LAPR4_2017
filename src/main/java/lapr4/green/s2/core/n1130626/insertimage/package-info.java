@@ -98,7 +98,7 @@
  * <b>Part 4 - Use case: Insert image</b><p>
  * This is a full sequence diagram about the respective use case<p>
  * 
- * 
+ * <img src="core06_01_design_part4.png" alt="image">
  * 
  * <p>
  * 
