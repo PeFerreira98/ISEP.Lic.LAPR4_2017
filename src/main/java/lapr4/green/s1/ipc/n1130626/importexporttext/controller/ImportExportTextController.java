@@ -26,10 +26,14 @@ import java.util.Scanner;
 public class ImportExportTextController
 {
 
+    public static final String HEADERS = "@HEADERS@";
+    public static final String HEADERS_TOKEN = ";";
+    public static final String TOKEN = "@TOKEN@";
+
     /**
      * The user interface controller
      */
-    private UIController uiController;
+    protected UIController uiController;
 
     /**
      * Constructor of the ImportExportTextController
@@ -52,6 +56,7 @@ public class ImportExportTextController
      * Gets a range of cells selected by the user and converts to String.
      *
      * @param cells a matrix of cells
+     *
      * @return String with the address of the cells (Example B2:D4)
      */
     public String getRangeOfCells(Cell[][] cells)
@@ -68,11 +73,10 @@ public class ImportExportTextController
      * This method uses the necessary data to import from a text file
      *
      * @param filename the name of the text file
-     * @param containsHeader The first line of the text file contains the header
-     * of the columns or is a regular row
+     *
      * @throws Exception if the name is not inserted
      */
-    public void importFromTextFile(String filename, boolean containsHeader) throws Exception
+    public void importFromTextFile(String filename) throws Exception
     {
         if (filename.isEmpty())
         {
@@ -82,19 +86,8 @@ public class ImportExportTextController
         Cell activeCell = uiController.getActiveCell();
         Spreadsheet activeSpreadsheet = uiController.getActiveSpreadsheet();
 
-        int row;
-        int column;
-
-        if (containsHeader)
-        {
-            row = 0;
-            column = 0;
-        }
-        else
-        {
-            row = activeCell.getAddress().getRow();
-            column = activeCell.getAddress().getColumn();
-        }
+        int row = activeCell.getAddress().getRow();
+        int column = activeCell.getAddress().getColumn();
 
         Scanner scanner = new Scanner(new File(filename));
         boolean flag = true;
@@ -107,8 +100,18 @@ public class ImportExportTextController
         {
             if (flag)
             {
-                specialChar = scanner.nextLine().trim();
-                flag = false;
+                String tmp = scanner.nextLine();
+                if (tmp.equals(HEADERS))
+                {
+                    String ref[] = scanner.nextLine().split(HEADERS_TOKEN);
+                    column = Integer.parseInt(ref[0]);
+                    row = Integer.parseInt(ref[1]);
+                }
+                else if (tmp.equals(TOKEN))
+                {
+                    specialChar = scanner.nextLine().trim();
+                    flag = false;
+                }
             }
             else
             {
@@ -141,10 +144,12 @@ public class ImportExportTextController
      * @param selectedCells the cells selected by the user
      * @param filename the name of the text file
      * @param specialChar the special character to separate columns
+     * @param header include the cell's header
+     *
      * @throws Exception if the name of the file is not inserted or the file
      * already exists
      */
-    public void exportToTextFile(Cell[][] selectedCells, String filename, String specialChar) throws Exception
+    public void exportToTextFile(Cell[][] selectedCells, String filename, String specialChar, boolean header) throws Exception
     {
         specialChar = specialChar.trim();
 
@@ -165,7 +170,14 @@ public class ImportExportTextController
 
         Formatter fOut = new Formatter(new File(filename));
 
-        fOut.format(specialChar + "\n");
+        if (header)
+        {
+            fOut.format(HEADERS + "\n");
+            fOut.format(selectedCells[0][0].getAddress().getColumn() + HEADERS_TOKEN
+                    + selectedCells[0][0].getAddress().getRow() + HEADERS_TOKEN + "\n");
+        }
+
+        fOut.format(TOKEN + "\n" + specialChar + "\n");
 
         for (Cell[] rows : selectedCells)
         {
@@ -193,6 +205,7 @@ public class ImportExportTextController
      *
      * @param specialChar the special character in cause
      * @param selectedCells the cells selected by the user
+     *
      * @throws Exception if the cell contains the special character
      */
     public void checkCells(String specialChar, Cell[][] selectedCells) throws Exception

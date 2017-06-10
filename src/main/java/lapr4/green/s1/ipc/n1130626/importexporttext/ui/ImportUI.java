@@ -20,7 +20,7 @@ import lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextC
  * User interface for the use case: IPC04.1 Import/Export Text
  *
  * changed default close operation - Rafael Vieira 08/06/2017
- * 
+ *
  * @author Pedro Pereira
  */
 public class ImportUI extends javax.swing.JFrame
@@ -39,7 +39,7 @@ public class ImportUI extends javax.swing.JFrame
     public ImportUI(UIController uiController)
     {
         initComponents();
-        
+
         // dont exit on close
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
         WindowListener exitListener = new WindowAdapter()
@@ -58,7 +58,7 @@ public class ImportUI extends javax.swing.JFrame
             }
         };
         this.addWindowListener(exitListener);
-        
+
         this.controller = new ImportExportTextController(uiController);
         this.lblActiveCell.setText(uiController.getActiveCell().getAddress().toString());
     }
@@ -197,7 +197,7 @@ public class ImportUI extends javax.swing.JFrame
     private void btnImportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImportActionPerformed
         try
         {
-            this.controller.importFromTextFile(nameTextFile.getText(), checkHeader.isSelected());
+            this.controller.importFromTextFile(nameTextFile.getText());
         }
         catch (Exception ex)
         {

@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextController;
 
 /**
  * ExportLinkListener implements CellListener and is responsible for importing
@@ -57,30 +58,40 @@ public class ImportLinkRunnable implements Runnable
         int row = originCell.getAddress().getRow();
         int column = originCell.getAddress().getColumn();
 
-        Scanner scanner = new Scanner(new File(filename));
-        boolean flag = true;
-
-        List<String[]> matrix = new ArrayList<>();
-        String[] line;
-        String specialChar = "";
-
-        while (scanner.hasNext())
+        List<String[]> matrix;
+        try (Scanner scanner = new Scanner(new File(filename)))
         {
-            if (flag)
+            boolean flag = true;
+            matrix = new ArrayList<>();
+            String[] line;
+            String specialChar = "";
+            while (scanner.hasNext())
             {
-                specialChar = scanner.nextLine().trim();
-                flag = false;
-            }
-            else
-            {
-                line = scanner.nextLine().split(specialChar);
-                if (line.length > 0)
+                if (flag)
                 {
-                    matrix.add(line);
+                    String tmp = scanner.nextLine();
+                    if (tmp.equals(ImportExportTextController.HEADERS))
+                    {
+                        String ref[] = scanner.nextLine().split(ImportExportTextController.HEADERS_TOKEN);
+                        column = Integer.parseInt(ref[0]);
+                        row = Integer.parseInt(ref[1]);
+                    }
+                    else if (tmp.equals(ImportExportTextController.TOKEN))
+                    {
+                        specialChar = scanner.nextLine().trim();
+                        flag = false;
+                    }
+                }
+                else
+                {
+                    line = scanner.nextLine().split(specialChar);
+                    if (line.length > 0)
+                    {
+                        matrix.add(line);
+                    }
                 }
             }
         }
-        scanner.close();
 
         int size;
         int max;
@@ -101,9 +112,10 @@ public class ImportLinkRunnable implements Runnable
      * timestamp if necessary
      *
      * @param filename the file's name
+     *
      * @return true if file was modified since last time or false otherwise
      */
-    private boolean isModified(String filename)
+    private synchronized boolean isModified(String filename)
     {
         File f = new File(filename);
         if (f.lastModified() != timeStamp)

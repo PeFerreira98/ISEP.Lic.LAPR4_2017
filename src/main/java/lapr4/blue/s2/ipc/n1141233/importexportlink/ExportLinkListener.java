@@ -6,6 +6,9 @@ import java.io.File;
 import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import static lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextController.HEADERS;
+import static lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextController.HEADERS_TOKEN;
+import static lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextController.TOKEN;
 
 /**
  * ExportLinkListener implements CellListener and is responsible for exporting
@@ -19,12 +22,14 @@ public class ExportLinkListener implements CellListener
     private final Cell[][] exportedCells;
     private final String filename;
     private final String specialChar;
+    private final boolean header;
 
-    public ExportLinkListener(Cell[][] exportedCells, String filename, String specialChar)
+    public ExportLinkListener(Cell[][] exportedCells, String filename, String specialChar, boolean header)
     {
         this.exportedCells = exportedCells;
         this.filename = filename.trim();
         this.specialChar = specialChar.trim();
+        this.header = header;
     }
 
     @Override
@@ -90,27 +95,34 @@ public class ExportLinkListener implements CellListener
             throw new Exception("Please insert a name");
         }
 
-        Formatter fOut = new Formatter(new File(filename));
-
-        fOut.format(specialChar + "\n");
-
-        for (Cell[] rows : exportedCells)
+        try (Formatter fOut = new Formatter(new File(filename)))
         {
-            String text = "";
-            for (Cell columns : rows)
+            if (header)
             {
-                if (columns.getContent().isEmpty())
-                {
-                    text += " " + specialChar;
-                }
-                else
-                {
-                    text += columns.getContent() + specialChar;
-                }
+                fOut.format(HEADERS + "\n");
+                fOut.format(exportedCells[0][0].getAddress().getColumn() + HEADERS_TOKEN
+                        + exportedCells[0][0].getAddress().getRow() + HEADERS_TOKEN + "\n");
             }
-            text += "\n";
-            fOut.format(text);
+
+            fOut.format(TOKEN + "\n" + specialChar + "\n");
+
+            for (Cell[] rows : exportedCells)
+            {
+                String text = "";
+                for (Cell columns : rows)
+                {
+                    if (columns.getContent().isEmpty())
+                    {
+                        text += " " + specialChar;
+                    }
+                    else
+                    {
+                        text += columns.getContent() + specialChar;
+                    }
+                }
+                text += "\n";
+                fOut.format(text);
+            }
         }
-        fOut.close();
     }
 }

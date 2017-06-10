@@ -70,7 +70,6 @@ public class ImportLinkUI extends javax.swing.JFrame
         jLabel4 = new javax.swing.JLabel();
         nameTextFile = new javax.swing.JTextField();
         btnFindTextFile = new javax.swing.JButton();
-        checkHeader = new javax.swing.JCheckBox();
         btnImport = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -93,8 +92,6 @@ public class ImportLinkUI extends javax.swing.JFrame
                 btnFindTextFileActionPerformed(evt);
             }
         });
-
-        checkHeader.setText("First line of the text file should be treated as containing the header of the columns");
 
         btnImport.setText("Import");
         btnImport.addActionListener(new java.awt.event.ActionListener()
@@ -125,12 +122,10 @@ public class ImportLinkUI extends javax.swing.JFrame
                             .addGap(8, 8, 8)
                             .addComponent(jLabel4)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                    .addComponent(nameTextFile, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnFindTextFile))
-                                .addComponent(checkHeader)))
+                            .addComponent(nameTextFile, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(btnFindTextFile)
+                            .addGap(179, 179, 179))
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                             .addGap(209, 209, 209)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -161,13 +156,11 @@ public class ImportLinkUI extends javax.swing.JFrame
                     .addComponent(jLabel4)
                     .addComponent(nameTextFile, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnFindTextFile))
-                .addGap(40, 40, 40)
-                .addComponent(checkHeader)
-                .addGap(18, 18, 18)
+                .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnImport)
                     .addComponent(btnCancel))
-                .addContainerGap(20, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -189,7 +182,6 @@ public class ImportLinkUI extends javax.swing.JFrame
         try
         {
             this.controller.importFromTextFile(nameTextFile.getText());
-//            this.controller.importFromTextFile(nameTextFile.getText(), checkHeader.isSelected());
         }
         catch (Exception ex)
         {
@@ -204,7 +196,6 @@ public class ImportLinkUI extends javax.swing.JFrame
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnFindTextFile;
     private javax.swing.JButton btnImport;
-    private javax.swing.JCheckBox checkHeader;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel4;
