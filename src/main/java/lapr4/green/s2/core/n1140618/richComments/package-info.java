@@ -3,11 +3,13 @@
  * <p>
  * <h2>1. Requirement</h2>
  *
- *Cleansheets should support rich content in comments. For instance, the user should 
- * be able to apply style and format to the comments. It should also exist an history of changes. 
- * The user interface should display the history of changes to a comment and allow the user to make 
- * a new version of a comment based on an old one. It also should have a search feature, 
- * allowing the user to search for comments based on text patterns (including the history in the search).
+ * Cleansheets should support rich content in comments. For instance, the user
+ * should be able to apply style and format to the comments. It should also
+ * exist an history of changes. The user interface should display the history of
+ * changes to a comment and allow the user to make a new version of a comment
+ * based on an old one. It also should have a search feature, allowing the user
+ * to search for comments based on text patterns (including the history in the
+ * search).
  *
  * <h2>2. Analysis</h2>
  * <p>
@@ -49,7 +51,7 @@
  * CommentableCell to this cell, to active comments for the cell.
  *
  * <p>
- *<h3>3.2. UC Realization</h3>
+ * <h3>3.2. UC Realization</h3>
  *
  * <p>
  * To implement this use case, it is required a sidebar, functionality that was
@@ -83,11 +85,59 @@
  * When the user selects a cell, the JList(first) it will show the existing
  * comments of that cell.
  *
+ * 
+ * Test class: see:
+ * <p>
+ * <ul>
+ * <li><code>lapr4.green.s2.core.n1140618.richComments.CommentChangeTest</code></li>
+ * <li><code>lapr4.green.s2.core.n1140618.richComments.CommentNewTest</code></li>
+ * <li><code>lapr4.white.s1.core.n1234567.comments.CommentableCellTest</code></li>
+ * <li><code>lapr4.green.s2.core.n1140618.richComments.controller.CommentControllerTest</code></li>
+ * <li><code>lapr4.green.s2.core.n1140618.richComments.uicommentPanelTest</code>
+ * </ul>
+ * 
+ * 
  * <p>
  *
  * For the user interaction in the use case Core 02.3 - Rich Comments and
  * History, I have the following sequence diagram:
  * <img src="core02_03_design.png" alt="design">
+ *
+ *
+ * <h3>3.3. Classes</h3>
+ *
+ * <p>
+ * The new classes are:
+ * <ul>
+ * <li><code>lapr4.green.s2.core.n1140618.richComments.ui.commentPanel</code></li>
+ * <li><code>lapr4.green.s2.core.n1140618.richComments.CommentNew</code></li>
+ * <li><code>lapr4.green.s2.core.n1140618.richComments.CommentChange</code></li>
+ * <li><code>lapr4.green.s2.core.n1140618.richComments.controller.CommentController</code></li>
+ * </ul>
+ * <p>
+ * The modified classes are:
+ * <ul>
+ * <li><code>lapr4/white/s1/core/n1234567/comments/CommentableCell</code></li>
+ * <li><code>lapr4/white/s1/core/n1234567/comments/ui/UIExtensionComments</code></li>
+ * </ul>
+ *
+ * <h3>3.4. Design Patterns and Best Practices</h3>
+ *
+ * Even following the best practices of a test driven and domain driven design
+ * ambient, in the specific use case it wasn't needed the use of patterns for
+ * its execution. The use case is open to new extensions or features.
+ *
+ * <p>
+ *
+ * <h2>4. Implementation</h2>
+ *  Sub-task in Jira:
+ * <a href=https://jira.dei.isep.ipp.pt:8443/browse/LAPR4E17DL-176></a>
+ *
+ * <h2>5. Integration/Demonstration</h2>
+ *
+ * To implement this use case, I have to integrate and adapt my work in work
+ * previously developed. The use case is functional, as well as prove the
+ * implemented tests.
  *
  *
  */
