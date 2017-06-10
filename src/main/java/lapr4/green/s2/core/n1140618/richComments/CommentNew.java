@@ -31,6 +31,8 @@ public class CommentNew {
      * Represents the style of the comment
      */
     private String style;
+    
+    private String size;
 
     /**
      * Represents the history of modifications of a comment
@@ -46,11 +48,12 @@ public class CommentNew {
      * @param color the color
      * @param style the style
      */
-    public CommentNew(String comment, String author, String color, String style) {
+    public CommentNew(String comment, String author, String color, String style, String size) {
         this.comment = comment;
         this.author = author;
         this.color = color;
         this.style = style;
+        this.size=size;
     }
 
     /**
@@ -61,7 +64,7 @@ public class CommentNew {
      */
     public String toString() {
 
-        return style + " " + comment + " " + author;
+        return "<html>Comment:<" + style + "><font size= \""+size+"\" color=\"" + color + "\"> " + comment + "</font></"+style+">" + "   Author: " + author + "</html>";
     }
 
     /**
@@ -127,7 +130,7 @@ public class CommentNew {
      */
     @Override
     public CommentNew clone() {
-        CommentNew newComment = new CommentNew(this.comment, this.author, this.color, this.style);
+        CommentNew newComment = new CommentNew(this.comment, this.author, this.color, this.style, this.getSize());
         return newComment;
     }
 
@@ -166,5 +169,19 @@ public class CommentNew {
                 && this.author.equalsIgnoreCase(c.author)
                 && this.color.equalsIgnoreCase(c.color)
                 && this.style.equalsIgnoreCase(c.style);
+    }
+
+    /**
+     * @return the size
+     */
+    public String getSize() {
+        return size;
+    }
+
+    /**
+     * @param size the size to set
+     */
+    public void setSize(String size) {
+        this.size = size;
     }
 }

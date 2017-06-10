@@ -14,6 +14,7 @@ import csheets.ext.CellExtension;
 import java.awt.Color;
 import java.awt.Font;
 import javax.swing.border.Border;
+import lapr4.green.s2.core.n1140618.richComments.CommentChange;
 import lapr4.green.s2.core.n1140618.richComments.CommentNew;
 import lapr4.red.s1.core.n1140376.comments.Comment;
 
@@ -96,10 +97,24 @@ public class CommentableCell extends CellExtension {
      * @return true if the cell has comments;
      */
     public boolean hasComments() {
-        if (this.commentsList == null) {
+        if (this.userComments == null) {
             return false;
         }
-        return !this.commentsList.isEmpty();
+        return !this.userComments.isEmpty();
+    }
+    
+    /**
+     * Get the cell's user comment.
+     *
+     * @return The user supplied comment for the cell or <code>null</code> if no
+     * user supplied comment exists.
+     */
+    public ArrayList<CommentNew> getUserComments() {
+        if (userComments.isEmpty()) {
+            return null;
+        } else {
+            return userComments;
+        }
     }
 
     /*
@@ -165,8 +180,8 @@ public class CommentableCell extends CellExtension {
      * @param color the color of the comment
      * @param style the style of the comment
      */
-    public void setUserComment(String comment, String user, String color, String style) {
-        CommentNew com = new CommentNew(comment, user, color, style);
+    public void setUserComment(String comment, String user, String color, String style, String size) {
+        CommentNew com = new CommentNew(comment, user, color, style, size);
         userComments.add(com);
         // Notifies listeners
         fireCommentsChanged();
@@ -218,4 +233,25 @@ public class CommentableCell extends CellExtension {
         stream.defaultReadObject();
         listeners = new ArrayList<CommentableCellListener>();
     }
+
+    /**
+     * Method that get´s all history of changes of a comment
+     *
+     * @return the list of changes of a comment
+     */
+    public ArrayList<String> getAllHistoryComments() {
+
+        ArrayList<String> history = new ArrayList<>();
+        for (CommentNew c : userComments) {
+            history.add("Comment: " + c.getContent());
+            ArrayList<CommentChange> old = c.getHistory();
+            if (old.size() != 0) {
+                for (CommentChange old1 : old) {
+                    history.add("History: " + old1.getComment().getContent());
+                }
+            }
+        }
+        return history;
+    }
+
 }
