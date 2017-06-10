@@ -20,8 +20,8 @@ public class Images implements Serializable {
     private String url_link;
     
     /**
-     * 
-     * @param url_link 
+     * The constructor
+     * @param url_link link of the image
      */
     public Images(String url_link){
         this.url_link = url_link;

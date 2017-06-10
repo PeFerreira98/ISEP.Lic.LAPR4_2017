@@ -13,7 +13,7 @@ import lapr4.green.s2.core.n1130626.insertimage.ImagenableCell;
 import lapr4.green.s2.core.n1130626.insertimage.Images;
 
 /**
- *
+ * A controller for updating the user-specified image of a cell.
  * @author Pedro Pereira
  */
 public class ImageController {
@@ -24,6 +24,7 @@ public class ImageController {
     /** The cell */
     private Cell cell;
     
+    /** A constructor*/
     public ImageController(UIController uiController){
         this.uiController = uiController;
     }
@@ -55,6 +56,14 @@ public class ImageController {
         return true;
     }
     
+    /**
+     * Attempts to remove the old image from the given location (string).
+     * If successful, removes the image to the given cell.
+     * If the input string is empty or null, the image is set to null.
+     * @param cell the cell for which the image should be removed
+     * @param location the location of the image
+     * @return true if the cell's image was removed
+     */
     public boolean removingImage(ImagenableCell cell, String location){
         //Removes the image
         cell.removeImage(location);

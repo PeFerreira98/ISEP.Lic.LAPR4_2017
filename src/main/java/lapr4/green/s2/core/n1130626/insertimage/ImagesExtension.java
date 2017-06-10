@@ -12,7 +12,10 @@ import csheets.ui.ext.UIExtension;
 import lapr4.green.s2.core.n1130626.insertimage.ui.UIExtensionImages;
 
 /**
- *
+ * An extension to support images on cells.
+ * An extension must extend the Extension abstract class.
+ * The class that implements the Extension is the "bootstrap" of the extension.
+ * @see Extension
  * @author Pedro Pereira
  */
 public class ImagesExtension extends Extension {

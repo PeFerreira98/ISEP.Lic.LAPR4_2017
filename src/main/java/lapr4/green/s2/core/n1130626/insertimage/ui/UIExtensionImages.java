@@ -16,7 +16,9 @@ import javax.swing.JMenu;
 import javax.swing.JToolBar;
 
 /**
- *
+ * This class implements the UI interface extension for the images extension.
+ * A UI interface extension must extend the UIExtension abstract class.
+ * @see UIExtension
  * @author Pedro Pereira
  */
 public class UIExtensionImages extends UIExtension {

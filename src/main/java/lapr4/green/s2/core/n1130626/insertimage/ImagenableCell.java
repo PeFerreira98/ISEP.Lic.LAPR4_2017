@@ -97,6 +97,10 @@ public class ImagenableCell extends CellExtension {
         fireImagesChanged();
     }
     
+    /**
+     * Remove an image from the cells images list
+     * @param urlLink the url or the link of the image
+     */
     public void removeImage(String urlLink){
         Images oldImage = new Images(urlLink);
         imagesList.remove(oldImage);
@@ -105,7 +109,7 @@ public class ImagenableCell extends CellExtension {
     }
     
     /**
-     * Notifies all registered listeners that the cell's comments changed.
+     * Notifies all registered listeners that the cell's images changed.
      */
     protected void fireImagesChanged(){
         for(ImagenableCellListener listener : listeners){

@@ -90,24 +90,14 @@
  * 
  * <p>
  * 
- * <b>Part 4:</b><p>
- * This portion of a sequence diagram is shown here in part 4 to know how the menu of the extension is created<p>
  * 
- * 
- * <p>
- * 
- * <b>These parts (1 to 4) were focused about the creation of the extension, the next parts are focused about the use cases</b><p>
+ * <b>These parts (1 to 3) were focused about the creation of the extension and prototypes, the next part is focused about the use case</b><p>
  * 
  * <p>
  *
- * <b>Part 5 - Use case: Import Data</b><p>
- * This is a sequence diagram about the respective use case<p>
+ * <b>Part 4 - Use case: Insert image</b><p>
+ * This is a full sequence diagram about the respective use case<p>
  * 
- * 
- * <p>
- * 
- * <b>Part 6 - Use case: Export Data</b><p>
- * This is a sequence diagram about the respective use case<p>
  * 
  * 
  * <p>
