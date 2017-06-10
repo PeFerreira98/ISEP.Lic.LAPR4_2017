@@ -64,7 +64,8 @@ public class CommentNew {
      */
     public String toString() {
 
-        return "<html>Comment:<" + style + "><font size= \""+size+"\" color=\"" + color + "\"> " + comment + "</font></"+style+">" + "   Author: " + author + "</html>";
+        return "<html>Comment:<" + style + "><font size= \""+size+"\" color=\"" + color 
+                + "\"> " + comment + "</font></"+style+">" + "   Author: " + author + "</html>";
     }
 
     /**
