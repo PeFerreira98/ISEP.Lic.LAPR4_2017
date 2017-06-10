@@ -175,7 +175,7 @@ public class CommentableCell extends CellExtension {
     /**
      * Notifies all registered listeners that the cell's comments changed.
      */
-    protected void fireCommentsChanged() {
+    public void fireCommentsChanged() {
         for (CommentableCellListener listener : listeners) {
             listener.commentChanged(this);
         }
