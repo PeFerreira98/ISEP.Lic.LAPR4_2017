@@ -30,8 +30,8 @@ participant "version : Version" as version
 participant "desc : Description" as desc
 
 create exI 
-o --> exI : create()
-exI --> ex : super(String name, int version, String desc)
+o -> exI : create()
+exI -> ex : super(String name, int version, String desc)
 create factory
 ex -> factory : instance()
 
@@ -39,14 +39,14 @@ ex -> factory : buildMetadata(String name, int version, String desc)
 activate factory
 create metadata
 
-factory --> metadata : create(String name, int version, String desc)
+factory -> metadata : create(String name, int version, String desc)
 activate metadata
 create name
-metadata --> name : create()
+metadata -> name : create()
 create version
-metadata --> version : create()
+metadata -> version : create()
 create desc
-metadata --> desc : create()
+metadata -> desc : create()
 deactivate metadata
 factory --> ex : metadata Metadata
 

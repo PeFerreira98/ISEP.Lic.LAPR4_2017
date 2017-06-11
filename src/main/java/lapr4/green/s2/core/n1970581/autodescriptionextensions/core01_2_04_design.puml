@@ -14,13 +14,18 @@
 'ExtensionManager
 'Metadatable
 
+actor "user : User " as user
+'participant "ui : DescriptionExtensionLoaderUI" as ui
+'participant "ctrl : DescriptionExtensionLoaderController" as ctrl
+
 participant "app : CleanSheets" as app
 participant "manager : ExtensionManager" as manager
 participant "loader : DescriptionExtensionLoader" as loader
+participant "dto : ExtensionDTO" as dto
 participant "ctrl : DescriptionExtensionLoaderController" as ctrl
-'participant "thread : Thread" as thread
-participant "ui : DescriptionExtensionLoaderUI" as ui
 
+participant "ui : DescriptionExtensionLoaderUI" as ui
+'actor "user : user " as user
 
 'participant "metadata : Metadata" as metadata
 'participant "dto : ExtensionDTO" as dto
@@ -30,24 +35,27 @@ participant "ui : DescriptionExtensionLoaderUI" as ui
 'participant "factory : MetadataFactory" as factory
 'participant " : Metadatable" as interface
 
+user -> app : run
 
 app -> manager : getInstance()
 create loader
-app --> loader : create()
+app -> loader : create()
 
 app -> loader : retrieveAllExtensions()
+loader -> manager : retrieveAllExtensions()
 app -> loader : buildDefaultLoadList()
+loader -> loader : buildDefaultLoadList()
 app -> loader : contactUser()
 activate loader
 
 create ctrl
-loader --> ctrl : create(loader, extensionDTOList, defaultList)
+loader --> ctrl : create(loader)
 create ui
 loader --> ui :  create(ctrl, extensionDTOList, defaultList)
 
-loader -> loader : sleep()
+loader -> loader : waitSignal()
 note left
- The main thread will sleep
+ The main thread will wait
  until the UI is finished
 end note
 
@@ -55,21 +63,43 @@ end note
 'ctrl -> loader : getDefaultLoadList()
 
 activate ui
-ui -> ui : processLoadList()
-ui -> ctrl : loadList(List ExtensionDTO)
+ui --> user : shows the available extensions
+user -> ui : selects the extensions to load
+ui -> ctrl : validateLoadingList()
+ctrl -> loader : validateLoadingList()
 
+ui -> ctrl : loadList(List ExtensionDTO)
 activate ctrl
-    ctrl -> loader : clearExtensionManager()
-    loader -> manager : clear()
+ctrl -> loader : loadList(List ExtensionDTO)
+
+loader -> manager : clear()
+
 loop for each ExtensionDTO in loadList
-    ctrl --> loader : load(ExtensionDTO)
-    loader --> manager : load(String classPath)
-end
-    ctrl --> ui : number errors
+    loader -> dto : className()
+    loader -> manager : load(className)
+end 
+
+ctrl --> ui : number errors
 deactivate ctrl
+'activate ctrl
+    'ctrl -> loader : clearExtensionManager()
+    'loader -> manager : clear()
+'loop for each ExtensionDTO in loadList
+'    ctrl --> loader : load(ExtensionDTO)
+'    loader --> manager : load(String classPath)
+'end
+    
+'deactivate ctrl
+
+ui -> ctrl : indicateUserFinishedSelection()
+ctrl -> loader : indicateUserFinishedSelection()
+ctrl -> loader : wakeAll()
+'note left  
+'    wakes
+'end
 
 ui -> ui : dispose()
-ui --> loader : [wake signal]
+
 deactivate ui
 
 deactivate loader

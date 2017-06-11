@@ -20,31 +20,39 @@
 'participant " ex : Metadatable <<Interface>>" as interface
 
 participant "loader : DescriptionExtensionLoader" as loader
-participant "c: Class" as c
-participant "ex : Extension << abstract >> << Metadatable >>" as ex
-participant " ex : Metadatable <<Interface>>" as interface
 participant "factory : MetadataFactory" as factory
+participant "c: Class" as c
+
+participant " ex : Metadatable <<Interface>>" as interface
+ 
+
 participant "metadata : Metadata" as metadata
 participant "dto : ExtensionDTO" as dto
 
-loader -> c : forName(String className)
-loader -> c : newInstance()
-create ex
-c -> ex : create()
-c --> loader : ex
-note left 
-ex 
-end note
+'participant "ex : Extension << abstract >> << Metadatable >>" as ex
+
+'loader -> c : forName(String className)
+'loader -> c : newInstance()
+'create ex
+'c -> ex : create()
+'c --> loader : ex
+'note left 
+'ex 
+'end note
 
 loader -> factory : buildMetadataDTO(Metadatable ex)
 activate factory
 
 factory -> interface : metadata()
+note right 
+The Extension information is accessed  
+through the Metadatable interface.
+end note
 factory -> metadata : clone()
 factory -> interface : getClass()
 factory -> c : getCanonicalName()
 create dto
-factory --> dto : create(Metadata metadata , String className)
+factory -> dto : create(Metadata metadata , String className)
 factory --> loader : dto
 note left
 dto
