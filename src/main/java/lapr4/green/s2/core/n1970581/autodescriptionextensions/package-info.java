@@ -21,7 +21,7 @@
  * We closed sprint 1 with the sprint review meeting. <br>
  * Sprint 2 was initiated. We created Jira tasks. <br>
  * Analysis was initiated. <br>
- * 
+ * <br>
  * 
  * Work notes/log: S2 7-06-2017 (quarta) <br> 
  * Scrum meeting: check Jira report <br>
@@ -32,7 +32,7 @@
  * Design: Documentation SD ExtensionDTO building process <br>
  * Implementation: Name Version Description Metadata MetadataFactory Metadatable (interface) <br>
  * Test: unit tests MetadataFactory , Metadata (bugs found and corrected. Name, version, Description should be ok, since they are used a lot.)<br>
- * 
+ * <br>
  *  
  * Work notes/log: S2 8-06-2017 (quinta) <br> 
  * Scrum meeting: check Jira report <br>
@@ -42,29 +42,32 @@
  * Test: unit tests of ExtensionDTO, and builder in MetadataFactory. Bug fixing.<br>
  * Implementation of following classes: DescriptionExtensionLoader DescriptionExtensionLoaderController DescriptionExtensionLoaderUI <br>
  * Edits:    CleanSheets inclusinon of call to the new loader (NOT ACTIVE YET, has bypass)   ExtensionManager  new methods. <br>
- * 
+ * <br>
  * Work notes/log: S2 9-06-2017 (sexta) <br>
  * ONLINE Scrum meeting: check Jira report <br>
  * Implementation DefaultExtensionLoadListBuilder interface and DefaultExtensionLoadListBuilderByLatestVersion (related with creating a auto filled selection of extensions)<br>
  * Test: unit test of DefaultExtensionLoadListBuilderByLatestVersion <BR>
  * Implementation: DescriptionExtensionLoader + Controller + UI interconection. New loader 90% functional. Lack UI work and minor fixes.<br>
  * Implementation/debug Inter-Thread signal implemented using wait() + notifyall() , UI polishing. Clear button. Moving right functional. CleanSheets moving new loader code to another place. <br>
- * 
+ * <br>
  * Work notes/log: S2 11-06-2017 (domingo) <br>
  * Unit testing. 80% coverage. <br>
  * General testing. <br>
  * Use case Online (set to appear at program startup).<br>
+ * Test: Testing testing new extensions ver+desc. Inserted in older extensions version and Description information as sugested by teacher. <br>
+ * Analysis: finish documentation, shown the draft of the UI
+ * <br>
  * 
  * <h2>2. Requirement</h2>
  * 
  * <h3>2.1 Client requirements</h3>
- * Core01.2 Auto-description of Extensions <br> 
+ * <b>Core01.2 Auto-description of Extensions </b><br> 
  * Extensions should have associated metadata. Particularly, extensions should have a version number, a name and a description.
  * Cleansheets should display to the user the metadata of the extensions before loading them.
  * The user should be able to cancel the loading of an extension and also to select the version of the extension to be loaded (if there are more than one). <br>
  * Difficulty: Hard. <br>
  * Mandatory: Yes. <br>
- * 
+ * <br>
  * During the client meeting Mr. Alexandre Braganca said that the canceling could be at application start. 
  * By simply showing a menu and allowing the user to choose the extension to load.
  * When questioned, Mr. Alexandre said that we could use two extensions with the same name, as having diferent versions. <p>
@@ -105,8 +108,15 @@
  * The building of the ExtensionDTO is still undefined. We could have the information by using an interface that all new Extensions should implement, or we can create a new properties file with the information.
  * <p>
  * 
- *  * <h3>3.1 First "Analysis" class diagram</h3>
+ * <h3>3.1 First "Analysis" class diagram</h3>
  * <img src="core01_2_02_analysis.png" alt="image filed to load">
+ * 
+ * 
+ * <h3> Draft of the menu shown to the user</h3>
+ *  
+ * <img src="data:image/png;base64,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" alt="image filed to load">
+ * <br> 
+ * This draft show us all the information that the UI should present to the user and how.
  * 
  * <h2>4. Design</h2>
  *
