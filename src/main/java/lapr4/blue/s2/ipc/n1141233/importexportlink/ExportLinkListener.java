@@ -16,22 +16,78 @@ import static lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExpo
  *
  * @author Rafael Vieira
  */
-public class ExportLinkListener implements CellListener
+public class ExportLinkListener implements CellListener, Link
 {
 
-    private final Cell[][] exportedCells;
+    private final Cell[][] selectedCells;
     private final String filename;
     private final String specialChar;
     private final boolean header;
 
-    public ExportLinkListener(Cell[][] exportedCells, String filename, String specialChar, boolean header)
+    public ExportLinkListener(Cell[][] selectedCells, String filename, String specialChar, boolean header)
     {
-        this.exportedCells = exportedCells;
+        this.selectedCells = selectedCells;
         this.filename = filename.trim();
         this.specialChar = specialChar.trim();
         this.header = header;
     }
 
+    /**
+     * This method uses the necessary data to export to a text file
+     *
+     * @throws Exception if the name of the file is not inserted or the file
+     * already exists
+     */
+    public void exportToTextFile() throws Exception
+    {
+
+        if (filename.isEmpty())
+        {
+            throw new Exception("Please insert a name");
+        }
+
+        try (Formatter fOut = new Formatter(new File(filename)))
+        {
+            if (header)
+            {
+                fOut.format(HEADERS + "\n");
+                fOut.format(selectedCells[0][0].getAddress().getColumn() + HEADERS_TOKEN
+                        + selectedCells[0][0].getAddress().getRow() + HEADERS_TOKEN + "\n");
+            }
+
+            fOut.format(TOKEN + "\n" + specialChar + "\n");
+
+            for (Cell[] rows : selectedCells)
+            {
+                String text = "";
+                for (Cell columns : rows)
+                {
+                    if (columns.getContent().isEmpty())
+                    {
+                        text += " " + specialChar;
+                    }
+                    else
+                    {
+                        text += columns.getContent() + specialChar;
+                    }
+                }
+                text += "\n";
+                fOut.format(text);
+            }
+        }
+    }
+
+    /**
+     * returns the cells selected to be exported
+     *
+     * @return selected cells
+     */
+    public Cell[][] getSelectedCells()
+    {
+        return selectedCells;
+    }
+
+    // CellListener Methods
     @Override
     public void valueChanged(Cell cell)
     {
@@ -81,48 +137,10 @@ public class ExportLinkListener implements CellListener
     {
     }
 
-    /**
-     * This method uses the necessary data to export to a text file
-     *
-     * @throws Exception if the name of the file is not inserted or the file
-     * already exists
-     */
-    public void exportToTextFile() throws Exception
+    // toString
+    @Override
+    public String toString()
     {
-
-        if (filename.isEmpty())
-        {
-            throw new Exception("Please insert a name");
-        }
-
-        try (Formatter fOut = new Formatter(new File(filename)))
-        {
-            if (header)
-            {
-                fOut.format(HEADERS + "\n");
-                fOut.format(exportedCells[0][0].getAddress().getColumn() + HEADERS_TOKEN
-                        + exportedCells[0][0].getAddress().getRow() + HEADERS_TOKEN + "\n");
-            }
-
-            fOut.format(TOKEN + "\n" + specialChar + "\n");
-
-            for (Cell[] rows : exportedCells)
-            {
-                String text = "";
-                for (Cell columns : rows)
-                {
-                    if (columns.getContent().isEmpty())
-                    {
-                        text += " " + specialChar;
-                    }
-                    else
-                    {
-                        text += columns.getContent() + specialChar;
-                    }
-                }
-                text += "\n";
-                fOut.format(text);
-            }
-        }
+        return "Export Link: " + filename;
     }
 }

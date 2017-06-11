@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr4.green.s1.ipc.n1140618.ChatApplication.ui;
 
 import csheets.ui.ctrl.UIController;
-import java.io.IOException;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
@@ -27,9 +18,9 @@ import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
  */
 public class ChatPanel extends javax.swing.JPanel implements Observer {
 
-    private UIController uiController;
+    private final UIController uiController;
 
-    private ChatApplicationController controller;
+    private final ChatApplicationController controller;
 
     ChatPanel thisPanel;
 
@@ -47,6 +38,7 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
         controller.getListener().addObserver(this);
     }
 
+    @Override
     public String getName() {
         return "Chat";
     }
@@ -169,7 +161,7 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
 
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
 
-        new ChatUserSettingsUI(this.controller, this.controller.getChatUsersList().getUserByIP("/192.168.1.75"));
+        ChatUserSettingsUI chatUserSettingsUI = new ChatUserSettingsUI(this.controller, this.controller.getChatUsersList().getUserByIP("/192.168.1.75"));
     }//GEN-LAST:event_btnSettingsActionPerformed
 
 

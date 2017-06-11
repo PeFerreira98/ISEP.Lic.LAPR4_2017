@@ -5,6 +5,8 @@ import csheets.ui.ctrl.UIController;
 import java.io.File;
 import lapr4.blue.s2.ipc.n1141233.importexportlink.ExportLinkListener;
 import lapr4.blue.s2.ipc.n1141233.importexportlink.ImportLinkRunnable;
+import lapr4.blue.s2.ipc.n1141233.importexportlink.Link;
+import lapr4.blue.s2.ipc.n1141233.importexportlink.LinkStorage;
 import lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextController;
 
 /**
@@ -56,6 +58,9 @@ public class ImportExportTextLinkController extends ImportExportTextController
 
         ImportLinkRunnable importLinkRunnable = new ImportLinkRunnable(uiController, activeCell, filename);
 
+        // add to active links storage
+        storeLink(importLinkRunnable);
+
         new Thread(importLinkRunnable).start();
     }
 
@@ -97,6 +102,11 @@ public class ImportExportTextLinkController extends ImportExportTextController
 
         // create a cell listener to export after a modification to the selected cells
         ExportLinkListener listener = new ExportLinkListener(selectedCells, filename, specialChar, header);
+
+        // add to active links storage
+        storeLink(listener);
+
+        // force the first export
         listener.exportToTextFile();
 
         // add the listener to all the selected cells
@@ -107,5 +117,20 @@ public class ImportExportTextLinkController extends ImportExportTextController
                 columns.addCellListener(listener);
             }
         }
+    }
+
+    private void storeLink(Link link)
+    {
+        LinkStorage.add(link);
+    }
+
+    public boolean deactivateLink(Link link)
+    {
+        return LinkStorage.deactivateLink(link);
+    }
+
+    public Iterable<Link> getActiveLinks()
+    {
+        return LinkStorage.getAll();
     }
 }

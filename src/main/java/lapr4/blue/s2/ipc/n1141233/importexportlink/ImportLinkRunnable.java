@@ -18,7 +18,7 @@ import lapr4.green.s1.ipc.n1130626.importexporttext.controller.ImportExportTextC
  *
  * @author Rafael Vieira
  */
-public class ImportLinkRunnable implements Runnable
+public class ImportLinkRunnable implements Runnable, Link
 {
 
     /**
@@ -102,7 +102,10 @@ public class ImportLinkRunnable implements Runnable
             for (int j = column; j < max; j++)
             {
                 Cell cell = activeSpreadsheet.getCell(new Address(j, row + i));
-                cell.setContent(matrix.get(i)[j - column]);
+                synchronized (cell)
+                {
+                    cell.setContent(matrix.get(i)[j - column]);
+                }
             }
         }
     }
@@ -129,7 +132,7 @@ public class ImportLinkRunnable implements Runnable
     /**
      * stops the the run method when called
      */
-    public synchronized void stop()
+    public void stop()
     {
         keepGoing = false;
     }
@@ -159,5 +162,11 @@ public class ImportLinkRunnable implements Runnable
                 Logger.getLogger(ImportLinkRunnable.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Import Link: " + filename;
     }
 }
