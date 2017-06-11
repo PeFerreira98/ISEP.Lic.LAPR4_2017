@@ -33,12 +33,16 @@ public class DependencyTreeExtension extends Extension {
 
 	/** The name of the extension */
 	public static final String NAME = "Dependencies";
+        /** The version number */
+	public static final int VERSION = 0;
+	/** The description */
+	public static final String DESCRIPTION = "Extension for Dependency Tree";
 
 	/**
 	 * Creates a new assertion extension.
 	 */
 	public DependencyTreeExtension() {
-		super(NAME);
+		super(NAME, VERSION, DESCRIPTION);
 	}
 
 	/**

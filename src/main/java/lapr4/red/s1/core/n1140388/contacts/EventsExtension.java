@@ -22,12 +22,17 @@ public class EventsExtension extends Extension {
      * The name of the extension
      */
     public static final String NAME = "Events";
+    /** The version number */
+    public static final int VERSION = 1;
+    /** The description */
+    public static final String DESCRIPTION = "Events related extension from sprint 1.";
 
+    
     /**
      * Creates a new Event extension.
      */
     public EventsExtension() {
-        super(NAME);
+        super(NAME, VERSION, DESCRIPTION);
     }
 
     /**

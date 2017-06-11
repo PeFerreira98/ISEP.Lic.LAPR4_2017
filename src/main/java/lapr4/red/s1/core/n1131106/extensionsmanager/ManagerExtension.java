@@ -20,12 +20,17 @@ public class ManagerExtension extends Extension {
      * The name of the extension
      */
     public static final String NAME = "Extension Manager";
+    /** The version number */
+    public static final int VERSION = 1;
+    /** The description */
+    public static final String DESCRIPTION = "Extension Manager that allows the enabling or disabling of extensions from sprint 1.";
 
+    
     /**
      * Creates a new Example extension.
      */
     public ManagerExtension() {
-        super(NAME);
+        super(NAME, VERSION, DESCRIPTION);
     }
 
     /**

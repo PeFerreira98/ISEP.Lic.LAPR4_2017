@@ -22,6 +22,13 @@ public class CommExtension2 extends Extension implements CommHandler2 {
      * The name of the extension
      */
     public static final String NAME = "CommServer";
+    /** The version number */
+    public static final int VERSION = 1;
+    /** The description */
+    public static final String DESCRIPTION = "CommExtension extension updated from original from sprint 1.";
+
+    
+    
     protected static final int PACKET_SIZE_RECEIVE = 1452;
     private String peerId = System.getProperty("user.name");
     private EchoRequest echoRequet;
@@ -42,7 +49,7 @@ public class CommExtension2 extends Extension implements CommHandler2 {
      * Creates a new Example extension.
      */
     public CommExtension2() {
-        super(NAME);
+        super(NAME, VERSION, DESCRIPTION);
 
         System.out.println("CommExtension2");
         

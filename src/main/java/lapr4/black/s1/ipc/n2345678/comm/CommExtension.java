@@ -18,6 +18,10 @@ import csheets.ui.ext.UIExtension;
 public class CommExtension extends Extension {
 	/** The name of the extension */
 	public static final String NAME = "Comm";
+        /** The version number */
+	public static final int VERSION = 0;
+	/** The description */
+	public static final String DESCRIPTION = "Original network comunication extension.";
         
         private CommServer commServer;
 
@@ -25,7 +29,7 @@ public class CommExtension extends Extension {
 	 * Creates a new Example extension.
 	 */
 	public CommExtension() {
-		super(NAME);
+		super(NAME, VERSION, DESCRIPTION);
                 
                 // Create also the CommServer during the construction of the extension
                 commServer=CommServer.getCommServer();

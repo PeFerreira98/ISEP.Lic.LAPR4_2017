@@ -19,12 +19,17 @@ public class SearchWorkbookExtension extends Extension{
     
     /** The name of the extension */
     public static final String NAME = " Search Workbook";
+    /** The version number */
+    public static final int VERSION = 1;
+    /** The description */
+    public static final String DESCRIPTION = "Extension for searching workbooks in the local directory.";
+
     
     /**
     * Creates a new Example extension.
     */
     public SearchWorkbookExtension() {
-	super(NAME);
+	super(NAME, VERSION, DESCRIPTION);
     }
         
         

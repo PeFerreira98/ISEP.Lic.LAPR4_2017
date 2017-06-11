@@ -23,12 +23,17 @@ public class CommentsExtension extends Extension {
 
 	/** The name of the extension */
 	public static final String NAME = "Comments";
+        /** The version number */
+        public static final int VERSION = 0;
+        /** The description */
+        public static final String DESCRIPTION = "Original comments extension, allows commenting cells.";
 
+        
 	/**
 	 * Creates a new Example extension.
 	 */
 	public CommentsExtension() {
-		super(NAME);
+		super(NAME, VERSION, DESCRIPTION);
 	}
 	
 	/**

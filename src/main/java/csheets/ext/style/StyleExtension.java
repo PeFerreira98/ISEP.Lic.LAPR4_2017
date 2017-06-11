@@ -36,12 +36,16 @@ public class StyleExtension extends Extension {
 
 	/** The name of the extension */
 	public static final String NAME = "Style";
+        /** The version number */
+	public static final int VERSION = 0;
+	/** The description */
+	public static final String DESCRIPTION = "Style extension. Must be load.";
 
 	/**
 	 * Creates a new style extension.
 	 */
 	public StyleExtension() {
-		super(NAME);
+		super(NAME, VERSION, DESCRIPTION);
 	}
 
 	/**

@@ -19,12 +19,16 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
 public class ChatExtension extends Extension {
 
     public static final String NAME = "Chat";
+    /** The version number */
+    public static final int VERSION = 1;
+    /** The description */
+    public static final String DESCRIPTION = "Chat extension from sprint 1.";
 
     /**
      * Creates a new chat extension
      */
     public ChatExtension() {
-        super(NAME);
+        super(NAME, VERSION, DESCRIPTION);
     }
  
     /**

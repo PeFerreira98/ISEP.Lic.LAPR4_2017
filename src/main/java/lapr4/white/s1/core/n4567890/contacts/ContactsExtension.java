@@ -19,12 +19,17 @@ public class ContactsExtension extends Extension {
 
 	/** The name of the extension */
 	public static final String NAME = "Contacts";
+        /** The version number */
+        public static final int VERSION = 0;
+        /** The description */
+        public static final String DESCRIPTION = "Contacts addicion extension, Original.";
 
+        
 	/**
 	 * Creates a new Example extension.
 	 */
 	public ContactsExtension() {
-            super(NAME);
+            super(NAME, VERSION, DESCRIPTION);
 	}
 	
 	/**

@@ -28,12 +28,16 @@ public class StartSharingExtension extends Extension {
      * The name of the extension
      */
     public static final String NAME = "StartSharing";
+    /** The version number */
+    public static final int VERSION = 1;
+    /** The description */
+    public static final String DESCRIPTION = "Cell sharing and network communication extension from sprint 1.";
 
     /**
      * Creates a new Example extension.
      */
     public StartSharingExtension() {
-        super(NAME);
+        super(NAME , VERSION, DESCRIPTION);
 
 
 

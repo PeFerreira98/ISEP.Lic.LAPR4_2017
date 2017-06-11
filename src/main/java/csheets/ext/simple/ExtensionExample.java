@@ -16,12 +16,16 @@ public class ExtensionExample extends Extension {
 
 	/** The name of the extension */
 	public static final String NAME = "Example";
+        /** The version number */
+	public static final int VERSION = 0;
+	/** The description */
+	public static final String DESCRIPTION = "Extension example for changing a cell value (Original).";
 
 	/**
 	 * Creates a new Example extension.
 	 */
 	public ExtensionExample() {
-		super(NAME);
+		super(NAME, VERSION, DESCRIPTION);
 	}
 	
 	/**
