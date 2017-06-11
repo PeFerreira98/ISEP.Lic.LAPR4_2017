@@ -196,7 +196,7 @@ public class ImportExportTextController
      * @param specialChar the special character in cause
      * @param selectedCells the cells selected by the user
      *
-     * @throws Exception if the cell contains the special character
+     *
      */
     public void checkCells(String specialChar, Cell[][] selectedCells) throws IllegalArgumentException
     {
