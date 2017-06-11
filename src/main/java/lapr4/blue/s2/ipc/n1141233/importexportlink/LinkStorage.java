@@ -20,14 +20,12 @@ public class LinkStorage
     {
     }
 
-    public static boolean exists(String link)
-    {
-        return TMP_MAP.containsKey(link);
-    }
-
     public static void add(Link link)
     {
-        TMP_MAP.put(link.toString(), link);
+        if (link != null)
+        {
+            TMP_MAP.put(link.toString(), link);
+        }
     }
 
     public static void clear()
@@ -75,31 +73,41 @@ public class LinkStorage
      */
     public static boolean deactivateLink(Link link)
     {
-        if (link instanceof ExportLinkListener)
+        if (link != null)
         {
-            stopExport((ExportLinkListener) link);
+            if (link instanceof ExportLinkListener)
+            {
+                stopExport((ExportLinkListener) link);
+            }
+            else if (link instanceof ImportLinkRunnable)
+            {
+                stopImport((ImportLinkRunnable) link);
+            }
+            return TMP_MAP.remove(link.toString(), link);
         }
-        else if (link instanceof ImportLinkRunnable)
-        {
-            stopImport((ImportLinkRunnable) link);
-        }
-        return TMP_MAP.remove(link.toString(), link);
+        return false;
     }
 
     //stop links
     private static void stopExport(ExportLinkListener link)
     {
-        for (Cell[] cellRow : link.getSelectedCells())
+        if (link != null)
         {
-            for (Cell cell : cellRow)
+            for (Cell[] cellRow : link.getSelectedCells())
             {
-                cell.removeCellListener(link);
+                for (Cell cell : cellRow)
+                {
+                    cell.removeCellListener(link);
+                }
             }
         }
     }
 
     private static void stopImport(ImportLinkRunnable link)
     {
-        link.stop();
+        if (link != null)
+        {
+            link.stop();
+        }
     }
 }

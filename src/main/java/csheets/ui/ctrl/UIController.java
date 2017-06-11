@@ -45,6 +45,7 @@ import csheets.ui.sheet.CellTransferHandler;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.OptionalDataException;
 import java.io.StreamCorruptedException;
@@ -68,25 +69,25 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	private Cell activeCell;
 
 	/** The workbooks that have been selected, in order */
-	private Stack<Workbook> workbooks = new Stack<Workbook>();
+	private final Stack<Workbook> workbooks = new Stack<>();
 
 	/** The map that registers whether workbooks have changes */
-	private Map<Workbook, Boolean> changeLog = new HashMap<Workbook, Boolean>();
+	private final Map<Workbook, Boolean> changeLog = new HashMap<>();
 
 	/** The CleanSheets application */
-	private CleanSheets app;
+	private final CleanSheets app;
 
 	/** The transfer haandler used to transfer ranges of cells */
-	private TransferHandler transferHandler = new CellTransferHandler();
+	private final TransferHandler transferHandler = new CellTransferHandler();
 
 	/** The user interface extensions that have been loaded */
-	private UIExtension[] extensions;
+	private final UIExtension[] extensions;
 
 	/** The selection listeners registered to receive events */
-	private List<SelectionListener> selListeners = new ArrayList<SelectionListener>();
+	private final List<SelectionListener> selListeners = new ArrayList<>();
 
 	/** The edit listeners registered to receive events */
-	private List<EditListener> editListeners = new ArrayList<EditListener>();
+	private final List<EditListener> editListeners = new ArrayList<>();
 
 	// private Map<Workbook, Spreadsheet> activeSpreadsheets;
 	// private Map<Spreadsheet, Cell> activeCells;
@@ -101,7 +102,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 		app.addSpreadsheetAppListener(this);
 
 		// Fetches extensions
-		List<UIExtension> uiExtensions = new LinkedList<UIExtension>();
+		List<UIExtension> uiExtensions = new LinkedList<>();
 		for (Extension extension : ExtensionManager.getINSTANCE().getExtensions()) {
 			UIExtension uiExtension = extension.getUIExtension(this);
 			if (uiExtension != null)
@@ -277,6 +278,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
  * EVENT FIRING & LISTENING
  */
 
+        @Override
 	public void workbookCreated(SpreadsheetAppEvent event) {
 		Workbook workbook = event.getWorkbook();
 		changeLog.put(workbook, false);
@@ -286,10 +288,12 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 			setActiveWorkbook(workbook);
 	}
 
+        @Override
 	public void workbookLoaded(SpreadsheetAppEvent event) {
 		workbookCreated(event);
 	}
 
+        @Override
 	public void workbookUnloaded(SpreadsheetAppEvent event) {
 		changeLog.remove(event.getWorkbook());
 		workbooks.remove(event.getWorkbook());
@@ -300,6 +304,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 		setActiveWorkbook(activeWorkbook);
 	}
 
+        @Override
 	public void workbookSaved(SpreadsheetAppEvent event) {
 		changeLog.put(event.getWorkbook(), false);
 	}
@@ -373,10 +378,10 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	public static class EventDispatcher implements Runnable {
 
 		/** The event to fire */
-		private SelectionEvent event;
+		private final SelectionEvent event;
 
 		/** The listeners to which the event should be dispatched */
-		private SelectionListener[] listeners;
+		private final SelectionListener[] listeners;
 
 		/**
 		 * Creates a new event dispatcher.
@@ -391,6 +396,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 		/**
 		 * Dispatches the event.
 		 */
+                @Override
 		public void run() {
 			for (SelectionListener listener : listeners)
 				listener.selectionChanged(event);
@@ -418,7 +424,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 					showErrorDialog("Control information in the input stream is inconsistent.");
 				} catch (OptionalDataException e) {
 					showErrorDialog("Primitive data was found in the input stream instead of objects.");
-				} catch (Exception e) {
+				} catch (IOException e) {
 					showErrorDialog("An I/O error occurred when loading the file.");
 				}
 			else
@@ -430,6 +436,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 	 * Shows the user an error message.
          * @param message message
 	 */
+        @Override
 	protected void showErrorDialog(Object message) {
 		JOptionPane.showMessageDialog(
 			null,

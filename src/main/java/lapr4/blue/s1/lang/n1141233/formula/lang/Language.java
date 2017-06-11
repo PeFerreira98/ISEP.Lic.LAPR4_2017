@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
+import lapr4.blue.s1.lang.n1141233.formula.ForOperator;
 
 /**
  * A factory for creating certain types of language elements.

@@ -196,11 +196,15 @@ public class ImportExportTextController
      * @param specialChar the special character in cause
      * @param selectedCells the cells selected by the user
      *
-     *
+     * @throws IllegalArgumentException if the special character chosen is
+     * contained in one of the selected cells
      */
     public void checkCells(String specialChar, Cell[][] selectedCells) throws IllegalArgumentException
     {
         String token = specialChar.trim();
+        if(token.isEmpty()){
+            throw new IllegalArgumentException("Invalid special character, please replace it");
+        }
         for (Cell[] row : selectedCells)
         {
             for (Cell cell : row)

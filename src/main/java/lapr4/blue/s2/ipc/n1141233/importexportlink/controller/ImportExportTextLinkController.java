@@ -100,6 +100,8 @@ public class ImportExportTextLinkController extends ImportExportTextController
         {
             throw new FileAlreadyExistsException("The text file already exists");
         }
+
+        checkCells(specialChar, selectedCells);
         // validations end
 
         // create a cell listener to export after a modification to the selected cells
@@ -121,6 +123,11 @@ public class ImportExportTextLinkController extends ImportExportTextController
         }
     }
 
+    /**
+     * Adds an active link to storage
+     *
+     * @param link link to be added
+     */
     private void storeLink(Link link)
     {
         LinkStorage.add(link);
