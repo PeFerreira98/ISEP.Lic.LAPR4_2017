@@ -1,0 +1,55 @@
+@startuml lang02_02_dc.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+title Global Variables Diagram of Classes
+
+
+class GlobalVariable{
+	+Value getValue();
+	+String getName();
+	+setValue(Value value);
+	+setName(String name);
+	+SpreadSheet getSpreadSheet();
+	+String toString();
+
+}
+
+class GlobalVariableReference{
+	+Value evaluate();
+	+Object accept(ExpressionVisitor ExprVisitor);
+	+String getVarName();
+	+SpreadSheet getSpreadSheet();
+}
+
+class Workbook{
+	+addVariable(Variable var);
+	+Variable findVariable(SpreadSheet spreadSheet, String variable);
+	+List<Variable> getListOfVariables();
+	+createVariable(String name, SpreadSheet spreadSheet, Value value);
+}
+
+interface ExpressionVisitor{
+}
+
+class ExpressionBuilder{
+	+visitVariableReference(VariableReference varRef);
+}
+
+
+
+ExpressionVisitor <|-- ExpressionBuilder
+
+GlobalVariableReference <-- ExcelExpressionCompiler
+
+Workbook <--GlobalVariableReference
+
+GlobalVariable <-- Workbook
+
+ExpressionBuilder <-- GlobalVariableReference
+
+
+@enduml

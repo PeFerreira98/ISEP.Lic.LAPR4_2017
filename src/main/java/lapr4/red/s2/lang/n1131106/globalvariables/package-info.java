@@ -48,13 +48,13 @@
  *
  * <h3>4.1. Functional Tests</h3>
  * 
- *  It should be tested for ability to persist global variables that is, whenever one workbook 
+ * It should be tested for ability to persist global variables that is, whenever one workbook 
  * is stored global variables are associated with the same. It should also be tested the ability 
  * to record a global variable with "@ " , ie test the validity of grammar.
  * 
  * 
  * <h3>4.2. Classes</h3>
- *  <img src="" alt="image"> 
+ *  <img src="lang02_02_dc.png" alt="image"> 
  * 
  * 
  * <h2>8. Work Log</h2> 
@@ -72,13 +72,37 @@
  * <p>
  * 1. Start the analysis of my UC
  * </p>
+ * 
  * <p>
- * <u>Blocking:</u>
+ * <b>Wednesday:</b>
  * </p>
  * <p>
- * 1. -nothing-
+ * 1. Finish the analysis;
+ * 2. Start the design.
  * </p>
  * 
+ * <p>
+ * <b>Thursday:</b>
+ * </p>
+ * <p>
+ * 1. Finish the design;
+ * 2. Start the implementation.
+ * </p>
+ * 
+ * <p>
+ * <b>Friday:</b>
+ * </p>
+ * <p>
+ * 1. Finish the implementation;
+ * 2. Start the Unit test.
+ * </p>
+ * 
+ * <p>
+ * <b>Saturday:</b>
+ * </p>
+ * <p>
+ * 1. Finish the Unit test.
+ * </p>
  * 
  * @author Nuno Costa 1131106
  */
