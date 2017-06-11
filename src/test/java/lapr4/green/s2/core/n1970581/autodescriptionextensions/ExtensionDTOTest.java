@@ -177,6 +177,9 @@ public class ExtensionDTOTest {
         
         assertTrue(e1.equals(e1)) ;
         assertTrue(e1.equals(e11)) ;
+        assertFalse(e1.equals(e2)) ;
+        assertFalse(e1.equals(null)) ;
+        assertFalse(e1.equals(new Integer(1))) ;
         
         
     }
@@ -211,6 +214,21 @@ public class ExtensionDTOTest {
         assertTrue(exDTO1.compareTo(exDTO2) < 0);
         assertTrue(exDTO2.compareTo(exDTO1) > 0);
         assertTrue(exDTO1.compareTo(exDTO1) == 0);
+        
+    }
+
+    /**
+     * Test of clone method, of class ExtensionDTO.
+     */
+    @Test
+    public void testClone() {
+        System.out.println("clone");
+        ExtensionDTO instance = e1;
+        ExtensionDTO expResult = e1;
+        ExtensionDTO result = instance.clone();
+        assertEquals(expResult, result);
+        
+        assertFalse(e1.equals(e2.clone()));
         
     }
     

@@ -62,6 +62,46 @@ public class MetadataTest {
     public void tearDown() {
     }
 
+    
+    
+    /**
+     * Test of constructor, of class Metadata.
+     */
+    @Test
+    public void testMetadataConstructor() {
+        System.out.println("Metadata()");
+        Metadata da;
+        
+        Name nn1 = new Name("nome");
+        Description dd1 = new Description("desc");
+        Version vv1 = new Version(1);
+        
+        
+        try{
+            da = new Metadata(null, vv1,dd1 );
+            fail();
+        }
+        catch(IllegalArgumentException ex){
+            assertTrue(true);
+        }
+        try{
+            da = new Metadata(nn1, null,dd1 );
+            fail();
+        }
+        catch(IllegalArgumentException ex){
+            assertTrue(true);
+        }
+        try{
+            da = new Metadata(nn1, vv1,null );
+            fail();
+        }
+        catch(IllegalArgumentException ex){
+            assertTrue(true);
+        }
+        
+    }
+    
+    
     /**
      * Test of hashCode method, of class Metadata.
      */
@@ -89,6 +129,11 @@ public class MetadataTest {
         assertFalse(m1.equals(m2));
         assertFalse(m1.equals(m3));
         assertFalse(m1.equals(new Integer(2)));
+        
+        assertFalse(m1.equals(null));
+        
+        Metadata x = MetadataFactory.instance().buildMetadata(n1, 2, d1);
+        assertFalse(m1.equals(x));
         
         
     }

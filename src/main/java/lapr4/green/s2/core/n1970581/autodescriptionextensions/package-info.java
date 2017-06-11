@@ -14,7 +14,7 @@
  * -Notes about the week's work.-
  * <p>
  * 
- * Work notes/log: S2 6-05-2017 (terca) <br>
+ * Work notes/log: S2 6-06-2017 (terca) <br>
  * During the morning we had a meeting with the client. <br>
  * We also had the daily scrum meeting, where each chose a use case of core. <br>
  * During the afternoon we did our IPC presentation of Sprint 1 <br>
@@ -23,7 +23,7 @@
  * Analysis was initiated. <br>
  * 
  * 
- * Work notes/log: S2 7-05-2017 (quarta) <br> 
+ * Work notes/log: S2 7-06-2017 (quarta) <br> 
  * Scrum meeting: check Jira report <br>
  * Checking UC's requirements with team. <br>
  * Asked Core Teacher opinion regarding my analysis. Teacher suggested that I update the existing extensions to use the new Constructor. <br>
@@ -34,7 +34,7 @@
  * Test: unit tests MetadataFactory , Metadata (bugs found and corrected. Name, version, Description should be ok, since they are used a lot.)<br>
  * 
  *  
- * Work notes/log: S2 8-05-2017 (quinta) <br> 
+ * Work notes/log: S2 8-06-2017 (quinta) <br> 
  * Scrum meeting: check Jira report <br>
  * Implementation: of MEtadatable interface in Extension class. Extension now suports Metadata and has a new constructor. <br>
  * Warned class about the new Extension versions. <br>
@@ -43,12 +43,17 @@
  * Implementation of following classes: DescriptionExtensionLoader DescriptionExtensionLoaderController DescriptionExtensionLoaderUI <br>
  * Edits:    CleanSheets inclusinon of call to the new loader (NOT ACTIVE YET, has bypass)   ExtensionManager  new methods. <br>
  * 
- * Work notes/log: S2 9-05-2017 (sexta) <br>
+ * Work notes/log: S2 9-06-2017 (sexta) <br>
  * ONLINE Scrum meeting: check Jira report <br>
  * Implementation DefaultExtensionLoadListBuilder interface and DefaultExtensionLoadListBuilderByLatestVersion (related with creating a auto filled selection of extensions)<br>
  * Test: unit test of DefaultExtensionLoadListBuilderByLatestVersion <BR>
  * Implementation: DescriptionExtensionLoader + Controller + UI interconection. New loader 90% functional. Lack UI work and minor fixes.<br>
  * Implementation/debug Inter-Thread signal implemented using wait() + notifyall() , UI polishing. Clear button. Moving right functional. CleanSheets moving new loader code to another place. <br>
+ * 
+ * Work notes/log: S2 11-06-2017 (domingo) <br>
+ * Unit testing. 80% coverage. <br>
+ * General testing. <br>
+ * Use case Online (set to appear at program startup).<br>
  * 
  * <h2>2. Requirement</h2>
  * 

@@ -11,7 +11,7 @@ import java.util.Objects;
  * Class that represents an description
  * @author Hugo
  */
-public class Description implements Comparable<String> , Cloneable{
+public class Description implements Comparable<Description> , Cloneable{
     /* the description */
     private final String description;
     
@@ -56,8 +56,8 @@ public class Description implements Comparable<String> , Cloneable{
     }
 
     @Override
-    public int compareTo(String o) {
-        return this.description.compareTo(o);
+    public int compareTo(Description o) {
+        return this.description.compareTo(o.description());
     }
 
     @Override

@@ -48,14 +48,9 @@ public class DescriptionExtensionLoaderController {
     
     
     /**
-     * Waits for a wake up signal.
-     * @throws java.lang.InterruptedException interruptedException
-     */
-    public synchronized void waitSignal() throws InterruptedException{ this.wait();}
-    /**
      * Indicates the loader that the user has finished it's selection.
      */
-    public synchronized void indicateUserFinishedSelection(){ this.loader.indicateUserFinishedSelection(); this.notifyAll();}
+    public synchronized void indicateUserFinishedSelection(){ this.loader.indicateUserFinishedSelection(); loader.wakeAll();}
     
     
 }

@@ -68,6 +68,18 @@ public class MetadataFactoryTest {
         assertTrue(result.version() == version);
         assertTrue(result.description().equals(description));
         
+        Metadata mmm;
+        try{
+            mmm = instance.buildMetadata(null, version, description);
+            fail();
+        }
+        catch(IllegalArgumentException ex){assertTrue(true);}
+        try{
+            mmm = instance.buildMetadata(name, version, null);
+            fail();
+        }
+        catch(IllegalArgumentException ex){assertTrue(true);}
+        
         
     }
 
@@ -88,6 +100,12 @@ public class MetadataFactoryTest {
         
         assertTrue(result.description() != null);
         
+        Metadata mmm;
+        try{
+            mmm = instance.buildMetadata(null);
+            fail();
+        }
+        catch(IllegalArgumentException ex){assertTrue(true);}
         
     }
 
