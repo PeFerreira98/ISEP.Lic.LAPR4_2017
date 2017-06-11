@@ -56,7 +56,8 @@
  * Use case Online (set to appear at program startup).<br>
  * Test: Testing testing new extensions ver+desc. Inserted in older extensions version and Description information as sugested by teacher. <br>
  * Analysis: finish documentation, shown the draft of the UI<br>
- * Design: finish documentation and polish diagrams.
+ * Design: finish documentation and polish diagrams. <br>
+ * Test: documentation, showing code example in javadoc. <br>
  * <br>
  * 
  * <h2>2. Requirement</h2>
@@ -160,8 +161,8 @@
  * 
  * <h3>4.1.2 Unit Tests </h3>
  * 
- * 
- * 
+ * All classes other than UI or controllers have unit tests, achieving 84% coverage according to jococo. Only DescriptionExtensionLoader has lower coverage due to Files and syncronisation interactions.
+ * All other classes have 100%.<p>
  * 
  * <h2>4.2 UC Realization</h2>
  * 
@@ -235,6 +236,29 @@
  * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/ddb01b7ffa812e218d0deb2c420ea3837db1b73d">Implementation/debug Inter-Thread signal implemented using wait() + notifyall() , UI polishing. Clear button. Moving right functional. CleanSheets moving new loader code to another place.</a> <br>
  * <p>
  * 
+ * This is a small code snippet showing the syncronization of having the main process waiting for User input.<p>
+ * <pre>
+ * Code snippet:
+ *  * {@code 
+ *      //DescriptionExtensionLoader.contactUser()   waiting process.
+ * 	while(!this.isUserFinishedSelection()){  //Block where we pause the main thread while we wait for the UI to finish.
+ *           try {
+ *               //Thread.sleep(500);  // 
+ *               this.waitSignal();
+ *           } catch (InterruptedException ex) {
+ *               Logger.getLogger(DescriptionExtensionLoader.class.getName()).log(Level.SEVERE, null, ex);
+ *           }
+ *       }
+ * 
+ * 
+ *    public synchronized void waitSignal() throws InterruptedException{ this.wait();}
+ *    public synchronized void indicateUserFinishedSelection(){ this.userFinishedSelection = true;} // invoked by controller.
+ *    public synchronized void wakeAll(){this.notifyAll();}  // Wake code invoked by controller.
+ * 
+ * }
+ * </pre>
+ * .<p>
+ * 
  * <h2>6. Integration/Demonstration</h2>
  * 
  * All testes were run and no anomaly was detected. The planned demonstration is to run the functional test as an user and demonstrate the correct implementation.
@@ -256,6 +280,8 @@
  * Great care was taken in maintaining backwards compatibility of extensions, by maintaining support for extensions without metadata information.
  * And in avoiding interference of this use case with colleagues use cases. 
  * Most the new loading procedure can also be bypassed by simply selecting the yellow button in the UI to use the previous configurations.<br>
+ * This use case use a syncronized wait and notify , to have the main thread wait for the UI  user input. At the star we were using semi active wait.
+ * By having a sleep inside a loop, checking a variable. But at the end we managed to use proper syncronization through wait / notify.<br>
  * <p>
  * * 
  * <h2>8. Work Log</h2> 
