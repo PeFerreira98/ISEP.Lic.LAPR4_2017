@@ -11,7 +11,7 @@ import csheets.core.formula.Expression;
 import csheets.core.formula.Literal;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import lapr4.blue.s1.lang.n1141233.formula.lang.Language;
-import lapr4.red.s2.lang.n1140388.formula.lang.MoneyRate;
+import lapr4.red.s2.lang.n1140388.formula.MoneyRate;
 
 /**
  *

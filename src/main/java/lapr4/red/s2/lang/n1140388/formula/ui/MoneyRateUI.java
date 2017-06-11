@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import lapr4.red.s2.lang.n1140388.formula.lang.MoneyRate;
+import lapr4.red.s2.lang.n1140388.formula.MoneyRate;
 
 /**
  * Creates a UI to change the money rate.

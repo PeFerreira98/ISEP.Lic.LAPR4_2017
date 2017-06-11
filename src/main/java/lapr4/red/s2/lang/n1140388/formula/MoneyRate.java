@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lapr4.red.s2.lang.n1140388.formula.lang;
+package lapr4.red.s2.lang.n1140388.formula;
 
 import csheets.core.Value;
 import java.math.BigDecimal;

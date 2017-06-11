@@ -227,7 +227,7 @@
  *
  * In this issue we used some design patterns: -Entity, AggregateRoot and value
  * object DDD concepts.
- * </p>
+ * <p>
  *
  *
  * <h2>5. Implementation</h2>

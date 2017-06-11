@@ -5,6 +5,7 @@
  */
 package lapr4.red.s2.lang.n1140388.formula.lang;
 
+import lapr4.red.s2.lang.n1140388.formula.MoneyRate;
 import csheets.core.Value;
 import java.math.BigDecimal;
 import org.junit.After;

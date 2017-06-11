@@ -9,7 +9,7 @@ import csheets.core.Cell;
 import csheets.core.formula.Expression;
 import csheets.core.formula.Literal;
 import csheets.ext.CellExtension;
-import lapr4.red.s2.lang.n1140388.formula.lang.MoneyRate;
+import lapr4.red.s2.lang.n1140388.formula.MoneyRate;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
