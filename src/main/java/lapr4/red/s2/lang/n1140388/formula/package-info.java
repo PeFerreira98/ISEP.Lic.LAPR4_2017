@@ -81,21 +81,8 @@
  * <img src="analysis_lang01.2.png" alt="image">
  * <p>
  *
- * From the previous diagram we see that we need to create a new contact.
- * Therefore, at this point we just need to create an object and persist it.
- * <p>
- * To edit a contact we need to change the attributes of the object. For
- * changing this news attributes on the object, we just need to set the new
- * attributes and update the contact.
- * <p>
- * To remove a contact we need to remove the object from the persistence.
- *
- * <p>
- * <img src="uc_analysis_events.png" alt="image">
- * <p>
- *
- * From the previous diagram we see that we just need to insert a valid formula
- * in the cell and the system will give the result back.
+ * From the previous diagram we see that we need to insert a valid expression
+ * and the system will give us back the result.
  *
  *
  *
@@ -130,9 +117,8 @@
  * returned by the function. Following this pattern, tests to the new Compiler
  * should be made.
  * <p>
- * Forthermore I need to test the MoneyRate class. This class reads the
- * informations of the exchange rates from a text file. This method is the one
- * who will make all the conversions of the currencies.
+ * Forthermore I need to test the MoneyRate class. This method is the one who
+ * will make all the conversions of the currencies.
  *
  * <p>
  * <b>UC1 Insert Formula (from US1)</b>
@@ -142,13 +128,17 @@
  * currency. So we have created a test that represents this business rule.
  *
  * <p>
- * see: <code>lapr4.red.s2.lang.n1140388.formula.lang.MoneyRateTest</code>
+ * see: <code>lapr4.red.s2.lang.n1140388.formula.MoneyRateTest</code>
  *
  *
  * <p>
  * Alternative and Exception Scenarios<br>
- * Exception 1: Formula should begin with "#". Exception 2: Instructions must be
- * delimited by curly braces Exception 3: Operands should have the currency
+ * <p>
+ * Exception 1: Formula should begin with "#".
+ * <p>
+ * Exception 2: Instructions must be delimited by curly braces
+ * <p>
+ * Exception 3: Operands should have the currency
  *
  *
  * <h3>Acceptance Tests</h3>
@@ -225,16 +215,19 @@
  *
  * <h3>4.4. Design Patterns and Best Practices</h3>
  *
- * In this issue we used some design patterns: -Entity, AggregateRoot and value
- * object DDD concepts.
+ * -nothing-
  * <p>
  *
  *
  * <h2>5. Implementation</h2>
  *
- * {@link lapr4.white.s1.core.n4567890.contacts.domain.Contact}
- * {@link lapr4.white.s1.core.n4567890.contacts.domain.Agenda}
- * {@link lapr4.white.s1.core.n4567890.contacts.domain.Event} *
+ * {@link lapr4.red.s2.lang.n1140388.formula.compiler.CurrencyEvalVisitor}
+ * <p>
+ * {@link lapr4.red.s2.lang.n1140388.formula.compiler.MonetaryExpressionCompiler}
+ * <p>
+ * {@link lapr4.red.s2.lang.n1140388.formula.MoneyRate}
+ * <p>
+ * {@link lapr4.red.s2.lang.n1140388.formula.ui.MoneyRateUI}
  *
  *
  *
@@ -261,9 +254,7 @@
  * <p>
  * Today
  * <p>
- * 1. Analysis of the manual of lapr4.
- * <p>
- * 2. Build teams.
+ * 1. Analysis of the use case.
  * <p>
  * Blocking:
  * <p>
@@ -274,14 +265,14 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Analysis of the manual of lapr4.
+ * 1. Analysis of the use case.
  * <p>
  * Today
  * <p>
- * 1. Meeting with our supervisor and decided who were the Aea Leaders as well
+ * 1. Meeting with our supervisor and decided who were the Area Leaders as well
  * who was going to be Scrum Master.
  * <p>
- * 2. Chosen the issue to deal.
+ * 2. Confirm the chosen issue to deal.
  * <p>
  * 3. Created sub-tasks to that issue.
  * <p>
@@ -294,31 +285,23 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Analysis of the existing javadoc.
- * <p>
- * 2. Started the analysis of core 10.1
+ * 1. Analysis and design.
  * <p>
  * Today
  * <p>
- * 1. Completed the analysis.
+ * 1. Started the implementation.
  * <p>
- * 2. Started the design of core 10.1
- * <p>
- * 3. Started the planning of tests implementation.
+ * 2. Started the planning of tests implementation.
  * <p>
  * Blocking:
  * <p>
- * 1. We generated the javadoc, but it did not appear in the index, we find out
- * that we have to create an empty class to appeared
+ * -nothing-
  * <p>
- * 2. Know how the evidence analysis works.
- * <p>
- *
  * <b>Thursday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Design
+ * 1. Analysis, Design and Implemetation
  * <p>
  * Today
  * <p>
@@ -337,20 +320,19 @@
  * <p>
  * Today
  * <p>
- * 1. Implementation.
+ * 1. Unit test.
  * <p>
  * Blocking:
  * <p>
- * 1. Put the photograph on contact.
  * <b>Saturday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Implementation
+ * 1. Implementation and Unit test
  * <p>
  * Today
  * <p>
- * 1. Unit testing.
+ * 1. -nothing-
  * <p>
  * Blocking:
  * <p>
@@ -378,16 +360,15 @@
  * well chosen technical artifacts (diagrams, grammars, etc.) for its
  * documentation and without errors.
  *
- * <h3>R7. Rubric Design and Implement: 2</h3>
+ * <h3>R7. Rubric Design and Implement: 3</h3>
  *
- * 2- many defects. The code follows good practices although some design
- * patterns should have been applied. The technical documentation covers the
- * majority of the solution although it may have some errors. However the
- * appropriate type of technical artifacts for documenting design are present
- * and the ideia behind the solution is understandable. Code does not "goes
- * against" the design options of the original code of the project. Unit tests
- * seem to cover a significant amount of functionalities (e.g., more than 50%)
- * but there was not test first approach.
+ * 3- some defects. Unit tests do cover a significant amount of functionalities
+ * (e.g., more than 80%) and there are some evidences of a test first approach.
+ * The code does not "break" the design options of the original project code and
+ * the code follows the good practices of the technical area (e.g.,
+ * synchronization for IPC, design patterns, grammar design for Lang). Also, the
+ * technical documentation (e.g., diagrams) is very complete and without
+ * significant errors.
  *
  *
  *
