@@ -55,7 +55,8 @@
  * General testing. <br>
  * Use case Online (set to appear at program startup).<br>
  * Test: Testing testing new extensions ver+desc. Inserted in older extensions version and Description information as sugested by teacher. <br>
- * Analysis: finish documentation, shown the draft of the UI
+ * Analysis: finish documentation, shown the draft of the UI<br>
+ * Design: finish documentation and polish diagrams.
  * <br>
  * 
  * <h2>2. Requirement</h2>
@@ -160,19 +161,125 @@
  * <h3>4.1.2 Unit Tests </h3>
  * 
  * 
- * <b>Diagrama de classes</b> <p>
  * 
- *  <img src="core01_2_03_design.png" alt="image failed to load">
+ * 
+ * <h2>4.2 UC Realization</h2>
+ * 
+ * In this use case the user starts the application but before it is fully loaded we need to stop it so the user can choose the Extensions to load.
+ * The following sequence diagrams show this process. The class diagram can also be seen bellow. 
+ * As a design principle we tried to be as intrusive as possible in the existing code, building code around the existing structures. 
+ * And allowing full backwards compatibility. <p>
+ * The ExtensionManager loads as normal, but now it also stores all the extensions it detects.
+ * The new DescriptionExtensionLoader retrieves this list, builds an acceptable suggestion and passes this information to the user through the UI.
+ * Then waits the user input. The user indicates extensions to load, they are validated and then loaded through the ExtensionManager.
+ * The Extension now incorporate a new Metadata object that stores the version and description to show to the user.
  * <p>
+ * <h3>4.2.1 Sequence Diagrams </h3>
+ * 
  *  <b>SD new loading</b> <p>
  *  <img src="core01_2_04_design.png" alt="image failed to load">
  *  <p>
+ * This diagram show the main use case execution. And the controller and UI interactions.
+ * <p>
  *  <b>SD metadata building detail </b> <p>
  *  <img src="core01_2_05_design.png" alt="image failed to load">
  *  <p>
- *
+ *  This diagram shows the sequence for building the Metadata that now integrates every extension.
+ *  <p>
  *   <b>SD ExtensionDTO building detail</b> <p>
  *  <img src="core01_2_06_design.png" alt="image failed to load">
+ *  <p>
+ *  This diagram show the construction of the ExtensionDTO used to communicate with the UI.
+ *  <p>
+ * 
+ <h2>4.3 Classes</h2>
+ * 
+ * The following diagram shows the created classes and it's interactions. <br>
+ * <h3>4.3.1 Class Diagram</h3>
+ * <img src="core01_2_03_design.png" alt="image failed to load">
+ * <br>
+ * The connection and use of the MetadataFactory by Extension and DescriptionExtensionLoader classes are omitted in order to show a more clear class diagram due to plum limitations. They are visible in the SD's.<p>
+ * 
+ * <h3>4.4. Design Patterns and Best Practices</h3>
+ * 
+ * <h4>4.4.1 Strategy </h4>
+ * We used this pattern in the DescriptionExtensionLoader, where the method of building the default list of extension to show the user is based in the DefaultExtensionLoadListBuilder interface.
+ * We created the DefaultExtensionLoadListBuilderByLatestVersion, that creates this list based on the most recent versions.
+ * But we can use any other means of creating this list as long as they implement the interface the DescriptionExtensionLoader uses.
+ * <p>
+ * 
+ * <h4>4.4.2 Factory </h4> 
+ * We use a MetadataFactory to concentrate the building of all Metadata related things.<p>
+ * 
+ * 
+ * <h4>4.4.3 Value Object and Aggregate </h4> 
+ * Name, Version and Description are all immutable value objects, that are accessed through the Metadata, that acts as an minimalist aggregate root.
+ * Even Metadata is an immutable value object. <p>
+ * 
+ * <h4>4.4.4 DTO</h4>
+ * We have a need to send information to the user regarding the Extensions, thus we create an immutable object ExtensionDTO which has the information the user needs to make decisions.
+ * Avoiding the sharing of real extensions with the user.<p>
+ * 
+ * 
+ * 
+ * 
+ * <h2>5. Implementation</h2>
+ * 
+ * All the implementation commits can be seen by searching for LAPR4E17DL-161 <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/0662792a13ccdff206ca69dd852de18ee777b7e4">Implementation: Name Version Description Metadata MetadataFactory Metadatable (interface)</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/bf5c5fb02cc3a65c451671f129f9336a4fc9a2b6">Implementation: of MEtadatable interface in Extension class. Extension now suports Metadata and has a new constructor.</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/48b8625e14b2d19cb98732c1bf9e5bf7ba2e67d2">Implementation: ExtensionDTO, and builder in MetadataFactory.</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/86cc7d5ec56a6218a9862c3a61c002a21c262548">Implementation of following classes: DescriptionExtensionLoader DescriptionExtensionLoaderController DescriptionExtensionLoaderUI </a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/8cbb4d2bddf26015325fabb3f566287ae67cba9d">Implementation DefaultExtensionLoadListBuilder interface and DefaultExtensionLoadListBuilderByLatestVersion (related with creating a auto filled selection of extensions)</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/23d314d2c4a67840abedf7d39bde45b7af0890fc"> Implementation: DescriptionExtensionLoader + Controller + UI interconection. New loader 90% functional. Lack UI work and minor fixes.</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/ddb01b7ffa812e218d0deb2c420ea3837db1b73d">Implementation/debug Inter-Thread signal implemented using wait() + notifyall() , UI polishing. Clear button. Moving right functional. CleanSheets moving new loader code to another place.</a> <br>
+ * <p>
+ * 
+ * <h2>6. Integration/Demonstration</h2>
+ * 
+ * All testes were run and no anomaly was detected. The planned demonstration is to run the functional test as an user and demonstrate the correct implementation.
+ * No anomalous interaction with existing code was detected, but special care was taken to prevent them. See final remarks.
+ * <p>
+ * 
+ * <h2>7. Final Remarks</h2>
+ * 
+ * There were many ways to implement this use case, some better, some worse. <br>
+ * For example we could have turned the DescriptionExtensionLoader into a singleton, and had the list building done in the constructor.
+ * This wasn't done, because possible interaction during tests, since it needs to contact the ExtensionManager that deals with Files. And we should avoid tests with files.<br>
+ * Instead of using a Metadata inside the Extension object, we could have Extension instances implement an interface that provides the information.
+ * This would allow greater extension customisation and flexibility at the cost of having a standard for Metadata.<br>
+ * We could also have this Metadata information stored in a properties file, reducing the invasiveness of the use case. 
+ * But the Information Expert tell us that Extension should know herself the information regarding the metadata.<br>
+ * There wasn't detected any saving interference, nor the use case description refers any concerns about this situation.
+ * But concerns about this situation linger, and although time and scope didn't allow the fully compreension of it's impact, it is recommended an more through investigation.
+ * Perhaps in the form of an following use case for sprint 3, since this use case ends in sprint 2.<br>
+ * Great care was taken in maintaining backwards compatibility of extensions, by maintaining support for extensions without metadata information.
+ * And in avoiding interference of this use case with colleagues use cases. 
+ * Most the new loading procedure can also be bypassed by simply selecting the yellow button in the UI to use the previous configurations.<br>
+ * <p>
+ * * 
+ * <h2>8. Work Log</h2> 
+ * 
+ * Please check notes at item 2 at the top of this page, or the Jira issues for time logging.
+ * 
+ * <h2>9. Self Assessment</h2> 
+ * 
+ * Self-assessment of the work during this sprint regarding Rubrics R3, R6 and R7.
+ * 
+ * <h3>R3. Rubric Requirements Fulfilment: 3</h3>
+ * 
+ * 3- some defects. The student did fulfil all the requirements and also did justify the eventual options related to the interpretation/analysis of the problem.
+ * 
+ * <h3>R6. Rubric Requirements Analysis: 3 </h3>
+ * 
+ * 3- some defects. There is a robust analisys of the problem with well chosen technical artifacts (diagrams, grammars, etc.) for its documentation although some may have erros, such as referencing inexistent artifacts or having small notation errors. <br>
+ * 
+ * 
+ * <h3>R7. Rubric Design and Implement: 3</h3>
+ * 
+ * 3- some defects. Unit tests do cover a significant amount of functionalities (e.g., more than 80%) and there are some evidences of a test first approach. The code does not "break" the design options of the original project code and the code follows the good practices of the technical area (e.g., synchronization for IPC, design patterns, grammar design for Lang). Also, the technical documentation (e.g., diagrams) is very complete and without significant errors.
+ *  
+ * 
  * 
  * 
  * @author Hugo Bento 1970581

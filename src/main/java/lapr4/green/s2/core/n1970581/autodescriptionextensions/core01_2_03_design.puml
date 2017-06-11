@@ -3,6 +3,8 @@
 class CleanSheets {
  }
 class ExtensionManager << singleton >> {
+    + listAllExtensionFound()
+    + clear()
     + load(String classPath)
  }
 abstract class Extension {
@@ -11,7 +13,19 @@ abstract class Extension {
  }
 
 class DescriptionExtensionLoader {
-    - Map String , ExtensionClassName
+    - allExtensions
+    - defaultLoadList;
+    - userFinishedSelection
+    - defaultListBuilder
+    + buildDefaultLoadList()
+    + retrieveAllExtensions()
+    + contactUser()
+    + validateLoadingListOfUniqueExtensions()
+    + loadList()
+    + isUserFinishedSelection()
+    + indicateUserFinishedSelection()
+    + waitSignal()
+    + wakeAll()
  }
 
 class DescriptionExtensionLoaderUI {
@@ -20,11 +34,14 @@ class DescriptionExtensionLoaderUI {
 
 class DescriptionExtensionLoaderController {
   - DescriptionExtensionLoader
+    + validateLoadingList()
+    + loadList()
+    + indicateUserFinishedSelection()
  }
 
 interface Metadatable {
     + metadata()
-    + name()
+    + getName()
     + version()
     + description()
 }
@@ -33,37 +50,48 @@ class Metadata << (C,orchid)  immutable >>{
  - Name
  - Version
  - Description
- + name()
+ + getName()
  + version()
  + description()
 }
 
 class Name << (C,orchid)  immutable >>{
- - String
+ - name
+ + name();
 }
 class Version << (C,orchid)  immutable >>{
- - int
+ - version
+ + version()
 }
 class Description << (C,orchid)  immutable >>{
- - String
+ - description
+ + description()
 }
-class MetadataFactory {
+class MetadataFactory << singleton >>{
+ + instance()
  + buildMetadata(String name)
  + buildMetadata (String name, int version, String desc)
+ + buildExtensionDTO(Metadatable extension)
 }
 
 class ExtensionDTO << (C,orchid)  immutable >>{
   - Metadata
   - String classname
   + metadata()
-  + name()
+  + getName()
   + version()
   + description()
   + toString()
   + classname()
 }
 
+interface DefaultExtensionLoadListBuilder{
+    + buildDefaultLoadList(List<ExtensionDTO> allExtensions)
+} 
 
+class DefaultExtensionLoadListBuilderByLatestVersion{
+    + buildDefaultLoadList(List<ExtensionDTO> allExtensions)
+}
 
 'DescriptionExtensionLoader
 'DescriptionExtensionLoaderUI
@@ -97,6 +125,7 @@ Metadata --> Version
 Metadata --> Description
 
 MetadataFactory --> Metadata
+MetadataFactory --> ExtensionDTO
 
 ExtensionDTO --> Metadata
 
@@ -104,6 +133,15 @@ Extension ..|> Metadatable
 ExtensionDTO ..|> Metadatable
 Metadata ..|> Metadatable
 
+CleanSheets --> DescriptionExtensionLoader
+
+
+DescriptionExtensionLoader --> DefaultExtensionLoadListBuilder
+DefaultExtensionLoadListBuilder <|.. DefaultExtensionLoadListBuilderByLatestVersion
+'DefaultExtensionLoadListBuilder <-- DescriptionExtensionLoader
+
+'DescriptionExtensionLoader --> MetadataFactory
+'Extension --> MetadataFactory
 
 
 @enduml
