@@ -18,7 +18,7 @@ import org.junit.Test;
 public class FormulaLoopTest
 {
 
-    CleanSheets app;
+    private CleanSheets app;
 
     @Before
     public void setUp()
