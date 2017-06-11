@@ -60,7 +60,7 @@ public class Count implements Function {
 		return new Value(count);
 	}
 
-	public FunctionParameter[] getParameters() {
+	public FunctionParameter[] getPARAMETERS() {
 		return parameters;
 	}
 

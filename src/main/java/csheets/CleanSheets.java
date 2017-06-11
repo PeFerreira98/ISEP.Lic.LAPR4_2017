@@ -104,7 +104,7 @@ public class CleanSheets {
 		Language.getInstance();
 
 		// Loads extensions
-		ExtensionManager.getInstance();
+		ExtensionManager.getINSTANCE();
                                 
 		// Loads default properties
 		Properties defaultProps = new Properties();

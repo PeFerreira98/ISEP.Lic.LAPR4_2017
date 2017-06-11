@@ -30,7 +30,7 @@ import lapr4.red.s1.core.n1131106.extensionsmanager.application.ExtensionManager
 public class ExtensionManagerPanel extends JPanel implements SelectionListener {
 
     private ExtensionManagerController controller;
-    private Extension[] extensions = csheets.ext.ExtensionManager.getInstance().getExtensions();
+    private Extension[] extensions = csheets.ext.ExtensionManager.getINSTANCE().getExtensions();
     private ArrayList<JCheckBox> checkBoxes = new ArrayList<JCheckBox>();
 
     public ExtensionManagerPanel(UIController uiController) {

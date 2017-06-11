@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr4.green.s1.ipc.n1130626.importexporttext;
 
 import csheets.ext.Extension;
@@ -25,7 +20,7 @@ public class ExtensionImportExportText extends Extension
      * The name of the extension
      */
     public static final String NAME = "Import Export Text";
-    public static final String DESCRIPTION = "Imports and exports cells's data to/from a text file";
+    public static final String DESCRIPTION = "Imports and exports cell's data to/from a text file";
 
     /**
      * Creates a new Import Export Data extension.
@@ -42,6 +37,7 @@ public class ExtensionImportExportText extends Extension
      * In this extension example we are only extending the user interface.
      *
      * @param uiController the user interface controller
+     *
      * @return a user interface extension, or null if none is provided
      */
     @Override

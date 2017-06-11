@@ -3,6 +3,8 @@ package lapr4.blue.s2.ipc.n1141233.importexportlink.controller;
 import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.FileAlreadyExistsException;
 import lapr4.blue.s2.ipc.n1141233.importexportlink.ExportLinkListener;
 import lapr4.blue.s2.ipc.n1141233.importexportlink.ImportLinkRunnable;
 import lapr4.blue.s2.ipc.n1141233.importexportlink.Link;
@@ -45,12 +47,12 @@ public class ImportExportTextLinkController extends ImportExportTextController
         // validations
         if (filename.isEmpty())
         {
-            throw new Exception("Please insert a file name");
+            throw new FileNotFoundException("Please insert a file name");
         }
 
         if (!new File(filename).exists())
         {
-            throw new Exception("The text file doesn't exist");
+            throw new FileNotFoundException("The text file doesn't exist");
         }
         // validations end
 
@@ -86,17 +88,17 @@ public class ImportExportTextLinkController extends ImportExportTextController
         // validations
         if (specialChar.isEmpty())
         {
-            throw new Exception("Please insert a valid special character");
+            throw new FileNotFoundException("Please insert a valid special character");
         }
 
         if (filename.isEmpty())
         {
-            throw new Exception("Please insert a file name");
+            throw new FileNotFoundException("Please insert a file name");
         }
 
         if (new File(filename).exists())
         {
-            throw new Exception("The text file already exists");
+            throw new FileAlreadyExistsException("The text file already exists");
         }
         // validations end
 
@@ -124,11 +126,23 @@ public class ImportExportTextLinkController extends ImportExportTextController
         LinkStorage.add(link);
     }
 
+    /**
+     * Deactivates a link and removes it from storage
+     *
+     * @param link link to be deactivated
+     *
+     * @return true if link was removed or false otherwise
+     */
     public boolean deactivateLink(Link link)
     {
         return LinkStorage.deactivateLink(link);
     }
 
+    /**
+     * This method returns all the active links
+     *
+     * @return active links
+     */
     public Iterable<Link> getActiveLinks()
     {
         return LinkStorage.getAll();

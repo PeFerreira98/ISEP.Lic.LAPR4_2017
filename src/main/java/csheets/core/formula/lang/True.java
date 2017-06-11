@@ -48,7 +48,7 @@ public class True implements Function {
 		return new Value(true);
 	}
 
-	public FunctionParameter[] getParameters() {
+	public FunctionParameter[] getPARAMETERS() {
 		return parameters;
 	}
 

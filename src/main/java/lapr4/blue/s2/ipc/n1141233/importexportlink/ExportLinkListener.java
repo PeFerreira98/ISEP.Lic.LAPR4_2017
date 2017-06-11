@@ -3,6 +3,7 @@ package lapr4.blue.s2.ipc.n1141233.importexportlink;
 import csheets.core.Cell;
 import csheets.core.CellListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Formatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -43,7 +44,7 @@ public class ExportLinkListener implements CellListener, Link
 
         if (filename.isEmpty())
         {
-            throw new Exception("Please insert a name");
+            throw new FileNotFoundException("Please insert a name");
         }
 
         try (Formatter fOut = new Formatter(new File(filename)))
@@ -117,6 +118,7 @@ public class ExportLinkListener implements CellListener, Link
     @Override
     public void dependentsChanged(Cell cell)
     {
+        // do nothing
     }
 
     @Override

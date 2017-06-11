@@ -58,7 +58,7 @@ public class Factorial implements Function {
 			return new Value(new IllegalArgumentException("Argument must be a positive integer"));
 	}
 
-	public FunctionParameter[] getParameters() {
+	public FunctionParameter[] getPARAMETERS() {
 		return parameters;
 	}
 

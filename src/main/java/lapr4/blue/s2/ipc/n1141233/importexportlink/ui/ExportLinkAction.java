@@ -38,6 +38,7 @@ public class ExportLinkAction extends FocusOwnerAction
     @Override
     protected void defineProperties()
     {
+        // do nothing
     }
 
     /**

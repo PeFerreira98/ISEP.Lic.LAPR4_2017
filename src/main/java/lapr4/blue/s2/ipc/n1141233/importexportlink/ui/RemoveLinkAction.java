@@ -36,6 +36,7 @@ public class RemoveLinkAction extends FocusOwnerAction
     @Override
     protected void defineProperties()
     {
+        // do nothing
     }
 
     @Override

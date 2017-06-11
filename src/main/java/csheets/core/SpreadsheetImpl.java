@@ -261,7 +261,7 @@ public class SpreadsheetImpl implements Spreadsheet {
 		SpreadsheetExtension extension = extensions.get(name);
 		if (extension == null) {
 			// Creates a new spreadsheet extension
-			Extension x = ExtensionManager.getInstance().getExtension(name);
+			Extension x = ExtensionManager.getINSTANCE().getExtension(name);
 			if (x != null) {
 				extension = x.extend(this);
 				if (extension != null)

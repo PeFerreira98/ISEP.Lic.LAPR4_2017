@@ -59,7 +59,7 @@ public class FunctionCall implements Expression {
 		this.args = args;
 
 		// Checks arguments against parameters
-		FunctionParameter[] params = function.getParameters();
+		FunctionParameter[] params = function.getPARAMETERS();
 		for (int i = 0; i < args.length; i++)
 			if (params.length <= i && !function.isVarArg())
 				// Too many arguments

@@ -83,10 +83,10 @@ public class DescriptionExtensionLoader {
      */
     public int loadList(List <ExtensionDTO> listToLoad){
         int errors = 0;
-        ExtensionManager.getInstance().clear(); // Clears all extensions from the managed list
+        ExtensionManager.getINSTANCE().clear(); // Clears all extensions from the managed list
         
         for (ExtensionDTO extDTO : listToLoad){
-            Extension ext = ExtensionManager.getInstance().load(extDTO.className()); 
+            Extension ext = ExtensionManager.getINSTANCE().load(extDTO.className()); 
             if (ext == null) errors++;
         }
         return errors;
@@ -122,7 +122,7 @@ public class DescriptionExtensionLoader {
      * Used to retrieve all the extensions information from the prop files. Used the ExtensionManager
      */ 
     public void retrieveAllExtensions(){
-        List <Extension> allExtensionsList = ExtensionManager.getInstance().listAllExtensionFound();
+        List <Extension> allExtensionsList = ExtensionManager.getINSTANCE().listAllExtensionFound();
         for(Extension extension : allExtensionsList){
             try{
                 this.allExtensions.add(MetadataFactory.instance().buildExtensionDTO(extension));

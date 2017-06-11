@@ -241,7 +241,7 @@ public class FunctionWizardGUI extends javax.swing.JFrame {
 
         if (index < this.lstFunc.size()) {
             Function func = this.lstFunc.getElementAt(index);
-            this.jFunctionlbl.setText(buildSyntax(func, func.getParameters()));
+            this.jFunctionlbl.setText(buildSyntax(func, func.getPARAMETERS()));
         }
     }//GEN-LAST:event_jFunctionsListValueChanged
 

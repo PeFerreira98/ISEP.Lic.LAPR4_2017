@@ -5,6 +5,7 @@ import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.ui.ctrl.UIController;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -50,7 +51,7 @@ public class ImportLinkRunnable implements Runnable, Link
     {
         if (filename.isEmpty())
         {
-            throw new Exception("Please insert a name");
+            throw new FileNotFoundException("Please insert a name");
         }
 
         Spreadsheet activeSpreadsheet = uiController.getActiveSpreadsheet();
@@ -72,7 +73,7 @@ public class ImportLinkRunnable implements Runnable, Link
                     String tmp = scanner.nextLine();
                     if (tmp.equals(ImportExportTextController.HEADERS))
                     {
-                        String ref[] = scanner.nextLine().split(ImportExportTextController.HEADERS_TOKEN);
+                        String[] ref = scanner.nextLine().split(ImportExportTextController.HEADERS_TOKEN);
                         column = Integer.parseInt(ref[0]);
                         row = Integer.parseInt(ref[1]);
                     }
@@ -102,11 +103,27 @@ public class ImportLinkRunnable implements Runnable, Link
             for (int j = column; j < max; j++)
             {
                 Cell cell = activeSpreadsheet.getCell(new Address(j, row + i));
+                // avoid data concurrency exception by making sure it gets exclusive access to cell
                 synchronized (cell)
                 {
                     cell.setContent(matrix.get(i)[j - column]);
                 }
             }
+        }
+    }
+
+    private void doImport()
+    {
+        try
+        {
+            if (isModified(filename))
+            {
+                importFromTextFile();
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.getLogger(ImportLinkRunnable.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -144,22 +161,13 @@ public class ImportLinkRunnable implements Runnable, Link
         {
             try
             {
-                try
-                {
-                    if (isModified(filename))
-                    {
-                        importFromTextFile();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Logger.getLogger(ImportLinkRunnable.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                Thread.sleep(1000);
+                doImport();
+                this.wait(1000);
             }
             catch (InterruptedException ex)
             {
                 Logger.getLogger(ImportLinkRunnable.class.getName()).log(Level.SEVERE, null, ex);
+                Thread.currentThread().interrupt();
             }
         }
     }

@@ -37,6 +37,7 @@ public class ImportLinkAction extends FocusOwnerAction
     @Override
     protected void defineProperties()
     {
+        // do nothing
     }
 
     /**

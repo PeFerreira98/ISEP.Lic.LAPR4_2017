@@ -36,6 +36,8 @@ import java.util.TreeMap;
 import csheets.CleanSheets;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * The class that manages extensions to the CleanSheets application.
@@ -43,15 +45,15 @@ import java.util.List;
  */
 public class ExtensionManager {
 
-	/** The singleton instance */
-	private static final ExtensionManager instance = new ExtensionManager();
+	/** The singleton INSTANCE */
+	private static final ExtensionManager INSTANCE = new ExtensionManager();
 
 	/** The name of the files in which extension properties are stored */
 	private static final String PROPERTIES_FILENAME = "extensions.props";
 
 	/** The extensions that have been loaded */
 	private SortedMap<String, Extension> extensionMap
-		= new TreeMap<String, Extension>();
+		= new TreeMap<>();
 
 	/** The class loader used to load extensions */
 	private Loader loader = new Loader();
@@ -70,12 +72,11 @@ public class ExtensionManager {
 			try {
 				extProps.load(stream);
 			} catch (IOException e) {
-				System.err.println("Could not load default extension properties from: "
-					+ PROPERTIES_FILENAME);
+                            Logger.getLogger(ExtensionManager.class.getName()).log(Level.SEVERE, "Could not load default extension properties from: "
+					+ PROPERTIES_FILENAME, e);
 			} finally {
 				try {
-					if (stream != null)
-						stream.close();
+					stream.close();
 				} catch (IOException e) {}
 			}
 
@@ -83,16 +84,19 @@ public class ExtensionManager {
 		File userExtPropsFile = new File(PROPERTIES_FILENAME);
 		if (userExtPropsFile.exists())
 			stream = null;
-			try {
-				stream = new FileInputStream(userExtPropsFile);
-				extProps.load(stream);
-			} catch (IOException e) {
-			} finally {
-				try {
-					if (stream != null)
-						stream.close();
-				} catch (IOException e) {}
-			}
+                try {
+                        stream = new FileInputStream(userExtPropsFile);
+                        extProps.load(stream);
+                } catch (IOException e) {
+                    Logger.getLogger(ExtensionManager.class.getName()).log(Level.SEVERE, null, e);
+                } finally {
+                        try {
+                                if (stream != null)
+                                        stream.close();
+                        } catch (IOException e) {
+                            Logger.getLogger(ExtensionManager.class.getName()).log(Level.SEVERE, null, e);
+                        }
+                }
 
 		// Loads extensions
 		for (Map.Entry<Object, Object> entry : extProps.entrySet()) {
@@ -107,8 +111,10 @@ public class ExtensionManager {
 					File classPathFile = new File(classPathProp);
 					if (classPathFile.exists())
 						try {
-							classPath = classPathFile.toURL();
-						} catch (MalformedURLException e) {}
+							classPath = classPathFile.toURI().toURL();
+						} catch (MalformedURLException e) {
+                                                    Logger.getLogger(ExtensionManager.class.getName()).log(Level.SEVERE, null, e);
+                                                }
 				}
 			}
 
@@ -122,11 +128,11 @@ public class ExtensionManager {
 	}
 
 	/**
-	 * Returns the singleton instance.
-	 * @return the singleton instance
+	 * Returns the singleton INSTANCE.
+	 * @return the singleton INSTANCE
 	 */
-	public static ExtensionManager getInstance() {
-		return instance;
+	public static ExtensionManager getINSTANCE() {
+		return INSTANCE;
 	}
 
 	/**
@@ -160,8 +166,9 @@ public class ExtensionManager {
 		try {
 			Class extensionClass = Class.forName(className, true, loader);
 			return load(extensionClass);
-		} catch (Exception e) {
-			System.err.println("Failed to load extension class " + className + ".");
+		} catch (ClassNotFoundException e) {
+                        Logger.getLogger(ExtensionManager.class.getName()).log(Level.SEVERE, 
+                                "Failed to load extension class " + className + ".", e);
 			return null;
 		}
 	}
@@ -176,8 +183,9 @@ public class ExtensionManager {
 		try {
 			Class extensionClass = Class.forName(className);
 			return load(extensionClass);
-		} catch (Exception e) {
-			System.err.println("Failed to load extension class " + className + ".");
+		} catch (ClassNotFoundException e) {
+                        Logger.getLogger(ExtensionManager.class.getName()).log(Level.SEVERE, 
+                                "Failed to load extension class " + className + ".", e);
 			return null;
 		}
 	}
@@ -194,11 +202,12 @@ public class ExtensionManager {
 			this.allExtensionFoundList.add(extension);      // Alteration for the new Loading method. (hugo)
 			return extension;
 		} catch (IllegalAccessException iae) {
-			System.err.println("Could not access extension " + extensionClass.getName() + ".");
+                        Logger.getLogger(ExtensionManager.class.getName()).log(Level.SEVERE, 
+                                "Could not access extension " + extensionClass.getName() + ".", iae);
 			return null;
 		} catch (InstantiationException ie) {
-			System.err.println("Could not load extension from " + extensionClass.getName() + ".");
-			ie.printStackTrace();
+                        Logger.getLogger(ExtensionManager.class.getName()).log(Level.SEVERE, 
+                                "Could not load extension from " + extensionClass.getName() + ".", ie);
 			return null;
 		}
 	}
@@ -228,6 +237,7 @@ public class ExtensionManager {
 		 * and resources.
 		 * @param url the URL to be added to the search path of URL:s
 		 */
+                @Override
 		protected void addURL(URL url) {
 			super.addURL(url);
 		}

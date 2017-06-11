@@ -73,6 +73,8 @@ import csheets.ui.ext.UIExtension;
 import csheets.ui.sheet.AddressBox;
 import csheets.ui.sheet.CellEditor;
 import csheets.ui.sheet.WorkbookPane;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lapr4.blue.s1.lang.n1140948.functionwizard.FunctionWizardAction;
 
 /**
@@ -83,7 +85,7 @@ import lapr4.blue.s1.lang.n1140948.functionwizard.FunctionWizardAction;
 public class Frame extends JFrame implements SelectionListener {
 
 	/** The base of the window title */
-	public static final String TITLE = "CleanSheets";
+	public static final String FRAME_TITLE = "CleanSheets";
 
 	/** The CleanSheets application */
 	private CleanSheets app;
@@ -101,7 +103,9 @@ public class Frame extends JFrame implements SelectionListener {
 		FileChooser chooser = null;
 		try {
 			chooser = new FileChooser(this, app.getUserProperties());
-		} catch (java.security.AccessControlException ace) {}
+		} catch (java.security.AccessControlException ace) {
+                    Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, ace);
+                }
 		ActionManager actionManager = new ActionManager(app, uiController, chooser);
 
 		// Registers file actions
@@ -199,7 +203,7 @@ public class Frame extends JFrame implements SelectionListener {
 			actionManager.getAction("exit")));
 
 		// Configures appearance
-		setTitle(TITLE);
+		setTitle(FRAME_TITLE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(
 			CleanSheets.class.getResource("res/img/sheet.gif")));
 		pack();
@@ -211,16 +215,17 @@ public class Frame extends JFrame implements SelectionListener {
 	 * Updates the title of the window when a new active workbook is selected.
 	 * @param event the selection event that was fired
 	 */
+        @Override
 	public void selectionChanged(SelectionEvent event) {
 		Workbook workbook = event.getWorkbook();
 		if (workbook != null) {
 			setVisible(true);
 			if (app.isWorkbookStored(workbook))
-				setTitle(TITLE + " - " + app.getFile(workbook).getName());
+				setTitle(FRAME_TITLE + " - " + app.getFile(workbook).getName());
 			else
-				setTitle(TITLE + " - Untitled");
+				setTitle(FRAME_TITLE + " - Untitled");
 		} else
-			setTitle(TITLE);
+			setTitle(FRAME_TITLE);
 	}
 
 	/**
@@ -233,7 +238,7 @@ public class Frame extends JFrame implements SelectionListener {
 		private Frame frame;
 
 		/** The CleanSheets application */
-		private CleanSheets app;
+		private final CleanSheets app;
 
 		/**
 		 * Creates a new frame creator.
@@ -253,7 +258,8 @@ public class Frame extends JFrame implements SelectionListener {
 			} catch (InterruptedException e) {
 				return null;
 			} catch (java.lang.reflect.InvocationTargetException e) {
-				e.printStackTrace();
+//				e.printStackTrace();
+                                Logger.getLogger(Frame.class.getName()).log(Level.SEVERE, null, e);
 				return null;
 			}
 			return frame;
@@ -267,6 +273,7 @@ public class Frame extends JFrame implements SelectionListener {
 			EventQueue.invokeLater(this);
 		}
 
+                @Override
 		public void run() {
 			frame = new Frame(app);
 		}

@@ -102,7 +102,7 @@ public class UIController extends FocusOwnerAction implements SpreadsheetAppList
 
 		// Fetches extensions
 		List<UIExtension> uiExtensions = new LinkedList<UIExtension>();
-		for (Extension extension : ExtensionManager.getInstance().getExtensions()) {
+		for (Extension extension : ExtensionManager.getINSTANCE().getExtensions()) {
 			UIExtension uiExtension = extension.getUIExtension(this);
 			if (uiExtension != null)
 				uiExtensions.add(uiExtension);

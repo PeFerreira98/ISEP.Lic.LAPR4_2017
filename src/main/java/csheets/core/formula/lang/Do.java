@@ -98,7 +98,7 @@ public class Do implements Function {
 			return new Value();
 	}
 
-	public FunctionParameter[] getParameters() {
+	public FunctionParameter[] getPARAMETERS() {
 		return parameters;
 	}
 

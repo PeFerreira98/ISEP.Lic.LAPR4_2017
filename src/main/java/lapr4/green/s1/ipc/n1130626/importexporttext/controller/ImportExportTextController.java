@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr4.green.s1.ipc.n1130626.importexporttext.controller;
 
 import csheets.core.Address;
@@ -10,6 +5,8 @@ import csheets.core.Cell;
 import csheets.core.Spreadsheet;
 import csheets.ui.ctrl.UIController;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.Formatter;
 import java.util.List;
@@ -46,13 +43,6 @@ public class ImportExportTextController
     }
 
     /**
-     * Empty constructor.
-     */
-    public ImportExportTextController()
-    {
-    }
-
-    /**
      * Gets a range of cells selected by the user and converts to String.
      *
      * @param cells a matrix of cells
@@ -80,7 +70,7 @@ public class ImportExportTextController
     {
         if (filename.isEmpty())
         {
-            throw new Exception("Please insert a name");
+            throw new FileNotFoundException("Please insert a name");
         }
 
         Cell activeCell = uiController.getActiveCell();
@@ -89,40 +79,40 @@ public class ImportExportTextController
         int row = activeCell.getAddress().getRow();
         int column = activeCell.getAddress().getColumn();
 
-        Scanner scanner = new Scanner(new File(filename));
-        boolean flag = true;
-
-        List<String[]> matrix = new ArrayList<>();
-        String[] line;
-        String specialChar = "";
-
-        while (scanner.hasNext())
+        List<String[]> matrix;
+        try (Scanner scanner = new Scanner(new File(filename)))
         {
-            if (flag)
+            boolean flag = true;
+            matrix = new ArrayList<>();
+            String[] line;
+            String specialChar = "";
+            while (scanner.hasNext())
             {
-                String tmp = scanner.nextLine();
-                if (tmp.equals(HEADERS))
+                if (flag)
                 {
-                    String ref[] = scanner.nextLine().split(HEADERS_TOKEN);
-                    column = Integer.parseInt(ref[0]);
-                    row = Integer.parseInt(ref[1]);
+                    String tmp = scanner.nextLine();
+                    if (tmp.equals(HEADERS))
+                    {
+                        String[] ref = scanner.nextLine().split(HEADERS_TOKEN);
+                        column = Integer.parseInt(ref[0]);
+                        row = Integer.parseInt(ref[1]);
+                    }
+                    else if (tmp.equals(TOKEN))
+                    {
+                        specialChar = scanner.nextLine().trim();
+                        flag = false;
+                    }
                 }
-                else if (tmp.equals(TOKEN))
+                else
                 {
-                    specialChar = scanner.nextLine().trim();
-                    flag = false;
-                }
-            }
-            else
-            {
-                line = scanner.nextLine().split(specialChar);
-                if (line.length > 0)
-                {
-                    matrix.add(line);
+                    line = scanner.nextLine().split(specialChar);
+                    if (line.length > 0)
+                    {
+                        matrix.add(line);
+                    }
                 }
             }
         }
-        scanner.close();
 
         int size;
         int max;
@@ -151,11 +141,11 @@ public class ImportExportTextController
      */
     public void exportToTextFile(Cell[][] selectedCells, String filename, String specialChar, boolean header) throws Exception
     {
-        specialChar = specialChar.trim();
+        String token = specialChar.trim();
 
         if (filename.isEmpty())
         {
-            throw new Exception("Please insert a name");
+            throw new FileNotFoundException("Please insert a name");
         }
 
         if (!filename.endsWith(".txt"))
@@ -165,38 +155,38 @@ public class ImportExportTextController
 
         if (new File(filename).exists())
         {
-            throw new Exception("The text file already exists");
+            throw new FileAlreadyExistsException("The text file already exists");
         }
 
-        Formatter fOut = new Formatter(new File(filename));
-
-        if (header)
+        try (Formatter fOut = new Formatter(new File(filename)))
         {
-            fOut.format(HEADERS + "\n");
-            fOut.format(selectedCells[0][0].getAddress().getColumn() + HEADERS_TOKEN
-                    + selectedCells[0][0].getAddress().getRow() + HEADERS_TOKEN + "\n");
-        }
-
-        fOut.format(TOKEN + "\n" + specialChar + "\n");
-
-        for (Cell[] rows : selectedCells)
-        {
-            String text = "";
-            for (Cell columns : rows)
+            if (header)
             {
-                if (columns.getContent().isEmpty())
-                {
-                    text += " " + specialChar;
-                }
-                else
-                {
-                    text += columns.getContent() + specialChar;
-                }
+                fOut.format(HEADERS + "\n");
+                fOut.format(selectedCells[0][0].getAddress().getColumn() + HEADERS_TOKEN
+                        + selectedCells[0][0].getAddress().getRow() + HEADERS_TOKEN + "\n");
             }
-            text += "\n";
-            fOut.format(text);
+
+            fOut.format(TOKEN + "\n" + token + "\n");
+
+            for (Cell[] rows : selectedCells)
+            {
+                String text = "";
+                for (Cell columns : rows)
+                {
+                    if (columns.getContent().isEmpty())
+                    {
+                        text += " " + token;
+                    }
+                    else
+                    {
+                        text += columns.getContent() + token;
+                    }
+                }
+                text += "\n";
+                fOut.format(text);
+            }
         }
-        fOut.close();
     }
 
     /**
@@ -208,18 +198,18 @@ public class ImportExportTextController
      *
      * @throws Exception if the cell contains the special character
      */
-    public void checkCells(String specialChar, Cell[][] selectedCells) throws Exception
+    public void checkCells(String specialChar, Cell[][] selectedCells) throws IllegalArgumentException
     {
-        specialChar = specialChar.trim();
-        for (Cell[] rows : selectedCells)
+        String token = specialChar.trim();
+        for (Cell[] row : selectedCells)
         {
-            for (Cell columns : rows)
+            for (Cell cell : row)
             {
-                if (columns.getContent() != null)
+                if (cell.getContent() != null)
                 {
-                    if (columns.getContent().contains(specialChar))
+                    if (cell.getContent().contains(token))
                     {
-                        throw new Exception("This cell contains the special character that you selected, please replace it");
+                        throw new IllegalArgumentException("This cell contains the special character that you selected, please replace it");
                     }
                 }
             }

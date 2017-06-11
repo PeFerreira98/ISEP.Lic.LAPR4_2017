@@ -16,6 +16,10 @@ public class LinkStorage
 
     private static final Map<String, Link> TMP_MAP = new HashMap<>();
 
+    private LinkStorage()
+    {
+    }
+
     public static boolean exists(String link)
     {
         return TMP_MAP.containsKey(link);
@@ -63,7 +67,7 @@ public class LinkStorage
     }
 
     /**
-     * Deactivate the link and remove it from storage
+     * Deactivates a link and removes it from storage
      *
      * @param link link to be deactivated
      *

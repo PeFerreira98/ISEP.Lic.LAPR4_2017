@@ -33,7 +33,7 @@ import csheets.core.formula.FunctionParameter;
 public class And implements Function {
 
 	/** The only (but repeatable) parameter: a boolean expression */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
+	public static final FunctionParameter[] PARAMETERS = new FunctionParameter[] {
 		new FunctionParameter(Value.Type.BOOLEAN, "Boolean expression", false,
 			"A boolean expression to include")
 	};
@@ -41,12 +41,16 @@ public class And implements Function {
 	/**
 	 * Creates a new instance of the AND function.
 	 */
-	public And() {}
+	public And() {
+            // empty constructor
+        }
 
+        @Override
 	public String getIdentifier() {
 		return "AND";
 	}
 
+        @Override
 	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
 		for (Expression argument : arguments)
 			if (!argument.evaluate().toBoolean())
@@ -54,10 +58,12 @@ public class And implements Function {
 		return new Value(true);
 	}
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
+        @Override
+	public FunctionParameter[] getPARAMETERS() {
+		return PARAMETERS;
 	}
 
+        @Override
 	public boolean isVarArg() {
 		return true;
 	}

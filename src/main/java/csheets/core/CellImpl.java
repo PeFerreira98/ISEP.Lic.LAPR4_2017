@@ -360,7 +360,7 @@ public class CellImpl implements Cell {
 		CellExtension extension = extensions.get(name);
 		if (extension == null) {
 			// Creates a new cell extension
-			Extension x = ExtensionManager.getInstance().getExtension(name);
+			Extension x = ExtensionManager.getINSTANCE().getExtension(name);
 			if (x != null) {
 				extension = x.extend(this);
 				if (extension != null)

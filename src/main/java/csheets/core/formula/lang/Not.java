@@ -51,7 +51,7 @@ public class Not implements Function {
 		return new Value(!arguments[0].evaluate().toBoolean());
 	}
 
-	public FunctionParameter[] getParameters() {
+	public FunctionParameter[] getPARAMETERS() {
 		return parameters;
 	}
 

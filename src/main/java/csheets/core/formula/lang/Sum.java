@@ -28,49 +28,86 @@ import csheets.core.formula.FunctionParameter;
 
 /**
  * A function that returns the numeric sum of its arguments.
+ *
  * @author Einar Pehrson
  */
-public class Sum implements Function {
+public class Sum implements Function
+{
 
-	/** The only (but repeatable) parameter: a numeric term */
-	public static final FunctionParameter[] parameters = new FunctionParameter[] {
-		new FunctionParameter(Value.Type.NUMERIC, "Term", false,
-			"A number to be included in the sum")
-	};
+    /**
+     * The only (but repeatable) parameter: a numeric term
+     */
+    public static final FunctionParameter[] PARAMETERS = new FunctionParameter[]
+    {
+        new FunctionParameter(Value.Type.NUMERIC, "Term", false,
+        "A number to be included in the sum")
+    };
 
-	/**
-	 * Creates a new instance of the SUM function.
-	 */
-	public Sum() {}
+    /**
+     * Creates a new instance of the SUM function.
+     */
+    public Sum()
+    {
+        // empty contructor
+    }
 
-	public String getIdentifier() {
-		return "SUM";
-	}
+    @Override
+    public String getIdentifier()
+    {
+        return "SUM";
+    }
 
-	public Value applyTo(Expression[] arguments) throws IllegalValueTypeException {
-		double sum = 0;
-		for (Expression expression : arguments) {
-			Value value = expression.evaluate();
-			if (value.getType() == Value.Type.NUMERIC)
-			 	sum += value.toDouble();
-			else if (value.getType() == Value.Type.MATRIX)
-				for (Value[] vector : value.toMatrix()) {
-					for (Value item : vector)
-						if (item.getType() == Value.Type.NUMERIC)
-						 	sum += item.toDouble();
-						 else
-						 	throw new IllegalValueTypeException(item, Value.Type.NUMERIC);
-			} else
-				throw new IllegalValueTypeException(value, Value.Type.NUMERIC);
-		}
-		return new Value(sum);
-	}
+    @Override
+    public Value applyTo(Expression[] arguments) throws IllegalValueTypeException
+    {
+        double sum = 0;
+        for (Expression expression : arguments)
+        {
+            Value value = expression.evaluate();
+            if (null == value.getType())
+            {
+                throw new IllegalValueTypeException(value, Value.Type.NUMERIC);
+            }
+            else
+            {
+                switch (value.getType())
+                {
+                    case NUMERIC:
+                        sum += value.toDouble();
+                        break;
+                    case MATRIX:
+                        for (Value[] vector : value.toMatrix())
+                        {
+                            for (Value item : vector)
+                            {
+                                if (item.getType() == Value.Type.NUMERIC)
+                                {
+                                    sum += item.toDouble();
+                                }
+                                else
+                                {
+                                    throw new IllegalValueTypeException(item, Value.Type.NUMERIC);
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        throw new IllegalValueTypeException(value, Value.Type.NUMERIC);
+                }
+            }
+        }
+        return new Value(sum);
+    }
 
-	public FunctionParameter[] getParameters() {
-		return parameters;
-	}
+    @Override
+    public FunctionParameter[] getPARAMETERS()
+    {
+        return PARAMETERS;
+    }
 
-	public boolean isVarArg() {
-		return true;
-	}
+    @Override
+    public boolean isVarArg()
+    {
+        return true;
+    }
 }

@@ -48,7 +48,7 @@ public class False implements Function {
 		return new Value(false);
 	}
 
-	public FunctionParameter[] getParameters() {
+	public FunctionParameter[] getPARAMETERS() {
 		return parameters;
 	}
 

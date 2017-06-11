@@ -69,7 +69,7 @@ public class Average implements Function {
 		return new Value(sum / count);
 	}
 
-	public FunctionParameter[] getParameters() {
+	public FunctionParameter[] getPARAMETERS() {
 		return parameters;
 	}
 

@@ -60,7 +60,7 @@ public class If implements Function {
 			return new Value();
 	}
 
-	public FunctionParameter[] getParameters() {
+	public FunctionParameter[] getPARAMETERS() {
 		return parameters;
 	}
 

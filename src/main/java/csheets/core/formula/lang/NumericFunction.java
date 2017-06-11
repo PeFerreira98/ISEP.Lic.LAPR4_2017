@@ -75,7 +75,7 @@ public class NumericFunction implements Function {
 		}
 	}
 
-	public FunctionParameter[] getParameters() {
+	public FunctionParameter[] getPARAMETERS() {
 		Class[] paramTypes = method.getParameterTypes();
 		FunctionParameter[] params = new FunctionParameter[paramTypes.length];
 		for (int i = 0; i < paramTypes.length; i++)

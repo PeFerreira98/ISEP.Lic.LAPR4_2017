@@ -47,7 +47,7 @@ public interface Function {
 	 * Returns the parameters of the function.
 	 * @return the parameters of the function
 	 */
-	public FunctionParameter[] getParameters();
+	public FunctionParameter[] getPARAMETERS();
 
 	/**
 	 * Returns whether the function accepts a variable number of arguments,
