@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.UI.PreviewUI;
 import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 import lapr4.green.s1.ipc.n1970581.findworkbook.SearchWorkbookExtension;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
@@ -74,6 +75,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         jButtonOpen = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jListWorkbooks = new javax.swing.JList();
+        PreviewWorkbookButton = new javax.swing.JButton();
 
         setBorder(javax.swing.BorderFactory.createTitledBorder(null, SearchWorkbookExtension.NAME, javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP));
         setName(SearchWorkbookExtension.NAME);
@@ -112,6 +114,14 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         });
         jScrollPane1.setViewportView(jListWorkbooks);
 
+        PreviewWorkbookButton.setText("Preview");
+        PreviewWorkbookButton.setEnabled(false);
+        PreviewWorkbookButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PreviewWorkbookButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -122,11 +132,13 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButtonOpen))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(PreviewWorkbookButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonOpen, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButtonRoot)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldRoot, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                        .addComponent(jTextFieldRoot, javax.swing.GroupLayout.DEFAULT_SIZE, 215, Short.MAX_VALUE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonSearch)
                         .addContainerGap())))
@@ -142,6 +154,8 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(PreviewWorkbookButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButtonOpen))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE)
@@ -193,8 +207,14 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         if (this.jListWorkbooks.getSelectedValue() != null) openWorkbook();
     }//GEN-LAST:event_jButtonOpenActionPerformed
 
+    private void PreviewWorkbookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviewWorkbookButtonActionPerformed
+        // TODO add your handling code here:
+        new PreviewUI(uiController);
+    }//GEN-LAST:event_PreviewWorkbookButtonActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton PreviewWorkbookButton;
     private javax.swing.JButton jButtonOpen;
     private javax.swing.JButton jButtonRoot;
     private javax.swing.JButton jButtonSearch;
@@ -213,6 +233,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         this.defaultListModel.addElement(fileDTO);
         ((DefaultListModel) this.jListWorkbooks.getModel()).addElement(arg);
         this.jButtonOpen.setEnabled(true);
+        this.PreviewWorkbookButton.setEnabled(true);
     }
     
     /**
