@@ -191,7 +191,6 @@ public class ChatApplicationController implements CommHandler2 {
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
         this.mess = (Message) dto;
-        this.peerId = mess.getIdDest();
         String sourceIP = commWorker.peerAddress();
 
         this.mess.setIdOrig(sourceIP);

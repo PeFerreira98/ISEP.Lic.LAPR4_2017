@@ -14,7 +14,7 @@ import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
  */
 public class ConversationStorage {
     
-    ArrayList<Message> lst_Conversations = new ArrayList<>();
+    private ArrayList<Message> lst_Conversations = new ArrayList<>();
 
     public ConversationStorage() {
         lst_Conversations = new ArrayList<>();
