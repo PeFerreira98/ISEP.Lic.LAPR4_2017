@@ -151,7 +151,7 @@ public class CleanSheets {
 
                 // New code for the new extension Manager
                 boolean useNewLoader = false;
-                //useNewLoader = true;
+                useNewLoader = true;
                 if(useNewLoader){
                     DescriptionExtensionLoader newLoader = new DescriptionExtensionLoader();
                     newLoader.retrieveAllExtensions();
