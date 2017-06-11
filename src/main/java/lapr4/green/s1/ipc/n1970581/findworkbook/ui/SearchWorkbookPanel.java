@@ -7,6 +7,7 @@ package lapr4.green.s1.ipc.n1970581.findworkbook.ui;
 
 import csheets.ui.ctrl.UIController;
 import java.io.File;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -14,7 +15,8 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.UI.PreviewUI;
+import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.DescodificadorWorkbook;
+import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.controller.PreviewWorkbookController;
 import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 import lapr4.green.s1.ipc.n1970581.findworkbook.SearchWorkbookExtension;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
@@ -48,6 +50,9 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
     /** The defaultListModel */
     private DefaultListModel<FileDTO> defaultListModel;
     
+    private DescodificadorWorkbook descWorkbook;
+    private PreviewWorkbookController previewController;
+    
     /**
      * Creates new form SearchWorkbookPanel
      * @param uiController the uiController
@@ -57,7 +62,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         this.controller = new SearchWorkbookController(uiController);
         initComponents();
         this.myselfPanel = this;
-        this.defaultListModel = new DefaultListModel<FileDTO>();
+        this.defaultListModel = new DefaultListModel<FileDTO>();        
     }
 
     /**
@@ -209,7 +214,24 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
 
     private void PreviewWorkbookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviewWorkbookButtonActionPerformed
         // TODO add your handling code here:
-        new PreviewUI(uiController);
+        FileDTO file = (FileDTO) jListWorkbooks.getSelectedValue();
+        try {
+            this.descWorkbook = new DescodificadorWorkbook(uiController.getActiveWorkbook(), file, myselfPanel);
+        } catch (IOException ex) {
+            Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        this.previewController = new PreviewWorkbookController(this, uiController);
+        if (jListWorkbooks.getSelectedValue() != null) {  
+            try {   
+                previewController.previewFile(previewController.openFile(file), file);
+            } catch (IOException ex) {
+                Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ClassNotFoundException ex) {
+                Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_PreviewWorkbookButtonActionPerformed
 
 

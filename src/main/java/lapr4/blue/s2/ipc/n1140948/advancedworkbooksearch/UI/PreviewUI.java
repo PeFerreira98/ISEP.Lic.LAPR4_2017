@@ -5,23 +5,55 @@
  */
 package lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.UI;
 
+import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
+import javax.swing.table.DefaultTableModel;
+import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.DescodificadorWorkbook;
+import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
+import lapr4.green.s1.ipc.n1970581.findworkbook.ui.SearchWorkbookPanel;
 
 /**
  *
  * @author Tiago Silvestre
  */
 public class PreviewUI extends javax.swing.JFrame {
+    
+    private final DescodificadorWorkbook descWorkbook;
+    private final SearchWorkbookPanel searchWorkbookPanel;
+    private final SearchWorkbookController searchWorkbookController;
+    private final Cell cellList[][][];
+    private int paginaAtual = 1;
+    private String[] matrixLine;
+    private Object[][] matrixColumn;
+    
+    private static int[] listNum;
+    private static final String[] listAbc = {"A", "B", "C", "D", "E", "F", "G",
+        "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "X", "Y",
+        "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN",
+        "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AX", "AY", "AZ"};
 
     /**
      * Creates new form PreviewUI
+     * @param descodificador
+     * @param uiController
      */
-    public PreviewUI(UIController uiController) {
-        initComponents();   
-//        this.WorkbookNamelbl.setName(uiController.getActiveWorkbook().);
+    public PreviewUI(DescodificadorWorkbook descodificador, UIController uiController) {         
+        initComponents();
+        this.descWorkbook = descodificador;
+        this.cellList = descWorkbook.CellList();
+        this.searchWorkbookPanel = new SearchWorkbookPanel(uiController);
+        this.searchWorkbookController = new SearchWorkbookController(uiController);
+        this.listNum = createListaNumeros();
+        this.WorkbookNamelbl.setText(descWorkbook.File().filename());
+        this.SheetNumberlbl.setText(""+paginaAtual);        
+        
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+        showPage();
+        jTable.setFillsViewportHeight(true);
+        this.LeftSheetButton.setEnabled(false);
+        descWorkbook.descodificador(); 
     }
 
     /**
@@ -49,7 +81,6 @@ public class PreviewUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Workbook Preview");
-        setAlwaysOnTop(true);
         setResizable(false);
 
         Workbooklbl.setText("Workbook:");
@@ -68,7 +99,7 @@ public class PreviewUI extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(SheetNumberlbl, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(SheetNumberlbl, javax.swing.GroupLayout.DEFAULT_SIZE, 69, Short.MAX_VALUE)
                 .addContainerGap())
         );
         LabelsPanelLayout.setVerticalGroup(
@@ -107,15 +138,15 @@ public class PreviewUI extends javax.swing.JFrame {
             GridPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GridPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 375, Short.MAX_VALUE)
                 .addContainerGap())
         );
         GridPanelLayout.setVerticalGroup(
             GridPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(GridPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         CloseButton.setText("Close");
@@ -126,10 +157,25 @@ public class PreviewUI extends javax.swing.JFrame {
         });
 
         OpenWorkbookButton.setText("Open");
+        OpenWorkbookButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OpenWorkbookButtonActionPerformed(evt);
+            }
+        });
 
         RightSheetButton.setText(">");
+        RightSheetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                RightSheetButtonActionPerformed(evt);
+            }
+        });
 
         LeftSheetButton.setText("<");
+        LeftSheetButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeftSheetButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout ButtonPanelLayout = new javax.swing.GroupLayout(ButtonPanel);
         ButtonPanel.setLayout(ButtonPanelLayout);
@@ -173,13 +219,13 @@ public class PreviewUI extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LabelsPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(GridPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ButtonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -189,6 +235,109 @@ public class PreviewUI extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_CloseButtonActionPerformed
 
+    private void OpenWorkbookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenWorkbookButtonActionPerformed
+        searchWorkbookController.openWorkbook(descWorkbook.File());
+        dispose();
+    }//GEN-LAST:event_OpenWorkbookButtonActionPerformed
+
+    private void RightSheetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RightSheetButtonActionPerformed
+        nextPage();
+    }//GEN-LAST:event_RightSheetButtonActionPerformed
+
+    private void LeftSheetButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeftSheetButtonActionPerformed
+        pagePrevious();
+    }//GEN-LAST:event_LeftSheetButtonActionPerformed
+
+    private void nextPage() {
+        LeftSheetButton.setEnabled(true);
+        paginaAtual++;
+        SheetNumberlbl.setText(""+ (paginaAtual + 1));
+        showPage();
+        if (paginaAtual == descWorkbook.numSheet() - 1) {
+            RightSheetButton.setEnabled(false);
+        }
+    }
+    
+    private void pagePrevious() {        
+        RightSheetButton.setEnabled(true);
+        paginaAtual--;
+        SheetNumberlbl.setText(""+ (paginaAtual + 1));
+        showPage();      
+        if (paginaAtual == 0) {
+            LeftSheetButton.setEnabled(false);
+        }
+    }
+    
+    private void showPage() {
+        preencheValoresMatrix();
+        jTable.setModel(new DefaultTableModel(matrixColumn, matrixLine));
+    }    
+    
+    /**
+     * Import cells and do new sheet to show
+     * @return
+     */
+    private void preencheValoresMatrix() {
+
+        this.matrixColumn = importColumn();
+        this.matrixLine = importLine();
+
+        int max = descWorkbook.matrixSize();
+
+        try {
+            for (int i = 0; i < max; i++) {
+                for (int j = 0; j < max; j++) {
+                    matrixColumn[j][i + 1] = cellList[j][i][paginaAtual].getContent();
+                }
+            }
+        } catch (NullPointerException e) {
+            
+        }
+
+    }
+    
+    private Object[][] importColumn() {
+        int min = descWorkbook.minCellHorizontal()[paginaAtual];
+        Object[][] data = new Object[5][6];
+        
+        if((min+5)>listNum.length){
+            int r =(min+5)-listNum.length;
+            min=min-r;
+        }
+        
+        for (int i = 0; i < 5; i++) {
+            data[i][0] = listNum[i + min];
+        }
+        return data;
+    }
+    
+    private String[] importLine() {
+        int min = descWorkbook.minCellVertical()[paginaAtual];
+        
+        if((min+5)>listAbc.length){
+            int r =(min+5)-listAbc.length;
+            min=min-r;
+        }
+        
+        String[] columnNames = new String[6];
+        columnNames[0] = "";
+
+        for (int i = 1; i < 6; i++) {
+            columnNames[i] = listAbc[i - 1 + min];
+        }
+
+        return columnNames;
+    }
+    
+    private int[] createListaNumeros() {
+        int[] list = new int[128];
+        for (int i = 0; i < 128; i++) {
+            list[i] = i + 1;
+        }
+        return list;
+    }
+    
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ButtonPanel;
