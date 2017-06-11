@@ -1,0 +1,37 @@
+@startuml ipc05.1_design.png
+
+participant "User"
+participant "ChatPanel" as ui
+
+participant "ChatApplicationController" as ctrl
+
+participant "ListenerServer" as ls
+participant "PeerRegister" as pr
+
+participant "ChatUser" as u
+
+User -> ui: init app
+ui -> ctrl: getListener()
+ctrl --> ui:
+ui -> ls: getServicePeers()
+ls -> pr: getServicePeers()
+pr --> ls:
+ls --> ui:peers
+
+loop
+ui -> u: create
+u --> ui: user
+ui -> ctrl: getUsers()
+ctrl -> ChatUserStorage:getUsersList()
+ChatUserStorage --> ctrl:
+ctrl --> ui:
+ui -> u: setStatus(true)
+note left
+    if(!this.controller.getUsers().containsKey(id))
+end note
+ui -> ctrl: addChatUser(user)
+end
+
+ui --> ui: updateList()
+
+@enduml

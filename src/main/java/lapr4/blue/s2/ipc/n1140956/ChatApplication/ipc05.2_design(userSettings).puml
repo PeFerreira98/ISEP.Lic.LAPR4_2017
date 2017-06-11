@@ -1,0 +1,23 @@
+@startuml ipc05.1_design.png
+
+participant "User"
+participant "ChatUserSettingsUI" as ui
+
+participant "ChatApplicationController" as ctrl
+
+participant "ListenerServer" as ls
+participant "PeerRegister" as pr
+
+participant "ChatUser" as u
+
+User -> ui: init
+ui -> User: ask information (nickname and photo)
+User -> ui: insert info
+ui -> ctrl:getChatUser(ip)
+ctrl -> ChatUserStorage:getUserByIP(ip)
+ChatUserStorage --> ctrl:
+ctrl --> ui:
+ui -> u:setNickname(nickname)
+ui -> u:setImage(img)
+
+@enduml
