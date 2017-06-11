@@ -5,7 +5,6 @@
  */
 package lapr4.green.s1.ipc.n1140618.ChatApplication.ui;
 
-import java.awt.Color;
 import java.util.ArrayList;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
@@ -28,14 +27,14 @@ public class SendMessage extends javax.swing.JFrame {
      * @param user
      * @param conversation
      */
-    public SendMessage(ChatApplicationController controller, ChatUser user,ArrayList<Message> conversation) {
+    public SendMessage(ChatApplicationController controller, /*User user*/ChatUser user,ArrayList<Message> conversation) {
         this.controller = controller;
         this.conversation = conversation;
         this.user = user;
 
         initComponents();
         initChat();
-        getContentPane().setBackground(Color.DARK_GRAY);
+//        getContentPane().setBackground(Color.DARK_GRAY);
 
         String chat = "";
 //        for (int i = 0; i < this.conversation.size(); i++) {
@@ -48,16 +47,21 @@ public class SendMessage extends javax.swing.JFrame {
 
         this.setVisible(true);
     }
-    
+
     public void initChat() {
-        this.lblPerson.setText(this.user.getMachineName()+this.user.getIp());
+        
+        if(this.user.getNickname().isEmpty()){
+            this.lblPerson.setText(this.user.getInfo());
+        }else{
+            this.lblPerson.setText(this.user.getNickname());
+        }
         this.conversation = this.controller.refreshConversation(this.user);
         String chat = "";
         for (Message m : this.conversation) {
-            if (m.getIdOrig().equals(this.controller.getUser())) {
+            if (m.getIdOrig().equals(this.controller.owner().getInfo())) {
                 chat += "\n" + m.getIdOrig() + ": " + m.getContent();
             } else {
-                chat += "\n" + m.getIdDest() + ": " + m.getContent();
+                chat += "\n" + this.user.getMachineName()+this.user.getIp() + ": " + m.getContent();
             }
         }
 
@@ -81,16 +85,15 @@ public class SendMessage extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
-        jTextField1.setBackground(new java.awt.Color(51, 51, 51));
-        jTextField1.setForeground(new java.awt.Color(255, 255, 255));
+        jTextField1.setBackground(new java.awt.Color(204, 204, 204));
+        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(102, 102, 102));
-        jButton1.setForeground(new java.awt.Color(204, 204, 204));
+        jButton1.setBackground(new java.awt.Color(204, 204, 204));
         jButton1.setText("SEND");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -98,11 +101,12 @@ public class SendMessage extends javax.swing.JFrame {
             }
         });
 
-        textArea1.setBackground(new java.awt.Color(51, 51, 51));
+        textArea1.setBackground(new java.awt.Color(204, 204, 204));
         textArea1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        textArea1.setForeground(new java.awt.Color(255, 255, 255));
+        textArea1.setEditable(false);
+        textArea1.setEnabled(false);
+        textArea1.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblPerson.setForeground(new java.awt.Color(255, 255, 255));
         lblPerson.setText("jLabel1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -147,8 +151,8 @@ public class SendMessage extends javax.swing.JFrame {
 
         if (jTextField1.getText().compareTo("") != 0) {
             controller.messageSend(jTextField1.getText());
-            
-//            this.jTextField1.setText("");initChat();
+
+            dispose();
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 

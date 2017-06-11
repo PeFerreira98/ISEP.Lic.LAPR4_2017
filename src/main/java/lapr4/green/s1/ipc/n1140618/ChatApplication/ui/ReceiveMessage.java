@@ -8,7 +8,6 @@ package lapr4.green.s1.ipc.n1140618.ChatApplication.ui;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationController;
-import lapr4.green.s1.ipc.n1151211.comm.SendDto;
 
 /**
  *
@@ -16,11 +15,13 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  */
 public class ReceiveMessage extends javax.swing.JFrame {
 
-    private ChatApplicationController controller;
-    private String sourceIp;
+    private final ChatApplicationController controller;
+    private final String sourceIp;
     
     /**
      * Creates new form ReceiveMessage
+     * @param controller
+     * @param orig
      */
     public ReceiveMessage(ChatApplicationController controller, String orig) {
         this.controller=controller;
@@ -28,7 +29,12 @@ public class ReceiveMessage extends javax.swing.JFrame {
         
         initComponents();
         
-        jTextField1.setText(this.sourceIp);
+        if(this.controller.getChatUser(this.sourceIp.split("@")[1]).getNickname().isEmpty()){
+            jTextField1.setText("("+this.sourceIp+")"); 
+        }else{
+            jTextField1.setText(this.controller.getChatUser(this.sourceIp).getNickname()+"("+this.sourceIp+")");
+        }
+        
         jTextField1.setEditable(false);
         
         jTextArea1.setText(controller.getMessage().getContent());
@@ -41,21 +47,14 @@ public class ReceiveMessage extends javax.swing.JFrame {
     }
     
     public Thread createThread() {
-
         /*Thread close window after 5 seconds        */
         return new Thread(new Runnable() {
             @Override
-            public void run() {
-
-                
+            public void run() {            
                     try {
-
-                        Thread.sleep(5000);
-                        
+                        Thread.sleep(5000);                        
                         dispose();
-
                     } catch (InterruptedException ex) {
-
                         Logger.getLogger(ChatPanel.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 }
@@ -70,7 +69,7 @@ public class ReceiveMessage extends javax.swing.JFrame {
         btnReply = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setText("From:");
 
@@ -120,7 +119,6 @@ public class ReceiveMessage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnReplyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReplyActionPerformed
-//        controller.sendMessage(controller.getUser());
         controller.sendMessage(this.sourceIp);
         dispose();
     }//GEN-LAST:event_btnReplyActionPerformed

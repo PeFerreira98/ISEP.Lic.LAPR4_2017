@@ -1,11 +1,24 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package lapr4.green.s1.ipc.n1140618.ChatApplication.ui;
 
 import csheets.ui.ctrl.UIController;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ui.ChatUserSettingsUI;
@@ -18,9 +31,9 @@ import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
  */
 public class ChatPanel extends javax.swing.JPanel implements Observer {
 
-    private final UIController uiController;
+    private UIController uiController;
 
-    private final ChatApplicationController controller;
+    private ChatApplicationController controller;
 
     ChatPanel thisPanel;
 
@@ -35,10 +48,41 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
         this.thisPanel = this;
         initComponents();
 
+        this.lblNickname.setText(this.controller.owner().getInfo());
+
+        if (this.controller.owner().getImage().length != 0) {
+            BufferedImage img;
+            try {
+                img = ImageIO.read(new ByteArrayInputStream(this.controller.owner().getImage()));
+                this.lblPhoto.setIcon(scaledImageIcon(img));
+            } catch (IOException ex) {
+                Logger.getLogger(ChatPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
         controller.getListener().addObserver(this);
     }
 
-    @Override
+    public void initUserSettings() {
+        if (!this.controller.owner().getNickname().isEmpty()) {
+            this.lblNickname.setText(this.controller.owner().getNickname());
+        }
+
+        if (this.controller.owner().getImage().length != 0) {
+            BufferedImage img;
+            try {
+                img = ImageIO.read(new ByteArrayInputStream(this.controller.owner().getImage()));
+                this.lblPhoto.setIcon(scaledImageIcon(img));
+            } catch (IOException ex) {
+                Logger.getLogger(ChatPanel.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private ImageIcon scaledImageIcon(Image theImage) {
+        return new ImageIcon(theImage.getScaledInstance(100, 100, Image.SCALE_SMOOTH));
+    }
+
     public String getName() {
         return "Chat";
     }
@@ -46,12 +90,14 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
     public void updateList(HashMap<String, ChatUser> list) {
 
         DefaultListModel model = new DefaultListModel();
-
+        int flag = 0;
 //        for (String onlineUser : list) {
 //            model.addElement(onlineUser);
 //        }
         list.values().stream().forEach((object) -> {
-            if (object.isOnline()) {
+            if (object.equals(this.controller.owner())) {
+
+            } else if (object.isOnline()) {
                 if (!object.getNickname().equalsIgnoreCase("")) {
                     model.addElement(object.getNickname() + "(Online)");
                 } else {
@@ -66,6 +112,20 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
             }
         });
 
+        //With persistece
+//        for (User u : lstUsers) {
+//            if (u.isOnline()) {
+//                if (u.getNickname() != null || !u.getNickname().equalsIgnoreCase("")) {
+//                    model.addElement(u.getNickname() + "(Online)");
+//                } else {
+//                    model.addElement(u.getMachineName() + u.getIp() + "(Online)");
+//                }
+//            } else if (u.getNickname() != null || !u.getNickname().equalsIgnoreCase("")) {
+//                model.addElement(u.getNickname() + "(Offline)");
+//            } else {
+//                model.addElement(u.getMachineName() + u.getIp() + "(Offline)");
+//            }
+//        }
         jList1.setModel(model);
     }
 
@@ -83,8 +143,11 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
         jList1 = new javax.swing.JList<>();
         jButton1 = new javax.swing.JButton();
         btnSettings = new javax.swing.JButton();
+        lblPhoto = new javax.swing.JLabel();
+        lblNickname = new javax.swing.JLabel();
+        btnRefresh = new javax.swing.JButton();
 
-        jLabel1.setText("Users Online");
+        jLabel1.setText("Users Online:");
 
         jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jList1.setToolTipText("");
@@ -104,6 +167,17 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
             }
         });
 
+        lblPhoto.setPreferredSize(new java.awt.Dimension(40, 40));
+
+        lblNickname.setText("jLabel3");
+
+        btnRefresh.setText("Refresh");
+        btnRefresh.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRefreshActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -112,28 +186,40 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 70, Short.MAX_VALUE)
+                        .addGap(0, 80, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btnSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(btnSettings, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addComponent(lblNickname))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnRefresh)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(lblNickname)
+                .addGap(17, 17, 17)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblPhoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnRefresh))
+                .addGap(32, 32, 32)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnSettings)
-                .addContainerGap(14, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -161,45 +247,65 @@ public class ChatPanel extends javax.swing.JPanel implements Observer {
 
     private void btnSettingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSettingsActionPerformed
 
-        ChatUserSettingsUI chatUserSettingsUI = new ChatUserSettingsUI(this.controller, this.controller.getChatUsersList().getUserByIP("/192.168.1.75"));
+//        new ChatUserSettingsUI(this.controller, this.controller.getChatUsersList().getUserByIP(this.controller.getUser().split("@")[1]));
+        new ChatUserSettingsUI(this.controller, this.controller.owner());
+
     }//GEN-LAST:event_btnSettingsActionPerformed
+
+    private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
+        initUserSettings();
+    }//GEN-LAST:event_btnRefreshActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSettings;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JList<String> jList1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNickname;
+    private javax.swing.JLabel lblPhoto;
     // End of variables declaration//GEN-END:variables
 
     @Override
     public void update(Observable o, Object arg) {
         ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
-        for (String user : peers) {
 
+        for (String user : peers) {
             String tmp[] = user.split("@");
 
             String machineName = tmp[0] + "@";
             String id = tmp[1];
 
             ChatUser chatUser = new ChatUser(machineName, id);
-            if (!this.controller.getChatUsersList().getUserList().containsKey(id)) {
+            if (!this.controller.getUsers().containsKey(id)) {
                 chatUser.setStatus(true);
                 this.controller.addChatUser(chatUser);
             } else {
                 this.controller.getChatUsersList().getUserByIP(id).setStatus(true);
             }
 
+            //with persistence
+//            User user = new User(machineName,ip);
+//            this.controller.changeUserStatus(user,true);
         }
 
-        for (ChatUser user : this.controller.getChatUsersList().getUserList().values()) {
+        for (ChatUser user : this.controller.getUsers().values()) {
 
             String aux = user.getMachineName() + user.getIp();
             if (!peers.contains(aux)) {
                 user.setStatus(false);
             }
         }
+
+        //with persistence
+//        for (User user : this.controller.getUsers()) {
+//            String aux = user.getMachineName() + user.getIp();
+//            if (!peers.contains(aux)) {
+//                this.controller.changeUserStatus(user, false)
+//            }
+//        }
 
         updateList(this.controller.getChatUsersList().getUserList());
 //        updateList(peers);

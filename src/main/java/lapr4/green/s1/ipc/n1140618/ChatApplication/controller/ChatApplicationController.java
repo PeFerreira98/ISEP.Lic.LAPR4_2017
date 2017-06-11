@@ -5,8 +5,13 @@
  */
 package lapr4.green.s1.ipc.n1140618.ChatApplication.controller;
 
+import java.net.Inet4Address;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Observer;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUsersStorage;
@@ -28,7 +33,7 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  */
 public class ChatApplicationController implements CommHandler2 {
 
-    private String peerId = "Teste";
+    private String peerId = System.getProperty("user.name")+"@";
 
     private CommServer2 commServer;
 
@@ -73,7 +78,14 @@ public class ChatApplicationController implements CommHandler2 {
         this.lst_Users = new ChatUsersStorage();
         commServer.addHandler(Message.class, this);
         broadcastServer.broadcastThisService(new PeerService("Chat", true));
-
+        
+        try {
+            this.peerId = System.getProperty("user.name")+"@/" + Inet4Address.getLocalHost().getHostAddress();
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(ChatApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        ChatUser user = new ChatUser(peerId.split("@")[0]+"@", peerId.split("@")[1]);
+        this.lst_Users.addUser(user);
         this.lst_Conversations = new ConversationStorage();
 
     }
@@ -97,7 +109,6 @@ public class ChatApplicationController implements CommHandler2 {
      * @return
      */
     public Iterable<String> getOnlineUsers(Observer ui) {
-
         listenerServer.addObserver(ui);
         return this.listenerServer.getServicePeers(peerId);
     }
@@ -118,19 +129,13 @@ public class ChatApplicationController implements CommHandler2 {
         String id = tmp[1];
 
         ChatUser chatUser2 = new ChatUser(machineName, id);
+                    
+        SendMessage sm
+                = new SendMessage(this, chatUser2, this.lst_Conversations.getConversationUsersTest(chatUser2));
 
-//        if (this.lst_Conversations.getConversationUsers(myIp, chatUser2) == null) {
-//            SendMessage sm
-//                    = new SendMessage(this, new ArrayList<>());
-//        } else {
-//            SendMessage sm
-//                    = new SendMessage(this, this.lst_Conversations.getConversationUsers(cu, chatUser2));
-//        }
-        
-            SendMessage sm
-                    = new SendMessage(this, chatUser2, this.lst_Conversations.getConversationUsersTest(chatUser2));
-        
-
+//        User user = new User(machineName, id);
+//        SendMessage sm 
+//                = new SendMessage(this, user, this.lst_Conversations.getConversationUsersTest(chatUser2));
     }
 
     /**
@@ -140,7 +145,7 @@ public class ChatApplicationController implements CommHandler2 {
      */
     public void messageSend(String text) {
         mess.setContent(text);
-        
+
         CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(mess.getIdDest());
         if (toPeer == null) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION TO PEER!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
@@ -150,13 +155,18 @@ public class ChatApplicationController implements CommHandler2 {
         if (toPeer.sendDto(mess) == false) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
         } else {
+//            try {
+//                this.msgRepo.save(mess);
+//            } catch (DataConcurrencyException | DataIntegrityViolationException ex) {
+//                Logger.getLogger(ChatApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+//            }
             this.lst_Conversations.addMessage(mess);
         }
 
     }
 
-    public String getUser() {
-        return this.peerId;
+    public ChatUser owner() {
+        return this.lst_Users.getUserByIP(peerId.split("@")[1]);
     }
 
     public Message getMessage() {
@@ -167,17 +177,23 @@ public class ChatApplicationController implements CommHandler2 {
         return this.listenerServer;
     }
 
+    public ChatUser getChatUser(String ip){
+        return this.getChatUsersList().getUserByIP(ip);
+    }
+    
     /**
-     * method to receive the message from others. In this case, the destiny of the message is my ip.
+     * method to receive the message from others. In this case, the destiny of
+     * the message is my ip.
+     *
      * @param dto the message
-     * @param commWorker 
+     * @param commWorker
      */
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
         this.mess = (Message) dto;
         this.peerId = mess.getIdDest();
         String sourceIP = commWorker.peerAddress();
-        
+
         this.mess.setIdOrig(sourceIP);
         this.lst_Conversations.addMessage(mess);
         ReceiveMessage rm = new ReceiveMessage(this, sourceIP);
@@ -199,12 +215,42 @@ public class ChatApplicationController implements CommHandler2 {
     public ChatUsersStorage getChatUsersList() {
         return this.lst_Users;
     }
-    
-    public ArrayList<Message> refreshConversation(ChatUser user){
+
+    public ArrayList<Message> refreshConversation(ChatUser user) {
         return this.lst_Conversations.getConversationUsersTest(user);
+    }
+    
+    public HashMap<String,ChatUser> getUsers(){
+        return this.lst_Users.getUserList();
     }
 
 //    public Iterable<ChatUser> allContacts() {
 //        return this.userRepo.findAll();
 //    }
-}
+    
+//    public void addUser(User u) {
+//        try {
+//            this.userRepo.save(u);
+//        } catch (DataConcurrencyException | DataIntegrityViolationException ex) {
+//            Logger.getLogger(ChatApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+//    
+//    public Iterable<User> getUsers(){
+//        return this.userRepo.findAll();
+//    }
+//    
+//    public boolean isUserRegister(String nickname){
+//        return this.userRepo.getUser(nickname) != null;
+//    }
+//    
+//    public void changeUserStatus(User user, boolean status){
+//        user.setStatus(status);
+//        try {
+//            this.userRepo.save(user);
+//        } catch (DataConcurrencyException | DataIntegrityViolationException ex) {
+//            Logger.getLogger(ChatApplicationController.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+
+    }

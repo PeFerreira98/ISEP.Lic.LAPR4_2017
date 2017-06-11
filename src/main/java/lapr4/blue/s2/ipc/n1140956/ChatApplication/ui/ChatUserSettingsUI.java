@@ -7,8 +7,6 @@ package lapr4.blue.s2.ipc.n1140956.ChatApplication.ui;
 
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,15 +14,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationController;
 import lapr4.red.s1.core.n1140388.contacts.ui.Converter;
-import lapr4.white.s1.core.n4567890.contacts.ui.ContactDialog;
 
 /**
  *
@@ -35,23 +30,26 @@ public class ChatUserSettingsUI extends javax.swing.JFrame {
     private JFileChooser chooser;
     private File photoFile = null;
 
-    private ChatUser chatUser;
-    private ChatApplicationController controller;
+    private final ChatUser chatUser;
+    private final ChatApplicationController controller;
 
     /**
      * Creates new form ChatUserSettings
+     *
+     * @param ctrl
+     * @param chatUser
      */
     public ChatUserSettingsUI(ChatApplicationController ctrl, ChatUser chatUser) {
         this.controller = ctrl;
         this.chatUser = chatUser;
-        
+
         initComponents();
-        
+
         panelPhoto.setBorder(javax.swing.BorderFactory.createTitledBorder("Photo"));
         panelPhoto.setPreferredSize(new Dimension(130, 130));
         jLabel2.setSize(100, 100);
         panelPhoto.add(jLabel2);
-        
+
         setTitle("User Settings");
         setVisible(true);
         setLocationRelativeTo(null);
@@ -175,7 +173,16 @@ public class ChatUserSettingsUI extends javax.swing.JFrame {
     private void btnOKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOKActionPerformed
         String nickname = jTextField1.getText();
 
-        this.controller.getChatUsersList().getUserByIP(this.chatUser.getIp()).setNickname(nickname);
+        if (nickname != null) {
+            for (ChatUser u : this.controller.getChatUsersList().getUserList().values()) {
+                if (u.getNickname().equals(nickname)) {
+                    JOptionPane.
+                            showMessageDialog(this, "Nickname used", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+            }
+            this.controller.getChatUser(this.chatUser.getIp()).setNickname(nickname);
+        }
         if (photoFile != null) {
             try {
                 this.controller.getChatUsersList().getUserByIP(this.chatUser.getIp()).setImage(Converter.setImage(photoFile));
@@ -184,6 +191,7 @@ public class ChatUserSettingsUI extends javax.swing.JFrame {
             }
         }
 
+        dispose();
     }//GEN-LAST:event_btnOKActionPerformed
 
     private void btnPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPhotoActionPerformed
@@ -198,7 +206,6 @@ public class ChatUserSettingsUI extends javax.swing.JFrame {
         }
         photoFile = chooser.getSelectedFile();
         jLabel2.setIcon(iconImageFromFile(photoFile));
-
     }//GEN-LAST:event_btnPhotoActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

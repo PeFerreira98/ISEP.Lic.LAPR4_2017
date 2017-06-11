@@ -32,6 +32,7 @@ public class ChatUser {
         this.nickname = "";
         this.machineName = machineName;
         this.ip = ip;
+        this.image = new byte[0];
     }
 
     public void setStatus(Boolean b) {
@@ -97,4 +98,11 @@ public class ChatUser {
         this.ip = ip;
     }
 
+    /**
+     * return the machine name and ip (eg: MyPc@/192.168.1.85)
+     * @return 
+     */
+    public String getInfo(){
+        return this.machineName+this.ip;
+    }
 }
