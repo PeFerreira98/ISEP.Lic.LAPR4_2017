@@ -23,10 +23,10 @@ should be persistent.
  * <b>storeContent</b><p>
  *
  * <b>Tests</b><p>
- * <b>Test1:</b>ConversationStorageTest<p> >
+ * <b>Test1:</b>ConversationStorageTest<p> -
  * See Package lapr4.blue.s2.ipc.n1140956.ChatApplication:<p>
  * ConversationStorageTest<p>
- * <b>Test1:</b>ChatUsersStorageTest<p> >
+ * <b>Test1:</b>ChatUsersStorageTest<p> -
  * See Package lapr4.blue.s2.ipc.n1140956.ChatApplication:<p>
  * ChatUsersStorageTest<p>
  * 
@@ -40,13 +40,11 @@ should be persistent.
  * The following classes and interfaces implement this use case.<p>
  * Package lapr4.blue.s2.ipc.n1140956.ChatApplication:<p>
  * {@link lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser}
- * {@link lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUserStorage}
  * {@link lapr4.blue.s2.ipc.n1140956.ChatApplication.Conversation}
- * {@link lapr4.blue.s2.ipc.n1140956.ChatApplication.ConversationStorage}
  * 
  * <p>
  * Package @link lapr4.blue.s2.ipc.n1140956.ChatApplication.ui:<p>
- * {@link @link lapr4.blue.s2.ipc.n1140956.ChatApplication.ui.ChatUserSettingsUI}
+ * {@link lapr4.blue.s2.ipc.n1140956.ChatApplication.ui.ChatUserSettingsUI}
  * 
  * @author Marcos Dourado (1140956)
  */
