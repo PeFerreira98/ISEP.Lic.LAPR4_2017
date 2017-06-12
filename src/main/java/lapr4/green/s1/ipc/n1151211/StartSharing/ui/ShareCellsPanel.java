@@ -104,7 +104,7 @@ public class ShareCellsPanel extends JPanel {
                     return;
                 }
 
-                answer.setText( controller.theOnesChosen( oneSelected ));
+                answer.setText(controller.theOnesChosen(oneSelected));
             }
         });
 
@@ -124,10 +124,36 @@ public class ShareCellsPanel extends JPanel {
             }
         });
 
+        JButton btRefresh = new JButton();
+        btRefresh = new JButton("Lock cells");
+        btRefresh.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
+        btRefresh.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String oneSelected = peerList.getSelectedValue();
+                if (oneSelected == null) {
+                    answer.setText("No peer selected!");
+                    return;
+                }
+                
+                controller.lockPeer(peerList.getSelectedValue());
+                Cell[][] array;
+                array = controller.getAllSelectedCells();
+                for (int i = 0; i < array.length; i++) {
+                    for (int j = 0; j < array[i].length; j++) {
+                        Cell cell = array[i][j];
+                        controller.addListener(cell);
+                    }
+                }
+                answer.setText("Region & Selected Peer Locked!");
+            }
+        });
+
         JPanel pPanel = new JPanel();
 
         pPanel.add(btStatus);
         pPanel.add(btPing);
+        pPanel.add(btRefresh);
 
         return pPanel;
     }
@@ -145,7 +171,7 @@ public class ShareCellsPanel extends JPanel {
     }
 
     protected void updatePeers(ArrayList<String> peers) {
-        if( listModel.isEmpty() || peers.isEmpty() ) {
+        if (listModel.isEmpty() || peers.isEmpty()) {
             if (peers.isEmpty()) {
                 listModel.clear();
             } else {
@@ -183,7 +209,7 @@ public class ShareCellsPanel extends JPanel {
         return same;
     }
 
-    protected void reply( String messageText ){
-        answer.setText( messageText );
+    protected void reply(String messageText) {
+        answer.setText(messageText);
     }
 }

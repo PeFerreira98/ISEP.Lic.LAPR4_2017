@@ -7,6 +7,7 @@ package lapr4.blue.s2.ipc.n1140953.sharing;
 
 import csheets.core.Cell;
 import csheets.core.CellListener;
+import lapr4.green.s1.ipc.n1151211.StartSharing.ui.UIStartSharing;
 
 /**
  *
@@ -14,20 +15,24 @@ import csheets.core.CellListener;
  */
 public class SharingAutomaticUpdateCellListener implements CellListener {
 
-    private final SharingAutomaticUpdateController controller;
+//    private final SharingAutomaticUpdateController controller;
+    private final UIStartSharing controller2;
 
-    public SharingAutomaticUpdateCellListener(SharingAutomaticUpdateController controller) {
-        this.controller = controller;
+//    public SharingAutomaticUpdateCellListener(SharingAutomaticUpdateController controller) {
+//        this.controller = controller;
+//    }
+    public SharingAutomaticUpdateCellListener(UIStartSharing uIStartSharing) {
+        this.controller2 = uIStartSharing;
     }
 
     @Override
     public void valueChanged(Cell cell) {
-        sendChanges();
+        this.controller2.quickShare(cell);
     }
 
     @Override
     public void contentChanged(Cell cell) {
-        sendChanges();
+        this.controller2.quickShare(cell);
     }
 
     @Override
@@ -43,11 +48,6 @@ public class SharingAutomaticUpdateCellListener implements CellListener {
     @Override
     public void cellCopied(Cell cell, Cell source) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    private void sendChanges() {
-        System.out.println("SHARING...");
-        this.controller.quickShare();
     }
 
 }

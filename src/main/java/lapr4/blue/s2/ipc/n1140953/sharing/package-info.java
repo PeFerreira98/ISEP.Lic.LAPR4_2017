@@ -22,10 +22,10 @@
  * <p>
  * <p>
  * <b>Classes</b><p>
- * SharingAutomaticUpdateExtension<p>
- * SharingAutomaticUpdateUI<p>
- * SharingAutomaticUpdateUISidebar<p>
- * SharingAutomaticUpdateController<p>
+ * StylableCellDTO<p>
+ * SharingAutomaticUpdateCellListener<p>
+ * UIStartSharing (Changed)<p>
+ * ShareCellsPanel (Changed)<p>
  * 
  * FormulaEvalVisitor (Changed)<p>
  * <p>
@@ -45,7 +45,8 @@
  * <b>Daily Log (Friday 09/06/2017) - </b>
  * Analysis continuation. Design end. Implementation with problems.<p>
  * 
- * <b>Daily Log (Monday 12/06/2017) - </b><p>
+ * <b>Daily Log (Monday 12/06/2017) - </b>
+ * Implementation Done.<p>
  * 
  * 
  * @author pedroferreira(1140953)
