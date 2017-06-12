@@ -41,7 +41,7 @@ public class SharingAutomaticUpdateUISidebar extends JPanel {
     private JButton btRefresh;
 
     public SharingAutomaticUpdateUISidebar(UIController uiController) {
-        super(new BorderLayout());
+        setLayout(new BorderLayout());
 
         this.controller = new SharingAutomaticUpdateController(uiController);
         buildComponents();
@@ -70,30 +70,30 @@ public class SharingAutomaticUpdateUISidebar extends JPanel {
 
         this.btPing = new JButton("Automatic Sharing");
         this.btPing.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
-        this.btPing.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                statusLabel.setText(controller.choosePeer(peerList.getSelectedValue()));
-            }
-        });
+//        this.btPing.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                statusLabel.setText(controller.choosePeer(peerList.getSelectedValue()));
+//            }
+//        });
 
         this.btStatus = new JButton("On-Off");
         this.btStatus.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
-        this.btStatus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                statusLabel.setText(controller.startStopAutoSharing());
-            }
-        });
+//        this.btStatus.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                statusLabel.setText(controller.startStopAutoSharing());
+//            }
+//        });
 
         this.btRefresh = new JButton("Refresh");
         this.btRefresh.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
-        this.btRefresh.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                updateList();
-            }
-        });
+//        this.btRefresh.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                updateList();
+//            }
+//        });
 
         pPanel.add(btStatus);
         pPanel.add(btPing);

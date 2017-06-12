@@ -1,0 +1,57 @@
+@startuml
+
+skinparam sequenceMessageAlign center
+skinparam monochrome true
+
+actor user
+
+participant "CleanSheets" as main
+participant "SharingAutomaticUpdateExtension" as extension
+participant "SAutoUpdtUI" as ui
+participant "SAutoUpdtSidebar" as sidebar
+participant "SAutoUpdtController" as controller
+participant "SAutoUpdtCellListener" as celllistener
+
+participant "CommServer" as cserver
+participant "ListenerServer" as lserver
+participant "BroadcastServer" as bserver
+
+participant "SendSharedCellsDTO" as sendcells
+participant "CommClientWorker2" as peer
+
+main->extension: getUIExtension()
+create ui
+extension->ui: create()
+extension->ui: getSidebar()
+create sidebar
+ui->sidebar: create()
+create controller
+sidebar->controller: create()
+
+controller->cserver: getServer()
+controller->lserver: getServer()
+controller->bserver: getServer()
+controller->cserver: addHandler()
+controller->lserver: broadcastThisService()
+controller->bserver: addObserver()
+== End Initialization ==
+user->ui: select user
+ui->controller: choosePeer()
+user->ui: activateAutoSharing
+ui->controller: startStopAutoSharing()
+create celllistener
+controller->celllistener: create(this)
+group until deactivating auto share
+user->main: starts edit cell
+main->celllistener: valueChanged()
+celllistener->controller: quickShare()
+controller->controller: shareCells()
+controller->lserver: getCommClientWorker2()
+controller->cserver: addHandler()
+controller->lserver: broadcastThisService()
+create sendcells
+controller->sendcells: create()
+controller->peer: sendDTO()
+end
+
+@enduml

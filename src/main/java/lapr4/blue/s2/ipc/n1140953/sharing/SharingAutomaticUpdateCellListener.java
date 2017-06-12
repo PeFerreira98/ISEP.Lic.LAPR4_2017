@@ -46,6 +46,7 @@ public class SharingAutomaticUpdateCellListener implements CellListener {
     }
 
     private void sendChanges() {
+        System.out.println("SHARING...");
         this.controller.quickShare();
     }
 

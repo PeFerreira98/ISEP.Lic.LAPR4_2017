@@ -37,6 +37,8 @@ public class SharingAutomaticUpdateController implements CommHandler2, Observer 
     private Object lastDto;
     private CellsSelected cellsSelected;
     private String choosedPeer;
+    private SharingAutomaticUpdateCellListener cellListener
+            = new SharingAutomaticUpdateCellListener(this);
     private boolean enableSharing = false;
 
     private CommServer2 commServer;
@@ -53,6 +55,7 @@ public class SharingAutomaticUpdateController implements CommHandler2, Observer 
         commServer.addHandler(SendSharedCellsDTO.class, new HandleReceiveSharedCells(uiController));
         broadcastServer.broadcastThisService(NAME, true);
         listenerServer.addObserver(this);
+        update(null, null);
     }
 
     @Override
@@ -98,29 +101,23 @@ public class SharingAutomaticUpdateController implements CommHandler2, Observer 
             return "No cells selected!";
         }
 
-        CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(this.choosedPeer);
+        CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(this.choosedPeer);
         if (toPeer == null) {
             return "ERROR: Could not connect to peer!";
         }
 
-        ListenerServer.getServer().addHandler(ReplySendSharedCellsDTO.class, this);
-
-        BroadcastServer.getServer().broadcastThisService(NAME, true);
+        listenerServer.addHandler(ReplySendSharedCellsDTO.class, this);
+        broadcastServer.broadcastThisService(NAME, true);
 
         SendSharedCellsDTO dto = new SendSharedCellsDTO(theChosen);
-        if (toPeer.sendDto(dto) == false) {
-            return "ERROR: Communication failure in sending the cells";
-        } else {
+        if (toPeer.sendDto(dto)) {
             return "Waiting for peer response";
         }
+        return "ERROR: Communication failure in sending the cells";
     }
 
     public ArrayList<String> getPeers() {
-        return ListenerServer.getServer().getServicePeers(SharingAutomaticUpdateExtension.NAME);
-    }
-
-    public Object getListener() {
-        return this.listenerServer;
+        return listenerServer.getServicePeers(SharingAutomaticUpdateExtension.NAME);
     }
 
     public void clearUserList() {

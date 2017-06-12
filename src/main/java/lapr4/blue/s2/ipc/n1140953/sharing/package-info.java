@@ -15,10 +15,10 @@
  * <b>Design</b><p>
  * The following sequence diagram and class diagram represents this use case:
  * <p>
- * <img src="ipc01.2_classDiagram.png" alt="image">
+ * <img src="ipc01_2_classDiagram.png" alt="image">
  * <p>
  * <p>
- * <img src="ipc01.2_sequenceDiagram.png" alt="image">
+ * <img src="ipc01_2_sequenceDiagram.png" alt="image">
  * <p>
  * <p>
  * <b>Classes</b><p>
@@ -42,7 +42,9 @@
  * <b>Daily Log (Thursday 08/06/2017) - </b>
  * Analysis continuation. Start Implementation along design.<p>
  * 
- * <b>Daily Log (Friday 09/06/2017) - </b><p>
+ * <b>Daily Log (Friday 09/06/2017) - </b>
+ * Analysis continuation. Design end. Implementation with problems.<p>
+ * 
  * <b>Daily Log (Monday 12/06/2017) - </b><p>
  * 
  * 

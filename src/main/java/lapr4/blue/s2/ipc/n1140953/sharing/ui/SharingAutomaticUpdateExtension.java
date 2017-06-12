@@ -16,9 +16,11 @@ import csheets.ui.ext.UIExtension;
 public class SharingAutomaticUpdateExtension extends Extension{
     
     public static final String NAME = "Sharing Automatic Updates";
+    public static final int VERSION = 1;
+    public static final String DESCRIPTION = "Sharing Automatic Update extension from sprint 2.";
     
     public SharingAutomaticUpdateExtension() {
-        super(NAME);
+        super(NAME, VERSION, DESCRIPTION);
     }
     
     public UIExtension getUIExtension(UIController uiController){

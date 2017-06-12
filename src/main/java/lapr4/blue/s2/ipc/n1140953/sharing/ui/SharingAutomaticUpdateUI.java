@@ -16,7 +16,7 @@ import javax.swing.JComponent;
  */
 public class SharingAutomaticUpdateUI extends UIExtension {
 
-    private JComponent sideBar;
+    private SharingAutomaticUpdateUISidebar sideBar;
 
     public SharingAutomaticUpdateUI(Extension extension, UIController uiController) {
         super(extension, uiController);
