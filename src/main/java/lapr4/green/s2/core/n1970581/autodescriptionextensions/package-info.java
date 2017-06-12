@@ -241,17 +241,19 @@
  * Code snippet:
  *  * {@code 
  *      //DescriptionExtensionLoader.contactUser()   waiting process.
- * 	while(!this.isUserFinishedSelection()){  //Block where we pause the main thread while we wait for the UI to finish.
+ * 	this.waitSignal();
+ * 
+ * 
+ *    public synchronized void waitSignal() { 
+ *       while(!this.isUserFinishedSelection()){  //Block where we pause the main thread while we wait for the UI to finish.
  *           try {
- *               //Thread.sleep(500);  // 
- *               this.waitSignal();
+ *               //Thread.sleep(500);
+ *               this.wait();
  *           } catch (InterruptedException ex) {
  *               Logger.getLogger(DescriptionExtensionLoader.class.getName()).log(Level.SEVERE, null, ex);
  *           }
  *       }
- * 
- * 
- *    public synchronized void waitSignal() throws InterruptedException{ this.wait();}
+ *   }
  *    public synchronized void indicateUserFinishedSelection(){ this.userFinishedSelection = true;} // invoked by controller.
  *    public synchronized void wakeAll(){this.notifyAll();}  // Wake code invoked by controller.
  * 
