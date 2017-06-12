@@ -5,13 +5,11 @@
  */
 package lapr4.green.s1.ipc.n1151211.StartSharing.ui;
 
-import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -21,10 +19,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import lapr4.green.s1.ipc.n1151211.StartSharing.StartSharingExtension;
-import static lapr4.green.s1.ipc.n1151211.StartSharing.StartSharingExtension.NAME;
-import lapr4.green.s1.ipc.n1151211.comm.BroadcastServer;
-import lapr4.green.s1.ipc.n1151211.comm.ListenerServer;
-import lapr4.green.s1.ipc.n1151211.comm.PeerService;
 
 /**
  *
@@ -91,21 +85,19 @@ public class ShareCellsPanel extends JPanel {
          * Regista uma classe interna anónima destinada a executar o método de 
          * evento depois do botão bt1 ser acionado.  
          */
-        btPing.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if (controller.getStatus() == false) {
-                    return;
-                }
-
-                String oneSelected = peerList.getSelectedValue();
-                if (oneSelected == null) {
-                    answer.setText("No peer selected!");
-                    return;
-                }
-
-                answer.setText(controller.theOnesChosen(oneSelected));
+        btPing.addActionListener((ActionEvent e) ->
+        {
+            if (controller.getStatus() == false) {
+                return;
             }
+            
+            String oneSelected = peerList.getSelectedValue();
+            if (oneSelected == null) {
+                answer.setText("No peer selected!");
+                return;
+            }
+            
+            answer.setText(controller.theOnesChosen(oneSelected));
         });
 
         btStatus = new JButton("On-Off");
@@ -116,30 +108,25 @@ public class ShareCellsPanel extends JPanel {
          * Regista uma classe interna anónima destinada a executar o método de 
          * evento depois do botão bt1 ser acionado.  
          */
-        btStatus.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                controller.changeStatus();
-                changesColorButtons();
-            }
+        btStatus.addActionListener((ActionEvent e) ->
+        {
+            controller.changeStatus();
+            changesColorButtons();
         });
 
-        JButton btRefresh = new JButton();
-        btRefresh = new JButton("Lock cells");
+        JButton btRefresh = new JButton("Lock Peer");
         btRefresh.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
-        btRefresh.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String oneSelected = peerList.getSelectedValue();
-                if (oneSelected == null) {
-                    answer.setText("No peer selected!");
-                    return;
-                }
-                
-                controller.lockPeer(peerList.getSelectedValue());
-                controller.addSpreadsheetListener();
-                answer.setText("Selected Peer Locked!");
+        btRefresh.addActionListener((ActionEvent e) ->
+        {
+            String oneSelected = peerList.getSelectedValue();
+            if (oneSelected == null) {
+                answer.setText("No peer selected!");
+                return;
             }
+            
+            controller.lockPeer(oneSelected);
+            controller.addSpreadsheetListener();
+            answer.setText("Selected Peer Locked!");
         });
 
         JPanel pPanel = new JPanel();

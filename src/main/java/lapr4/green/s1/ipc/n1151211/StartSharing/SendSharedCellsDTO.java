@@ -7,7 +7,6 @@ package lapr4.green.s1.ipc.n1151211.StartSharing;
 
 import csheets.core.Address;
 import csheets.core.Cell;
-import csheets.core.Spreadsheet;
 import java.io.Serializable;
 import java.util.Iterator;
 import java.util.SortedSet;
@@ -29,7 +28,6 @@ public class SendSharedCellsDTO implements Serializable {
     private final Address address2;
     private int nmbrOfCells = 0;
     
-   // public SendSharedCellsDTO(String dstName, Spreadsheet srcSheet, Address addr1, Address addr2) {
     public SendSharedCellsDTO(Cell[][] theChosen) {
         
         spreadsheetName = theChosen[0][0].getSpreadsheet().getTitle();
