@@ -1,0 +1,29 @@
+@startuml ipc02.2_classDiagram.png
+
+    skinparam monochrome true
+    hide methods
+    hide attributes
+
+    title IPC02.2 "Advanced Workbook Search"
+
+    class  MainUI{	
+    }
+
+    class SearchWorkbookController << (C, lightgray) >>{
+    }
+
+    class DescodificadorWorkbook << (C, white) >>{
+    }
+
+    interface FileFoundListener << (I, lightgray) >>{
+    }
+
+    class PreviewUI << (C, white) >>{
+    }
+
+    SearchWorkbookController <-up- MainUI
+    FileFoundListener <-left- MainUI
+    FileFoundListener -down- SearchWorkbookController
+    DescodificadorWorkbook <-right- SearchWorkbookController
+    PreviewUI <-- SearchWorkbookController
+@enduml

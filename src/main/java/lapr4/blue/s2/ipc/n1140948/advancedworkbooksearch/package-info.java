@@ -16,6 +16,11 @@
  * <p>
  * <a href="https://jira.dei.isep.ipp.pt:8443/browse/LAPR4E17DL-79">
  * Issue on JIRA - IPC02.2</a> 
+ * <p>
+ * At the end of the implementation the use case only open the preview if the 
+ * workbook is open. This is due to a call on the openFile in the 
+ * PreviewWorkbookController that returns the Active Workbook. This must be 
+ * fixed, changing the method to openWorkbook from SearchWorkbookController.
  *
  * <h2>2. Requirement</h2>
  * The sidebar window that displays the results of the search should now include
@@ -57,11 +62,27 @@
  * <p>
  *
  * <h2>4. Design</h2>
- * 
+ * The following sequence diagram represents this use case:
+ * <p>
+ * <img src="ipc02.2_design.png" alt="image">
  * <p>
  *
  * <h3>4.1. Functional Tests</h3>
  * 
+ * * To test this user story, the user should follow these steps:
+ * <p>
+ * 1- run cleansheets;
+ * <p>
+ * 2- click on the View menu and select sidebars. There must appear a list of
+ * menu options containning one option for the sidebars "Search WorkBooks";
+ * <p>
+ * 3- Enable option "Search WorkBooks";
+ * <p>
+ * 4- Click "Root" and select folder to search
+ * <p>
+ * 5- Click "Seach" and wait for the files to show up 
+ * <p>
+ * 6- Select a file and click "Preview".
  * <p>
  *
  * <h3>4.2. UC Realization</h3>
@@ -69,23 +90,42 @@
  * of the previewed workbook and add a button on the Find Workbook side bar for
  * that purpose. 
  * 
- * <h3>4.3. Classes</h3>
- * 
+ * <h3>4.3. Classes</h3> * 
+ * Here we can se the class diagram developed for this use case: 
+ * <p>
+ * <img src="ipc02.2_classDiagram.png" alt="image">
+ * <p>
+ * Note: In lightgray we have the already existing classes and in white we have
+ * the newly created classes. C means class and I means interface.
  * <p>
  * 
  * <h2>5. Implementation</h2>
+ * 
+ * Preview Button code: 
+ * <pre>
+ * {@code 
+ *      FileDTO file = (FileDTO) jListWorkbooks.getSelectedValue();
+ *       try {
+ *           this.descWorkbook = new DescodificadorWorkbook(uiController.getActiveWorkbook(), file, myselfPanel);
+ *       } catch (IOException ex) {
+ *           Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
+ *       } catch (ClassNotFoundException ex) {
+ *           Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
+ *       }
+ *       this.previewController = new PreviewWorkbookController(this, uiController);
+ *       if (jListWorkbooks.getSelectedValue() != null) {  
+ *           try {   
+ *               previewController.previewFile(previewController.openFile(file), file);
+ *           } catch (IOException ex) {
+ *               Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
+ *           } catch (ClassNotFoundException ex) {
+ *               Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
+ *           }
+ *       }
+ * }
+ * </pre>
  *
- * <p>
- *
- * <h2>6. Integration/Demonstration</h2>
- *
- * <p>
- *
- * <h2>7. Final Remarks</h2>
- *
- * <p>
- *
- * <h2>8. Work Log</h2> *
+ * <h2>6. Work Log</h2> *
  * <p>
  * <b>Daily Log (Tuesday 06/06/2017)</b>
  * <p>
@@ -115,6 +155,29 @@
  *		• Inicio do design
  *              <p>
  *		• Update do Daily Scrum
+ * 
+ * <p>
+ * <b>Daily Log (Thurday 08/06/2017)</b>
+ * <p>
+ *  *	TEAM BLUE
+ *	
+ *              <p>
+ *		• Finalizacao da analise e de design
+ *              <p>
+ *		• Inicio do implementacao
+ *              <p>
+ *		• Update do Daily Scrum
+ * 
+ * <p>
+ * <b>Daily Log (Sunday 11/06/2017)</b>
+ * <p>
+ *  *	TEAM BLUE
+ *	
+ *              <p>
+ *		• Finalizacao implementacao
+ *              <p>
+ *		• Inicio e finalizacao dos testes unitarios
+ *              <p>
  * 
  * @author Tiago Silvestre
  */
