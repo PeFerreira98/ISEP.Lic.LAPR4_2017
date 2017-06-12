@@ -4,7 +4,7 @@ participant "ChatRoomsMenu" as menu
 participant "CreateChatRoomAction" as action
 participant "CreateChatRoomUI" as ui
 participant "ChatRoomController" as ctrl
-participant "Participant" as p
+participant "ChatUser" as p
 participant "ChatRoomsList" as chatRL
 participant "ChatRoom" as chatR
 participant "PrivateChatRoom" as priv
@@ -20,8 +20,8 @@ action -> ui : create()
 create ctrl
 ui -> ctrl: create()
 
-ui -> ctrl : p = isLogin()
-ctrl -> p : p = getInstance()
+ui -> ctrl : owner = isLogin()
+ctrl -> p : owner = getInstance()
 
 alt p == null
     User <-- ui : Please login as chat participant first
@@ -32,10 +32,10 @@ User -> ui : Sets the chat rooms information(name, type, inv)
 ui -> ctrl : createChatRoom(name, type)
 alt type == public
     create pub
-    ctrl -> pub : chatR = create PublicChatRoom(type, name, p)
+    ctrl -> pub : chatR = create PublicChatRoom(type, name, owner)
 else type == private
     create priv
-    ctrl -> priv : chatR = create PrivateChatRoom(type, name, inv, p)
+    ctrl -> priv : chatR = create PrivateChatRoom(type, name, inv, owner)
     
 end
 
