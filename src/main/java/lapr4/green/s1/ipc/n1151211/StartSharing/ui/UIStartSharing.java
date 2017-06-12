@@ -147,11 +147,11 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
 
     public void quickShare(Cell cell) {
         System.out.println("QuickSharing to " + this.selectedPeer + "...");
-//        Cell[][] cells = new Cell[1][1];
-//        cells[0][0] = cell;
+        Cell[][] cells = new Cell[1][1];
+        cells[0][0] = cell;
         if (this.selectedPeer != null && !this.selectedPeer.isEmpty()) {
-//            System.out.println(shareCells(this.selectedPeer, cells));
-            System.out.println(shareStylableCells(cell));
+            System.out.println(shareCells(this.selectedPeer, cells));
+            //System.out.println(shareStylableCells(cell));
         }
         System.out.println("Selected Peer is empty or null...");
     }

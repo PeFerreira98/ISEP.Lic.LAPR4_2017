@@ -8,6 +8,7 @@ package lapr4.blue.s2.ipc.n1140953.sharing;
 import csheets.core.Address;
 import csheets.core.Cell;
 import csheets.ext.style.StylableCell;
+import csheets.ext.style.StyleExtension;
 import java.awt.Color;
 import java.awt.Font;
 import lapr4.black.s1.ipc.n2345678.comm.sharecells.CellDTO;
@@ -28,7 +29,7 @@ public class StylableCellDTO extends CellDTO{
     }
     
     public static StylableCellDTO createFromCell(Cell aCell) {
-        StylableCell stylableCell = (StylableCell) aCell;
+        StylableCell stylableCell = (StylableCell) aCell.getExtension(StyleExtension.NAME);
         return new StylableCellDTO(aCell.getAddress(), aCell.getContent(), stylableCell.getFont(), stylableCell.getBackgroundColor());
     }
 
