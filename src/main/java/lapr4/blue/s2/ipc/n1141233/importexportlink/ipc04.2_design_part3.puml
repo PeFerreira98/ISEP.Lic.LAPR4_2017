@@ -1,0 +1,29 @@
+@startuml ipc04_2_design_part3.png
+
+skinparam sequenceMessageAlign center
+
+participant MenuBar as MB
+  participant "extensionsMenu : JMenu" as extensionsMenu
+  participant UIController as UIC
+  participant "extension : UIExtensionImportExportText" as UIE
+  participant "extensionMenu : ImportExportTextMenu" as EM 
+
+
+  activate MB
+  MB -> MB : extensionsMenu = addMenu("Extensions", KeyEvent.VK_X);
+  
+    create extensionsMenu
+    MB --> extensionsMenu : new
+  deactivate MB
+  MB -> UIC : extensions=getExtensions();
+  loop for UIExtension extension : extensions
+    MB -> UIE : extensionMenu=extension.getMenu();
+    activate UIE
+  	create EM
+  	UIE --> EM : new
+    deactivate UIE
+    MB -> EM : icon = getIcon();
+    MB -> extensionsMenu : add(extensionMenu); 
+  end
+
+@enduml

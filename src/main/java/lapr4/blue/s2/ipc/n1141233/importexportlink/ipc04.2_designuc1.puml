@@ -1,0 +1,65 @@
+@startuml ipc04_2_designuc1.png
+
+skinparam sequenceMessageAlign center
+
+actor User
+
+participant ExportLinkAction as EA
+participant FocusOwner as FO
+participant ExportLinkUI as UI
+participant ImportExportTextLinkController as IETLC
+participant ExportLinkListener as ELL
+participant LinkStorage as LS
+participant Cell as cell
+
+
+User -> EA : actionPerformed(ActionEvent event)
+activate EA
+EA -> FO : getSelectedCells()
+activate FO
+  
+create UI
+EA --> UI : new(selectedCells, uiController)
+
+activate UI
+create IETLC
+UI --> IETLC: new(uiController)
+
+UI -> IETLC : checkCells(specialChar, selectedCells)
+activate IETLC
+UI -> IETLC : exportToTextFile(selectedCells, filename, specialChar, header)
+
+create ELL  
+IETLC --> ELL: new(selectedCells, filename, specialChar, header)
+
+IETLC -> IETLC: storeLink(link)
+IETLC -> LS: add(link)
+activate LS
+deactivate LS
+
+IETLC -> ELL : exportToTextFile()
+activate ELL
+
+deactivate ELL
+deactivate IETLC
+deactivate UI
+deactivate FO
+deactivate EA
+
+loop everytime the user changes the content of one of the selected cells
+User -> cell: setContent(content)
+activate cell
+cell -> cell: storeContent(content)
+cell -> cell: fireContentChanged()
+cell -> ELL: contentChanged(cell)
+    activate ELL
+    ELL -> ELL: exportToTextFile()
+cell -> cell: reevaluate()
+cell -> cell: fireValueChanged()
+cell -> ELL: valueChanged(cell)
+    ELL -> ELL: exportToTextFile()
+    deactivate ELL
+deactivate cell
+end
+
+@enduml

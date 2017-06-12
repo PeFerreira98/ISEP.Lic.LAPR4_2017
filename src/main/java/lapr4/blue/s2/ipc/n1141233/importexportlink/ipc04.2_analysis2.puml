@@ -1,0 +1,18 @@
+@startuml ipc04_2_analysis2.png
+
+skinparam sequenceMessageAlign center
+
+actor User
+participant "System" as s
+
+User->s: Selects the first cell he wants to be used for the import operation
+User->s: Selects the option Extensions
+User->s: Selects the option Import/Export Data
+User->s: Selects the "Import data link to a text file" option to open the feature
+s-->User: asks for the file name and location to import the data from
+User->s: chooses the text file to import the data from
+s-->User: creates the text file with the data on the cells selected by the user
+
+s-->User: success
+
+@enduml

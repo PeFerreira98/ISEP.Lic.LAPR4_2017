@@ -1,0 +1,59 @@
+@startuml ipc04_2_designuc3.png
+
+skinparam sequenceMessageAlign center
+
+actor User
+
+participant RemoveLinkAction as IA
+participant RemoveLinkUI as UI
+participant ImportExportTextLinkController as IETLC
+participant LinkStorage as LS
+participant ExportLinkListener as ELL
+participant ImportLinkRunnable as ILR
+participant Cell as cell
+
+
+User -> IA : actionPerformed(ActionEvent event)
+activate IA
+  
+create UI
+IA --> UI : new(uiController)
+
+activate UI
+create IETLC
+UI --> IETLC: new(uiController)
+
+UI -> IETLC : getActiveLinks()
+activate IETLC
+    IETLC -> LS: getAll()
+    activate LS
+    deactivate LS
+deactivate IETLC
+
+loop for every link selected to be removed
+    UI -> IETLC : deactivateLink(link)
+    activate IETLC
+
+    IETLC -> LS: deactivateLink(link)
+    activate LS
+        alt removing an import
+            LS -> LS: stopImport(link)
+            LS -> ILR: stop()
+            activate ILR
+            deactivate ILR
+        end
+        alt removing an export
+            LS -> LS: stopExport(link)
+            LS -> ELL: getSelectedCells()
+            activate ELL
+            deactivate ELL
+            loop for every selected cell
+                LS -> cell: removeCellListener(link)
+                activate cell
+                deactivate cell
+            end
+        end
+    deactivate LS
+end
+
+@enduml

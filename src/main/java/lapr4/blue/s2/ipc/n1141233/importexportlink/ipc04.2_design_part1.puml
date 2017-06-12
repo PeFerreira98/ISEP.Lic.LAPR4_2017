@@ -1,0 +1,27 @@
+@startuml ipc04_2_design_part1.png
+
+skinparam sequenceMessageAlign center
+
+participant ExtensionManager as ExtM
+participant Class
+participant "aClass:Class" as aClass
+participant "extension : ExtensionImportExportText" as EImportExport
+
+  
+ExtM -> Class : aClass = forName("lapr4.green.s1.ipc.n1130626.importexporttext.ExtensionImportExportText");
+
+activate Class
+create aClass  
+Class --> aClass : new
+deactivate Class
+ExtM -> aClass : extension = (Extension)newInstance();
+activate aClass
+create EImportExport
+aClass --> EImportExport : new
+deactivate aClass
+ExtM -> EImportExport : name = getName();
+activate EImportExport
+deactivate EImportExport
+ExtM -> ExtM : extensionMap.put(name, extension)
+
+@enduml

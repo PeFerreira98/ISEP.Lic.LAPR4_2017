@@ -1,0 +1,61 @@
+@startuml ipc04_2_designuc2.png
+
+skinparam sequenceMessageAlign center
+
+actor User
+
+participant ImportLinkAction as IA
+participant ImportLinkUI as UI
+participant ImportExportTextLinkController as IETLC
+participant UIController as UIC
+participant ImportLinkRunnable as ILR
+participant LinkStorage as LS
+participant Cell as cell
+
+
+User -> IA : actionPerformed(ActionEvent event)
+activate IA
+  
+create UI
+IA --> UI : new(uiController)
+
+activate UI
+create IETLC
+UI --> IETLC: new(uiController)
+
+UI -> IETLC : importFromTextFile(filename)
+activate IETLC
+
+IETLC -> UIC: getActiveCell()
+activate UIC
+deactivate UIC
+
+create ILR  
+IETLC --> ILR: new(selectedCells, filename, specialChar, header)
+
+IETLC -> IETLC: storeLink(link)
+IETLC -> LS: add(link)
+activate LS
+deactivate LS
+
+IETLC -> ILR : run()
+activate ILR
+
+deactivate IETLC
+deactivate UI
+deactivate IA
+
+loop until being told to stop
+ILR -> ILR: doImport()
+ILR -> ILR: isModified()
+ILR -> ILR: importFromTextFile()
+    loop for all the cells to be imported
+    ILR -> cell: setContent(content)
+    activate cell
+    deactivate cell
+    end
+ILR -> ILR: wait(1000)
+deactivate ILR
+end
+
+@enduml

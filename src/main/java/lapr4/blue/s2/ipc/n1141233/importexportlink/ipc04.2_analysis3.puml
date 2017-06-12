@@ -1,0 +1,17 @@
+@startuml ipc04_2_analysis3.png
+
+skinparam sequenceMessageAlign center
+
+actor User
+participant "System" as s
+
+User->s: Selects the option Extensions
+User->s: Selects the option Import/Export Data
+User->s: Selects the "Remove active link" option to open the feature
+s-->User: Shows the list of active links
+User->s: Selects the active links he wishes to remove
+s-->User: Removes and deactivates all the selected links
+
+s-->User: success
+
+@enduml

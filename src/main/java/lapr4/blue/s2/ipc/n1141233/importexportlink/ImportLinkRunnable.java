@@ -112,11 +112,11 @@ public class ImportLinkRunnable implements Runnable, Link
         }
     }
 
-    private void doImport()
+    private synchronized void doImport()
     {
         try
         {
-            if (isModified(filename))
+            if (isModified())
             {
                 importFromTextFile();
             }
@@ -131,11 +131,9 @@ public class ImportLinkRunnable implements Runnable, Link
      * checks if the file was modified and updates de last modification
      * timestamp if necessary
      *
-     * @param filename the file's name
-     *
      * @return true if file was modified since last time or false otherwise
      */
-    private synchronized boolean isModified(String filename)
+    private synchronized boolean isModified()
     {
         File f = new File(filename);
         if (f.lastModified() != timeStamp)

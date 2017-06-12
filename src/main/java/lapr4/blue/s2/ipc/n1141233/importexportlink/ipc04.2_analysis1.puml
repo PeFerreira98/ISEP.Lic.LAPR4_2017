@@ -1,0 +1,22 @@
+@startuml ipc04_2_analysis1.png
+
+skinparam sequenceMessageAlign center
+
+actor User
+participant "System" as s
+
+User->s: Selects a range of cells to be used as source for the export operation
+
+User->s: Selects the option Extensions
+User->s: Selects the option Import/Export Data
+User->s: Selects the "Export data link to a text file" option to open the feature
+s-->User: Asks for the file name and location to export the data to
+User->s: Chooses a location and writes the name of the exported text file
+s-->User: asks for the special character to separate columns
+User->s: Configures a special character to separate columns
+User->s: Checks/Unchecks the option to include the cell's header at the beginning of the file
+s-->User: Creates the text file with the data on the cells selected by the user
+
+s-->User: success
+
+@enduml
