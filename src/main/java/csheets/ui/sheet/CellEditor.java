@@ -168,7 +168,7 @@ public class CellEditor extends JTextField implements TableCellEditor, Selection
         }
 
         fireEditingStopped();
-        TemporaryStorage.cleanList();
+        //TemporaryStorage.cleanList();
         return true;
     }
 
