@@ -1,0 +1,50 @@
+@startuml design_createChatRoom_ipc05.3.png
+actor User
+participant "ChatRoomsMenu" as menu
+participant "CreateChatRoomAction" as action
+participant "CreateChatRoomUI" as ui
+participant "ChatRoomController" as ctrl
+participant "ChatUser" as p
+participant "ChatRoomsList" as chatRL
+participant "ChatRoom" as chatR
+participant "PrivateChatRoom" as priv
+participant "PublicChatRoom" as pub
+
+
+User -> menu : Select create a Chat Room Option
+create action
+menu -> action : create(ctrl)
+
+create ui
+action -> ui : create()
+create ctrl
+ui -> ctrl: create()
+
+ui -> ctrl : owner = isLogin()
+ctrl -> p : owner = getInstance()
+
+alt p == null
+    User <-- ui : Please login as chat participant first
+    ui -> ui : dispose
+end alt
+
+User -> ui : Sets the chat rooms information(name, type, inv)
+ui -> ctrl : createChatRoom(name, type)
+alt type == public
+    create pub
+    ctrl -> pub : chatR = create PublicChatRoom(type, name, owner)
+else type == private
+    create priv
+    ctrl -> priv : chatR = create PrivateChatRoom(type, name, inv, owner)
+    
+end
+
+ui --> User : Chat room created with success
+
+ui -> ctrl : startChat()
+ctrl -> chatRL : getInstance()
+ctrl -> chatRL : add(chatR)
+chatRL -> chatR : setOnline(true)
+
+
+@enduml

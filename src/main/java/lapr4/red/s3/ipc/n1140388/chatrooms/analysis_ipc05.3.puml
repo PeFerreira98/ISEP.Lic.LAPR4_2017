@@ -1,0 +1,41 @@
+@startuml analysis_ipc05.3.png
+
+actor User 
+participant "System" as Sys
+group Create a Chat Room
+  User -> Sys : Select create a Chat Room Option
+  Sys -> User : Ask for User's nickname
+  User -> Sys : Insert nickname
+  Sys -> User : Validate nickname and ask type of the room(public/private) and name to the room
+  User -> Sys : Respond with the type of the room
+  alt public
+    Sys -> User : Create the chat room and notify all others chat participants
+  else private
+    User -> Sys : Invite other chat participants
+    Sys -> User : Create the chat room and notify the selected chat participants
+  end
+  Sys -> User : Informs the user the success of the operation
+end group
+
+group Join a Chat Room
+  User -> Sys : Select join a Chat Room Option
+  Sys -> User : Shows all avaiable chat rooms
+  User -> Sys : Chose one
+  Sys -> User : Informs the user the success of the operation
+end group
+
+group Communicate in a Chat Room
+  User -> Sys : Select the Chat Room you want communicate from the sidebar
+  Sys -> User : Open a new window with the chat room.
+  loop until exit the chat room
+    alt send message
+      User -> Sys : Inserts a message to send
+      Sys -> User : Sends the message for all available participants
+    else receive message
+      Sys -> User : Display the message from another User
+    end
+  end
+  
+end group
+@enduml
+
