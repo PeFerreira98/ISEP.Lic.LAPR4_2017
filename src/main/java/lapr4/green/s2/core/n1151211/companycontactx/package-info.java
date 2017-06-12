@@ -120,4 +120,4 @@ c&aacute; ski</li>
 
 
 
-package lapr4.green.s2.core.n1151211.CompanyContact;
+package lapr4.green.s2.core.n1151211.companycontactx;

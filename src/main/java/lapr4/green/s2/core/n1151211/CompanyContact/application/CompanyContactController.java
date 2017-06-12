@@ -5,10 +5,12 @@
  */
 package lapr4.green.s2.core.n1151211.CompanyContact.application;
 
+import eapli.framework.application.Controller;
+
 /**
  *
  * @author Fernando
  */
-public class CompanyContactController {
+public class CompanyContactController implements Controller{
     
 }
