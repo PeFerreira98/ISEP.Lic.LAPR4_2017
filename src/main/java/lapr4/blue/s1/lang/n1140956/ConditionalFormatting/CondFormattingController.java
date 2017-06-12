@@ -125,6 +125,16 @@ public class CondFormattingController{
         }
         return cl;
     }
+    
+    public String selectionTypeChange(Cell[][] arrayCells) {
+        String selectionType = "No Cell Selected";
+        if (arrayCells.length == 1) {
+            selectionType = "Single Selection";
+        } else if (arrayCells.length > 1) {
+            selectionType = "Multiple Selection";
+        }
+        return selectionType;
+    }
 
     
 

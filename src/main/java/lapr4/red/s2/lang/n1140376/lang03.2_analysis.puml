@@ -12,6 +12,6 @@ s-->User: Ask for information (Formula, settings to true and false results)
 
 User->s: Insert Data
 
-s->User:Update the current cell through the formula's result
+s->User:Update the selected cell(s) through the formula's result,\nadditionally displays if its a single or multi selection
 
 @enduml

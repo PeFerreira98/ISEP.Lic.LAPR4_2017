@@ -11,6 +11,7 @@ import csheets.core.Cell;
 import csheets.core.CellListener;
 import csheets.core.Spreadsheet;
 import csheets.core.Value;
+import csheets.core.Workbook;
 import csheets.core.formula.Formula;
 import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
@@ -34,7 +35,11 @@ import static org.junit.Assert.*;
 public class CondFormattingControllerTest {
 
     CleanSheets app;
-
+    Cell[][] arrayCell;
+    Workbook wb;
+    Spreadsheet s;
+    Cell c1;
+    Cell c2;
     public CondFormattingControllerTest() {
     }
 
@@ -48,13 +53,21 @@ public class CondFormattingControllerTest {
 
     @Before
     public void setUp() {
-
+        
+        
         // Try to create the CS application object
         app = new CleanSheets();
 
         // This will create a workbook with 3 sheets
         app.create();
-
+        
+        arrayCell = new Cell[2][2];
+        wb = new Workbook(2);
+        s = wb.getSpreadsheet(0);
+        c1 = s.getCell(0,1);
+        c2 = s.getCell(0,0);
+        arrayCell[0][0] = c2;
+        arrayCell[0][1] = c1;
     }
 
     @After
@@ -87,6 +100,19 @@ public class CondFormattingControllerTest {
             } 
         }
         fail();
+    }
+    
+    /**
+     * Test of selectionTypeChange method, of class CondFormattingController.
+     */
+    @Test
+    public void testSelectionTypeChange() {
+        System.out.println("selectionTypeChange");
+        Cell[][] arrayCells = arrayCell;
+        CondFormattingController instance = new CondFormattingController(new UIController(new CleanSheets()));
+        String expResult = "Multiple Selection";
+        String result = instance.selectionTypeChange(arrayCells);
+        assertEquals(expResult, result);
     }
 
 }

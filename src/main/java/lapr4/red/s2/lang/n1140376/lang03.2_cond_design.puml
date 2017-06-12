@@ -1,0 +1,31 @@
+@startuml
+
+skinparam sequenceMessageAlign center
+skinparam monochrome true
+
+actor User
+participant "CondFormatingAction" as cfa
+participant "CondFormatingDialog" as cfd
+participant "CondFormatingController" as cfc
+participant "CondFormatingListener" as cfl
+
+User->cfa: starts use case
+cfa->cfd:create
+cfd->cfc:create
+cfd->FormatingCells:create
+FormatingCells->cfc:sets..
+cfd->UIController:getAllActiveCells()
+cfd->cfc:selectionTypeChange(array)
+loop
+cfd->cfc:addListener()
+cfc->cfl:create
+cfl-->cfc:cl
+cfc->cell:addCellListener(cl)
+cfc->cfl:verifyFormula()
+cfl->Formula:create
+cfl->StylableCell:create
+cfl->StylableCell:setFont()
+cfl->StylableCell:setBackground()
+end loop
+
+@enduml

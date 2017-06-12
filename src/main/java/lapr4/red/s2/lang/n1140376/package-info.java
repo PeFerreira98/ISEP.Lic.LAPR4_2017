@@ -35,10 +35,15 @@ formatting.
  * <b>Test1:</b> CondFormattingControllerTest<p>
  * Test if the listener was added correctly to the cell<p>
  * See Package lapr4.blue.s1.lang.n1140956.ConditionalFormatting:<p>
+ * Test if SelectionTypeChange was correctly implemented:<p>
  * CondFormattingControllerTest<p>
  * 
- * <b>Design</b><p>
- *<img src="lang03.2_design.png" alt="image"> 
+ * <b>Design Conditional Formatting</b><p>
+ *<img src="lang03.2_cond_design" alt="image"> 
+ * <p>
+ * 
+ * <b>Design Conditional Formatting Reset</b><p>
+ * <img src="lang03.2_cond_reset_design" alt="image">
  * <p>
  * 
  * <b>Code</b><p>

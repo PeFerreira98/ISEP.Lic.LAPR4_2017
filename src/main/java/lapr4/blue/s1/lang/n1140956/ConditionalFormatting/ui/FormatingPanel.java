@@ -189,7 +189,7 @@ public class FormatingPanel extends JPanel implements ActionListener {
                         controller.addListener(txtValue.getText(), cmbOperators.getSelectedItem().toString(), cell);
                         }
                     }
-                    selectionTypeChange(array);
+                    selection.setText(controller.selectionTypeChange(array));
                 } else {
                     JOptionPane.showMessageDialog(mainPanel, "You have to insert a formula ", "Conditional Formating", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -207,13 +207,5 @@ public class FormatingPanel extends JPanel implements ActionListener {
     
     
     
-    private void selectionTypeChange(Cell[][] arrayCells) {
-        String selectionType = "No Cell Selected";
-        if (arrayCells.length == 1) {
-            selectionType = "Single Selection";
-        } else if (arrayCells.length > 1) {
-            selectionType = "Multiple Selection";
-        }
-        selection.setText(selectionType);
-    }
+    
 }

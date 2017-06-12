@@ -14,17 +14,11 @@ cfa->cfd:create
 cfd->cfc:create
 cfd->FormatingCells:create
 FormatingCells->cfc:sets..
-cfd->UIController:getActiveCell()
-UIController-->cfd:
-cfd->cfc:addListener()
-cfc->cfl:create
-cfl-->cfc:cl
-cfc->cell:addCellListener(cl)
-cfc->cfl:verifyFormula()
-cfl->Formula:create
-cfl->StylableCell:create
+cfd->UIController:getAllActiveCells()
+cfd->cfc:selectionTypeChange(array)
+loop
 cfl->StylableCell:setFont()
-cfl->StylableCell:setBackground()
-
+cfl->StylableCell:setBackground(new Color(255, 255, 255))
+end loop
 
 @enduml
