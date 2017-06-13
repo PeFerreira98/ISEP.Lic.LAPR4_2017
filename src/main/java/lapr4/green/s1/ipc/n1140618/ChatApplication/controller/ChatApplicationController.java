@@ -191,10 +191,12 @@ public class ChatApplicationController implements CommHandler2 {
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
         this.mess = (Message) dto;
-        String sourceIP = commWorker.peerAddress();
-
+        
+        String tmp = commWorker.peerAddress();
+        String sourceIP = this.mess.getIdOrig().split("@")[0] + "@" +tmp.split("@")[1];
         this.mess.setIdOrig(sourceIP);
         this.lst_Conversations.addMessage(mess);
+        
         ReceiveMessage rm = new ReceiveMessage(this, sourceIP);
 
     }
