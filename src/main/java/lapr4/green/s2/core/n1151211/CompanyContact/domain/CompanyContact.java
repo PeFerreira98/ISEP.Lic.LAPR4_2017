@@ -57,5 +57,17 @@ public class CompanyContact implements Serializable {
     public String setCompanyName(String companyName) {
         return this.companyName = companyName;
     }
-}
+    
+    @Override
+    public boolean equals( Object other ){
+        if (this == other) {
+            return true;
+        }
+        if (other == null || getClass() != other.getClass()) {
+            return false;
+        }
+        CompanyContact contact = (CompanyContact) other;
 
+        return this.companyName.equalsIgnoreCase(contact.companyName());
+    }
+}

@@ -7,6 +7,8 @@ package lapr4.green.s2.core.n1151211.CompanyContact.persistence;
 
 import eapli.framework.persistence.DataIntegrityViolationException;
 import eapli.framework.persistence.repositories.Repository;
+import java.util.List;
+import lapr4.green.s2.core.n1151211.CompanyContact.domain.CompanyContact;
 import lapr4.green.s2.core.n1151211.CompanyContact.domain.PersonalContact;
 
 /**
@@ -16,5 +18,6 @@ import lapr4.green.s2.core.n1151211.CompanyContact.domain.PersonalContact;
     
 public interface PersonalContactRepository  extends Repository<PersonalContact, Long> {
         public boolean removeContact(PersonalContact c) throws DataIntegrityViolationException;
-
+        
+       public  List<PersonalContact>findByRelated( CompanyContact related );
 }

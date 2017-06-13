@@ -6,6 +6,10 @@
 package lapr4.green.s2.core.n1151211.CompanyContact.persistence.jpa;
 
 import eapli.framework.persistence.DataIntegrityViolationException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import lapr4.green.s2.core.n1151211.CompanyContact.domain.CompanyContact;
 import lapr4.green.s2.core.n1151211.CompanyContact.domain.PersonalContact;
 import lapr4.green.s2.core.n1151211.CompanyContact.persistence.PersonalContactRepository;
 import lapr4.white.s1.core.n4567890.contacts.ExtensionSettings;
@@ -30,5 +34,12 @@ public class JpaPersonalContactRepository extends CrmJpaRepositoryBase<PersonalC
             throw new DataIntegrityViolationException(ex);
         }
         return true;
+    }
+
+    @Override
+    public List<PersonalContact> findByRelated(CompanyContact related) {
+        
+        
+        return null;
     }
 }

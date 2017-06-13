@@ -18,6 +18,7 @@ import java.awt.event.MouseListener;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
@@ -30,6 +31,8 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import lapr4.green.s2.core.n1151211.companycontactx.CompanyContactExtension;
@@ -138,15 +141,17 @@ public class UICompanyContactPanel extends JPanel {
         lstContcts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         pContacts = new JScrollPane(lstContcts);
         pContacts.setBorder(BorderFactory.createTitledBorder(TITLE_CONTACTS));
-
+        lstContcts.addListSelectionListener(new ContactSelectListener());
+        
+        
         pContacts.addMouseListener(new PContactsMouseListener());
 
-        lstEventsRelated = new JList<>(new DefaultListModel<>());
+        lstEventsRelated = new JList<>(lmEventsRelated);
         lstEventsRelated.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         pEventsRelated = new JScrollPane(lstEventsRelated);
         pEventsRelated.setBorder(BorderFactory.createTitledBorder(TITLE_PERSON_EVENTS));
 
-        lstCompanyEvents = new JList<>(new DefaultListModel<>());
+        lstCompanyEvents = new JList<>(lmCompanyEvents);
         lstCompanyEvents.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         pCompanyEvents = new JScrollPane(lstCompanyEvents);
         pCompanyEvents.setBorder(BorderFactory.createTitledBorder(TITLE_COMPANY_EVENTS));
@@ -178,13 +183,16 @@ public class UICompanyContactPanel extends JPanel {
 
         
         if( personCompany == SHOW_PERSON ){
-            //index = controller.getListContacts( cContact, contactsUI );
+            Iterator itr = controller.allPersonalContacts().iterator();
+            while( itr.hasNext() ){
+                contactsUI.add(((PersonalContact)itr.next()).toString());
+            }
+            if( pContact != null )
+                select = pContact.toString();
         }else if( personCompany == SHOW_COMPANY ){
-            System.out.println("updateContactsUI");
             Iterator itr = controller.allCompanyContacts().iterator();
             while( itr.hasNext() ){
-                contactsUI.add(((CompanyContact)itr.next()).toString());
-                System.out.println("contactsUI.add");
+                contactsUI.add(((CompanyContact)itr.next()).companyName());
             }
             if( cContact != null )
                 select = cContact.toString();
@@ -341,6 +349,9 @@ public class UICompanyContactPanel extends JPanel {
                 pEventsRelated.setBorder(BorderFactory.createTitledBorder(TITLE_RELATED_PERSONS));
             }
 
+            lmContacts.clear();
+            lmEventsRelated.clear();
+            lmCompanyEvents.clear();
             pCompanyEvents.setVisible(personCompany == SHOW_COMPANY);
             
             
@@ -353,6 +364,7 @@ public class UICompanyContactPanel extends JPanel {
 
         public void actionPerformed(ActionEvent event) {
             Frame frame = JOptionPane.getFrameForComponent(UICompanyContactPanel.this);
+            DialogResult result = new DialogResult();
 
             switch (event.getActionCommand()) {
                 case UICompanyContactPanel.VIEW_ACTION:
@@ -364,12 +376,13 @@ public class UICompanyContactPanel extends JPanel {
                 case UICompanyContactPanel.CREATE_ACTION:
                     System.out.println("Popup menu item [" + event.getActionCommand() + "] :: " + UICompanyContactPanel.CREATE_ACTION);
                     if (personCompany == SHOW_PERSON) {
-                        PersonalContactDialog dialog = new PersonalContactDialog(frame, true);
+                        PersonalContactDialog dialog = new PersonalContactDialog(frame, true, controller, "Create", "Cancel", result);
                         dialog.setLocationRelativeTo(null);
                         dialog.setVisible(true);
-
+                        if( result.result ){
+                            updateContactsUI( (CompanyContact)null, result.getPersonalContact() );
+                        }
                     } else if (personCompany == SHOW_COMPANY) {
-                        DialogResult result = new DialogResult();
                         CompanyContactDialog dialog = new CompanyContactDialog(frame, true, controller, "Create", "Cancel", result);
                         dialog.setLocationRelativeTo(null);
                         dialog.setVisible(true);
@@ -425,6 +438,7 @@ public class UICompanyContactPanel extends JPanel {
 
         private boolean result = false;
         private CompanyContact companyContact = null;
+        private PersonalContact personalContact = null;
 
         public boolean getResult() {
             return result;
@@ -441,5 +455,36 @@ public class UICompanyContactPanel extends JPanel {
         public void setCompanyContact(CompanyContact companyContact) {
             this.companyContact = companyContact;
         }
+        
+        public PersonalContact getPersonalContact() {
+            return personalContact;
+        }
+
+        public void setPersonalContact(PersonalContact personalContact) {
+            this.personalContact = personalContact;
+        }
     }
+    
+    
+    
+    private class ContactSelectListener implements ListSelectionListener {
+        @Override
+        public void valueChanged(ListSelectionEvent e) {
+            if( lstContcts.getValueIsAdjusting() == false )
+                return;
+            
+            lmEventsRelated.clear();
+
+            String  sltd = lstContcts.getSelectedValue();
+            if( sltd == null )
+                return;
+            
+            ArrayList<String> lst = controller.relatedPersonalContacts( sltd );
+            if( lst != null ){
+                for (int i = 0; i < lst.size(); ++i) {
+                    lmEventsRelated.add(i, lst.get(i));
+                }
+            }
+        }
+    }    
 }

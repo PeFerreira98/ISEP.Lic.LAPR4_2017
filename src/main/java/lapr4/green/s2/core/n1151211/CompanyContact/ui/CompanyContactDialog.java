@@ -150,22 +150,8 @@ public class CompanyContactDialog extends javax.swing.JDialog {
     private void buttonLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLeftActionPerformed
         // TODO add your handling code here:
         
-        String name = companyName.getText().trim();
-        
-        if( name == null || "".equalsIgnoreCase(name) ){
-            
-        }else{
-            try {
-                msg.setText("");
-                result.setCompanyContact(controller.createCompanyContact( name ));
-                result.setResult(true);
-                dispose();
-
-            } catch (DataConcurrencyException ex) {
-                Logger.getLogger(CompanyContactDialog.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (DataIntegrityViolationException ex) {
-                msg.setText("Error!!  Duplicate company name?");
-            }
+        if( "Create".equals(buttonLeft.getText()) ){
+            createCompanyContact();
         }
         
     }//GEN-LAST:event_buttonLeftActionPerformed
@@ -226,4 +212,24 @@ public class CompanyContactDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel msg;
     // End of variables declaration//GEN-END:variables
+
+    private void createCompanyContact() {
+        String name = companyName.getText().trim();
+        
+        if( name == null || "".equalsIgnoreCase(name) ){
+            msg.setText("Error!!  The company name has to bo filled!");
+        }else{
+            try {
+                msg.setText("");
+                result.setCompanyContact(controller.createCompanyContact( name ));
+                result.setResult(true);
+                dispose();
+
+            } catch (DataConcurrencyException ex) {
+                Logger.getLogger(CompanyContactDialog.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DataIntegrityViolationException ex) {
+                msg.setText("Error!!  Duplicate company name?");
+            }
+        }
+    }
 }

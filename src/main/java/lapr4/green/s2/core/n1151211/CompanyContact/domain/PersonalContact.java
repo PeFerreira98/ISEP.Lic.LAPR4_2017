@@ -39,4 +39,26 @@ public class PersonalContact extends Contact {
         this.related = related;
     }
 
+    
+    public PersonalContact(final String name, final String firstName, final String lastName, String profession, CompanyContact related) {
+        super(name, firstName, lastName);
+
+        this.profession = profession;
+        this.related = related;
+    }
+    
+    
+    public String toString(){
+        String str = super.toString()+ " (Pf: " + profession + ") ( Rt: ";
+        
+        if( related == null )
+            str = str + "Not related)";
+        else
+            str = str + related.toString() + ")";
+        return str;
+    }
+
+    public boolean relatedTo(CompanyContact cpc) {
+        return cpc.equals(related);
+    }
 }

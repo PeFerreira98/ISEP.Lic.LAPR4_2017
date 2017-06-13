@@ -31,4 +31,9 @@ public class JpaCompanyContactRepository extends CrmJpaRepositoryBase<CompanyCon
         }
         return true;
     }
+
+    @Override
+    public CompanyContact findByCompanyName(String str) {
+        return matchOne("e.companyName=:companyName", "companyName", str);
+    }
 }

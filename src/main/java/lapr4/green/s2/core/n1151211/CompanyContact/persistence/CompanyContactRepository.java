@@ -14,7 +14,10 @@ import eapli.framework.persistence.repositories.Repository;
  *
  * @author Fernando
  */
-public interface CompanyContactRepository  extends Repository<CompanyContact, Long> {
-        public boolean removeContact(CompanyContact c) throws DataIntegrityViolationException;
+public interface CompanyContactRepository extends Repository<CompanyContact, Long> {
+
+    public boolean removeContact(CompanyContact c) throws DataIntegrityViolationException;
+
+    public CompanyContact findByCompanyName(String str);
 
 }

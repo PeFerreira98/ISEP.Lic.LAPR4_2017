@@ -5,11 +5,23 @@
  */
 package lapr4.green.s2.core.n1151211.CompanyContact.ui;
 
+import eapli.framework.persistence.DataConcurrencyException;
+import eapli.framework.persistence.DataIntegrityViolationException;
+import java.util.Iterator;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ComboBoxModel;
+import lapr4.green.s2.core.n1151211.CompanyContact.application.CompanyContactController;
+import lapr4.green.s2.core.n1151211.CompanyContact.domain.CompanyContact;
+
 /**
  *
  * @author Fernando
  */
 public class PersonalContactDialog extends javax.swing.JDialog {
+
+    private CompanyContactController controller;
+    private UICompanyContactPanel.DialogResult result;
 
     /**
      * Creates new form PersonalContactDialog
@@ -17,6 +29,41 @@ public class PersonalContactDialog extends javax.swing.JDialog {
     public PersonalContactDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+
+    public PersonalContactDialog(java.awt.Frame parent, boolean modal, CompanyContactController controller, String btLeft, String btRight, UICompanyContactPanel.DialogResult result) {
+        super(parent, modal);
+        this.controller = controller;
+        this.result = result;
+        if (btLeft == null) {
+            this.setTitle("View a company contact");
+        } else if ("Create".equals(btLeft)) {
+            this.setTitle("Create a company contact");
+        } else if ("Update".equals(btLeft)) {
+            this.setTitle("Update a company contact");
+        } else if ("Delete".equals(btLeft)) {
+            this.setTitle("Delete a company contact");
+        } else {
+            this.setTitle("????????????????????????");
+        }
+
+        initComponents();
+
+        if (btLeft == null) {
+            buttonLeft.setVisible(false);
+        } else {
+            buttonLeft.setVisible(true);
+            buttonLeft.setText(btLeft);
+        }
+
+        buttonRight.setText(btRight);
+
+        msg.setText("");
+
+        initProfession();
+
+        initRelated();
+
     }
 
     /**
@@ -29,6 +76,7 @@ public class PersonalContactDialog extends javax.swing.JDialog {
     private void initComponents() {
 
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         fullName = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -40,10 +88,13 @@ public class PersonalContactDialog extends javax.swing.JDialog {
         photo = new javax.swing.JPanel();
         selectPhoto = new javax.swing.JButton();
         profession = new javax.swing.JComboBox<>();
-        related = new javax.swing.JComboBox<>();
+        related = new javax.swing.JComboBox();
         reload = new javax.swing.JButton();
+        msg = new javax.swing.JLabel();
 
         jLabel4.setText("jLabel4");
+
+        jLabel5.setText("jLabel5");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -133,6 +184,9 @@ public class PersonalContactDialog extends javax.swing.JDialog {
             }
         });
 
+        msg.setForeground(new java.awt.Color(255, 0, 0));
+        msg.setText("jLabel6");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -172,7 +226,8 @@ public class PersonalContactDialog extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(reload)
                                     .addComponent(profession, javax.swing.GroupLayout.Alignment.TRAILING, 0, 359, Short.MAX_VALUE)
-                                    .addComponent(related, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                                    .addComponent(related, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(msg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -202,11 +257,13 @@ public class PersonalContactDialog extends javax.swing.JDialog {
                         .addComponent(profession, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(reload)))
-                .addGap(34, 34, 34)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(msg)
+                .addGap(19, 19, 19)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(buttonLeft, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buttonRight, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16))
+                    .addComponent(buttonRight, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(buttonLeft, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         pack();
@@ -226,10 +283,17 @@ public class PersonalContactDialog extends javax.swing.JDialog {
 
     private void buttonLeftActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonLeftActionPerformed
         // TODO add your handling code here:
+        if ("Create".equals(buttonLeft.getText())) {
+            createPersonalContact();
+        }
+
+
     }//GEN-LAST:event_buttonLeftActionPerformed
 
     private void buttonRightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonRightActionPerformed
         // TODO add your handling code here:
+        result.setResult(false);
+        dispose();
     }//GEN-LAST:event_buttonRightActionPerformed
 
     private void selectPhotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_selectPhotoActionPerformed
@@ -299,11 +363,67 @@ public class PersonalContactDialog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JTextField lastName;
+    private javax.swing.JLabel msg;
     private javax.swing.JPanel photo;
     private javax.swing.JComboBox<String> profession;
-    private javax.swing.JComboBox<String> related;
+    private javax.swing.JComboBox related;
     private javax.swing.JButton reload;
     private javax.swing.JButton selectPhoto;
     // End of variables declaration//GEN-END:variables
+
+    private void initProfession() {
+        profession.removeAllItems();
+        profession.addItem("Unkown");
+    }
+
+    private void initRelated() {
+        related.removeAllItems();
+        related.addItem("Not Related");
+
+        Iterator itr = controller.allCompanyContacts().iterator();
+        while (itr.hasNext()) {
+            related.addItem(((CompanyContact) itr.next()).toString());
+        }
+    }
+
+    private void createPersonalContact() {
+        String name = fullName.getText().trim();
+        if (name == null || "".equalsIgnoreCase(name)) {
+            msg.setText("Error!!  Full name is required!");
+            return;
+        }
+
+        String first = firstName.getText().trim();
+        if (first == null || "".equalsIgnoreCase(first)) {
+            msg.setText("Error!!  First name is required!");
+            return;
+        }
+
+        String last = lastName.getText().trim();
+        if (last == null || "".equalsIgnoreCase(last)) {
+            msg.setText("Error!!  Last name is required!");
+            return;
+        }
+
+        String profis = (String) profession.getSelectedItem();
+        String rlt = (String) related.getSelectedItem();
+        
+        System.out.println("profis  " +  profis);
+        try {
+            msg.setText("");
+            result.setPersonalContact(controller.personalContact(name, first, last, profis, rlt));
+            result.setResult(true);
+            dispose();
+
+        } catch (DataConcurrencyException ex) {
+            Logger.getLogger(CompanyContactDialog.class.getName()).log(Level.SEVERE, null, ex);
+            msg.setText("Error!!  DataConcurrencyException");
+
+        } catch (DataIntegrityViolationException ex) {
+            msg.setText("Error!!  Duplicate personal name?");
+        }
+
+    }
 }
