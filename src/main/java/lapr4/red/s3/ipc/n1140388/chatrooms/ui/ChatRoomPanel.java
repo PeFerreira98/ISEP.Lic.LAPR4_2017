@@ -31,7 +31,8 @@ import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomController;
 public class ChatRoomPanel extends JPanel implements SelectionListener {
 
     private JButton btnUpdate;
-    private final JButton btnCreate;
+    private JButton btnCreate;
+    private JButton btnJoin;
 
     private final JButton selectedRoom;
 
@@ -64,10 +65,12 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
 
         //Creates buttons to create
         btnCreate = buttonCreate();
+        btnJoin = buttonJoin();
 
         //Add buttons to panel
         buttonsPanel.add(new JToolBar.Separator(new Dimension(20, 20)));
         buttonsPanel.add(btnCreate);
+        buttonsPanel.add(btnJoin);
         buttonsPanel.add(new JToolBar.Separator(new Dimension(20, 20)));
 
         // Creates side bar
@@ -118,14 +121,14 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     }
 
     private JButton btnChooseRoom() {
-        JButton choise = new JButton(" Select Room ");
+        JButton choise = new JButton(" Go to Room ");
         choise.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
 
                 if (roomsComboBox.getSelectedItem() != null) {
                     ChatRoom room = getRoom(roomsComboBox.getSelectedIndex());
-                    
+//                    ChatRoomUI ui = new ChatRoomUI(room);
                 } else {
                     JOptionPane.showMessageDialog(ChatRoomPanel.this,
                             "Please select a contact",
@@ -212,7 +215,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
      * @return the button to create the event
      */
     private JButton buttonCreate() {
-        JButton btnCreate = new JButton(" Create Chat Room ");
+        btnCreate = new JButton(" Create Chat Room ");
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
@@ -221,6 +224,24 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
         });
 
         return btnCreate;
+    }
+    
+    /**
+     * Creates a button to create an event to the select the contact. This
+     * button will open a new window to create that event.
+     *
+     * @return the button to create the event
+     */
+    private JButton buttonJoin() {
+        btnJoin = new JButton(" Join Chat Room ");
+        btnJoin.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent ae) {
+                JoinRoomUI ui = new JoinRoomUI();
+            }
+        });
+
+        return btnJoin;
     }
 
     @Override

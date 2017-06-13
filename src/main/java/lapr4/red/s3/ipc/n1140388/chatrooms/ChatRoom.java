@@ -94,4 +94,22 @@ public class ChatRoom implements Serializable {
 
         return this.name.equalsIgnoreCase(room.name());
     }
+
+    public boolean hasParticipant(ChatUser participant) {
+        for (ChatUser user : participants) {
+            if (user.equals(participant)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public boolean addParticipant(ChatUser participant) {
+        if (!this.participants.contains(participant)) {
+            this.participants.add(participant);
+            return true;
+        }
+        return false;
+    }
 }

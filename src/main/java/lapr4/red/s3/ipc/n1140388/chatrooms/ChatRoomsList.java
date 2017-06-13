@@ -8,7 +8,7 @@ package lapr4.red.s3.ipc.n1140388.chatrooms;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
+import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 
 /**
  *
@@ -42,10 +42,44 @@ public class ChatRoomsList implements Serializable {
         return null;
     }
 
-    /**
-     * @return the chatRoomsList
-     */
-    public List<ChatRoom> chatRoomsList() {
-        return chatRoomsList;
+    public List<ChatRoom> chatRoomsList(ChatUser participant) {
+        List<ChatRoom> list = new ArrayList<>();
+
+        for (ChatRoom cr : chatRoomsList) {
+            if (cr.hasParticipant(participant)) {
+                list.add(cr);
+            }
+        }
+
+        return list;
+    }
+
+    public List<ChatRoom> publicRoomsWithoutParticipant(ChatUser participant) {
+        List<ChatRoom> list = new ArrayList<>();
+
+        for (ChatRoom cr : chatRoomsList) {
+            if (cr instanceof PublicChatRoom) {
+                if (!cr.hasParticipant(participant)) {
+                    list.add(cr);
+                }
+            }
+        }
+
+        return list;
+    }
+
+    public List<ChatRoom> privateRoomsWithInvationWithoutParticipant(ChatUser participant) {
+        List<ChatRoom> list = new ArrayList<>();
+
+        for (ChatRoom cr : chatRoomsList) {
+            if (cr instanceof PrivateChatRoom) {
+                if (!cr.hasParticipant(participant)
+                        && ((PrivateChatRoom) cr).invitations().contains(participant)) {
+                    list.add(cr);
+                }
+            }
+        }
+
+        return list;
     }
 }

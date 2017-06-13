@@ -46,10 +46,32 @@ public class ChatRoomController {
      * @return the chatRoomsList
      */
     public List<ChatRoom> chatRoomsList() {
-        return roomsList.chatRoomsList();
+        return roomsList.chatRoomsList(owner);
+    }
+    
+    /**
+     * @return the chatRoomsList
+     */
+    public List<ChatRoom> publicRooms() {
+        return roomsList.publicRoomsWithoutParticipant(owner);
+    }
+    
+    /**
+     * @return the chatRoomsList
+     */
+    public List<ChatRoom> privateRooms() {
+        return roomsList.privateRoomsWithInvationWithoutParticipant(owner);
     }
     
     public void startChat(ChatRoom cr) {
         roomsList.add(cr);
+    }
+    
+    public boolean joinChatRoom(ChatRoom chatRoom) {
+        return chatRoom.addParticipant(owner);
+    }
+    
+    public boolean rejectChatRoom(ChatRoom chatRoom) {
+        return ((PrivateChatRoom) chatRoom).invitations().remove(owner);
     }
 }
