@@ -10,20 +10,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.Frame;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ContainerEvent;
-import java.awt.event.ContainerListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.Iterator;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -36,12 +34,14 @@ import javax.swing.event.PopupMenuEvent;
 import javax.swing.event.PopupMenuListener;
 import lapr4.green.s2.core.n1151211.companycontactx.CompanyContactExtension;
 import lapr4.green.s2.core.n1151211.CompanyContact.application.CompanyContactController;
+import lapr4.green.s2.core.n1151211.CompanyContact.domain.CompanyContact;
+import lapr4.green.s2.core.n1151211.CompanyContact.domain.PersonalContact;
 
 /**
  *
  * @author Fernando
  */
-public class CompanyContactPanel extends JPanel {
+public class UICompanyContactPanel extends JPanel {
 
     static protected final String PUSH_TO_COMPANY_CONTACT = "Push to company contacts";
     static protected final String PUSH_TO_PERSON_CONTACT = "Push to personal contacts";
@@ -59,17 +59,14 @@ public class CompanyContactPanel extends JPanel {
     static protected final String TITLE_RELATED_PERSONS = "Related persons - read only";
 
     static protected final String TITLE_COMPANY_EVENTS = "Events - read only";
-    
+
     static protected final String VIEW_ACTION = "View";
     static protected final String EDIT_ACTION = "Edit";
     static protected final String CREATE_ACTION = "Create";
     static protected final String DELETE_ACTION = "Delete";
-    
-    
-    
 
     private final int BUTTON_WIDTH = 170, BUTTON_ALTURA = 25;
-    
+
     private UIController uiController;
     private CompanyContactController controller;
 
@@ -89,18 +86,18 @@ public class CompanyContactPanel extends JPanel {
     private DefaultListModel<String> lmCompanyEvents = new DefaultListModel<>();
     private JList<String> lstCompanyEvents;
 
-    public CompanyContactPanel(UIController uiController) {
+    public UICompanyContactPanel(UIController uiController) {
         super.setName(CompanyContactExtension.NAME);
+        personCompany = SHOW_PERSON;
+
 
         this.uiController = uiController;
-        controller = new CompanyContactController();
+        controller = new CompanyContactController(uiController.getUserProperties());
         initComponents();
-
+        updateContactsUI((CompanyContact)null, (PersonalContact)null);
     }
-
     private void initComponents() {
-        personCompany = SHOW_PERSON;
-        // Configura o gestor de posicionamento do JPanel
+                // Configura o gestor de posicionamento do JPanel
         BorderLayout bl = new BorderLayout();
         //bl.setHgap( 20 );
         //bl.setVgap( 20 );
@@ -137,7 +134,7 @@ public class CompanyContactPanel extends JPanel {
         add(pNorth, BorderLayout.NORTH);
 
         ///////////////////////////////////////////////////////////////////////
-        lstContcts = new JList<>(new DefaultListModel<>());
+        lstContcts = new JList<>(lmContacts);
         lstContcts.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         pContacts = new JScrollPane(lstContcts);
         pContacts.setBorder(BorderFactory.createTitledBorder(TITLE_CONTACTS));
@@ -170,21 +167,95 @@ public class CompanyContactPanel extends JPanel {
         repaint();
     }
 
+    private void updateContactsUI(CompanyContact cContact, PersonalContact pContact) {
+        // pedir ao controlo uma lista dos contactos.
+        // Se receber um pergunta qual a posição na lista.
 
+        // Poem a lista recebida na janela.
+        // Se houver uma item para selecionar seleciona-o
+        ArrayList<String> contactsUI = new ArrayList<>();
+        String select = null;
+
+        
+        if( personCompany == SHOW_PERSON ){
+            //index = controller.getListContacts( cContact, contactsUI );
+        }else if( personCompany == SHOW_COMPANY ){
+            System.out.println("updateContactsUI");
+            Iterator itr = controller.allCompanyContacts().iterator();
+            while( itr.hasNext() ){
+                contactsUI.add(((CompanyContact)itr.next()).toString());
+                System.out.println("contactsUI.add");
+            }
+            if( cContact != null )
+                select = cContact.toString();
+        }else
+            return;
+        
+        
+         updateContactsUI(contactsUI, select);  
+    }
+
+    private void updateContactsUI(ArrayList<String> contactsUI, String select) {
+        if (lmContacts.isEmpty() && contactsUI.isEmpty()) {
+            return;
+        } else if (contactsUI.isEmpty()) {
+            lmContacts.clear();
+        } else {
+
+            if (theSameContacts(contactsUI, lmContacts )) {
+                return;
+            }
+
+            String selected = null;
+            
+            if( select != null )
+                selected = select;
+            else
+                selected = lstContcts.getSelectedValue();
+
+            lmContacts.clear();
+            for (int i = 0; i < contactsUI.size(); ++i) {
+                lmContacts.add(i, contactsUI.get(i));
+            }
+            if (selected != null && lmContacts.contains(selected)) {
+                lstContcts.setSelectedValue(selected, false);
+            }
+        }
+
+    }
+
+    private boolean theSameContacts(ArrayList<String> contactsUI, DefaultListModel<String> listModel) {
+        if (contactsUI.size() != listModel.size()) {
+            return false;
+        }
+
+        boolean same = true;
+        for (int i = 0; i < contactsUI.size(); ++i) {
+            same = contactsUI.get(i).equals(listModel.get(i));
+            if (!same) {
+                break;
+            }
+        }
+
+        return same;
+    }
+    
+    
 
     class PContactsMouseListener implements MouseListener, PopUpInterface {
+
         private boolean menuShown = false;
         private Instant popupCnd = Instant.now();
 
         private JPopupMenu popupMenu = null;
         private PContactsMouseMouseListener menuListener;
-        
+
         PContactsMouseListener() {
             popupMenu = new JPopupMenu();
             menuListener = new PContactsMouseMouseListener();
-            
-            popupMenu.addPopupMenuListener(new PopUpListner( this ) );
-            
+
+            popupMenu.addPopupMenuListener(new PopUpListner(this));
+
             JMenuItem item;
 
             popupMenu.add(item = new JMenuItem(VIEW_ACTION));
@@ -215,14 +286,14 @@ public class CompanyContactPanel extends JPanel {
         @Override
         public void mousePressed(MouseEvent e) {
 
-            if( menuShown ){
+            if (menuShown) {
                 popupMenu.setVisible(false);
                 menuShown = false;
-            }else{
+            } else {
                 Instant now = Instant.now();
-                if( now.getEpochSecond() != popupCnd.getEpochSecond() || (now.getNano() - popupCnd.getNano()) > 25000000  ) {
+                if (now.getEpochSecond() != popupCnd.getEpochSecond() || (now.getNano() - popupCnd.getNano()) > 25000000) {
                     // Todo  Validar os menus.
-                
+
                     popupMenu.show(pContacts, e.getX() + 3, e.getY());
                 }
             }
@@ -264,56 +335,65 @@ public class CompanyContactPanel extends JPanel {
                 bPushToChange.setText(BT_PERSON_CONTACT);
                 pEventsRelated.setBorder(BorderFactory.createTitledBorder(TITLE_PERSON_EVENTS));
 
-            } else {
+            } else if( personCompany == SHOW_COMPANY ){
                 lPushTo.setText(PUSH_TO_PERSON_CONTACT);
                 bPushToChange.setText(BT_COMPANY_CONTACT);
                 pEventsRelated.setBorder(BorderFactory.createTitledBorder(TITLE_RELATED_PERSONS));
             }
 
             pCompanyEvents.setVisible(personCompany == SHOW_COMPANY);
+            
+            
+            updateContactsUI((CompanyContact)null, (PersonalContact)null);
         }
 
     }
 
     private class PContactsMouseMouseListener implements ActionListener {
-        
+
         public void actionPerformed(ActionEvent event) {
-            Frame frame = JOptionPane.getFrameForComponent(CompanyContactPanel.this);
+            Frame frame = JOptionPane.getFrameForComponent(UICompanyContactPanel.this);
 
             switch (event.getActionCommand()) {
-                case CompanyContactPanel.VIEW_ACTION:
-                    System.out.println("Popup menu item ["               + event.getActionCommand() + "] :: " + CompanyContactPanel.VIEW_ACTION);
+                case UICompanyContactPanel.VIEW_ACTION:
+                    System.out.println("Popup menu item [" + event.getActionCommand() + "] :: " + UICompanyContactPanel.VIEW_ACTION);
                     break;
-                case CompanyContactPanel.EDIT_ACTION:
-                    System.out.println("Popup menu item ["               + event.getActionCommand() + "] :: " + CompanyContactPanel.EDIT_ACTION);
+                case UICompanyContactPanel.EDIT_ACTION:
+                    System.out.println("Popup menu item [" + event.getActionCommand() + "] :: " + UICompanyContactPanel.EDIT_ACTION);
                     break;
-                case CompanyContactPanel.CREATE_ACTION:
-                    System.out.println("Popup menu item ["               + event.getActionCommand() + "] :: " + CompanyContactPanel.CREATE_ACTION);
-                    if( personCompany == SHOW_PERSON ){
-                        PersonalContactDialog dialog = new PersonalContactDialog( frame, true);
+                case UICompanyContactPanel.CREATE_ACTION:
+                    System.out.println("Popup menu item [" + event.getActionCommand() + "] :: " + UICompanyContactPanel.CREATE_ACTION);
+                    if (personCompany == SHOW_PERSON) {
+                        PersonalContactDialog dialog = new PersonalContactDialog(frame, true);
+                        dialog.setLocationRelativeTo(null);
                         dialog.setVisible(true);
 
-                    }else if( personCompany == SHOW_COMPANY ){
-                        
-                        CompanyNameUI dialog = new CompanyNameUI( frame, true, "Create a company contact", personCompany );
+                    } else if (personCompany == SHOW_COMPANY) {
+                        DialogResult result = new DialogResult();
+                        CompanyContactDialog dialog = new CompanyContactDialog(frame, true, controller, "Create", "Cancel", result);
+                        dialog.setLocationRelativeTo(null);
                         dialog.setVisible(true);
+                        if( result.result ){
+                            updateContactsUI(result.getCompanyContact(), (PersonalContact)null );
+                        }
                     }
                     break;
-                case CompanyContactPanel.DELETE_ACTION:
-                    System.out.println("Popup menu item ["               + event.getActionCommand() + "] :: " + CompanyContactPanel.DELETE_ACTION);
+                case UICompanyContactPanel.DELETE_ACTION:
+                    System.out.println("Popup menu item [" + event.getActionCommand() + "] :: " + UICompanyContactPanel.DELETE_ACTION);
                     break;
                 default:
-                    System.out.println("Popup menu item ["               + event.getActionCommand() + "] :: " + "??????");
+                    System.out.println("Popup menu item [" + event.getActionCommand() + "] :: " + "??????");
 
             }
-            
+
         }
     }
-    private class PopUpListner implements PopupMenuListener{
-        
+
+    private class PopUpListner implements PopupMenuListener {
+
         PopUpInterface popUp;
-        
-        PopUpListner( PopUpInterface popUp ){
+
+        PopUpListner(PopUpInterface popUp) {
             this.popUp = popUp;
         }
 
@@ -321,7 +401,6 @@ public class CompanyContactPanel extends JPanel {
         public void popupMenuWillBecomeVisible(PopupMenuEvent e) {
             popUp.setShown(true);
         }
-        
 
         @Override
         public void popupMenuWillBecomeInvisible(PopupMenuEvent e) {
@@ -330,12 +409,37 @@ public class CompanyContactPanel extends JPanel {
 
         @Override
         public void popupMenuCanceled(PopupMenuEvent e) {
-            popUp.setCndNow(); 
+            popUp.setCndNow();
             popUp.setShown(false);
         }
     }
-    private interface PopUpInterface{
-        void setShown( boolean shown );
+
+    private interface PopUpInterface {
+
+        void setShown(boolean shown);
+
         void setCndNow();
+    }
+
+    public class DialogResult {
+
+        private boolean result = false;
+        private CompanyContact companyContact = null;
+
+        public boolean getResult() {
+            return result;
+        }
+
+        public void setResult(boolean result) {
+            this.result = result;
+        }
+
+        public CompanyContact getCompanyContact() {
+            return companyContact;
+        }
+
+        public void setCompanyContact(CompanyContact companyContact) {
+            this.companyContact = companyContact;
+        }
     }
 }

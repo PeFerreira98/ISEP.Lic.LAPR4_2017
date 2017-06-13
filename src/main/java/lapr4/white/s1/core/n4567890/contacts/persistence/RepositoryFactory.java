@@ -6,6 +6,7 @@
 package lapr4.white.s1.core.n4567890.contacts.persistence;
 
 import lapr4.green.s2.core.n1151211.CompanyContact.persistence.CompanyContactRepository;
+import lapr4.green.s2.core.n1151211.CompanyContact.persistence.PersonalContactRepository;
 import lapr4.white.s1.core.n4567890.contacts.ExtensionSettings;
 
 /**
@@ -19,5 +20,7 @@ public interface RepositoryFactory {
     ContactRepository contacts();
     
     CompanyContactRepository companyContact();
+    
+    PersonalContactRepository personalContact();
 
 }

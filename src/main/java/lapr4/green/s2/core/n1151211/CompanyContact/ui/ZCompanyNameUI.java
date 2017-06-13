@@ -18,13 +18,13 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import static lapr4.green.s2.core.n1151211.CompanyContact.ui.CompanyContactPanel.SHOW_PERSON;
+import static lapr4.green.s2.core.n1151211.CompanyContact.ui.UICompanyContactPanel.SHOW_PERSON;
 
 /**
  *
  * @author Fernando
  */
-public class CompanyNameUI extends JDialog {
+public class ZCompanyNameUI extends JDialog {
     private static final int WINDOW_WIDTH = 500;
 
     private static final int WINDOW_HEIGHT = 400;
@@ -38,7 +38,7 @@ public class CompanyNameUI extends JDialog {
     /**
      * Creates new form NewJDialog
      */
-    public CompanyNameUI(Frame parent, boolean modal, String title, boolean personCompany ) {
+    public ZCompanyNameUI(Frame parent, boolean modal, String title, boolean personCompany ) {
         super(parent, modal);
         this.setTitle(title);
         
@@ -57,12 +57,12 @@ public class CompanyNameUI extends JDialog {
         textFields = new JTextField[3];
         
         JPanel pName = null;
-        //if( personCompany == CompanyContactPanel.SHOW_COMPANY )
+        //if( personCompany == UICompanyContactPanel.SHOW_COMPANY )
             pName = nameEntry( "Company Name: ", 0, 10, 10, 15, 10 );
         
         add( pName, BorderLayout.NORTH );
 
-        if( personCompany == CompanyContactPanel.SHOW_PERSON ){
+        if( personCompany == UICompanyContactPanel.SHOW_PERSON ){
             JPanel pCenter = new JPanel();
             pCenter.setLayout(new BoxLayout(pCenter, BoxLayout.Y_AXIS));
             

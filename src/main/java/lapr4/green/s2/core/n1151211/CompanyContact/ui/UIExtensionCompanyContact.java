@@ -37,7 +37,7 @@ public class UIExtensionCompanyContact extends UIExtension {
         @Override
 	public JComponent getSideBar() {
             if (sideBar == null)
-		sideBar = new CompanyContactPanel(uiController);
+		sideBar = new UICompanyContactPanel(uiController);
             return sideBar;
 	}	
 }
