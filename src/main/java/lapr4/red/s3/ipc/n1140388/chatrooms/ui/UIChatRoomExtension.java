@@ -21,6 +21,8 @@ import javax.swing.JMenu;
  */
 public class UIChatRoomExtension extends UIExtension {
 
+    private JComponent sidebar;
+    
     /**
      * A menu that provides to create a chat room
      */
@@ -47,5 +49,18 @@ public class UIChatRoomExtension extends UIExtension {
             menu = new ChatRoomsMenu(uiController);
         }
         return menu;
+    }
+    
+    /**
+     * Returns a side bar that provides received messages
+     *
+     * @return a side bar
+     */
+    @Override
+    public JComponent getSideBar() {
+        if (sidebar == null) {
+            sidebar = new ChatRoomPanel(uiController);
+        }
+        return sidebar;
     }
 }

@@ -72,6 +72,10 @@ public class ChatRoom implements Serializable {
         return online;
     }
 
+    public void setOnline(boolean online) {
+        this.online = online;
+    }
+
     /**
      * Compare if the chat room is equals to other chat room.
      *

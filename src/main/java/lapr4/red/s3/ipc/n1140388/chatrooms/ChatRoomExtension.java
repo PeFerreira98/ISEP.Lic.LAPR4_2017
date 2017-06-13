@@ -28,7 +28,7 @@ public class ChatRoomExtension extends Extension {
     /**
      * The description
      */
-    public static final String DESCRIPTION = "Events related extension from sprint 1.";
+    public static final String DESCRIPTION = "ChatRoom related extension from sprint 3.";
 
     /**
      * Creates a new Event extension.
