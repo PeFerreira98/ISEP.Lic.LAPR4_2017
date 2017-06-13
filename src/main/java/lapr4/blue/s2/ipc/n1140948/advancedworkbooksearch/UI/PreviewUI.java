@@ -9,6 +9,7 @@ import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
 import javax.swing.table.DefaultTableModel;
 import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.DescodificadorWorkbook;
+import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.controller.PreviewWorkbookController;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
 import lapr4.green.s1.ipc.n1970581.findworkbook.ui.SearchWorkbookPanel;
 
@@ -21,8 +22,10 @@ public class PreviewUI extends javax.swing.JFrame {
     private final DescodificadorWorkbook descWorkbook;
     private final SearchWorkbookPanel searchWorkbookPanel;
     private final SearchWorkbookController searchWorkbookController;
+    private final PreviewWorkbookController previewController;
+    private final UIController uiController;
     private final Cell cellList[][][];
-    private int paginaAtual = 1;
+    private int paginaAtual = 0;
     private String[] matrixLine;
     private Object[][] matrixColumn;
     
@@ -39,13 +42,15 @@ public class PreviewUI extends javax.swing.JFrame {
      */
     public PreviewUI(DescodificadorWorkbook descodificador, UIController uiController) {         
         initComponents();
+        this.uiController = uiController;
         this.descWorkbook = descodificador;
         this.cellList = descWorkbook.CellList();
         this.searchWorkbookPanel = new SearchWorkbookPanel(uiController);
         this.searchWorkbookController = new SearchWorkbookController(uiController);
+        this.previewController = new PreviewWorkbookController(searchWorkbookPanel, uiController);
         this.listNum = createListaNumeros();
         this.WorkbookNamelbl.setText(descWorkbook.File().filename());
-        this.SheetNumberlbl.setText(""+paginaAtual);        
+        this.SheetNumberlbl.setText(""+(paginaAtual+1));        
         
         pack();
         setLocationRelativeTo(null);
@@ -81,6 +86,7 @@ public class PreviewUI extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Workbook Preview");
+        setAlwaysOnTop(true);
         setResizable(false);
 
         Workbooklbl.setText("Workbook:");
@@ -232,11 +238,11 @@ public class PreviewUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseButtonActionPerformed
+        uiController.setActiveWorkbook(previewController.getPreviousWorkbook());
         dispose();
     }//GEN-LAST:event_CloseButtonActionPerformed
 
     private void OpenWorkbookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenWorkbookButtonActionPerformed
-        searchWorkbookController.openWorkbook(descWorkbook.File());
         dispose();
     }//GEN-LAST:event_OpenWorkbookButtonActionPerformed
 

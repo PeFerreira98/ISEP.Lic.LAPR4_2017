@@ -7,7 +7,6 @@ package lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.controller;
 
 import csheets.core.Workbook;
 import csheets.ui.ctrl.UIController;
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.DescodificadorWorkbook;
@@ -25,6 +24,7 @@ public class PreviewWorkbookController {
     private UIController uiController;
     private DescodificadorWorkbook descWorkBook;
     private PreviewUI previewUI;
+    private Workbook oldWorkbook;
 
     private PreviewWorkbookController() {
     }
@@ -32,6 +32,7 @@ public class PreviewWorkbookController {
     public PreviewWorkbookController(SearchWorkbookPanel aThis, UIController uiCtrl) {
         this.searchWorkbookPanel = aThis;
         this.uiController = uiCtrl;
+        this.oldWorkbook = uiController.getActiveWorkbook();
     }
     
     public Workbook openFile(FileDTO file) {
@@ -43,7 +44,16 @@ public class PreviewWorkbookController {
         }
         return workbook;
     }
-
+    
+    public Workbook getPreviousWorkbook(){
+        Workbook old = this.oldWorkbook;
+        return old;
+    }
+    
+    public void setPreviousWorkbook(Workbook old){
+        old = this.oldWorkbook;
+    }
+    
     /**
      * For best performance, the object DescodificadorWorkbook is only created
      * now
@@ -61,7 +71,7 @@ public class PreviewWorkbookController {
     }
 
     /**
-     * For best performance, the object PreviewWorkbookFrame is only created now
+     * For best performance, the object PreviewUI is only created now
      *
      * @param descWorkBook DescodificadorWorkbook
      */

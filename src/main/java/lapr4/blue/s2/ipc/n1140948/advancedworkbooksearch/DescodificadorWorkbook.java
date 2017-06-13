@@ -29,7 +29,7 @@ public class DescodificadorWorkbook {
     private int minCellHorizontal[];
     private int numFolhas;
     private Cell cellList[][][];
-    private static final int matrixSize = 5;
+    private static final int MATRIX_SIZE = 5;
 
     /**
      * private constructor
@@ -67,7 +67,7 @@ public class DescodificadorWorkbook {
         int q = 0, w = 0;
         getFistCellNonEmpty();
 
-        cellList = new Cell[matrixSize][matrixSize][numFolhas];
+        cellList = new Cell[MATRIX_SIZE][MATRIX_SIZE][numFolhas];
 
         for (int p = 0; p < numFolhas; p++) {
             Spreadsheet sp = workbook.getSpreadsheet(p);
@@ -162,6 +162,6 @@ public class DescodificadorWorkbook {
     }
 
     public static int matrixSize() {
-        return matrixSize;
+        return MATRIX_SIZE;
     }
 }
