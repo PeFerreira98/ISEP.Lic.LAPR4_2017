@@ -1,0 +1,31 @@
+@startuml lang04.2_analysis.png
+
+actor User
+
+participant "System" as s
+
+User->s: Select the image cell decorator
+User->s: Select the cell that he wants to insert images
+User->s: Select the image extension
+s->User: The sidebar for the respective extension appears
+User->s: Select the add image option
+
+loop if the user wants to select more than 1 image
+User->s: Finds the image he wants to insert
+s->User: The image appears in the panel of the sidebar with the URL/Link (directory) in the list of the sidebar
+end
+
+s->User: Marks the cell with a * to known there are image(s) inserted in the selected cell
+
+alt the user wants to delete an image
+User->s: Select the URL/Link of the image he wants to remove
+User->s: Select the remove image option
+s->User: The image is removed
+alt if there is no more images to be removed on the selected cell
+s->User: Unmarks the * to known there are no more images in the selected cell
+end
+end
+
+s->User: success
+
+@enduml
