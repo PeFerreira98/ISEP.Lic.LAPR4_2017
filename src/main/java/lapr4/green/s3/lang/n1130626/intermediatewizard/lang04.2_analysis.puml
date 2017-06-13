@@ -4,28 +4,16 @@ actor User
 
 participant "System" as s
 
-User->s: Select the image cell decorator
-User->s: Select the cell that he wants to insert images
-User->s: Select the image extension
-s->User: The sidebar for the respective extension appears
-User->s: Select the add image option
-
-loop if the user wants to select more than 1 image
-User->s: Finds the image he wants to insert
-s->User: The image appears in the panel of the sidebar with the URL/Link (directory) in the list of the sidebar
-end
-
-s->User: Marks the cell with a * to known there are image(s) inserted in the selected cell
-
-alt the user wants to delete an image
-User->s: Select the URL/Link of the image he wants to remove
-User->s: Select the remove image option
-s->User: The image is removed
-alt if there is no more images to be removed on the selected cell
-s->User: Unmarks the * to known there are no more images in the selected cell
-end
-end
-
+User->s: Select the cell that he wants to insert a function
+User->s: Select the wizard option
+s->User: Display the avaliable functions and operators
+User->s: Select the function or operators
+s->User: Display a preview of the selected function/operator
+User->s: Select the values he wants to use
+User->s: Select the preview option
+s->User: Show the result of the function with the selected values
+User->s: Select the insert button
+s->User: The result of the function is inserted in the selected cell
 s->User: success
 
 @enduml
