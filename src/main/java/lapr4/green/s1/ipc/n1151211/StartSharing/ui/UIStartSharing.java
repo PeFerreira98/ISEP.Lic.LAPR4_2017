@@ -35,7 +35,6 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  */
 public class UIStartSharing extends UIExtension implements CommHandler2, Observer {
 
-    //private JComponent sideBar;
     private ShareCellsPanel sideBar;
     private Object lastDto;
     private boolean status = false;

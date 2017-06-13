@@ -26,16 +26,14 @@
  * SharingAutomaticUpdateCellListener<p>
  * UIStartSharing (Changed)<p>
  * ShareCellsPanel (Changed)<p>
- * 
- * FormulaEvalVisitor (Changed)<p>
  * <p>
  * <b>Work Log</b><p>
  * <b>Daily Log (Monday 05/06/2017) - </b>
  * Sprint1 IPC use cases presentation. Closing Sprint1. New Issues Attribution.<p>
  * 
  * <b>Daily Log (Tuesday 06/06/2017) - </b>
- * Use case analysis and study. Documentation Creation.
- * <p>
+ * Use case analysis and study. Documentation Creation.<p>
+ * 
  * <b>Daily Log (Wednesday 07/06/2017) - </b>
  * Analysis continuation. Start Design.<p>
  * 

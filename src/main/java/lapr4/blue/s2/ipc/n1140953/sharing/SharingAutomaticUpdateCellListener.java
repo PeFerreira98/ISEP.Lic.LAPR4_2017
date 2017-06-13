@@ -15,24 +15,20 @@ import lapr4.green.s1.ipc.n1151211.StartSharing.ui.UIStartSharing;
  */
 public class SharingAutomaticUpdateCellListener implements CellListener {
 
-//    private final SharingAutomaticUpdateController controller;
-    private final UIStartSharing controller2;
+    private final UIStartSharing controller;
 
-//    public SharingAutomaticUpdateCellListener(SharingAutomaticUpdateController controller) {
-//        this.controller = controller;
-//    }
     public SharingAutomaticUpdateCellListener(UIStartSharing uIStartSharing) {
-        this.controller2 = uIStartSharing;
+        this.controller = uIStartSharing;
     }
 
     @Override
     public void valueChanged(Cell cell) {
-        this.controller2.quickShare(cell);
+        this.controller.quickShare(cell);
     }
 
     @Override
     public void contentChanged(Cell cell) {
-        this.controller2.quickShare(cell);
+        this.controller.quickShare(cell);
     }
 
     @Override
