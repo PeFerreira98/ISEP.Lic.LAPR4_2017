@@ -1,0 +1,46 @@
+@startuml design_joinChatRoom_ipc05.3.png
+actor User
+participant "JoinChatRoomUI" as pui
+participant "ChatRoomController" as pctrl
+participant "ChatUserStorage" as p
+participant "ChatRoom" as chatR
+participant "ChatRoomsList" as chatRL
+
+
+User -> pui: Select join a Chat Room Option
+
+create pctrl
+pui -> pctrl: create()
+
+
+pui -> pctrl : owner = owner()
+pctrl -> p : owner = getUserByIP(string)
+
+alt p == null
+    User <-- pui : Please login as chat participant first
+    pui -> pui : dispose
+end alt
+
+
+
+pui -> pctrl : pubsList = publicRooms()
+pctrl -> chatRL : pubsList = publicRoomsWithoutParticipant(participant)
+pui -> pctrl : privList = privateRooms()
+pctrl -> chatRL : privList = privateRoomsWithInvationWithoutParticipant(participant)
+
+pui -> User : Shows all avaiable chat rooms
+
+User -> pui : Chose one
+
+alt join
+pui -> pctrl : joinChatRoom(room)
+
+pctrl -> chatR : addParticipant(participant)
+end
+
+alt reject
+pui -> pctrl : rejectChatRoom(room)
+
+pctrl -> chatR : remove(participant)
+end
+@enduml
