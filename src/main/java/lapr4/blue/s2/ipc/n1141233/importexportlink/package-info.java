@@ -66,7 +66,7 @@
  * <h3>3.2 Domain Model</h3>
  *
  * <p>
- * <img src="ipc04_2_dm.png" alt="domain model">
+ * <img src="ipc04.2_dm.png" alt="domain model">
  * </p>
  *
  *
@@ -75,7 +75,7 @@
  * <p>
  * <b>UC1 Export Link (from US1)</b>
  * <br>
- * <img src="ipc04_2_analysis1.png" alt="analysis">
+ * <img src="ipc04.2_analysis1.png" alt="analysis">
  * <br>
  * Alternative and Exception Scenarios
  * <br>
@@ -90,7 +90,7 @@
  * <p>
  * <b>UC2 Import Link (from US2)</b>
  * <br>
- * <img src="ipc04_2_analysis2.png" alt="analysis">
+ * <img src="ipc04.2_analysis2.png" alt="analysis">
  * <br>
  * Alternative and Exception Scenarios
  * <br>
@@ -103,7 +103,7 @@
  * <p>
  * <b>UC3 Remove Active Link (from US4)</b>
  * <br>
- * <img src="ipc04_2_analysis3.png" alt="analysis">
+ * <img src="ipc04.2_analysis3.png" alt="analysis">
  * <br>
  * </p>
  *
@@ -237,7 +237,7 @@
  * A portion of a sequence diagram is shown here in part 1 to know how the
  * extension is load by the ExtensionManager
  * <br>
- * <img src="ipc04_2_design_part1.png" alt="part 1">
+ * <img src="ipc04.2_design_part1.png" alt="part 1">
  * <br>
  *
  * <b>Part 2:</b>
@@ -245,7 +245,7 @@
  * Another portion of a sequence diagram is shown here in part 2 to know how the
  * UI (User interface) of the extension is created
  * <br>
- * <img src="ipc04_2_design_part2.png" alt="part 2">
+ * <img src="ipc04.2_design_part2.png" alt="part 2">
  * <br>
  *
  * <b>Part 3:</b>
@@ -253,22 +253,22 @@
  * This portion of a sequence diagram is shown here in part 3 to know how the
  * menu of the extension is created
  * <br>
- * <img src="ipc04_2_design_part3.png" alt="part 3">
+ * <img src="ipc04.2_design_part3.png" alt="part 3">
  * </p>
  *
  * <p>
  * <br>
  * <b>Export Link</b>
  * <br>
- * <img src="ipc04_2_designuc1.png" alt="uc1">
+ * <img src="ipc04.2_designuc1.png" alt="uc1">
  * <br>
  * <b>Import Link</b>
  * <br>
- * <img src="ipc04_2_designuc2.png" alt="uc2">
+ * <img src="ipc04.2_designuc2.png" alt="uc2">
  * <br>
  * <b>Remove Active Link</b>
  * <br>
- * <img src="ipc04_2_designuc3.png" alt="uc3">
+ * <img src="ipc04.2_designuc3.png" alt="uc3">
  * <br>
  * </p>
  *
@@ -277,7 +277,7 @@
  *
  * <h4>4.3.1 Class Diagram</h4>
  *
- * <img src="ipc04_2_cd.png" alt="class diagram">
+ * <img src="ipc04.2_cd.png" alt="class diagram">
  *
  *
  * <h3>4.4. Design Patterns and Best Practices</h3>

@@ -1,4 +1,4 @@
-@startuml ipc04_2_design_part3.png
+@startuml ipc04.2_design_part3.png
 
 skinparam sequenceMessageAlign center
 

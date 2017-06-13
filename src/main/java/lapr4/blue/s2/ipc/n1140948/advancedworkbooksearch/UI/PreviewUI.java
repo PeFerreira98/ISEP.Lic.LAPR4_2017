@@ -1,64 +1,67 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.UI;
 
 import csheets.core.Cell;
 import csheets.ui.ctrl.UIController;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.DescodificadorWorkbook;
 import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.controller.PreviewWorkbookController;
-import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
-import lapr4.green.s1.ipc.n1970581.findworkbook.ui.SearchWorkbookPanel;
+import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 
 /**
  *
  * @author Tiago Silvestre
  */
-public class PreviewUI extends javax.swing.JFrame {
-    
-    private final DescodificadorWorkbook descWorkbook;
-    private final SearchWorkbookPanel searchWorkbookPanel;
-    private final SearchWorkbookController searchWorkbookController;
-    private final PreviewWorkbookController previewController;
-    private final UIController uiController;
-    private final Cell cellList[][][];
+public class PreviewUI extends javax.swing.JFrame
+{
+
+    private PreviewWorkbookController previewController;
+    private Cell cellList[][][];
     private int paginaAtual = 0;
     private String[] matrixLine;
     private Object[][] matrixColumn;
-    
-    private static int[] listNum;
-    private static final String[] listAbc = {"A", "B", "C", "D", "E", "F", "G",
+
+    private static final int[] LIST_NUM = createListaNumeros();
+    private static final String[] LIST_ABC =
+    {
+        "A", "B", "C", "D", "E", "F", "G",
         "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "X", "Y",
         "Z", "AA", "AB", "AC", "AD", "AE", "AF", "AG", "AH", "AI", "AJ", "AK", "AL", "AM", "AN",
-        "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AX", "AY", "AZ"};
+        "AO", "AP", "AQ", "AR", "AS", "AT", "AU", "AV", "AX", "AY", "AZ"
+    };
 
     /**
      * Creates new form PreviewUI
-     * @param descodificador
+     *
+     * @param file file to preview
      * @param uiController
      */
-    public PreviewUI(DescodificadorWorkbook descodificador, UIController uiController) {         
+    public PreviewUI(FileDTO file, UIController uiController)
+    {
+
         initComponents();
-        this.uiController = uiController;
-        this.descWorkbook = descodificador;
-        this.cellList = descWorkbook.CellList();
-        this.searchWorkbookPanel = new SearchWorkbookPanel(uiController);
-        this.searchWorkbookController = new SearchWorkbookController(uiController);
-        this.previewController = new PreviewWorkbookController(searchWorkbookPanel, uiController);
-        this.listNum = createListaNumeros();
-        this.WorkbookNamelbl.setText(descWorkbook.File().filename());
-        this.SheetNumberlbl.setText(""+(paginaAtual+1));        
-        
+
+        this.WorkbookNamelbl.setText(file.filename());
+        this.SheetNumberlbl.setText("" + (paginaAtual + 1));
+
+        try
+        {
+            this.previewController = new PreviewWorkbookController(file, uiController);
+
+            this.cellList = previewController.CellList();
+        }
+        catch (IOException | ClassNotFoundException ex)
+        {
+            Logger.getLogger(PreviewUI.class.getName()).log(Level.SEVERE, null, ex);
+            dispose();
+        }
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
         showPage();
         jTable.setFillsViewportHeight(true);
         this.LeftSheetButton.setEnabled(false);
-        descWorkbook.descodificador(); 
     }
 
     /**
@@ -238,11 +241,11 @@ public class PreviewUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void CloseButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CloseButtonActionPerformed
-        uiController.setActiveWorkbook(previewController.getPreviousWorkbook());
         dispose();
     }//GEN-LAST:event_CloseButtonActionPerformed
 
     private void OpenWorkbookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenWorkbookButtonActionPerformed
+        previewController.open();
         dispose();
     }//GEN-LAST:event_OpenWorkbookButtonActionPerformed
 
@@ -254,96 +257,115 @@ public class PreviewUI extends javax.swing.JFrame {
         pagePrevious();
     }//GEN-LAST:event_LeftSheetButtonActionPerformed
 
-    private void nextPage() {
+    private void nextPage()
+    {
         LeftSheetButton.setEnabled(true);
         paginaAtual++;
-        SheetNumberlbl.setText(""+ (paginaAtual + 1));
+        SheetNumberlbl.setText("" + (paginaAtual + 1));
         showPage();
-        if (paginaAtual == descWorkbook.numSheet() - 1) {
+        if (paginaAtual == previewController.numSheet() - 1)
+        {
             RightSheetButton.setEnabled(false);
         }
     }
-    
-    private void pagePrevious() {        
+
+    private void pagePrevious()
+    {
         RightSheetButton.setEnabled(true);
         paginaAtual--;
-        SheetNumberlbl.setText(""+ (paginaAtual + 1));
-        showPage();      
-        if (paginaAtual == 0) {
+        SheetNumberlbl.setText("" + (paginaAtual + 1));
+        showPage();
+        if (paginaAtual == 0)
+        {
             LeftSheetButton.setEnabled(false);
         }
     }
-    
-    private void showPage() {
+
+    private void showPage()
+    {
         preencheValoresMatrix();
         jTable.setModel(new DefaultTableModel(matrixColumn, matrixLine));
-    }    
-    
+    }
+
     /**
      * Import cells and do new sheet to show
+     *
      * @return
      */
-    private void preencheValoresMatrix() {
+    private void preencheValoresMatrix()
+    {
 
         this.matrixColumn = importColumn();
         this.matrixLine = importLine();
 
-        int max = descWorkbook.matrixSize();
+        int max = previewController.matrixSize();
 
-        try {
-            for (int i = 0; i < max; i++) {
-                for (int j = 0; j < max; j++) {
+        try
+        {
+            for (int i = 0; i < max; i++)
+            {
+                for (int j = 0; j < max; j++)
+                {
                     matrixColumn[j][i + 1] = cellList[j][i][paginaAtual].getContent();
                 }
             }
-        } catch (NullPointerException e) {
-            
+        }
+        catch (NullPointerException e)
+        {
+            // do nothing
         }
 
     }
-    
-    private Object[][] importColumn() {
-        int min = descWorkbook.minCellHorizontal()[paginaAtual];
+
+    private Object[][] importColumn()
+    {
+        int min = previewController.minCellHorizontal()[paginaAtual];
         Object[][] data = new Object[5][6];
-        
-        if((min+5)>listNum.length){
-            int r =(min+5)-listNum.length;
-            min=min-r;
+
+        if ((min + 5) > LIST_NUM.length)
+        {
+            int r = (min + 5) - LIST_NUM.length;
+            min = min - r;
         }
-        
-        for (int i = 0; i < 5; i++) {
-            data[i][0] = listNum[i + min];
+
+        for (int i = 0; i < 5; i++)
+        {
+            data[i][0] = LIST_NUM[i + min];
         }
         return data;
     }
-    
-    private String[] importLine() {
-        int min = descWorkbook.minCellVertical()[paginaAtual];
-        
-        if((min+5)>listAbc.length){
-            int r =(min+5)-listAbc.length;
-            min=min-r;
+
+    private String[] importLine()
+    {
+        int min = previewController.minCellVertical()[paginaAtual];
+
+        if ((min + 5) > LIST_ABC.length)
+        {
+            int r = (min + 5) - LIST_ABC.length;
+            min = min - r;
         }
-        
+
         String[] columnNames = new String[6];
         columnNames[0] = "";
 
-        for (int i = 1; i < 6; i++) {
-            columnNames[i] = listAbc[i - 1 + min];
+        for (int i = 1; i < 6; i++)
+        {
+            columnNames[i] = LIST_ABC[i - 1 + min];
         }
 
         return columnNames;
     }
-    
-    private int[] createListaNumeros() {
+
+    private static int[] createListaNumeros()
+    {
         int[] list = new int[128];
-        for (int i = 0; i < 128; i++) {
+        for (int i = 0; i < 128; i++)
+        {
             list[i] = i + 1;
         }
         return list;
     }
-    
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel ButtonPanel;

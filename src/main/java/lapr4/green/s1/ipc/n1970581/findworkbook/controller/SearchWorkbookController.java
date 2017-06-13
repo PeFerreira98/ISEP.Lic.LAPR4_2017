@@ -20,7 +20,7 @@ import lapr4.green.s1.ipc.n1970581.findworkbook.FilenameFilterBasic;
 public class SearchWorkbookController {
     
     /** The user interface controller */
-    private UIController uiController;
+    private final UIController uiController;
     
     /** Container for receiving the FileDTO objects associated with FileFinder */
     private FileContainer container;

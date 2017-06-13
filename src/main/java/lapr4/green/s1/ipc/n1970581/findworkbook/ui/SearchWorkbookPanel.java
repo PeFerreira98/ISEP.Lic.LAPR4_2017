@@ -5,12 +5,8 @@
  */
 package lapr4.green.s1.ipc.n1970581.findworkbook.ui;
 
-import csheets.CleanSheets;
-import csheets.core.Workbook;
 import csheets.ui.ctrl.UIController;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
@@ -18,8 +14,7 @@ import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.DescodificadorWorkbook;
-import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.controller.PreviewWorkbookController;
+import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.UI.PreviewUI;
 import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 import lapr4.green.s1.ipc.n1970581.findworkbook.SearchWorkbookExtension;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
@@ -31,13 +26,10 @@ import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookControl
 public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer {
 
     /** The ui Controller of the main window */
-    private UIController uiController;
+    private final UIController uiController;
     
     /** The Controller of the use case */
-    private SearchWorkbookController controller;
-    
-    /** This pannel */
-    SearchWorkbookPanel myselfPanel;
+    private final SearchWorkbookController controller;
     
     /** file chooser object */
     private JFileChooser chooser;
@@ -51,10 +43,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
     private String rootDirPath;
     
     /** The defaultListModel */
-    private DefaultListModel<FileDTO> defaultListModel;
-    
-    private DescodificadorWorkbook descWorkbook;
-    private PreviewWorkbookController previewController;
+    private final DefaultListModel<FileDTO> defaultListModel;
     
     /**
      * Creates new form SearchWorkbookPanel
@@ -64,8 +53,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         this.uiController = uiController;
         this.controller = new SearchWorkbookController(uiController);
         initComponents();
-        this.myselfPanel = this;
-        this.defaultListModel = new DefaultListModel<FileDTO>();        
+        this.defaultListModel = new DefaultListModel<>();        
     }
 
     /**
@@ -195,7 +183,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         // TODO add your handling code here:
         ((DefaultListModel) this.jListWorkbooks.getModel()).clear();
         this.jButtonOpen.setEnabled(false);
-        this.controller.search(rootDir, (Observer) this.myselfPanel);
+        this.controller.search(rootDir, (Observer) this);
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jListWorkbooksMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListWorkbooksMouseClicked
@@ -218,21 +206,8 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
     private void PreviewWorkbookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviewWorkbookButtonActionPerformed
         // TODO add your handling code here:        
         FileDTO file = (FileDTO) jListWorkbooks.getSelectedValue();
-        this.previewController = new PreviewWorkbookController(this, uiController);
-        previewController.getPreviousWorkbook();
-        try {
-            this.descWorkbook = new DescodificadorWorkbook(uiController.getActiveWorkbook(), file, myselfPanel);
-        } catch (IOException | ClassNotFoundException ex) {
-            Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }        
-        if (this.jListWorkbooks.getSelectedValue() != null) {
-            openWorkbook();
-            try {
-                previewController.previewFile(previewController.openFile(file), file);
-            } catch (IOException | ClassNotFoundException ex) {
-                Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }    
+        
+        PreviewUI previewUI = new PreviewUI(file, uiController);
     }//GEN-LAST:event_PreviewWorkbookButtonActionPerformed
 
 
@@ -267,7 +242,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         Object obj =  this.jListWorkbooks.getSelectedValue();
         if(obj == null) {
             //throw new NullPointerException("null returned from this.jListWorkbooks.getSelectedValue() while opening woorkbook");
-            JOptionPane.showMessageDialog(this.myselfPanel, "Null workbook selected from list", "Error" , JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Null workbook selected from list", "Error" , JOptionPane.ERROR_MESSAGE);
             return;
         }
         FileDTO fileDTO = (FileDTO) this.jListWorkbooks.getSelectedValue();
@@ -279,7 +254,6 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         if(modified) answer = JOptionPane.showConfirmDialog(this.myselfPanel, "Unsaved Modifications Detected. Still wish to open?", "Title" , JOptionPane.YES_NO_OPTION);
         System.out.println("Anser:" + answer);
         */
-        
         
         this.controller.openWorkbook(fileDTO);
     }
