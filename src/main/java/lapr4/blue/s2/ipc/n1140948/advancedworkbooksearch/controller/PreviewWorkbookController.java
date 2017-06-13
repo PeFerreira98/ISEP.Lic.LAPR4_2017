@@ -7,7 +7,7 @@ import csheets.ui.ctrl.UIController;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.DescodificadorWorkbook;
+import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.WorkbookDecoder;
 import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 
 /**
@@ -20,7 +20,7 @@ public class PreviewWorkbookController
     private final UIController uiController;
     private final FileDTO file;
 
-    private final DescodificadorWorkbook decoderWorkBook;
+    private final WorkbookDecoder decoderWorkBook;
 
     private final Workbook previewWorkbook;
 
@@ -29,7 +29,7 @@ public class PreviewWorkbookController
         this.file = file;
         this.uiController = uiController;
         this.previewWorkbook = openFile(file);
-        this.decoderWorkBook = new DescodificadorWorkbook(previewWorkbook);
+        this.decoderWorkBook = new WorkbookDecoder(previewWorkbook);
     }
 
     private Workbook openFile(FileDTO file) throws IOException, ClassNotFoundException
@@ -52,7 +52,7 @@ public class PreviewWorkbookController
 
     public int matrixSize()
     {
-        return DescodificadorWorkbook.matrixSize();
+        return WorkbookDecoder.matrixSize();
     }
 
     public int[] minCellHorizontal()

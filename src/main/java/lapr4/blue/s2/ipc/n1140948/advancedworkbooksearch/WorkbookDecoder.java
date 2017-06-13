@@ -10,7 +10,7 @@ import java.io.IOException;
  *
  * @author Tiago Silvestre
  */
-public class DescodificadorWorkbook
+public class WorkbookDecoder
 {
 
     private static final int MATRIX_SIZE = 5;
@@ -33,7 +33,7 @@ public class DescodificadorWorkbook
      * @throws FileNotFoundException
      * @throws ClassNotFoundException
      */
-    public DescodificadorWorkbook(Workbook previewWorkbook) throws IOException, FileNotFoundException, ClassNotFoundException
+    public WorkbookDecoder(Workbook previewWorkbook) throws IOException, FileNotFoundException, ClassNotFoundException
     {
         this.workbook = previewWorkbook;
         this.sheets = workbook.getSpreadsheetCount();
