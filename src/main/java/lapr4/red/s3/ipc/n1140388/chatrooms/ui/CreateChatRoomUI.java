@@ -31,8 +31,8 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
     /**
      * Creates new form CreateChatRoomUI
      */
-    public CreateChatRoomUI() {
-        this.controller = new ChatRoomController();
+    public CreateChatRoomUI(ChatRoomController cntrl) {
+        this.controller = cntrl;
         ChatUser activeParticipant = controller.owner();
 
         if (activeParticipant != null) {

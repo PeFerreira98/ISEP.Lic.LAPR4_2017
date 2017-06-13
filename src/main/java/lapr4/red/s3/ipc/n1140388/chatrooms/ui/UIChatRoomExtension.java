@@ -9,7 +9,6 @@ import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import javax.swing.JComponent;
-import javax.swing.JMenu;
 
 /**
  * This class implements the UI interface extension for the chat rooms
@@ -21,13 +20,11 @@ import javax.swing.JMenu;
  */
 public class UIChatRoomExtension extends UIExtension {
 
+    /**
+     * A sidebar that provides to create a chat room
+     */
     private JComponent sidebar;
     
-    /**
-     * A menu that provides to create a chat room
-     */
-    private ChatRoomsMenu menu;
-
     /**
      * The menu of the extension
      *
@@ -36,19 +33,6 @@ public class UIChatRoomExtension extends UIExtension {
      */
     public UIChatRoomExtension(Extension extension, UIController uiController) {
         super(extension, uiController);
-    }
-
-    /**
-     * Returns an instance of a class that implements JMenu.
-     *
-     * @return menu of extension
-     */
-    @Override
-    public JMenu getMenu() {
-        if (menu == null) {
-            menu = new ChatRoomsMenu(uiController);
-        }
-        return menu;
     }
     
     /**
