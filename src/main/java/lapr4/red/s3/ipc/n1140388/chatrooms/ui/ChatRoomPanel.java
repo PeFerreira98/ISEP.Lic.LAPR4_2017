@@ -42,6 +42,11 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
 
     private ChatRoomController controller;
 
+    /**
+     * Creates a new chat room panel.
+     *
+     * @param uiController the user interface controller
+     */
     public ChatRoomPanel(UIController uiController) {
         // Configures panel
         super(new BorderLayout());
@@ -54,16 +59,16 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
         JPanel roomsPanel = new JPanel(new GridLayout(3, 0));
         JPanel buttonsPanel = new JPanel(new GridLayout(5, 0));
 
-        //Creates comboBox of ChatRooms and List of Events
+        //Creates comboBox of ChatRooms
         roomsComboBox = createRoomsComboBox();
 
-        //Add combo box and button to choose contact on panel and finish the operation with that contact
-        roomsPanel.add(createUpdateFinishButtonPanel());
+        //Add combo box and button to choose the room on panel and update the comboBox
+        roomsPanel.add(createUpdateButtonPanel());
         roomsPanel.add(roomsComboBox);
         selectedRoom = btnChooseRoom();
         roomsPanel.add(selectedRoom);
 
-        //Creates buttons to create
+        //Creates buttons to create and join
         btnCreate = buttonCreate();
         btnJoin = buttonJoin();
 
@@ -80,19 +85,19 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     }
 
     /**
-     * Creates a combo box to choose the contact.
+     * Creates a combo box to choose the chat room.
      *
      * @return combo box
      */
     private JComboBox createRoomsComboBox() {
-        String[] contactNames = showAllRooms();
-        JComboBox contatos = new JComboBox(contactNames);
-        return contatos;
+        String[] chatroomsNames = showAllRooms();
+        JComboBox chatrooms = new JComboBox(chatroomsNames);
+        return chatrooms;
     }
 
     /**
-     * Returns an array with the names of contacts to be visible on the combo
-     * box, and adds all objects of contacts on the roomsList array.
+     * Returns an array with the names of chat rooms to be visible on the combo
+     * box, and adds all objects of chat rooms on the roomsList array.
      *
      * @return array with the contacts name
      */
@@ -120,6 +125,13 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
         return names;
     }
 
+    /**
+     * Creates a button to choose the chat room. This button will send a message
+     * if there is not any chat room selected.
+     *
+     * @return the button to choose the chat room
+     * @return
+     */
     private JButton btnChooseRoom() {
         JButton choise = new JButton(" Go to Room ");
         choise.addActionListener(new ActionListener() {
@@ -131,7 +143,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
 //                    ChatRoomUI ui = new ChatRoomUI(room);
                 } else {
                     JOptionPane.showMessageDialog(ChatRoomPanel.this,
-                            "Please select a contact",
+                            "Please select a chat room",
                             "Show ChatRoom",
                             JOptionPane.WARNING_MESSAGE);
                 }
@@ -142,10 +154,10 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     }
 
     /**
-     * Get the contact selected on the combo box.
+     * Get the chat room selected on the combo box.
      *
-     * @param selectedIndex index of contact chosen on combo box
-     * @return the contact chosen
+     * @param selectedIndex index of chat room chosen on combo box
+     * @return the chat room chosen
      */
     public ChatRoom getRoom(int selectedIndex) {
 
@@ -157,11 +169,11 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     }
 
     /**
-     * Creates a panel with the update and finish button.
+     * Creates a panel with the update button.
      *
-     * @return panel with the update and finish button
+     * @return panel with the update button
      */
-    private JPanel createUpdateFinishButtonPanel() {
+    private JPanel createUpdateButtonPanel() {
         this.btnUpdate = buttonUpdate();
 
         JPanel panel = new JPanel(new GridLayout(0, 2));
@@ -171,33 +183,33 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     }
 
     /**
-     * Creates a button to update the contacts list. This button will send a
-     * message if there is not any contact.
+     * Creates a button to update the chat room list. This button will send a
+     * message if there is not any chat room.
      *
-     * @return the button to update the contact list
+     * @return the button to update the chat room list
      */
     private JButton buttonUpdate() {
-        JButton update = new JButton(" Update ");
-        update.setBackground(Color.white);
-        update.addActionListener(new ActionListener() {
+        btnUpdate = new JButton(" Update ");
+        btnUpdate.setBackground(Color.white);
+        btnUpdate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
                 if (!updateContactos()) {
                     JOptionPane.showMessageDialog(ChatRoomPanel.this,
-                            "There are no contacts to show",
-                            "Show Contacts",
+                            "There are no chat rooms to show",
+                            "Show Chat Rooms",
                             JOptionPane.WARNING_MESSAGE);
                 }
             }
         });
-        return update;
+        return btnUpdate;
     }
 
     /**
-     * This method will update the list of contacts, showing all the actual
-     * contacts of the combo box list.
+     * This method will update the list of chat rooms, showing all the actual
+     * chat rooms of the combo box list.
      *
-     * @return true if has contacts
+     * @return true if has chat room
      */
     public boolean updateContactos() {
         Object[] data = showAllRooms();
@@ -209,10 +221,10 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     }
 
     /**
-     * Creates a button to create an event to the select the contact. This
-     * button will open a new window to create that event.
+     * Creates a button to create a chat room. This button will open a new
+     * window to create that chat room.
      *
-     * @return the button to create the event
+     * @return the button to create the chat room
      */
     private JButton buttonCreate() {
         btnCreate = new JButton(" Create Chat Room ");
@@ -225,12 +237,12 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
 
         return btnCreate;
     }
-    
+
     /**
-     * Creates a button to create an event to the select the contact. This
-     * button will open a new window to create that event.
+     * Creates a button to join to that chat room. This button will open a new
+     * window to join to that chat room.
      *
-     * @return the button to create the event
+     * @return the button to join the chat room
      */
     private JButton buttonJoin() {
         btnJoin = new JButton(" Join Chat Room ");

@@ -14,15 +14,27 @@ import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
  *
  * @author Alexandra Ferreira 1140388
  */
-public class PrivateChatRoom extends ChatRoom implements Serializable{
-   
+public class PrivateChatRoom extends ChatRoom implements Serializable {
+
     private List<ChatUser> invitations;
 
+    /**
+     * Creates a private chat room
+     *
+     * @param name the name of the chat
+     * @param owner the owner of the chat
+     * @param inv the invations of the owner to the chat
+     */
     public PrivateChatRoom(String name, ChatUser owner, List<ChatUser> inv) {
         super(name, owner);
         invitations = new ArrayList<>(inv);
     }
 
+    /**
+     * Returns the invations.
+     *
+     * @return the invations
+     */
     public List<ChatUser> invitations() {
         return invitations;
     }

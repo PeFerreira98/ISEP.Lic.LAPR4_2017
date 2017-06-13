@@ -16,7 +16,7 @@ pui -> pctrl: create()
 pui -> pctrl : owner = owner()
 pctrl -> p : owner = getUserByIP(string)
 
-alt p == null
+alt owner == null
     User <-- pui : Please login as chat participant first
     pui -> pui : dispose
 end alt

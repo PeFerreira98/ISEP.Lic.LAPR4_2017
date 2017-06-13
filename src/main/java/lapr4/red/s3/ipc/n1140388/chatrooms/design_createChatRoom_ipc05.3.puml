@@ -16,7 +16,7 @@ ui -> ctrl: create()
 ui -> ctrl : owner = owner()
 ctrl -> p : owner = getUserByIP(string)
 
-alt p == null
+alt owner == null
     User <-- ui : Please login as chat participant first
     ui -> ui : dispose
 end alt

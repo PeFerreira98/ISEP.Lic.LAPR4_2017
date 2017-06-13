@@ -14,6 +14,12 @@ import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
  */
 public class PublicChatRoom extends ChatRoom implements Serializable {
 
+    /**
+     * Creates a public chat room
+     *
+     * @param name the name of the chat
+     * @param owner the owner of the chat
+     */
     public PublicChatRoom(String name, ChatUser owner) {
         super(name, owner);
     }

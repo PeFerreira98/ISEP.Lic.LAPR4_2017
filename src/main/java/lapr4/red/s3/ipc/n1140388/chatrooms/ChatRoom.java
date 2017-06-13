@@ -11,10 +11,11 @@ import java.util.List;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 
 /**
+ * This class creates a chat room.
  *
  * @author Alexandra Ferreira 1140388
  */
-public class ChatRoom implements Serializable {
+public abstract class ChatRoom implements Serializable {
 
     private String name;
     private ChatUser owner;
@@ -72,6 +73,11 @@ public class ChatRoom implements Serializable {
         return online;
     }
 
+    /**
+     * Modify the state of chat.
+     *
+     * @param online true if is online, false if is offline
+     */
     public void setOnline(boolean online) {
         this.online = online;
     }
@@ -95,6 +101,12 @@ public class ChatRoom implements Serializable {
         return this.name.equalsIgnoreCase(room.name());
     }
 
+    /**
+     * Verify if the list of participants cointains a specific participant.
+     *
+     * @param participant the participant to verify
+     * @return true if contains, false if not
+     */
     public boolean hasParticipant(ChatUser participant) {
         for (ChatUser user : participants) {
             if (user.equals(participant)) {
@@ -105,6 +117,12 @@ public class ChatRoom implements Serializable {
         return false;
     }
 
+    /**
+     * Add participant to the list of participants.
+     *
+     * @param participant the participant to add
+     * @return true if was added, false if was not
+     */
     public boolean addParticipant(ChatUser participant) {
         if (!this.participants.contains(participant)) {
             this.participants.add(participant);
