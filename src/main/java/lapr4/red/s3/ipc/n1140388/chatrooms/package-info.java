@@ -78,7 +78,6 @@
  *
  * <p>
  * <img src="analysis_ipc05.3.png" alt="image">
- * <p>
  *
  *
  *
@@ -104,7 +103,12 @@
  * <h2>4. Design</h2>
  *
  * <h3>4.1. Functional Tests</h3>
- *
+ * <p>
+ * Basically, from requirements and also my analysis, I see that the core
+ * functionality of this use case is to be able to create a chat room, and trade
+ * message with others users. Following this approach I need to test this use
+ * case, to do that I will create an private chat room, and invite others users,
+ * and try to send and receive message with them by using the chat room.</p>
  *
  *
  *
@@ -132,7 +136,10 @@
  *
  * <h3>4.2. UC Realization</h3>
  * <p>
- *
+ * To realize this user story, a new subclass of UIExtenstion as well as a new
+ * classe of Extension will have to be created. Each participant in the sidebar
+ * has a MouseListener that opens the respective chat room, where the user can
+ * communicate with others users.
  *
  *
  * <h3>Create Chat Room</h3>
@@ -141,8 +148,15 @@
  * </p>
  *
  *
+ * <h3>Join Chat Room</h3>
+ * <p>
+ * <img src="design_joinChatRoom_ipc05.3.png" alt="image">
+ * </p>
  *
- *
+ * <h3>Communicate in a Chat Room</h3>
+ * <p>
+ * <img src="" alt="image">
+ * </p>
  *
  *
  *
@@ -155,7 +169,7 @@
  * <h3>4.4. Design Patterns and Best Practices</h3>
  *
  * -nothing-
- * <p>
+ * 
  *
  *
  * <h2>5. Implementation</h2>
@@ -208,6 +222,10 @@
  * <p>
  * 1. Analysis of the use case.
  * <p>
+ * 2. Design of the first use case.
+ * <p>
+ * 3. Implementation of the first use case.
+ * <p>
  * Today
  * <p>
  * 1. Meeting with our supervisor and decided who were the Area Leaders as well
@@ -216,6 +234,8 @@
  * 2. Confirm the chosen issue to deal.
  * <p>
  * 3. Created sub-tasks to that issue.
+ * <p>
+ * 4. Analysis, design and implementation.
  * <p>
  * Blocking:
  * <p>
@@ -226,7 +246,7 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Analysis and design.
+ * 1. Analysis, design and implementation.
  * <p>
  * Today
  * <p>

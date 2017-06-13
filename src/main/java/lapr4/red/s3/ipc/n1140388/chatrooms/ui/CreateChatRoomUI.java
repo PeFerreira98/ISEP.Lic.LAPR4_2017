@@ -30,6 +30,7 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
 
     /**
      * Creates new form CreateChatRoomUI
+     * @param cntrl the chat room controller
      */
     public CreateChatRoomUI(ChatRoomController cntrl) {
         this.controller = cntrl;
