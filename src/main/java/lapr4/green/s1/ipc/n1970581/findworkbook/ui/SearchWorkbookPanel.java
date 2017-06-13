@@ -5,8 +5,11 @@
  */
 package lapr4.green.s1.ipc.n1970581.findworkbook.ui;
 
+import csheets.CleanSheets;
+import csheets.core.Workbook;
 import csheets.ui.ctrl.UIController;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Observable;
 import java.util.Observer;
@@ -213,25 +216,23 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
     }//GEN-LAST:event_jButtonOpenActionPerformed
 
     private void PreviewWorkbookButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PreviewWorkbookButtonActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:        
         FileDTO file = (FileDTO) jListWorkbooks.getSelectedValue();
+        this.previewController = new PreviewWorkbookController(this, uiController);
+        previewController.getPreviousWorkbook();
         try {
             this.descWorkbook = new DescodificadorWorkbook(uiController.getActiveWorkbook(), file, myselfPanel);
-        } catch (IOException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        this.previewController = new PreviewWorkbookController(this, uiController);
-        if (jListWorkbooks.getSelectedValue() != null) {  
-            try {   
+        }        
+        if (this.jListWorkbooks.getSelectedValue() != null) {
+            openWorkbook();
+            try {
                 previewController.previewFile(previewController.openFile(file), file);
-            } catch (IOException ex) {
-                Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ClassNotFoundException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
+        }    
     }//GEN-LAST:event_PreviewWorkbookButtonActionPerformed
 
 
@@ -244,7 +245,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField jTextFieldRoot;
     // End of variables declaration//GEN-END:variables
-
+    
     @Override
     public synchronized void  update(Observable o, Object arg) {
         if( !(arg instanceof FileDTO) ) return;
