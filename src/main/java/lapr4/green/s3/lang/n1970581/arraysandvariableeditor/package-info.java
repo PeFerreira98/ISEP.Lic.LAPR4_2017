@@ -17,8 +17,10 @@
  * Work notes/log: S3 13-06-2017 (terca) <br>
  * Scrum meeting. Sprint planing meeting. (I'm the scrum Master).<br>
  * Use case selection from backlog and distribution. <br>
- * Analysis start.
- * 
+ * Analysis start.<br>
+ * <br>
+ * Work notes/log: S3 14-06-2017 (quarta) <br>
+ * Grammar copied to a new package, so we can change it.<br>
  * 
  * <h2>2. Requirement</h2>
  * 
