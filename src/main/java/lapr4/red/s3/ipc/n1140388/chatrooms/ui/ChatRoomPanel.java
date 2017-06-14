@@ -140,7 +140,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
 
                 if (roomsComboBox.getSelectedItem() != null) {
                     ChatRoom room = getRoom(roomsComboBox.getSelectedIndex());
-//                    ChatRoomUI ui = new ChatRoomUI(room);
+                    CommunicationChatRoomUI ui = new CommunicationChatRoomUI(controller, room);
                 } else {
                     JOptionPane.showMessageDialog(ChatRoomPanel.this,
                             "Please select a chat room",
@@ -249,7 +249,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
         btnJoin.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                JoinRoomUI ui = new JoinRoomUI();
+                JoinRoomUI ui = new JoinRoomUI(controller);
             }
         });
 

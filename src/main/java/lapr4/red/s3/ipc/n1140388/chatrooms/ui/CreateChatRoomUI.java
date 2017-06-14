@@ -19,8 +19,14 @@ import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomController;
  */
 public class CreateChatRoomUI extends javax.swing.JFrame {
 
+    /**
+     * The chat room created
+     */
     private ChatRoom room;
 
+    /**
+     * The list of invites
+     */
     private List<ChatUser> invites;
 
     /**
@@ -30,9 +36,11 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
 
     /**
      * Creates new form CreateChatRoomUI
+     *
      * @param cntrl the chat room controller
      */
     public CreateChatRoomUI(ChatRoomController cntrl) {
+
         this.controller = cntrl;
         ChatUser activeParticipant = controller.owner();
 

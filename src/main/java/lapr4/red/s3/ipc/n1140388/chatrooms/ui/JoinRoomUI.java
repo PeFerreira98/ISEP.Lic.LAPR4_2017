@@ -24,9 +24,13 @@ public class JoinRoomUI extends javax.swing.JFrame {
 
     /**
      * Creates new form JoinRoomUI
+     *
+     * @param controller the controller
      */
-    public JoinRoomUI() {
-        this.controller = new ChatRoomController();
+    public JoinRoomUI(ChatRoomController controller) {
+
+        this.controller = controller;
+
         ChatUser activeParticipant = controller.owner();
 
         if (activeParticipant != null) {
@@ -38,6 +42,8 @@ public class JoinRoomUI extends javax.swing.JFrame {
             privateList.setListData(controller.privateRooms().toArray());
             privateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
+            btnReject.setVisible(false);
+            
             setResizable(false);
             setLocationRelativeTo(null);
             setVisible(true);
@@ -73,18 +79,16 @@ public class JoinRoomUI extends javax.swing.JFrame {
 
         lblPrivateRooms.setText("PrivateRooms");
 
-        publicList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        publicList.setModel(new javax.swing.DefaultListModel<>());
+        if(publicList.getSelectedValue()!=null){
+            btnReject.setVisible(false);
+        }
         jScrollPane1.setViewportView(publicList);
 
-        privateList.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        privateList.setModel(new javax.swing.DefaultListModel<>());
+        if(privateList.getSelectedValue()!=null){
+            btnReject.setVisible(true);
+        }
         jScrollPane2.setViewportView(privateList);
 
         btnAccept.setText("Accept");
@@ -225,7 +229,7 @@ public class JoinRoomUI extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "You are already in this Chat Room!",
                         "Error", JOptionPane.WARNING_MESSAGE);
             }
-         }
+        }
     }//GEN-LAST:event_btnRejectActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -235,8 +239,6 @@ public class JoinRoomUI extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton jSelect;
-    private javax.swing.JButton jSelect1;
     private javax.swing.JLabel lblPrivateRooms;
     private javax.swing.JLabel lblPublicRooms;
     private javax.swing.JList privateList;
