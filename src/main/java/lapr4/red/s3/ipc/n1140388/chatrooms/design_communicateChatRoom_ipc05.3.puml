@@ -1,0 +1,35 @@
+@startuml design_communicateChatRoom_ipc05.3.png
+actor User
+participant "ChatRoomUI" as pui
+participant "ChatRoomController" as pctrl
+participant "ChatUserStorage" as p
+participant "MessageChatRoom" as msg
+
+
+User -> pui : Select the Chat Room
+
+create pctrl
+pui -> pctrl: create()
+
+pui -> pctrl : owner = owner()
+pctrl -> p : owner = getUserByIP(string)
+
+alt owner == null
+    User <-- pui : Please login as chat participant first
+    pui -> pui : dispose
+end alt
+
+loop until exit the chat room
+    alt send message
+      User -> pui : Inserts a message to send
+      pui -> pctrl : sendMessage(message)
+
+       create msg
+       pctrl -> msg : new(message, user, ip)
+    
+    else receive message
+       pctrl -> pui : addIncoming(msg)
+      pui -> User : Display the message from another User
+    end
+  end
+@enduml
