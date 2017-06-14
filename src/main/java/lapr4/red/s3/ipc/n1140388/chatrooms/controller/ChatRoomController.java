@@ -28,6 +28,7 @@ public class ChatRoomController {
      */
     public ChatRoomController() {
         this.roomsList = new ChatRoomsList();
+        this.owner = new ChatApplicationController().owner();
     }
 
     /**

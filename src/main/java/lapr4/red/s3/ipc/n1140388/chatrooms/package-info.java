@@ -92,7 +92,7 @@
  * <h3>3.1 User Stories</h3>
  *
  * <b>US1.</b> As a User I want to be able to create a chat room.<br>
- * Story Acceptance Criteria 1: <br>
+ * Story Acceptance Criteria 1: Should not have duplicates names<br>
  * <b>US2.</b> As a User I want to be able to join a room.<br>
  * <b>US3.</b> As a User I want to be able to communicate in a chat room.<br>
  *
@@ -115,7 +115,7 @@
  * <p>
  * Alternative and Exception Scenarios<br>
  * <p>
- * Exception 1: .
+ * Exception 1: The name of the room should be unique.
  *
  *
  * <h3>Acceptance Tests</h3>
@@ -124,7 +124,7 @@
  * <pre>
  * {@code
  * Given
- *   Formula without "#" at the begin
+ *   Existing name on list of rooms
  * Then
  *   System throws Exception
  * }
