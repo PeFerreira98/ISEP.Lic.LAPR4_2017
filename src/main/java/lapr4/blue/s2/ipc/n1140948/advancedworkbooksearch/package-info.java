@@ -99,31 +99,15 @@
  * the newly created classes. C means class and I means interface.
  * <p>
  * 
+ * <h3>4.4. Unit Tests</h3>
+ * Due to the nature of this feature the coverage is very low because it's all
+ * related to files and synchronization interactions.
+ * 
  * <h2>5. Implementation</h2>
  * 
- * Preview Button code: 
- * <pre>
- * {@code 
- *      FileDTO file = (FileDTO) jListWorkbooks.getSelectedValue();
- *       try {
- *           this.descWorkbook = new DescodificadorWorkbook(uiController.getActiveWorkbook(), file, myselfPanel);
- *       } catch (IOException ex) {
- *           Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
- *       } catch (ClassNotFoundException ex) {
- *           Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
- *       }
- *       this.previewController = new PreviewWorkbookController(this, uiController);
- *       if (jListWorkbooks.getSelectedValue() != null) {  
- *           try {   
- *               previewController.previewFile(previewController.openFile(file), file);
- *           } catch (IOException ex) {
- *               Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
- *           } catch (ClassNotFoundException ex) {
- *               Logger.getLogger(SearchWorkbookPanel.class.getName()).log(Level.SEVERE, null, ex);
- *           }
- *       }
- * }
- * </pre>
+ * <p>
+ * {@link lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.WorkbookDecoder}
+ * <br> {@link lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.controller.PreviewWorkbookController}
  *
  * <h2>6. Work Log</h2> *
  * <p>
