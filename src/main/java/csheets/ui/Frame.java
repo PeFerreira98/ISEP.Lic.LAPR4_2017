@@ -37,6 +37,7 @@ import javax.swing.JToolBar;
 
 import csheets.CleanSheets;
 import csheets.core.Workbook;
+import csheets.ext.ExtensionManager;
 import csheets.ui.ctrl.AboutAction;
 import csheets.ui.ctrl.ActionManager;
 import csheets.ui.ctrl.AddSpreadsheetAction;
@@ -73,8 +74,12 @@ import csheets.ui.ext.UIExtension;
 import csheets.ui.sheet.AddressBox;
 import csheets.ui.sheet.CellEditor;
 import csheets.ui.sheet.WorkbookPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
 import lapr4.blue.s1.lang.n1140948.functionwizard.FunctionWizardAction;
 
 /**
@@ -163,7 +168,20 @@ public class Frame extends JFrame implements SelectionListener {
 
 		// Creates and lays out top panel
 		JPanel cellPanel = new JPanel(new BorderLayout());
-		cellPanel.add(addressBox, BorderLayout.WEST);
+                JPanel wizardPanel = new JPanel(new BorderLayout());
+                wizardPanel.add(addressBox, BorderLayout.WEST);
+                
+                //Creates the wizard button
+                JButton wizardButton = new JButton("Wizard");
+                wizardButton.addActionListener(new ActionListener(){
+                    @Override
+                    public void actionPerformed(ActionEvent ae) {
+                        JOptionPane.showMessageDialog(null, "This button will be the wizard");
+                    }              
+                });
+                wizardPanel.add(wizardButton, BorderLayout.EAST);
+                        
+		cellPanel.add(wizardPanel, BorderLayout.WEST);
 		cellPanel.add(cellEditor, BorderLayout.CENTER);
 		JPanel topPanel = new JPanel(new BorderLayout());
 		topPanel.add(toolBarPanel, BorderLayout.NORTH);
