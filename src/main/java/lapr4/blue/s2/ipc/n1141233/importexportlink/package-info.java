@@ -63,12 +63,6 @@
  * </p>
  *
  *
- * <h3>3.2 Domain Model</h3>
- *
- * <p>
- * <img src="ipc04.2_dm.png" alt="domain model">
- * </p>
- *
  *
  * <h3>3.3 Use Cases (Scenarios)</h3>
  *
@@ -277,7 +271,7 @@
  *
  * <h4>4.3.1 Class Diagram</h4>
  *
- * <img src="ipc04.2_cd.png" alt="class diagram">
+ * <img src="ipc04.2_class.png" alt="class diagram">
  *
  *
  * <h3>4.4. Design Patterns and Best Practices</h3>
@@ -334,21 +328,32 @@
  * <h3>R3. Rubric Requirements Fulfillment: 3</h3>
  *
  * <p>
- * TODO
+ * 4- correct. The student did fulfil the requirements, justified the options
+ * and also presented a critical analysis of the requirements and options that
+ * is an evidence of his understanding of the problem domain.
  * </p>
  *
  *
  * <h3>R6. Rubric Requirements Analysis: 3 </h3>
  *
  * <p>
- * TODO
+ * 3- some defects. There is a robust analisys of the problem with well chosen
+ * technical artifacts (diagrams, grammars, etc.) for its documentation although
+ * some may have erros, such as referencing inexistent artifacts or having small
+ * notation errors.
  * </p>
  *
  *
  * <h3>R7. Rubric Design and Implement: 3</h3>
  *
  * <p>
- * TODO
+ * 3- some defects. Unit tests do cover a significant amount of functionalities
+ * (e.g., more than 80%) and there are some evidences of a test first approach.
+ * The code does not "break" the design options of the original project code and
+ * the code follows the good practices of the technical area (e.g.,
+ * synchronization for IPC, design patterns, grammar design for Lang). Also, the
+ * technical documentation (e.g., diagrams) is very complete and without
+ * significant errors.
  * </p>
  *
  *

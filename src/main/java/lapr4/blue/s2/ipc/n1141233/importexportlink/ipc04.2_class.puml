@@ -1,41 +1,93 @@
-@startuml ipc04.2_cd.png
-  class ImportAction
-
-  class ExportLinkAction
-   
-  class ImportExportMenu
-  class ExtensionImportExport {
-    -String NAME;
-  }
+@startuml ipc04.2_class.png
 
   class UIController
-  class ImportLinkUI{
-   -UIController uiController;
-  }
 
-  class UIExtensionImportExport
+  abstract class FocusOwnerAction
+
+  class UIExtensionImportExportText <<extends UIExtension>>
+
 
   class JMenuItem
 
-  class ExportLinkUI{
-    -Cell[][] selectedCells;
-    -UIController uiController;
+  class ImportLinkAction <<extends FocusOwnerAction>>
+  class ExportLinkAction <<extends FocusOwnerAction>>
+  class RemoveLinkAction <<extends FocusOwnerAction>>
+   
+  class ImportExportTextMenu <<extends JMenu>>
+
+  class ExtensionImportExportText <<extends Extension>>{
+    -String NAME;
+    -String DESCRIPTION
   }
 
-  class ImportExportTextLinkController{
+  class ImportLinkUI <<extends JFrame>>{
+    -ImportExportTextLinkController controller;
+  }
+
+  class ExportLinkUI <<extends JFrame>>{
+    -Cell[][] selectedCells;
+    -ImportExportTextLinkController controller;
+  }
+
+  class RemoveLinkUI <<extends JFrame>>{
+    -ImportExportTextLinkController controller;
+  }
+
+class ImportExportTextController{
     +checkCells(this.textSpecialChar.getText(), selectedCells);
     +importFromTextFile(String filename, String specialChar, boolean containsHeader);
-    +exportToTextFile(selectedCells, fileChooser.getSelectedFile().getAbsolutePath(), this.textSpecialChar.getText());
+    +exportToTextFile(selectedCells, fileChooser.getSelectedFile().getAbsolutePath(), this.textSpecialChar.getText();
   }
 
-  ExtensionImportExport -> UIExtensionImportExport : getUIExtension(UIController)
-  UIExtensionImportExport -> ImportExportMenu : getMenu()
-  ImportExportMenu -> JMenuItem : 'items'
+  class ImportExportTextLinkController <<extends ImportExportTextController>>{
+    +checkCells(this.textSpecialChar.getText(), selectedCells);
+    +importFromTextFile(String filename, String specialChar, boolean containsHeader);
+    +exportToTextFile(selectedCells, fileChooser.getSelectedFile().getAbsolutePath(), this.textSpecialChar.getText();
+  }
+
+  interface Link
+
+  class ExportLinkListener <<implements CellListener, Link>>{
+    -Cell[][] selectedCells;
+    -String filename;
+    -String specialChar;
+    -boolean header;
+  }
+
+  class ImportLinkRunnable <<implements Runnable, Link>>{
+    -UIController uiController;
+    -Cell originCell;
+    -String filename;
+    -long timeStamp;
+    -boolean keepGoing;
+  }
+
+  class LinkStorage
+
+
+  ExtensionImportExportText-> UIExtensionImportExportText : getUIExtension(UIController)
+  UIExtensionImportExportText-> ImportExportTextMenu : getMenu()
+  ImportExportTextMenu -> JMenuItem : 'items'
+
   JMenuItem o-> ImportLinkAction : action
-  ImportAction -> ImportLinkUI
-  UIController -> ImportExportTextLinkController
-  ImportLinkUI -> ImportExportTextLinkController
   JMenuItem o-> ExportLinkAction : action
-  ExportAction -> ExportLinkUI
+  JMenuItem o-> RemoveLinkAction : action
+
+  ImportLinkAction -> ImportLinkUI
+  ExportLinkAction -> ExportLinkUI
+  RemoveLinkAction -> RemoveLinkUI
+
+  ImportLinkUI -> ImportExportTextLinkController
   ExportLinkUI -> ImportExportTextLinkController
+  RemoveLinkUI -> ImportExportTextLinkController
+
+  ImportExportTextLinkController -> UIController
+  ImportExportTextLinkController -> ImportExportTextController
+  ImportExportTextLinkController -> LinkStorage
+  ImportExportTextLinkController -> ExportLinkListener
+  ImportExportTextLinkController -> ImportLinkRunnable 
+
+  LinkStorage -> Link
+  ExportLinkListener -> Link
+  ImportLinkRunnable -> Link
 @enduml
