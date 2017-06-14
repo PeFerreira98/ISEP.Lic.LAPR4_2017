@@ -40,7 +40,7 @@
  * The same happens if the user deletes a workbook from one of the folders he
  * previously selected.
  *
- * <img src="" alt="image">
+ * <img src="ipc02_03_analysis.png" alt="image">
  *
  * <h2>4. Design</h2>
  *
@@ -49,6 +49,10 @@
  *
  * <h3>4.1. Functional Tests</h3>
  *
+ * To this use case, is not necessary create a large number of unit tests
+ * because will be implemented few methods, most already existed in the program,
+ * it´s just adapt them to the use case. Will be implementd tests to the
+ * classes: RealTimeSearch and SearchWorkbookController.
  *
  *
  * <h3>4.2. Classes</h3>

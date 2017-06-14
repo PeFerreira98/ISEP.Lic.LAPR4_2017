@@ -1,0 +1,42 @@
+@startuml ipc02_03_analysis.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+title Multiple Realtime Workbook Search Analysis
+
+actor User
+participant "SearchWorkbookPanel" as SearchWorkbookPanel
+participant "SearchUI" as UI
+participant "Search" as search
+
+User --> SearchWorkbookPanel : realtime search
+
+SearchWorkbookPanel --> UI : create(Frame frame, boolean modal,FindWorkbookController controller, JList list )
+
+opt add Folders
+User --> UI : select folder
+UI --> UI : model.addElement(File path)
+
+end opt
+
+opt delete Folders
+UI --> User : select folder to delete
+UI --> UI : model.remove(File path)
+
+end opt
+
+User --> UI : search
+UI --> search : create(SearchWorkbookController controller, JList jList)
+
+loop for(String str : list )
+realTime --> realTime ::search(str)
+
+alt
+	realTime --> SearchWorkbookPanel : addToListWindow(File root)
+end alt
+end loop
+
+@enduml
