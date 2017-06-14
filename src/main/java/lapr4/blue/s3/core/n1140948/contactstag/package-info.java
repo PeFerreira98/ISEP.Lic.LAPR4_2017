@@ -1,38 +1,65 @@
 /**
- * Technical documentation regarding the user story COMPLETE HERE!<p>
+ * Technical documentation regarding the user story Core10.1.3: Contacts with Tags.
+ *
  * <p>
- * <b>Attention: This feature increment and this documentation are work in progress! </b><p>
+ * <b>Scrum Master: -(yes/no)- no</b>
+ *
  * <p>
- * <b>Scrum Master: -(yes/no)- no</b><p>
- * <b>Area Leader: -(yes/no)- no</b><p>
- * <p>
- * <b>Requirement</b><p>
- * <p>
- * <b>Design</b><p>
- * The following sequence diagram and class diagram represents this use case:
- * <p>
- * <img src="core_10_2_1_classDiagram.png" alt="image">
- * <p>
- * <p>
- * <img src="core_10_2_1_sequenceDiagram.png" alt="image">
- * <p>
- * <p>
- * <b>Classes</b><p>
- * <p>
- * <b>Work Log</b><p>
- * <b>Daily Log (Monday 05/06/2017) - </b><p>
+ * <b>Area Leader: -(yes/no)- no</b>
+ *
+ * <h2>1. Notes</h2>
+ * This use case is a continuation of use case "Core10.1.2: Company Contact". 
+ * The previous use case is pourly implemented so to implement this one it is 
+ * necessery a better implementation of the previous one in addiction to 
+ * completing this one.
+ *
+ * <h2>2. Requirement</h2>
+ * It should be possible to associated tags to contacts (individual or company 
+ * contacts). A tag is simple an alphanumeric word. Cleansheets should have a
+ * window to search contacts based on tags. The search should be based on 
+ * regular expressions related to tags. Cleansheets should display the search
+ * results in a list. The user may click on an item of the list to edit the
+ * corresponding contact. There should also be a window with a list of tags that
+ * is automatically sorted (descending) based on the frequency of the tag 
+ * utilization. The list should display in each line the tag and its frequency.
+ *
+ * <h2>3. Analysis</h2>
  * 
- * <b>Daily Log (Tuesday 06/06/2017) - </b><p>
+ *
+ * <h3>First "analysis" sequence diagram</h3>
  * 
- * <b>Daily Log (Wednesday 07/06/2017) - </b><p>
+ *
+ * <h2>4. Design</h2>
  * 
- * <b>Daily Log (Thursday 08/06/2017) - </b><p>
+ *
+ * <h3>4.1. Functional Tests</h3>
  * 
- * <b>Daily Log (Friday 09/06/2017) - </b><p>
+ *
+ * <h3>4.2. UC Realization</h3>
  * 
+ * 
+ * <h3>4.3. Classes</h3> * 
+ * 
+ * 
+ * <h3>4.4. Unit Tests</h3>
+ * 
+ * 
+ * <h2>5. Implementation</h2>
+ *  
+ *
+ * <h2>Work Log</h2>
  * <b>Daily Log (Monday 12/06/2017) - </b><p>
  * 
+ * <b>Daily Log (Tuesday 13/06/2017) - </b><p>
  * 
- * @author pedroferreira(1140953)
+ * <b>Daily Log (Wednesday 14/06/2017) - </b><p>
+ * 
+ * <b>Daily Log (Thursday 15/06/2017) - </b><p>
+ * 
+ * <b>Daily Log (Friday 16/06/2017) - </b><p>
+ * 
+ * <b>Daily Log (Monday 19/06/2017) - </b><p>
+ * 
+ * @author Tiago Silvestre
  */
-package lapr4.blue.s3.core.n1140953.address;
+package lapr4.blue.s3.core.n1140948.contactstag;
