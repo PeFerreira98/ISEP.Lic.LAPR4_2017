@@ -24,7 +24,11 @@
  * Analysis + Some design. <br>
  * Skeleton implementation of arrays. Grammar and visitor and 2 classes.<br>
  * Test: Functional testing and debug.<br>
- * Analysis documentation <br>
+ * Design documentation <br>
+ * <br>
+ * Work notes/log: S3 15-06-2017 (quinta) <br>
+ * Ui and some classes implemented.
+ * 
  * 
  * <h2>2. Requirement</h2>
  * 
