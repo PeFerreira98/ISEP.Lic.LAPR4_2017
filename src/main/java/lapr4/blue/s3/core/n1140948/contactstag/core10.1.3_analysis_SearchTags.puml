@@ -1,0 +1,20 @@
+@startuml core10.1.3_analysis_SearchTags.png
+
+skinparam sequenceMessageAlign center
+skinparam monochrome true
+
+title Search Tags & Edit
+
+actor User
+participant "System" as s
+opt **SEARCH TAG**
+User->s: Insert a tag to search
+s-->User: Returns a list of tags with associated contacts
+User->s: Selects a contact out of the list and clicks on it
+end
+opt **EDIT ASSOCIATED CONTACT**
+s-->User: Returns editable contact
+User->s: Edits contact
+s-->User: Saves edited contact
+end
+@enduml

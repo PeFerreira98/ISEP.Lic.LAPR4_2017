@@ -1,0 +1,18 @@
+@startuml core10.1.3_analysis_AssociateTags.png
+
+skinparam sequenceMessageAlign center
+skinparam monochrome true
+
+title Associate Tags
+
+actor User
+participant "System" as s
+
+User->s: Search for available contacts
+s-->User: Returns a list of contacts
+User->s: Selects a contact and inserts a tag
+s-->User: Asks confirmation
+User->s: Confirms
+s-->User: Associates contact to inserted tag
+
+@enduml
