@@ -5,10 +5,16 @@
  */
 package lapr4.green.s3.lang.n1130626.intermediatewizard.ui;
 
+import csheets.core.IllegalValueTypeException;
+import csheets.core.formula.Formula;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
+import csheets.core.formula.compiler.FormulaCompilationException;
 import csheets.ui.ctrl.UIController;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import lapr4.green.s3.lang.n1130626.intermediatewizard.controller.InsertFunctionController;
 
 /**
@@ -24,6 +30,8 @@ public class InsertFunctionUI extends javax.swing.JFrame {
     DefaultListModel<Function> functionList;
     
     DefaultListModel<String> functionListString;
+    
+    Formula form = null;
     
     /**
      * Creates new form InsertFunctionUI
@@ -64,6 +72,9 @@ public class InsertFunctionUI extends javax.swing.JFrame {
         editFunctionText = new javax.swing.JTextField();
         previewButton = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        resultLabel = new javax.swing.JLabel();
+        insertButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -97,12 +108,31 @@ public class InsertFunctionUI extends javax.swing.JFrame {
 
         jLabel3.setText("Syntax:");
 
+        jLabel4.setText("Result:");
+
+        resultLabel.setText("<RESULT OF FUNCTION>");
+
+        insertButton.setText("Insert");
+        insertButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                insertButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(insertButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(cancelButton))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -116,16 +146,15 @@ public class InsertFunctionUI extends javax.swing.JFrame {
                                     .addComponent(previewLabel)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(162, 162, 162)
-                                .addComponent(jLabel1)))
-                        .addGap(0, 187, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
+                                .addComponent(jLabel1))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(previewButton)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(cancelButton)))))
+                                .addContainerGap()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resultLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(previewButton)))
+                        .addGap(0, 187, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -143,10 +172,15 @@ public class InsertFunctionUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(editFunctionText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                .addGap(24, 24, 24)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(previewButton)
-                    .addComponent(cancelButton))
+                    .addComponent(jLabel4)
+                    .addComponent(resultLabel)
+                    .addComponent(previewButton))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cancelButton)
+                    .addComponent(insertButton))
                 .addContainerGap())
         );
 
@@ -168,7 +202,34 @@ public class InsertFunctionUI extends javax.swing.JFrame {
 
     private void previewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previewButtonActionPerformed
         // TODO add your handling code here:
+        String data = this.editFunctionText.getText();
+        
+        try {
+            form = controller.compileFormula(data);
+            String text = form.evaluate().toString();
+            this.resultLabel.setText(text);
+        } catch (FormulaCompilationException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            //Logger.getLogger(InsertFunctionUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalValueTypeException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            //Logger.getLogger(InsertFunctionUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_previewButtonActionPerformed
+
+    private void insertButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertButtonActionPerformed
+        // TODO add your handling code here:
+        String data = this.editFunctionText.getText();
+        try {
+            form = controller.compileFormula(data);
+            controller.copyContentToCell(data);
+            dispose();
+        } catch (FormulaCompilationException ex) {
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+            //Logger.getLogger(InsertFunctionUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }//GEN-LAST:event_insertButtonActionPerformed
 
     /**
      * Method thats build a description a function with parameters.
@@ -208,12 +269,15 @@ public class InsertFunctionUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton cancelButton;
     private javax.swing.JTextField editFunctionText;
+    private javax.swing.JButton insertButton;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JList<String> jListFunctions;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton previewButton;
     private javax.swing.JLabel previewLabel;
+    private javax.swing.JLabel resultLabel;
     // End of variables declaration//GEN-END:variables
 }
