@@ -19,16 +19,18 @@ public class Formula4Parser extends Parser {
 	protected static final PredictionContextCache _sharedContextCache =
 		new PredictionContextCache();
 	public static final int
-		TEMPORARY=1, GLOBAL=2, FUNCTION=3, CELL_REF=4, STRING=5, QUOT=6, NUMBER=7, 
-		EQ=8, NEQ=9, LTEQ=10, GTEQ=11, GT=12, LT=13, AMP=14, PLUS=15, MINUS=16, 
-		MULTI=17, DIV=18, POWER=19, PERCENT=20, COLON=21, UNDSCR=22, ARROBA=23, 
-		COMMA=24, SEMI=25, LPAR=26, RPAR=27, L_CURLY_BRACKET=28, R_CURLY_BRACKET=29, 
-		ASSIGN=30, WS=31;
+		TEMPORARY=1, GLOBAL=2, GLOBALINDEX=3, FUNCTION=4, CELL_REF=5, STRING=6, 
+		QUOT=7, NUMBER=8, INTEIRO=9, DIGIT_NON_ZERO=10, EQ=11, NEQ=12, LTEQ=13, 
+		GTEQ=14, GT=15, LT=16, AMP=17, PLUS=18, MINUS=19, MULTI=20, DIV=21, POWER=22, 
+		PERCENT=23, COLON=24, UNDSCR=25, ARROBA=26, COMMA=27, SEMI=28, LPAR=29, 
+		RPAR=30, L_CURLY_BRACKET=31, R_CURLY_BRACKET=32, L_SQR_BRACKET=33, R_SQR_BRACKET=34, 
+		ASSIGN=35, WS=36;
 	public static final String[] tokenNames = {
-		"<INVALID>", "TEMPORARY", "GLOBAL", "FUNCTION", "CELL_REF", "STRING", 
-		"'\"'", "NUMBER", "'='", "'<>'", "'<='", "'>='", "'>'", "'<'", "'&'", 
-		"'+'", "'-'", "'*'", "'/'", "'^'", "'%'", "':'", "'_'", "'@'", "','", 
-		"';'", "'('", "')'", "'{'", "'}'", "':='", "WS"
+		"<INVALID>", "TEMPORARY", "GLOBAL", "GLOBALINDEX", "FUNCTION", "CELL_REF", 
+		"STRING", "'\"'", "NUMBER", "INTEIRO", "DIGIT_NON_ZERO", "'='", "'<>'", 
+		"'<='", "'>='", "'>'", "'<'", "'&'", "'+'", "'-'", "'*'", "'/'", "'^'", 
+		"'%'", "':'", "'_'", "'@'", "','", "';'", "'('", "')'", "'{'", "'}'", 
+		"'['", "']'", "':='", "WS"
 	};
 	public static final int
 		RULE_expression = 0, RULE_block = 1, RULE_for_loop = 2, RULE_comparison = 3, 
@@ -642,7 +644,7 @@ public class Formula4Parser extends Parser {
 			setState(116); match(LPAR);
 			setState(125);
 			_la = _input.LA(1);
-			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TEMPORARY) | (1L << GLOBAL) | (1L << FUNCTION) | (1L << CELL_REF) | (1L << STRING) | (1L << NUMBER) | (1L << MINUS) | (1L << LPAR) | (1L << L_CURLY_BRACKET))) != 0)) {
+			if ((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TEMPORARY) | (1L << GLOBAL) | (1L << GLOBALINDEX) | (1L << FUNCTION) | (1L << CELL_REF) | (1L << STRING) | (1L << NUMBER) | (1L << MINUS) | (1L << LPAR) | (1L << L_CURLY_BRACKET))) != 0)) {
 				{
 				setState(117); comparison();
 				setState(122);
@@ -727,6 +729,7 @@ public class Formula4Parser extends Parser {
 	public static class VariableContext extends ParserRuleContext {
 		public TerminalNode TEMPORARY() { return getToken(Formula4Parser.TEMPORARY, 0); }
 		public TerminalNode GLOBAL() { return getToken(Formula4Parser.GLOBAL, 0); }
+		public TerminalNode GLOBALINDEX() { return getToken(Formula4Parser.GLOBALINDEX, 0); }
 		public VariableContext(ParserRuleContext parent, int invokingState) {
 			super(parent, invokingState);
 		}
@@ -747,7 +750,7 @@ public class Formula4Parser extends Parser {
 			{
 			setState(134);
 			_la = _input.LA(1);
-			if ( !(_la==TEMPORARY || _la==GLOBAL) ) {
+			if ( !((((_la) & ~0x3f) == 0 && ((1L << _la) & ((1L << TEMPORARY) | (1L << GLOBAL) | (1L << GLOBALINDEX))) != 0)) ) {
 			_errHandler.recoverInline(this);
 			}
 			consume();
@@ -822,7 +825,7 @@ public class Formula4Parser extends Parser {
 	}
 
 	public static final String _serializedATN =
-		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3!\u008d\4\2\t\2\4"+
+		"\3\u0430\ud6d1\u8206\uad2d\u4417\uaef1\u8d80\uaadd\3&\u008d\4\2\t\2\4"+
 		"\3\t\3\4\4\t\4\4\5\t\5\4\6\t\6\4\7\t\7\4\b\t\b\4\t\t\t\4\n\t\n\4\13\t"+
 		"\13\4\f\t\f\3\2\3\2\3\2\3\2\3\2\3\2\3\2\3\2\5\2!\n\2\3\3\3\3\3\3\3\3\7"+
 		"\3\'\n\3\f\3\16\3*\13\3\3\3\3\3\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\3\4\7"+
@@ -832,33 +835,32 @@ public class Formula4Parser extends Parser {
 		"\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\3\b\5\bt\n\b\3\t\3\t\3\t\3"+
 		"\t\3\t\7\t{\n\t\f\t\16\t~\13\t\5\t\u0080\n\t\3\t\3\t\3\n\3\n\3\n\5\n\u0087"+
 		"\n\n\3\13\3\13\3\f\3\f\3\f\2\3\n\r\2\4\6\b\n\f\16\20\22\24\26\2\7\3\2"+
-		"\n\17\3\2\23\24\3\2\21\22\3\2\3\4\4\2\7\7\t\t\u0095\2 \3\2\2\2\4\"\3\2"+
+		"\r\22\3\2\26\27\3\2\24\25\3\2\3\5\4\2\b\b\n\n\u0095\2 \3\2\2\2\4\"\3\2"+
 		"\2\2\6-\3\2\2\2\b=\3\2\2\2\nB\3\2\2\2\fe\3\2\2\2\16s\3\2\2\2\20u\3\2\2"+
-		"\2\22\u0083\3\2\2\2\24\u0088\3\2\2\2\26\u008a\3\2\2\2\30\31\7\n\2\2\31"+
-		"\32\5\b\5\2\32\33\7\2\2\3\33!\3\2\2\2\34\35\7\n\2\2\35\36\5\6\4\2\36\37"+
-		"\7\2\2\3\37!\3\2\2\2 \30\3\2\2\2 \34\3\2\2\2!\3\3\2\2\2\"#\7\36\2\2#("+
-		"\5\b\5\2$%\7\33\2\2%\'\5\b\5\2&$\3\2\2\2\'*\3\2\2\2(&\3\2\2\2()\3\2\2"+
-		"\2)+\3\2\2\2*(\3\2\2\2+,\7\37\2\2,\5\3\2\2\2-.\7\5\2\2./\7\36\2\2/\60"+
-		"\5\b\5\2\60\61\7\33\2\2\61\62\5\b\5\2\62\63\7\33\2\2\638\5\b\5\2\64\65"+
-		"\7\33\2\2\65\67\5\b\5\2\66\64\3\2\2\2\67:\3\2\2\28\66\3\2\2\289\3\2\2"+
-		"\29;\3\2\2\2:8\3\2\2\2;<\7\37\2\2<\7\3\2\2\2=@\5\n\6\2>?\t\2\2\2?A\5\n"+
-		"\6\2@>\3\2\2\2@A\3\2\2\2A\t\3\2\2\2BD\b\6\1\2CE\7\22\2\2DC\3\2\2\2DE\3"+
-		"\2\2\2EF\3\2\2\2FG\5\f\7\2GX\3\2\2\2HI\f\6\2\2IJ\7\25\2\2JW\5\n\6\6KL"+
-		"\f\5\2\2LM\t\3\2\2MW\5\n\6\6NO\f\4\2\2OP\t\4\2\2PW\5\n\6\5QR\f\3\2\2R"+
-		"S\7\20\2\2SW\5\n\6\4TU\f\7\2\2UW\7\26\2\2VH\3\2\2\2VK\3\2\2\2VN\3\2\2"+
-		"\2VQ\3\2\2\2VT\3\2\2\2WZ\3\2\2\2XV\3\2\2\2XY\3\2\2\2Y\13\3\2\2\2ZX\3\2"+
-		"\2\2[f\5\20\t\2\\f\5\22\n\2]f\5\26\f\2^_\7\34\2\2_`\5\b\5\2`a\7\35\2\2"+
-		"af\3\2\2\2bf\5\4\3\2cf\5\16\b\2df\5\24\13\2e[\3\2\2\2e\\\3\2\2\2e]\3\2"+
-		"\2\2e^\3\2\2\2eb\3\2\2\2ec\3\2\2\2ed\3\2\2\2f\r\3\2\2\2gh\7\34\2\2hi\5"+
-		"\22\n\2ij\7 \2\2jk\5\b\5\2kl\7\35\2\2lt\3\2\2\2mn\7\34\2\2no\5\24\13\2"+
-		"op\7 \2\2pq\5\b\5\2qr\7\35\2\2rt\3\2\2\2sg\3\2\2\2sm\3\2\2\2t\17\3\2\2"+
-		"\2uv\7\5\2\2v\177\7\34\2\2w|\5\b\5\2xy\7\33\2\2y{\5\b\5\2zx\3\2\2\2{~"+
-		"\3\2\2\2|z\3\2\2\2|}\3\2\2\2}\u0080\3\2\2\2~|\3\2\2\2\177w\3\2\2\2\177"+
-		"\u0080\3\2\2\2\u0080\u0081\3\2\2\2\u0081\u0082\7\35\2\2\u0082\21\3\2\2"+
-		"\2\u0083\u0086\7\6\2\2\u0084\u0085\7\27\2\2\u0085\u0087\7\6\2\2\u0086"+
-		"\u0084\3\2\2\2\u0086\u0087\3\2\2\2\u0087\23\3\2\2\2\u0088\u0089\t\5\2"+
-		"\2\u0089\25\3\2\2\2\u008a\u008b\t\6\2\2\u008b\27\3\2\2\2\16 (8@DVXes|"+
-		"\177\u0086";
+		"\2\22\u0083\3\2\2\2\24\u0088\3\2\2\2\26\u008a\3\2\2\2\30\31\7\r\2\2\31"+
+		"\32\5\b\5\2\32\33\7\2\2\3\33!\3\2\2\2\34\35\7\r\2\2\35\36\5\6\4\2\36\37"+
+		"\7\2\2\3\37!\3\2\2\2 \30\3\2\2\2 \34\3\2\2\2!\3\3\2\2\2\"#\7!\2\2#(\5"+
+		"\b\5\2$%\7\36\2\2%\'\5\b\5\2&$\3\2\2\2\'*\3\2\2\2(&\3\2\2\2()\3\2\2\2"+
+		")+\3\2\2\2*(\3\2\2\2+,\7\"\2\2,\5\3\2\2\2-.\7\6\2\2./\7!\2\2/\60\5\b\5"+
+		"\2\60\61\7\36\2\2\61\62\5\b\5\2\62\63\7\36\2\2\638\5\b\5\2\64\65\7\36"+
+		"\2\2\65\67\5\b\5\2\66\64\3\2\2\2\67:\3\2\2\28\66\3\2\2\289\3\2\2\29;\3"+
+		"\2\2\2:8\3\2\2\2;<\7\"\2\2<\7\3\2\2\2=@\5\n\6\2>?\t\2\2\2?A\5\n\6\2@>"+
+		"\3\2\2\2@A\3\2\2\2A\t\3\2\2\2BD\b\6\1\2CE\7\25\2\2DC\3\2\2\2DE\3\2\2\2"+
+		"EF\3\2\2\2FG\5\f\7\2GX\3\2\2\2HI\f\6\2\2IJ\7\30\2\2JW\5\n\6\6KL\f\5\2"+
+		"\2LM\t\3\2\2MW\5\n\6\6NO\f\4\2\2OP\t\4\2\2PW\5\n\6\5QR\f\3\2\2RS\7\23"+
+		"\2\2SW\5\n\6\4TU\f\7\2\2UW\7\31\2\2VH\3\2\2\2VK\3\2\2\2VN\3\2\2\2VQ\3"+
+		"\2\2\2VT\3\2\2\2WZ\3\2\2\2XV\3\2\2\2XY\3\2\2\2Y\13\3\2\2\2ZX\3\2\2\2["+
+		"f\5\20\t\2\\f\5\22\n\2]f\5\26\f\2^_\7\37\2\2_`\5\b\5\2`a\7 \2\2af\3\2"+
+		"\2\2bf\5\4\3\2cf\5\16\b\2df\5\24\13\2e[\3\2\2\2e\\\3\2\2\2e]\3\2\2\2e"+
+		"^\3\2\2\2eb\3\2\2\2ec\3\2\2\2ed\3\2\2\2f\r\3\2\2\2gh\7\37\2\2hi\5\22\n"+
+		"\2ij\7%\2\2jk\5\b\5\2kl\7 \2\2lt\3\2\2\2mn\7\37\2\2no\5\24\13\2op\7%\2"+
+		"\2pq\5\b\5\2qr\7 \2\2rt\3\2\2\2sg\3\2\2\2sm\3\2\2\2t\17\3\2\2\2uv\7\6"+
+		"\2\2v\177\7\37\2\2w|\5\b\5\2xy\7\36\2\2y{\5\b\5\2zx\3\2\2\2{~\3\2\2\2"+
+		"|z\3\2\2\2|}\3\2\2\2}\u0080\3\2\2\2~|\3\2\2\2\177w\3\2\2\2\177\u0080\3"+
+		"\2\2\2\u0080\u0081\3\2\2\2\u0081\u0082\7 \2\2\u0082\21\3\2\2\2\u0083\u0086"+
+		"\7\7\2\2\u0084\u0085\7\32\2\2\u0085\u0087\7\7\2\2\u0086\u0084\3\2\2\2"+
+		"\u0086\u0087\3\2\2\2\u0087\23\3\2\2\2\u0088\u0089\t\5\2\2\u0089\25\3\2"+
+		"\2\2\u008a\u008b\t\6\2\2\u008b\27\3\2\2\2\16 (8@DVXes|\177\u0086";
 	public static final ATN _ATN =
 		new ATNDeserializer().deserialize(_serializedATN.toCharArray());
 	static {

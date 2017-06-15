@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import lapr4.blue.s1.lang.n1140953.variables.temporary.Temporary;
 import lapr4.blue.s1.lang.n1140953.variables.temporary.TemporaryReference;
 import lapr4.blue.s1.lang.n1140953.variables.temporary.TemporaryStorage;
+import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.ArrayItem;
 import lapr4.red.s2.lang.n1131106.globalvariables.GlobalVariableReference;
 
 /**
@@ -72,7 +73,15 @@ public class AssignmentOperator implements BinaryOperator {
             }
 
             return value;
-        } else if (leftOperand instanceof GlobalVariableReference) {
+        }
+        if((leftOperand instanceof ArrayItem)){
+            value = rightOperand.evaluate();
+            ArrayItem left = (ArrayItem) leftOperand;
+            left.setValue(value);
+            //System.out.println(left.getName() +" : "+left.getValue().toText());
+            return value;
+        }
+        if (leftOperand instanceof GlobalVariableReference) {
             GlobalVariableReference varRef = (GlobalVariableReference) leftOperand;
 
             value = rightOperand.evaluate();

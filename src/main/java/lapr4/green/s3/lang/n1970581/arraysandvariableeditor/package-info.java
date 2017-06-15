@@ -21,6 +21,9 @@
  * <br>
  * Work notes/log: S3 14-06-2017 (quarta) <br>
  * Grammar copied to a new package, so we can change it.<br>
+ * Analysis + Some design. <br>
+ * Skeleton implementation of arrays. Grammar and visitor and 2 classes.<br>
+ * 
  * 
  * <h2>2. Requirement</h2>
  * 

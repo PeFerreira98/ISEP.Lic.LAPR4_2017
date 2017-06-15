@@ -26,6 +26,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.ArrayStorage;
 import lapr4.red.s2.lang.n1131106.globalvariables.domain.GlobalVariable;
 
 /**
@@ -61,10 +62,14 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
      */
     private static List<GlobalVariable> list = new ArrayList<GlobalVariable>();
 
+    /** Storage for Array Variables */
+    private transient final ArrayStorage arrayStorage;
+    
     /**
      * Creates a new empty workbook.
      */
     public Workbook() {
+        this.arrayStorage = new ArrayStorage();
     }
 
     /**
@@ -78,6 +83,7 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
             spreadsheets.add(new SpreadsheetImpl(this,
                     getNextSpreadsheetTitle()));
         }
+        this.arrayStorage = new ArrayStorage();
     }
 
     /**
@@ -91,8 +97,12 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
             spreadsheets.add(new SpreadsheetImpl(this,
                     getNextSpreadsheetTitle(), content));
         }
+        this.arrayStorage = new ArrayStorage();
     }
 
+    
+    public ArrayStorage retrieveArrayStorage(){return this.arrayStorage;}
+    
     /**
      * Adds a blank spreadsheet to the end of the workbook.
      */

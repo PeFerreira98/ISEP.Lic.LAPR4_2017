@@ -186,6 +186,10 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
 
     @Override
     public Expression visitVariable(Formula4Parser.VariableContext ctx) {
+        if(ctx.getText() != null && !ctx.getText().isEmpty() && ctx.getText().charAt(0) == '@'){
+            System.out.println(ctx.getText());
+            return this.cell.getSpreadsheet().getWorkbook().retrieveArrayStorage().retrieveArrayItem(ctx.getText());
+        }
         return new TemporaryReference(cell, ctx.getText());
     }
 

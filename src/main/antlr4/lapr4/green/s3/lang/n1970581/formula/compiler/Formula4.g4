@@ -57,7 +57,9 @@ reference
 	;
 
 variable
-        :       TEMPORARY | GLOBAL
+        :       TEMPORARY
+        |       GLOBAL
+        |       GLOBALINDEX        
         ;
 
 literal
@@ -74,6 +76,10 @@ TEMPORARY
 		
 GLOBAL
         :       ARROBA ( NUMBER | LETTER )+
+        ;
+
+GLOBALINDEX
+        :       ARROBA ( INTEIRO | LETTER )+ L_SQR_BRACKET INTEIRO  R_SQR_BRACKET
         ;
 
 FUNCTION : 
@@ -98,8 +104,11 @@ QUOT: '"'
 /* Numeric literals */
 NUMBER: ( DIGIT )+ ( COMMA ( DIGIT )+ )? ;
 
+INTEIRO: DIGIT | (DIGIT_NON_ZERO ( DIGIT )+);
+
 fragment 
 DIGIT : '0'..'9' ;
+DIGIT_NON_ZERO : '1'..'9' ;
 
 /* Comparison operators */
 EQ		: '=' ;
@@ -134,6 +143,8 @@ LPAR	: '(' ;
 RPAR	: ')' ; 
 L_CURLY_BRACKET	: '{' ;
 R_CURLY_BRACKET	: '}' ;
+L_SQR_BRACKET : '[' ;
+R_SQR_BRACKET : ']' ;
 
 /* assignment operator */
 ASSIGN  : ':=' ;
