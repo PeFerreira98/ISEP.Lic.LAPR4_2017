@@ -122,4 +122,8 @@ public class ChatRoomsList implements Serializable {
 
         return list;
     }
+
+    public List<ChatRoom> getChatRoomsList() {
+        return chatRoomsList;
+    }
 }

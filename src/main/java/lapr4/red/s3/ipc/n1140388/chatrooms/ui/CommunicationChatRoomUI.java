@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationController;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
-import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomController;
+import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
 
 /**
  *
@@ -21,9 +21,8 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame {
 
     private ChatUser activeParticipant;
 
-    private ChatApplicationController controllerApp;
+    private ChatRoomApplicationController controller;
 
-    private ChatRoomController controller;
 
     /**
      * Creates new form ChatRoomUI
@@ -31,7 +30,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame {
      * @param cntrl the controller
      * @param room the room chosen to communicate
      */
-    public CommunicationChatRoomUI(ChatRoomController cntrl, ChatRoom room) {
+    public CommunicationChatRoomUI(ChatRoomApplicationController cntrl, ChatRoom room) {
         this.chatRoom = room;
         this.controller = cntrl;
         this.activeParticipant = controller.owner();
@@ -45,7 +44,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame {
             setResizable(false);
             setLocationRelativeTo(null);
             setVisible(true);
-            
+
         } else {
             JOptionPane.showMessageDialog(this, "You need to be logged in order to communicate in a chat room!", "Not logged", JOptionPane.WARNING_MESSAGE);
             this.dispose();
@@ -170,7 +169,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame {
     private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed
         if (!txtMessageArea.getText().isEmpty()) {
             String message = txtMessageArea.getText();
-            this.controllerApp.sendMessage(message);
+            this.controller.sendMessage(message);
             txtMessageArea.setText("");
         }
     }//GEN-LAST:event_sendBtnActionPerformed

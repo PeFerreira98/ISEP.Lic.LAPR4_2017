@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomExtension;
-import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomController;
+import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
 
 /**
  *
@@ -40,7 +40,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
 
     private Object[] roomsList;
 
-    private ChatRoomController controller;
+    private ChatRoomApplicationController controller;
 
     /**
      * Creates a new chat room panel.
@@ -52,7 +52,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
         super(new BorderLayout());
 
         // Creates controller
-        this.controller = new ChatRoomController();
+        this.controller = new ChatRoomApplicationController();
         uiController.addSelectionListener(this);
         setName(ChatRoomExtension.NAME);
 
@@ -104,8 +104,8 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     private String[] showAllRooms() {
         int i = 0;
 
-        List<ChatRoom> list = controller.chatRoomsList();
-
+        List<ChatRoom> list = controller.getRoomsList().getChatRoomsList();
+        
         String[] names = new String[list.size()];
 
         if (list.isEmpty()) {
@@ -231,7 +231,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                CreateChatRoomUI ui = new CreateChatRoomUI(controller);
+                CreateChatRoomUI ui = new CreateChatRoomUI();
             }
         });
 

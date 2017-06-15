@@ -5,6 +5,8 @@
  */
 package lapr4.blue.s2.ipc.n1140956.ChatApplication;
 
+import java.util.Objects;
+
 /**
  *
  * @author Marcos
@@ -105,4 +107,27 @@ public class ChatUser {
     public String getInfo(){
         return this.machineName+this.ip;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final ChatUser other = (ChatUser) obj;
+        if (!Objects.equals(this.machineName, other.machineName)) {
+            return false;
+        }
+        if (!Objects.equals(this.ip, other.ip)) {
+            return false;
+        }
+        return true;
+    }
+    
+    
 }

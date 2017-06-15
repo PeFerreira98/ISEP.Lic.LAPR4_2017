@@ -39,6 +39,15 @@ public class ChatUsersStorage {
         }
         return null;
     }
+    
+    public ChatUser getUserByMachineName(String nick) {
+        for (ChatUser cUser : this.chatUsersList.values()) {
+            if (cUser.getMachineName().equals(nick)) {
+                return cUser;
+            }
+        }
+        return null;
+    }
 
     public HashMap<String, ChatUser> getUserList() {
         return this.chatUsersList;
