@@ -1,0 +1,35 @@
+@startuml image02.png
+
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+  actor User 
+  participant "<<analysis>>\nSystem" as Sy  
+
+  'activate Sy
+  User -> Sy : The user selects a cell and types a formula creating an array such as "@abc[2]:=123".
+  Sy --> User : The system will validate the formula, create an array with the indicated name (abc) and add to the second position the referred value (123).
+  'deactivate Sy
+
+  'activate Sy
+  User -> Sy : The user selects a cell and types the formula with the name of the array and the position (@abc[2]).
+  Sy --> User : They system processes the formula and changes the value of this cell to the referred value (123).<br>
+  'deactivate Sy
+
+  'activate Sy
+  User -> Sy : The user selects the sidebar extension of the use case.
+  Sy --> User : The system displays all the global and local variables or arrays values.
+  'deactivate Sy
+  User -> Sy : The user selects the sidebar extension of the use case.
+  Sy --> User : The system displays all the global and local variables or arrays values.
+
+  User -> Sy : The user edits a variable (array) value.
+  Sy --> User : The system shows the new variable value, and the workbook updates the cells that reference that variable.
+
+ 
+
+
+@enduml

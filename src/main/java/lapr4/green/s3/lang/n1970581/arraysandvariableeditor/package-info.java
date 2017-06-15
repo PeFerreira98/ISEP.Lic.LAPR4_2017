@@ -23,7 +23,7 @@
  * Grammar copied to a new package, so we can change it.<br>
  * Analysis + Some design. <br>
  * Skeleton implementation of arrays. Grammar and visitor and 2 classes.<br>
- * 
+ * Analysis documentation <br>
  * 
  * <h2>2. Requirement</h2>
  * 
@@ -65,28 +65,39 @@
  * 
  * <h3>Lang02.3 Arrays and Variable Editor:</h3><p>
  * <b> Use case </b> <p>
- * The user selects a cell and types a formula creating an array such as "@abc[2]:=123".<br>
- * The system will validate the formula, create an array with the indicated name (abc) and add to the second position the referred value (123). <br>
- * The user selects a cell and types the formula with the name of the array and the position (@abc[2]).<br>
- * They system processes the formula and changes the value of this cell to the referred value (123).<br>
- * The user selects the sidebar extension of the use case.<br>
- * The system displays all the global and local variables or arrays values.<br>
- * The user edits a variable (array) value.<br>
- * The system shows the new variable value, and the workbook updates the cells that reference that variable.<br>
+ * 1) The user selects a cell and types a formula creating an array such as "@abc[2]:=123".<br>
+ * 2) The system will validate the formula, create an array with the indicated name (abc) and add to the second position the referred value (123). <br>
+ * 3) The user selects a cell and types the formula with the name of the array and the position (@abc[2]).<br>
+ * 4) They system processes the formula and changes the value of this cell to the referred value (123).<br>
+ * 5) The user selects the sidebar extension of the use case.<br>
+ * 6) The system displays all the global and local variables or arrays values.<br>
+ * 7) The user edits a variable (array) value.<br>
+ * 8) The system shows the new variable value, and the workbook updates the cells that reference that variable.<br>
  * <p>
  * <h3>2.2 SSD</h3>
  * 
- * <img src="lang02_3_01_analysis.png" alt="image failed to load">
+ * <img src="image02.png" alt="image failed to load">
+ * 
  * 
  * <h2>3. Analysis</h2>
  *
- *  -- WRITE STUFF ABOUT HOW WE WILL DO IT --
+ * The workbook will have an object that needs to be serializable , the ArrayStorage. This storage will contain the ArrayItems.
+ * Each of the ArrayItems will be an Array position. Since we cannot implement real arrays due to the lack of initialization code parameters.
+ * Like: "int array[12];" we will treat each array position as an individual variable.
+ * We will have to make sure that "@abc" will default to "@abc[1]".<p>
+ * We will need to create a new Extension and Sidebar UI panel. 
+ * The sidebar will show all global variables in the form of a list.
+ * Access to the workbook will be done by the UIController.
+ * We will have to have a field to edit a variable.
+ * We will probably need a ArrayItemDTO to transfer information to the UI panel inside the sidebar.
+ * To update the UI on a variable change we will need some sort of Watchdog to catch some sort of Array change event.
+ * And then warn the UI to refresh.<p>
  *
  * <p>
  * 
  * <h3>3.1 First "Analysis" class diagram</h3>* 
  * 
- *  -- CLASS DIAGRAM OF THE ANALYSYS --
+ *  <img src="image01.png" alt="image failed to load">
  * 
  * @author Hugo Bento 1970581
  */

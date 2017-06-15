@@ -1,0 +1,74 @@
+@startuml image01.png
+
+class Workbook <<Analysis>>{
+  - ArrayStorage
+ }
+
+class ArrayStorage <<Analysis>>{
+  - Map<String , ArrayItem> arrayMap
+  + retrieveArrayItem(String name)
+ }
+class ArrayItem <<Analysis>>{
+  - name
+  - value
+ }
+class ArrayItemDTO <<Analysis>> << immutable >>{
+  - name
+  - value
+ }
+
+
+
+class Value <<Analysis>>{
+ }
+
+interface Variable <<Analysis>> <<sprint 1>>{
+ }
+interface Expression <<Analysis>>{
+ }
+
+
+
+class VariableEditorController <<Analysis>>{
+ }
+
+class VariableEditorController <<Analysis>>{
+ }
+class VariableEditorExtension <<Analysis>>{
+ }
+class VariableEditorPanel <<Analysis>>{
+ }
+class UIExtensionVariableEditor <<Analysis>>{
+ }
+class VariableEditorWatchdog <<Analysis>> <<Singleton>>{
+ }
+
+
+'Workbook
+'ArrayStorage
+'ArrayItem
+'Variable
+'Value
+'VariableEditorExtension
+'VariableEditorController
+'VariableEditorPanel
+'UIExtensionVariableEditor
+
+Workbook --> ArrayStorage
+ArrayStorage o-- ArrayItem
+ArrayItem ..|> Variable
+Variable ..|> Expression
+ArrayItem --> Value
+ArrayItem --> ArrayItemDTO
+
+ArrayStorage --> VariableEditorWatchdog
+
+VariableEditorExtension --> VariableEditorController
+
+VariableEditorController --> UIExtensionVariableEditor
+
+VariableEditorExtension --> VariableEditorPanel
+
+VariableEditorWatchdog --> VariableEditorPanel
+
+@enduml
