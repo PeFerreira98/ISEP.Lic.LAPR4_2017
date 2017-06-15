@@ -74,9 +74,60 @@
  * <b>US2.</b> As a User I want to be able to use the WhileDo formula.<br>
  * <b>US3.</b> As a User I want to be able to use the DoWhile formula<br>
  * 
+ * <h2>4. Design</h2>
+ *
+ * <h3>4.1. Functional Tests</h3>
+ *
+ * Basically, from requirements and also analysis, an important part is to test
+ * the newly created classes. The desired result must be equal to the result
+ * returned by the function. Following this pattern, tests to the new Compiler
+ * should be made.
+ * <p>
+ * 
+ * <p>
+ * Alternative and Exception Scenarios<br>
+ * <p>
+ * Exception 1: Formula should begin with "=".
+ * <p>
+ * Exception 2: Instructions must be delimited by curly braces
+ * <p>
+ *
+ * <h3>Acceptance Tests</h3>
+ *
+ * <b>Exception 1</b><br>
+ * <pre>
+ * {@code
+ * Given
+ *   Formula without "=" at the begin
+ * Then
+ *   System throws Exception
+ * }
+ * </pre>
+ *
+ * <b>Exception 2</b><br>
+ * <pre>
+ * {@code
+ * Given
+ *   Formula without instructions delimited by curly braces
+ * Then
+ *   System throws Exception
+ * }
+ * </pre>
  * 
  * 
+ * <h3>4.2. UC Realization</h3>
+ *
+ * The following diagram shows how the UC works. After the introduction of block
+ * of instructions, the cell is stored and through 'compile' method the
+ * instructions will be validated with the grammar.
  * 
+ * 
+ * <h3>UC1 - Insert Formula</h3>
+ * The following diagram illustrates what happens when the user insert a formula
+ * into the cell.
+ * <p>
+ * <img src="design_lang01.2.png" alt="image">
+ * <p>
  *
  */
 package lapr4.green.s3.lang.n1140618;

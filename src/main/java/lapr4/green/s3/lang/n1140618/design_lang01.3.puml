@@ -1,0 +1,39 @@
+@startuml design_lang01.3.png
+
+skinparam sequenceMessageAlign center
+
+actor User
+participant "Cell" as cell
+participant "FormulaCompiler" as fc
+participant "EvalCompiler" as ec
+participant "Formula" as form
+participant "Expression" as exp
+
+
+activate User
+User->cell: setContent(String content)
+
+activate cell
+cell->cell: storeContent(content)
+
+
+cell->fc: compile(Cell cell, String source)
+
+fc-->form: create(cell, expression)
+activate form
+deactivate form
+fc-->cell: formula
+deactivate fc
+
+cell->cell: fireContentChanged()
+cell->cell: reevaluate()
+
+cell->form: evaluate()
+activate form
+
+form-->cell: value
+deactivate form
+
+deactivate cell
+
+@enduml
