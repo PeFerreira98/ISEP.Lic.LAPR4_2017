@@ -99,6 +99,67 @@
  * 
  *  <img src="image01.png" alt="image failed to load">
  * 
+ * <h3> Draft of what the user should see in the sidebar</h3>
+ * <img src="image00.png" alt="image failed to load">
+ * <p>
+ * 
+ * 
+ * 
+ * <h2>4. Design</h2>
+ *
+ * <h3>4.1. Testing </h3>
+ * Basically, from requirements and also analysis, we see that the core functionality of this use case is to be able to use global variables as arrays in formula expressions and edit them in an GUI.<p>
+ * What should we test: <br> 
+ * <ul>
+ * <li> 1 </li> 
+ * <li> 2 </li> 
+ * <li> 3 </li> 
+ * <li> 4 </li> 
+ * <li> 5 </li> 
+ * </ul>
+ * 
+ * Blockages: <br>
+ *  None at this time.<br>
+ *  
+ * <h3>4.1.1 Main Functional Test </h3>
+ * 
+ *  This test represent a user following the use case. It describes the user actions and the expected outcome.<p>
+ *  
+ *  <b>Pre conditions:</b><p>
+ *  The application should be running.<p>
+ * 
+ *  <b>Test:</b>
+ *  <ul>
+ *  <li>The user selects a cell and types a formula creating an array using "=(@a[1]:=1)".</li>
+ *  <li>The system shows the cell contents as "1".</li>
+ *  <li>The user selects another sell and types the formula "(@a[1])".</li>
+ *  <li>The system shows the cell contents as "1".</li>
+ *  <li>The user selects another sell and types the formula "(@a)".</li>
+ *  <li>The system shows the cell contents as "1".</li>
+ *  <li>Them inside the View menu the users selects the Sidebars option and selects the Edit Variable extension.</li>
+ *  <li>A new sidebar should appear in the right most side of the worksheet, showing a list with all global variables and arrays depicting the name and value.</li>
+ *  <li>The user selects an array variable and edits it by inserting a new value for "@a[1]" of "2".</li>
+ *  <li>The system updates all the connected cells, changing them to the value "2".</li>
+ *  <li>The user selects a cell and types a formula creating an array using "=(@a[2]:=5)".</li>
+ *  <li>The system updates the sidebar list, showing a new array variable "@a[2]" with the value "5".</li>
+ *  <li>The user presses the save button and saves the workbook.</li>
+ *  <li>The system saves without errors.</li>
+ *  <li>The user presses the close button.</li>
+ *  <li>The system closes the workbook.</li>
+ *  <li>The user presses the open button and selects the previous workbook.</li>
+ *  <li>The system opens the previous workbook displaying correctly the array variables.</li>
+ *  </ul>
+ * 
+ * 
+ * <h3>4.1.2 Unit Tests </h3>
+ * 
+ *  Unit Test: <br>
+ *   
+ *  Ongoing <p>
+ * 
+ * <h2>4.2 UC Realization</h2>
+ * 
+ * 
  * @author Hugo Bento 1970581
  */
 package lapr4.green.s3.lang.n1970581.arraysandvariableeditor;
