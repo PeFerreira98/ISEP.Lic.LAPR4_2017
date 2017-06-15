@@ -15,7 +15,6 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
-import javax.swing.JButton;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
 import lapr4.green.s1.ipc.n1970581.findworkbook.ui.SearchWorkbookPanel;
 

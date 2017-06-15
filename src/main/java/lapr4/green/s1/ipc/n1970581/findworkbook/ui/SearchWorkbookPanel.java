@@ -63,7 +63,7 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
      * The defaultListModel
      */
     private final DefaultListModel<FileDTO> defaultListModel;
-    
+
     protected Map<String, RealTimeSearch> wbooks = new HashMap<String, RealTimeSearch>();
 
     /**
@@ -248,8 +248,8 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
     private void realTimeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_realTimeButtonActionPerformed
         // TODO add your handling code here:
 
-       // RealTimeSearchUI realTimeSearch = new RealTimeSearchUI(new javax.swing.JFrame(), true, controller, SearchWorkbookPanel.this);
-      //  realTimeSearch.setVisible(true);
+        RealTimeSearchUI realTimeSearch = new RealTimeSearchUI(new javax.swing.JFrame(), true, controller, SearchWorkbookPanel.this);
+        realTimeSearch.setVisible(true);
 
     }//GEN-LAST:event_realTimeButtonActionPerformed
 
@@ -279,10 +279,14 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         this.jButtonOpen.setEnabled(true);
         this.PreviewWorkbookButton.setEnabled(true);
     }
-    
-    public JList showJListWorbooks(){return this.jListWorkbooks;}
-    
-    public Map<String, RealTimeSearch> showWbooksFolders() {return wbooks;}
+
+    public JList showJListWorbooks() {
+        return this.jListWorkbooks;
+    }
+
+    public Map<String, RealTimeSearch> showWbooksFolders() {
+        return wbooks;
+    }
 
     /**
      * CUSTOM: Calls the controller to open the workbook.

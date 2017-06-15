@@ -10,6 +10,8 @@ import java.awt.Toolkit;
 import java.util.ArrayList;
 import java.util.Map;
 import javax.swing.DefaultListModel;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
 import lapr4.green.s1.ipc.n1970581.findworkbook.ui.SearchWorkbookPanel;
 import lapr4.red.s3.ipc.n1131106.realtimeworkbook.RealTimeSearch;
@@ -24,7 +26,6 @@ public class RealTimeSearchUI extends javax.swing.JDialog {
     private final SearchWorkbookPanel searchWorkbookPanel;
     private final ArrayList<String> list = new ArrayList<String>();
     private DefaultListModel model;
-    private final ArrayList<String> finalList = new ArrayList<String>();
 
     /**
      * Creates new form RealTimeSearch
@@ -178,23 +179,90 @@ public class RealTimeSearchUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        JFileChooser fileC = new JFileChooser();
+        fileC.setDialogTitle("Select Folder to search workbooks");
+        String path = null;
+        boolean flag = false;
+        int i; //vai procurar apenas por directorios
+        fileC.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        fileC.setApproveButtonText("Search");
+        if (fileC.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
+            path = fileC.getSelectedFile().getAbsolutePath();
+            if (jList1.getModel().getSize() == 0) {
+                model.addElement(path);
+                list.add(path);
+            } else {
+                for (i = 0; i < model.getSize(); i++) {
+                    Object o = model.getElementAt(i);
+                    if (o.toString().equalsIgnoreCase(path)) {
+                        JOptionPane.
+                                showMessageDialog(this, "The folder was already selected !", "Add folders", JOptionPane.INFORMATION_MESSAGE);
+                        flag = true;
+                    }
+                }
+                if (flag == false) {
+                    model.addElement(path);
+                    jList1.validate();
+                    jList1.repaint();
+                    list.add(path);
 
-        //TODO
+                }
+            }
+        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-
-        //TODO
-
+        int selectedIndex = jList1.getSelectedIndex();
+        String delete = (String) jList1.getSelectedValue();
+        if (selectedIndex != -1) {
+            list.remove(delete);
+            model.remove(selectedIndex);
+            for (Map.Entry<String, RealTimeSearch> en : searchWorkbookPanel.
+                    showWbooksFolders().entrySet()) {
+                if (en.getKey().equalsIgnoreCase(delete)) {
+                    en.getValue().cancelTimer();
+                }
+            }
+            searchWorkbookPanel.showWbooksFolders().remove(delete);
+        } else {
+            JOptionPane.
+                    showMessageDialog(this, "To delete, select one folder !", "Delete folder", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        //TODO
+        jList1.validate();
+        jList1.repaint();
+        if (list.isEmpty() || jList1.getModel().getSize() == 0) {
+            JOptionPane.
+                    showMessageDialog(this, "Please add new folders to search !", "Search folders", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            dispose();
+            for (String s : list) {
+                RealTimeSearch rs = new RealTimeSearch(controller, s, searchWorkbookPanel);
+                Thread th = new Thread(rs);
+                searchWorkbookPanel.showWbooksFolders().put(s, rs);
+                th.run();
+
+                try {
+                    th.join();
+                } catch (InterruptedException ex) {
+                    JOptionPane.showMessageDialog(
+                            null,
+                            ex,
+                            "Error",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                } catch (Exception e) {
+                    System.out.println("Error");
+                }
+            }
+
+        }
 
     }//GEN-LAST:event_jButton1ActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
