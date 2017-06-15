@@ -1,0 +1,11 @@
+@startuml analysis_lang01.3.png
+
+participant "User" as User
+participant "Cell" as Cell
+
+ User -> Cell : Insert eval operation
+ Cell->Fomula : Calculates the result
+ Cell->User : Show the result
+
+
+@enduml
