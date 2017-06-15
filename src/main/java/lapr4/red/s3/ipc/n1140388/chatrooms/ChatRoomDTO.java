@@ -18,12 +18,14 @@ public class ChatRoomDTO {
     private ChatUser owner;
     private List<ChatUser> participants;
     private boolean online;
+    private String type;
 
-    public ChatRoomDTO(String name, ChatUser owner, List<ChatUser> participants, boolean online) {
+    public ChatRoomDTO(String name, ChatUser owner, List<ChatUser> participants, boolean online, String type) {
         this.name = name;
         this.owner = owner;
         this.participants = participants;
         this.online = online;
+        this.type=type;
     }
 
     /**
@@ -52,5 +54,12 @@ public class ChatRoomDTO {
      */
     public boolean isOnline() {
         return online;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
     }
 }

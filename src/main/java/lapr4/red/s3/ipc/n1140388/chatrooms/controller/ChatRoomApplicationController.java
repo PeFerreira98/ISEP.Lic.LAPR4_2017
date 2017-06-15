@@ -186,13 +186,21 @@ public class ChatRoomApplicationController implements CommHandler2 {
      */
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
-        this.mess = (Message) dto;
-
-        String tmp = commWorker.peerAddress();
-        String sourceIP = this.mess.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
-        this.mess.setIdOrig(sourceIP);
-        this.lst_Conversations.addMessage(mess);
-
+        //this.mess = (Message) dto;
+        ChatRoomDTO room = (ChatRoomDTO) dto;
+        // String tmp = commWorker.peerAddress();
+        // String sourceIP = this.mess.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
+        // this.mess.setIdOrig(sourceIP);
+        // this.lst_Conversations.addMessage(mess);
+        if (room.getType().equals("private")) {
+            ChatRoom newRoom = new PrivateChatRoom(room.getName(), room.getOwner(), null);
+//            newRoom.participants() = room.getParticipants();
+            this.roomsList.add(newRoom);
+        } 
+        if (room.getType().equals("public")) {
+            ChatRoom newRoom = new PublicChatRoom(room.getName(), room.getOwner());
+            this.roomsList.add(newRoom);
+        }
         //    ReceiveMessage rm = new ReceiveMessage(this, sourceIP);
     }
 
@@ -246,19 +254,19 @@ public class ChatRoomApplicationController implements CommHandler2 {
      */
     public void startChat(ChatRoom cr) {
         roomsList.add(cr);
-        ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline());
-        if (cr instanceof PrivateChatRoom) {
 
+        if (cr instanceof PrivateChatRoom) {
+            ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), "private");
             for (ChatUser user : ((PrivateChatRoom) cr).invitations()) {
 
                 roomSend(roomDto, user.getInfo());
             }
         } else {
-
+            ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), "public");
             for (ChatUser user : lst_Users.getUserList().values()) {
                 roomSend(roomDto, user.getInfo());
             }
-        
+
         }
 
     }
