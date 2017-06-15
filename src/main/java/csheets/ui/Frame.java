@@ -81,6 +81,7 @@ import java.util.logging.Logger;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import lapr4.blue.s1.lang.n1140948.functionwizard.FunctionWizardAction;
+import lapr4.green.s3.lang.n1130626.intermediatewizard.ui.InsertFunctionAction;
 
 /**
  * The main frame of the GUI.
@@ -176,7 +177,8 @@ public class Frame extends JFrame implements SelectionListener {
                 wizardButton.addActionListener(new ActionListener(){
                     @Override
                     public void actionPerformed(ActionEvent ae) {
-                        JOptionPane.showMessageDialog(null, "This button will be the wizard");
+                        InsertFunctionAction action = new InsertFunctionAction(uiController);
+                        action.actionPerformed(ae);
                     }              
                 });
                 wizardPanel.add(wizardButton, BorderLayout.EAST);
