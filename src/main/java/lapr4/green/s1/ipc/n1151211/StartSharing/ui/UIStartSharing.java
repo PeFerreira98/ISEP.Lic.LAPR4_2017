@@ -10,6 +10,7 @@ import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.Icon;
@@ -131,6 +132,7 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
     }
 
     private String selectedPeer;
+    private List<String> selectedPeers;
 
     void addSpreadsheetListener() {
         SharingAutomaticUpdateCellListener sharingAutomaticUpdateCellListener = new SharingAutomaticUpdateCellListener(this);
@@ -140,7 +142,11 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
     void lockPeer(String peer){
         this.selectedPeer = peer;
     }
-
+    
+    void lockPeers(List<String> peers){
+        this.selectedPeers = peers;
+    }
+    
     public void quickShare(Cell cell) {
         System.out.println("QuickSharing to " + this.selectedPeer + "...");
         
@@ -150,6 +156,22 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
         }
         System.out.println("Selected Peer is empty or null...");
     }
+    
+      public void multiQuickShare(Cell cell){
+        if (!selectedPeers.isEmpty()) {
+            for (int i = 0; i < selectedPeers.size(); i++) {
+
+                System.out.println("QuickSharing to " + this.selectedPeers.get(i) + "...");
+
+                if (this.selectedPeers.get(i) != null && !this.selectedPeers.get(i).isEmpty()) {
+                    System.out.println(multiShareStylableCells(cell));
+                    return;
+                }
+            }
+        }
+        System.out.println("No peers selected");
+    }
+                
     
     private String shareStylableCells(Cell cell) {
         CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(this.selectedPeer);
@@ -172,5 +194,31 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
         }
         return "Waiting for peer response";
     }
+     private String multiShareStylableCells(Cell cell) {
+        for(int i = 0; i < selectedPeers.size();i++){
+        CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(this.selectedPeers.get(i));
+        if (toPeer == null) {
+            return "ERROR: Could not connect to peer!";
+        }
+
+        ListenerServer.getServer().addHandler(ReplySendSharedCellsDTO.class, this);
+        BroadcastServer.getServer().broadcastThisService(NAME, status);
+        
+        Cell[][] cells = new Cell[1][1];
+        cells[0][0] = cell;
+        SendSharedCellsDTO dto = new SendSharedCellsDTO(cells);
+        
+//        CellDTO dto = CellDTO.createFromCell(cell);
+//        StylableCellDTO dto = StylableCellDTO.createFromCell(cell);
+        
+        if (!toPeer.sendDto(dto)) {
+            return "ERROR: Communication failure in sending the cells";
+        }
+        }
+        return "Waiting for peer response";
+        
+    }
 
 }
+
+
