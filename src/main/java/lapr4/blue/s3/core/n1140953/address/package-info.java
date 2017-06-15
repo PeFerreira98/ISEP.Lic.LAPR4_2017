@@ -31,11 +31,13 @@
  * Sprint2 closure. Start Sprint3 and Issues allocation.<p>
  * 
  * <b>Daily Log (Tuesday 06/06/2017) - </b>
- * Starting use case analysis and design.<p>
+ * Starting use case Analysis and Design.<p>
  * 
- * <b>Daily Log (Wednesday 07/06/2017) - </b><p>
+ * <b>Daily Log (Wednesday 07/06/2017) - </b>
+ * Starting use case Implementation.<p>
  * 
- * <b>Daily Log (Thursday 08/06/2017) - </b><p>
+ * <b>Daily Log (Thursday 08/06/2017) - </b>
+ * Continuing Analysis, Design and Implementation.<p>
  * 
  * <b>Daily Log (Friday 09/06/2017) - </b><p>
  * 

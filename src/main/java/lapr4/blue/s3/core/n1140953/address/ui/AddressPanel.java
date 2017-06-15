@@ -8,7 +8,7 @@ package lapr4.blue.s3.core.n1140953.address.ui;
 import csheets.ui.ctrl.UIController;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.PopupMenu;
+import java.awt.event.ActionEvent;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -16,6 +16,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
+import lapr4.blue.s3.core.n1140953.address.AddressController;
 import lapr4.blue.s3.core.n1140953.address.AddressExtension;
 
 /**
@@ -24,11 +25,15 @@ import lapr4.blue.s3.core.n1140953.address.AddressExtension;
  */
 public class AddressPanel extends JPanel {
 
+    private final AddressController addressController;
     private final DefaultListModel<String> listModel = new DefaultListModel<>();
-
+    private JList<String> contactsList;
+    
     public AddressPanel(UIController uiController) {
         super(new BorderLayout());
         setName(AddressExtension.NAME);
+        
+        addressController = new AddressController(uiController, uiController.getUserProperties());
 
         buildComponents();
     }
@@ -39,7 +44,7 @@ public class AddressPanel extends JPanel {
 
         topPanel.add(new JLabel("Select Contact", JLabel.CENTER));
 
-        JList<String> contactsList = new JList<>(listModel);
+        contactsList = new JList<>(listModel);
         contactsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(contactsList);
         
@@ -61,10 +66,26 @@ public class AddressPanel extends JPanel {
         editAddressButton.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
         removeAddressButton.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
         
+        createAddressButton.addActionListener((ActionEvent e) ->
+        {
+            //TODO 
+        });
+        
+        editAddressButton.addActionListener((ActionEvent e) ->
+        {
+            //TODO 
+        });
+        
+        removeAddressButton.addActionListener((ActionEvent e) ->
+        {
+            //TODO 
+        });
+        
         pPanel.add(createAddressButton);
         pPanel.add(editAddressButton);
         pPanel.add(removeAddressButton);
         return pPanel;
     }
+    
 
 }

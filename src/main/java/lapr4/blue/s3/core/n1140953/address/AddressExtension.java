@@ -20,7 +20,7 @@ public class AddressExtension extends Extension{
     public static final int VERSION = 1;
     public static final String DESCRIPTION = "Address related extension from sprint 3.";
     
-    public AddressExtension(String name) {
+    public AddressExtension() {
         super(NAME, VERSION, DESCRIPTION);
     }
     
