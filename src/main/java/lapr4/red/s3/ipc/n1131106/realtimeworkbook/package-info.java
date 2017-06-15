@@ -44,7 +44,7 @@
  *
  * <h2>4. Design</h2>
  *
- * <img src="" alt="image">
+ * <img src="ipc02_03_design.png" alt="image">
  *
  *
  * <h3>4.1. Functional Tests</h3>
