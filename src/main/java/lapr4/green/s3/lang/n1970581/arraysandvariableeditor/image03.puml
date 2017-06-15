@@ -1,0 +1,107 @@
+@startuml image03.png
+
+class Workbook {
+  - ArrayStorage
+    + retrieveArrayStorage()
+ }
+
+class ArrayStorage {
+  - Map<String , ArrayItem> arrayMap
+  + retrieveArrayItem(String name)
+ }
+class ArrayItem {
+  - name
+  - value
++ ArrayItem(String name)
++ ArrayItem(String name, Value value)
++ getName() 
++ getValue() 
++ setValue(Value value)
++ evaluate()
+ }
+class ArrayItemDTO  << immutable >>{
+  - name
+  - value
+ }
+
+class AssignmentOperator {
+ + applyTo()
+}
+class FormulaEvalVisitor {
+ + visitVariable()
+}
+
+class Cell {
+ + getSpreadsheet()
+}
+
+class Spreadsheet {
+  +  getWorkbook()
+}
+
+class Value {
+ }
+
+interface Variable <<sprint 1>>{
++ applyTo()
++ getOperandValueType()
+ }
+interface Expression {
+ }
+
+
+
+class VariableEditorController {
+ }
+
+class VariableEditorController {
+ }
+class VariableEditorExtension {
+ }
+class VariableEditorPanel {
+ }
+class UIExtensionVariableEditor {
+ }
+class VariableEditorWatchdog  <<Singleton>>{
+ }
+
+
+'Workbook
+'ArrayStorage
+'ArrayItem
+'Variable
+'Value
+'VariableEditorExtension
+'VariableEditorController
+'VariableEditorPanel
+'UIExtensionVariableEditor
+
+Workbook --> ArrayStorage
+ArrayStorage o-- ArrayItem
+ArrayItem ..|> Variable
+Variable ..|> Expression
+AssignmentOperator --> Expression
+AssignmentOperator --> ArrayItem
+FormulaEvalVisitor --> Cell
+Cell --> Spreadsheet
+Spreadsheet --> Workbook
+FormulaEvalVisitor --> ArrayItem
+
+
+ArrayItem --> Value
+ArrayItem --> ArrayItemDTO
+
+ArrayStorage --> VariableEditorWatchdog
+
+VariableEditorController --> VariableEditorExtension
+
+VariableEditorController --> UIExtensionVariableEditor
+
+VariableEditorExtension --> VariableEditorPanel
+
+VariableEditorWatchdog --> VariableEditorPanel
+
+VariableEditorPanel --> ArrayItemDTO
+
+
+@enduml

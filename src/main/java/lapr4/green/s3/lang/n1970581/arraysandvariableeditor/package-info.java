@@ -23,6 +23,7 @@
  * Grammar copied to a new package, so we can change it.<br>
  * Analysis + Some design. <br>
  * Skeleton implementation of arrays. Grammar and visitor and 2 classes.<br>
+ * Test: Functional testing and debug.<br>
  * Analysis documentation <br>
  * 
  * <h2>2. Requirement</h2>
@@ -158,6 +159,59 @@
  *  Ongoing <p>
  * 
  * <h2>4.2 UC Realization</h2>
+ * 
+ * <p>
+ * 
+ * <h3>4.2.1 Language modifications </h3>
+ * 
+ * The following excerpt show the language modifications introduced to provide support for arrays.
+ * Some items such as variable, TEMPORARY, GLOBAL, NUMBER already existed and were left unmodified.
+ * 
+ * <pre>
+ * Code snippet:
+ *   {@code 
+ * variable
+ *         :       TEMPORARY
+ *         |       GLOBAL
+ *         |       GLOBALINDEX        
+ *         ;
+ *    TEMPORARY
+ *         :       UNDSCR ( NUMBER | LETTER )+
+ *         ;
+ * 		
+ * GLOBAL
+ *         :       ARROBA ( NUMBER | LETTER )+
+ *         ;
+ * 
+ * GLOBALINDEX
+ *         :       ARROBA ( INTEIRO | LETTER )+ L_SQR_BRACKET INTEIRO  R_SQR_BRACKET
+ *         ;
+ * NUMBER: ( DIGIT )+ ( COMMA ( DIGIT )+ )? ;
+ * 
+ * INTEIRO: DIGIT | (DIGIT_NON_ZERO ( DIGIT )+);
+ *
+ * fragment 
+ * DIGIT : '0'..'9' ;
+ * DIGIT_NON_ZERO : '1'..'9' ;
+ * 
+ * L_SQR_BRACKET : '[' ;
+ * R_SQR_BRACKET : ']' ;
+ *       
+ * }
+ * </pre>
+ * .<p>
+ * 
+ * <h3>4.2.2 Sequence Diagrams </h3>
+ * 
+ * <h2>4.3 Classes</h2>
+ * 
+ * The following image represents the classes used for this use case. <p>
+ * <img src="image03.png" alt="image failed to load">
+ *
+ * 
+ * <h3>4.4. Design Patterns and Best Practices</h3>
+ * 
+ * 
  * 
  * 
  * @author Hugo Bento 1970581
