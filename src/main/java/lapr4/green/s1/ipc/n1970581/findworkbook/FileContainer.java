@@ -45,6 +45,10 @@ public class FileContainer extends Observable{
         this.notifyObservers(element);
         
     }
+    
+    public List getList(){return this.lista;}
+    
+    
     /** Allows to get the FileDTO stored with the number i 
      * @param i index of stored FileDTO 
      * @return a FileDTO from that index or NULL (from List) 

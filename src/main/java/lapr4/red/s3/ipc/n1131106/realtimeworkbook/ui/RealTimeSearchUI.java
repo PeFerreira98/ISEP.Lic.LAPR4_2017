@@ -5,10 +5,14 @@
  */
 package lapr4.red.s3.ipc.n1131106.realtimeworkbook.ui;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.util.ArrayList;
+import java.util.Map;
 import javax.swing.DefaultListModel;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
 import lapr4.green.s1.ipc.n1970581.findworkbook.ui.SearchWorkbookPanel;
+import lapr4.red.s3.ipc.n1131106.realtimeworkbook.RealTimeSearch;
 
 /**
  *
@@ -16,11 +20,49 @@ import lapr4.green.s1.ipc.n1970581.findworkbook.ui.SearchWorkbookPanel;
  */
 public class RealTimeSearchUI extends javax.swing.JDialog {
 
-
+    private final SearchWorkbookController controller;
+    private final SearchWorkbookPanel searchWorkbookPanel;
     private final ArrayList<String> list = new ArrayList<String>();
     private DefaultListModel model;
     private final ArrayList<String> finalList = new ArrayList<String>();
 
+    /**
+     * Creates new form RealTimeSearch
+     *
+     * @param parent Frame
+     * @param modal
+     * @param controller FindWorkbookController
+     * @param searchWorkbookPanel searchWorkbookPanel
+     */
+    public RealTimeSearchUI(java.awt.Frame parent, boolean modal, SearchWorkbookController controller, SearchWorkbookPanel searchWorkbookPanel) {
+        super(parent, modal);
+        this.controller = controller;
+        this.searchWorkbookPanel = searchWorkbookPanel;
+        initComponents();
+        putMeOnTheMiddle();
+        model = new DefaultListModel();
+        jList1.setModel(model);
+        fillFolders();
+        setResizable(false);
+    }
+
+    private void fillFolders() {
+        for (Map.Entry<String, RealTimeSearch> en : searchWorkbookPanel.
+                showWbooksFolders().
+                entrySet()) {
+            if (!model.contains(en.getKey())) {
+                model.addElement(en.getKey());
+            }
+        }
+
+    }
+
+    private void putMeOnTheMiddle() {
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.
+                setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.
+                        getSize().height / 2);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

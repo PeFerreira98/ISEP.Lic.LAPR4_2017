@@ -7,17 +7,22 @@ package lapr4.green.s1.ipc.n1970581.findworkbook.ui;
 
 import csheets.ui.ctrl.UIController;
 import java.io.File;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140948.advancedworkbooksearch.UI.PreviewUI;
 import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 import lapr4.green.s1.ipc.n1970581.findworkbook.SearchWorkbookExtension;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
+import lapr4.red.s3.ipc.n1131106.realtimeworkbook.RealTimeSearch;
 import lapr4.red.s3.ipc.n1131106.realtimeworkbook.ui.RealTimeSearchUI;
 
 /**
@@ -58,6 +63,8 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
      * The defaultListModel
      */
     private final DefaultListModel<FileDTO> defaultListModel;
+    
+    protected Map<String, RealTimeSearch> wbooks = new HashMap<String, RealTimeSearch>();
 
     /**
      * Creates new form SearchWorkbookPanel
@@ -272,6 +279,10 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         this.jButtonOpen.setEnabled(true);
         this.PreviewWorkbookButton.setEnabled(true);
     }
+    
+    public JList showJListWorbooks(){return this.jListWorkbooks;}
+    
+    public Map<String, RealTimeSearch> showWbooksFolders() {return wbooks;}
 
     /**
      * CUSTOM: Calls the controller to open the workbook.
