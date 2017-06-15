@@ -164,7 +164,7 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
                 System.out.println("QuickSharing to " + this.selectedPeers.get(i) + "...");
 
                 if (this.selectedPeers.get(i) != null && !this.selectedPeers.get(i).isEmpty()) {
-                    System.out.println(multiShareStylableCells(cell));
+                    System.out.println(multiShareStylableCells(cell,this.selectedPeers.get(i)));
                     return;
                 }
             }
@@ -194,9 +194,8 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
         }
         return "Waiting for peer response";
     }
-     private String multiShareStylableCells(Cell cell) {
-        for(int i = 0; i < selectedPeers.size();i++){
-        CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(this.selectedPeers.get(i));
+     private String multiShareStylableCells(Cell cell, String peer) {
+        CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(peer);
         if (toPeer == null) {
             return "ERROR: Could not connect to peer!";
         }
@@ -214,7 +213,7 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
         if (!toPeer.sendDto(dto)) {
             return "ERROR: Communication failure in sending the cells";
         }
-        }
+        
         return "Waiting for peer response";
         
     }
