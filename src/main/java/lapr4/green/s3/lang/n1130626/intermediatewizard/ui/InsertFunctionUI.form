@@ -92,7 +92,7 @@
                   <Component id="resultLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="previewButton" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="47" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="cancelButton" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="insertButton" alignment="3" min="-2" max="-2" attributes="0"/>

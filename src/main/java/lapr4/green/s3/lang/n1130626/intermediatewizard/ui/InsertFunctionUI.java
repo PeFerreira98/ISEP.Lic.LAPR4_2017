@@ -6,6 +6,7 @@
 package lapr4.green.s3.lang.n1130626.intermediatewizard.ui;
 
 import csheets.core.IllegalValueTypeException;
+import csheets.core.formula.BinaryOperator;
 import csheets.core.formula.Formula;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
@@ -51,6 +52,9 @@ public class InsertFunctionUI extends javax.swing.JFrame {
         for(Function function : this.controller.getListSupportedFunctions()){
             this.functionList.addElement(function);
             this.functionListString.addElement(function.getIdentifier());
+        }
+        for(BinaryOperator binaryOperator : this.controller.getListSupportedOperators()){
+            this.functionListString.addElement(binaryOperator.getIdentifier());
         }
     }
     
@@ -186,7 +190,7 @@ public class InsertFunctionUI extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(resultLabel)
                     .addComponent(previewButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(insertButton))
