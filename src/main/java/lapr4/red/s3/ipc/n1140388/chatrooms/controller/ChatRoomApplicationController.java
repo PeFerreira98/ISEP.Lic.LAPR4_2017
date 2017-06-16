@@ -5,7 +5,6 @@
  */
 package lapr4.red.s3.ipc.n1140388.chatrooms.controller;
 
-import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.*;
 import java.net.Inet4Address;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
@@ -19,8 +18,6 @@ import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUsersStorage;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ConversationStorage;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
-import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.ReceiveMessage;
-import lapr4.green.s1.ipc.n1140618.ChatApplication.ui.SendMessage;
 import lapr4.green.s1.ipc.n1151211.comm.BroadcastServer;
 import lapr4.green.s1.ipc.n1151211.comm.CommClientWorker2;
 import lapr4.green.s1.ipc.n1151211.comm.CommHandler2;
@@ -56,8 +53,6 @@ public class ChatRoomApplicationController implements CommHandler2 {
 
     private ChatUsersStorage lst_Users;
 
-    private ConversationStorage lst_Conversations;
-
     /**
      * Creates a new Controller
      */
@@ -89,7 +84,6 @@ public class ChatRoomApplicationController implements CommHandler2 {
         }
         ChatUser user = new ChatUser(peerId.split("@")[0] + "@", peerId.split("@")[1]);
         this.lst_Users.addUser(user);
-        this.lst_Conversations = new ConversationStorage();
 
     }
 
@@ -130,7 +124,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
                 mess.setIdDest(oUser.getInfo());
                 mess.setIdOrig(peerId);
 
-                messageSend(message);
+                messageSend(room,message);
             }
         }
         if (room instanceof PublicChatRoom) {
@@ -139,8 +133,8 @@ public class ChatRoomApplicationController implements CommHandler2 {
 
                 mess.setIdDest(oUser.getInfo());
                 mess.setIdOrig(peerId);
-                
-                messageSend(message);
+
+                messageSend(room,message);
             }
         }
 
@@ -151,7 +145,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
      *
      * @param text
      */
-    public void messageSend(String text) {
+    public void messageSend(ChatRoom chat,String text) {
         mess.setContent(text);
 
         CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(mess.getIdDest());
@@ -163,7 +157,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         if (toPeer.sendDto(mess) == false) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            this.lst_Conversations.addMessage(mess);
+            chat.getLst_Conversations().addMessage(mess);
         }
 
     }
@@ -195,18 +189,28 @@ public class ChatRoomApplicationController implements CommHandler2 {
     public void handleDTO(Object dto, SendDto commWorker) {
         //this.mess = (Message) dto;
         ChatRoomDTO room = (ChatRoomDTO) dto;
+
         // String tmp = commWorker.peerAddress();
         // String sourceIP = this.mess.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
         // this.mess.setIdOrig(sourceIP);
         // this.lst_Conversations.addMessage(mess);
         if (room.getType().equals("private")) {
             ChatRoom newRoom = new PrivateChatRoom(room.getName(), room.getOwner(), null);
-//            newRoom.participants() = room.getParticipants();
-            this.roomsList.add(newRoom);
+
+            if (roomsList.contains(newRoom)) {
+                roomsList.getChatRoomsList().set(roomsList.getChatRoomsList().indexOf(newRoom), newRoom);
+            } else {
+                this.roomsList.add(newRoom);
+            }
+
         }
         if (room.getType().equals("public")) {
             ChatRoom newRoom = new PublicChatRoom(room.getName(), room.getOwner());
-            this.roomsList.add(newRoom);
+            if (roomsList.contains(newRoom)) {
+                roomsList.getChatRoomsList().set(roomsList.getChatRoomsList().indexOf(newRoom), newRoom);
+            } else {
+                this.roomsList.add(newRoom);
+            }
         }
         //    ReceiveMessage rm = new ReceiveMessage(this, sourceIP);
     }
@@ -224,8 +228,8 @@ public class ChatRoomApplicationController implements CommHandler2 {
         return this.lst_Users;
     }
 
-    public ArrayList<Message> refreshConversation(ChatUser user) {
-        return this.lst_Conversations.getConversationUsersTest(user);
+    public ArrayList<Message> refreshConversation(ChatRoom room,ChatUser user) {
+        return room.getLst_Conversations().getConversationUsersTest(user);
     }
 
     public HashMap<String, ChatUser> getUsers() {
@@ -289,8 +293,22 @@ public class ChatRoomApplicationController implements CommHandler2 {
      * @return true if the participant was added, false if was not
      */
     public boolean joinChatRoom(ChatRoom chatRoom) {
-        
-        return chatRoom.addParticipant(owner());
+        chatRoom.addParticipant(owner());
+
+        if (chatRoom instanceof PrivateChatRoom) {
+            ChatRoomDTO roomDto = new ChatRoomDTO(chatRoom.name(), chatRoom.owner(), chatRoom.participants(), chatRoom.isOnline(), "private");
+
+            roomSend(roomDto, ((PrivateChatRoom) chatRoom).participants().get(0).getInfo());
+
+        } else {
+            ChatRoomDTO roomDto = new ChatRoomDTO(chatRoom.name(), chatRoom.owner(), chatRoom.participants(), chatRoom.isOnline(), "public");
+
+            roomSend(roomDto, ((PublicChatRoom) chatRoom).participants().get(0).getInfo());
+
+        }
+
+        return true;
+
     }
 
     /**
