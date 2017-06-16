@@ -254,7 +254,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
      */
     public void startChat(ChatRoom cr) {
         roomsList.add(cr);
-
+        boolean flagfirst = true;
         if (cr instanceof PrivateChatRoom) {
             ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), "private");
             for (ChatUser user : ((PrivateChatRoom) cr).invitations()) {
@@ -263,8 +263,12 @@ public class ChatRoomApplicationController implements CommHandler2 {
             }
         } else {
             ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), "public");
+            
             for (ChatUser user : lst_Users.getUserList().values()) {
-                roomSend(roomDto, user.getInfo());
+                if(!flagfirst){
+                    roomSend(roomDto, user.getInfo());
+                }
+                flagfirst = false;
             }
 
         }
@@ -299,12 +303,12 @@ public class ChatRoomApplicationController implements CommHandler2 {
         CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(ipDestination);
 
         if (toPeer == null) {
-//            JOptionPane.showMessageDialog(null, "NO COMUNICATION TO PEER!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "NO COMUNICATION TO PEER!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
         if (toPeer.sendDto(text) == false) {
-//            JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
         } else {
 //            this.lst_Conversations.addChatRoom(room);
         }

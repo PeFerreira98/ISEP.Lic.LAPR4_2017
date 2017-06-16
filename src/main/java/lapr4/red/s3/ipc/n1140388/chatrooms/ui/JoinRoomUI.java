@@ -208,6 +208,9 @@ public class JoinRoomUI extends javax.swing.JFrame {
                         "Error", JOptionPane.WARNING_MESSAGE);
             }
         }
+        
+        revalidate();
+        repaint();
     }//GEN-LAST:event_btnAcceptActionPerformed
 
     private void btnRejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejectActionPerformed
@@ -220,6 +223,7 @@ public class JoinRoomUI extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "You need to select one chat room!",
                     "Error", JOptionPane.WARNING_MESSAGE);
         } else if (privateList.getSelectedValue() != null) {
+            this.btnReject.setVisible(true);
             boolean verify = controller.rejectChatRoom((ChatRoom) privateList.getSelectedValue());
             if (verify) {
                 JOptionPane.showMessageDialog(this, "You join this Chat Room!",
