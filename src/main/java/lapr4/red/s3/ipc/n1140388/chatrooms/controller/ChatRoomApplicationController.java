@@ -282,6 +282,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
      * @return true if the participant was added, false if was not
      */
     public boolean joinChatRoom(ChatRoom chatRoom) {
+        
         return chatRoom.addParticipant(owner());
     }
 

@@ -5,9 +5,16 @@
  */
 package lapr4.red.s3.ipc.n1140388.chatrooms.ui;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
+import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
 
@@ -15,12 +22,14 @@ import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationControl
  *
  * @author Alexandra Ferreira 1140388
  */
-public class JoinRoomUI extends javax.swing.JFrame {
+public class JoinRoomUI extends javax.swing.JFrame implements Observer{
 
     /**
      * The Login Participant Controller
      */
     private ChatRoomApplicationController controller;
+
+    private ChatUser activeParticipant;
 
     /**
      * Creates new form JoinRoomUI
@@ -29,9 +38,9 @@ public class JoinRoomUI extends javax.swing.JFrame {
      */
     public JoinRoomUI(ChatRoomApplicationController controller) {
 
-        this.controller =controller;
+        this.controller = controller;
 
-        ChatUser activeParticipant = controller.owner();
+        activeParticipant = controller.owner();
 
         if (activeParticipant != null) {
             initComponents();
@@ -43,6 +52,8 @@ public class JoinRoomUI extends javax.swing.JFrame {
             privateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
             btnReject.setVisible(false);
+            
+            this.controller.getListener().addObserver(this);
 
             setResizable(false);
             setLocationRelativeTo(null);
@@ -73,7 +84,7 @@ public class JoinRoomUI extends javax.swing.JFrame {
         btnReject = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblPublicRooms.setText("Public Rooms");
 
@@ -192,7 +203,7 @@ public class JoinRoomUI extends javax.swing.JFrame {
             if (verify) {
                 JOptionPane.showMessageDialog(this, "You join this Chat Room!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
-                dispose();
+
             } else {
                 JOptionPane.showMessageDialog(this, "You are already in this Chat Room!",
                         "Error", JOptionPane.WARNING_MESSAGE);
@@ -202,15 +213,18 @@ public class JoinRoomUI extends javax.swing.JFrame {
             if (verify) {
                 JOptionPane.showMessageDialog(this, "You join this Chat Room!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
-                dispose();
+
             } else {
                 JOptionPane.showMessageDialog(this, "You are already in this Chat Room!",
                         "Error", JOptionPane.WARNING_MESSAGE);
             }
         }
-        
-        revalidate();
-        repaint();
+
+        publicList.setListData(controller.getRoomsList().publicRoomsWithoutParticipant(activeParticipant).toArray());
+        publicList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        privateList.setListData(controller.getRoomsList().privateRoomsWithInvationWithoutParticipant(activeParticipant).toArray());
+        privateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }//GEN-LAST:event_btnAcceptActionPerformed
 
     private void btnRejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejectActionPerformed
@@ -228,12 +242,18 @@ public class JoinRoomUI extends javax.swing.JFrame {
             if (verify) {
                 JOptionPane.showMessageDialog(this, "You join this Chat Room!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
-                dispose();
+
             } else {
                 JOptionPane.showMessageDialog(this, "You are already in this Chat Room!",
                         "Error", JOptionPane.WARNING_MESSAGE);
             }
         }
+
+        publicList.setListData(controller.getRoomsList().publicRoomsWithoutParticipant(activeParticipant).toArray());
+        publicList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        privateList.setListData(controller.getRoomsList().privateRoomsWithInvationWithoutParticipant(activeParticipant).toArray());
+        privateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }//GEN-LAST:event_btnRejectActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -248,4 +268,16 @@ public class JoinRoomUI extends javax.swing.JFrame {
     private javax.swing.JList privateList;
     private javax.swing.JList publicList;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        publicList.setListData(controller.getRoomsList().publicRoomsWithoutParticipant(activeParticipant).toArray());
+        publicList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+        privateList.setListData(controller.getRoomsList().privateRoomsWithInvationWithoutParticipant(activeParticipant).toArray());
+        privateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
+    }
+
+    
 }

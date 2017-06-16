@@ -92,7 +92,9 @@ public class ChatRoomsList implements Serializable {
 
         for (ChatRoom cr : chatRoomsList) {
             if (cr instanceof PublicChatRoom) {
-                list.add(cr);
+                if(!cr.hasParticipant(participant)){
+                    list.add(cr);
+                }
             }
         }
 
@@ -111,7 +113,9 @@ public class ChatRoomsList implements Serializable {
 
         for (ChatRoom cr : chatRoomsList) {
             if (cr instanceof PrivateChatRoom) {
-                list.add(cr);
+                if(!cr.hasParticipant(participant)){
+                    list.add(cr);
+                }
             }
         }
 
