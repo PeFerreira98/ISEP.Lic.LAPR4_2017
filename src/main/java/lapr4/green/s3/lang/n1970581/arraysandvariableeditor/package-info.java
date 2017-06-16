@@ -27,7 +27,10 @@
  * Design documentation <br>
  * <br>
  * Work notes/log: S3 15-06-2017 (quinta) <br>
- * Ui and some classes implemented.
+ * Ui and some classes implemented. Implementation: of Empty Sidebar, UI + controllers barebones skeleton. <br>
+ * Designing.<br>
+ * Implementation: Sidebard list with AutoUpdate, new VariableEditorWatchdog , testing.<br>
+ * 
  * 
  * 
  * <h2>2. Requirement</h2>

@@ -6,13 +6,20 @@
 package lapr4.green.s3.lang.n1970581.arraysandvariableeditor.ui;
 
 import csheets.ui.ctrl.UIController;
+import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.ArrayItemDTO;
+import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.VariableEditorWatchdog;
 import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.controller.VariableEditorController;
 
 /**
  *  Ui for interacting with the Global variables or Arrays and editing them.
  * @author Hugo
  */
-public class VariableEditorPanel extends javax.swing.JPanel {
+public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
 
     
      /**
@@ -26,13 +33,17 @@ public class VariableEditorPanel extends javax.swing.JPanel {
     private final VariableEditorController controller;
     
     
+    private DefaultListModel<ArrayItemDTO> list;
+    
     /**
      * Creates new form VariableEditorPanel
+     * @param uiController the UIController
      */
     public VariableEditorPanel(UIController uiController) {
         this.uiController = uiController;
         this.controller = new VariableEditorController(uiController);
         initComponents();
+        this.list = (DefaultListModel<ArrayItemDTO>)this.jListDTO.getModel();
     }
 
     /**
@@ -44,19 +55,96 @@ public class VariableEditorPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jListDTO = new javax.swing.JList();
+        jToggleButtonAutoUpdate = new javax.swing.JToggleButton();
+
+        jListDTO.setModel(new DefaultListModel<ArrayItemDTO>());
+        jScrollPane1.setViewportView(jListDTO);
+
+        jToggleButtonAutoUpdate.setText("Auto Update");
+        jToggleButtonAutoUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jToggleButtonAutoUpdateActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jToggleButtonAutoUpdate)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jToggleButtonAutoUpdate)
+                .addContainerGap(92, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jToggleButtonAutoUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jToggleButtonAutoUpdateActionPerformed
+        // TODO add your handling code here:
+        if(this.jToggleButtonAutoUpdate.isSelected()){
+            this.registerInWatchdog();
+        }
+        else this.unregisterInWatchdog();
+    }//GEN-LAST:event_jToggleButtonAutoUpdateActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JList jListDTO;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JToggleButton jToggleButtonAutoUpdate;
     // End of variables declaration//GEN-END:variables
+
+
+    /**
+     * Updates the list of DTO's.
+     */
+    public void updateList(){
+        List<ArrayItemDTO> listOfDTO;
+        try{
+            listOfDTO = this.controller.retriveActiveWorkbookVariableList();
+            listOfDTO.sort(null);
+            this.list.clear();
+            for(ArrayItemDTO dto : listOfDTO){
+                this.list.addElement(dto);
+            }
+        }
+        catch(NullPointerException ex){
+            JOptionPane.showMessageDialog(this, ex, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * Register in the watch dog to start receiving updates.
+     */
+    public void registerInWatchdog(){
+        VariableEditorWatchdog.instance().addObserver(this);
+        this.updateList();
+    }
+
+    /**
+     * Unregister, to stop receiving updates.
+     */
+    public void unregisterInWatchdog(){
+        VariableEditorWatchdog.instance().deleteObserver(this);
+    }
+
+    @Override
+    public synchronized void update(Observable o, Object arg) {
+        this.updateList();
+    }
+
 }

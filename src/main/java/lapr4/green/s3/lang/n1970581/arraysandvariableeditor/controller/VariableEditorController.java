@@ -6,6 +6,8 @@
 package lapr4.green.s3.lang.n1970581.arraysandvariableeditor.controller;
 
 import csheets.ui.ctrl.UIController;
+import java.util.List;
+import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.ArrayItemDTO;
 
 /**
  * The controller for the VariableEditor. interfaces ui with the main code.
@@ -23,5 +25,15 @@ public class VariableEditorController {
     public VariableEditorController(UIController uiController){
         this.uiController = uiController;
     }
+    
+    /**
+     * Returns the list of ArrayItems as DTO from the active Workbook ArrayStorage
+     * @return the list of ArrayItems as DTO from the active Workbook ArrayStorage
+     */
+    public List<ArrayItemDTO> retriveActiveWorkbookVariableList(){
+        if (this.uiController.getActiveWorkbook() == null) throw new NullPointerException("Active Workbook missing.");
+        return this.uiController.getActiveWorkbook().retrieveArrayStorage().listContainerAsDTO();
+    }
+    
     
 }
