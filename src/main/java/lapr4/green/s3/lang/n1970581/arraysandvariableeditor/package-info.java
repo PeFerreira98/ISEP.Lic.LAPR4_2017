@@ -34,6 +34,9 @@
  * Work notes/log: S3 16-06-2017 (sexta) <br>
  * Design documentation. Showing the 2 SD's<br>
  * Implementation: Sidebard variable editing <br>
+ * Design documentation. Showing the edit SD <br>
+ *
+ *
  * 
  * <h2>2. Requirement</h2>
  * 
@@ -221,8 +224,14 @@
  * <b> Sidebar auto updating </b> <p>
  * This SD shows how we auto update the UI everytime a Array is changed.<p>
  * <br>
- * <img src="image04.png" alt="image failed to load"><p>
+ * <img src="image05.png" alt="image failed to load"><p>
  * <br>
+ * <b> Edit SD </b> <p>
+ * This SD shows how we edit a variable.<p>
+ * <br>
+ * <img src="image06.png" alt="image failed to load"><p>
+ * <br>
+ * 
  * <h2>4.3 Classes</h2>
  * 
  * The following image represents the classes used for this use case. <p>
