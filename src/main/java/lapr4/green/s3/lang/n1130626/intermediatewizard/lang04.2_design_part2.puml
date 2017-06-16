@@ -1,0 +1,66 @@
+@startuml lang04.02_design_part2.png
+
+  class WizardFunctionUI {
+    -WizardFunctionController controller;
+    -String source;
+    -initializeComponents();
+    -getActiveIdentifier();
+    -actions();
+    -initOperationsList();
+    -initActiveFunctionCell();
+    -createFieldsFunction(Function function);
+    -resetHighlighter();
+    +RunTimeCompiler();
+  }
+
+  class WizardFunctionController {
+    -UIController uiController;
+    -Language language;
+    -FormulaCompiler compiler;
+    +getCell();
+    +getFunctions();
+    +hasFunction(String identifier);
+    +getFunction(String identifier);
+    +getBinaryOperator();
+    +getBinaryOperator(String identifier);
+    +getStructure(String identifier);
+    +getSource(String identifier, JTextField[] params);
+    +getHelp(String identifier);
+    +getFormula(String source);
+    +setContent(String source);
+  }
+
+  class Language {
+    -Language instance;
+    -String PROPERTIES_FILENAME = "res/language.props";
+    -List<UnaryOperator> unaryOperators;
+    -List<BinaryOperator> binaryOperators;
+    -List<Function> functions;
+    -List<Money> moneyOperators;
+    +getInstance();
+    +getUnaryOperator(String identifier);
+    +getBinaryOperator(String identifier);
+    +getFunction(String identifier);
+    +getMoneyOperator(String identifier);
+    +hasFunction(String identifier);
+    +getFunctions();
+    +getBinaryOperators();
+  }
+
+  class UIController {
+    -Cell activeCell;
+    ...;
+    +getActiveCell();
+    ...();
+  }
+
+  class Cell {
+    ...();
+  }
+
+    WizardFunctionUI --> WizardFunctionController
+    WizardFunctionController --> Language
+    WizardFunctionController --|> UIController
+    WizardFunctionController --> Cell
+    Cell -- UIController
+@enduml

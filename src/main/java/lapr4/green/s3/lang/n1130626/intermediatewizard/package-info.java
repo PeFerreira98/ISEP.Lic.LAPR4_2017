@@ -59,35 +59,16 @@
  * <p>
  * 
  * <b>Part 1:</b><p>
- * The delegation design pattern is used in the cell extension mechanism of cleansheets. The following class diagram depicts the relations between classes in the "Cell" hierarchy.<p>
+ * This is a full sequence diagram about the respective use case<p>
  * 
- * 
+ * <img src="lang04.2_design_part1.png" alt="image">
  * 
  * <p>
  * 
  * <b>Part 2:</b><p>
- * The following diagram depicts a concept for the realization of the use case. This is a "prototype" diagram because it functions like a draft that we can do during analysis or early design in order to get a previous approach to the design.<p>
+ * This is a full class diagram about the respective use case<p>
  * 
- * 
- * 
- * <p>
- * 
- * <b>Part 3:</b><p>
- * The following diagram shows the setup of the "images" extension when cleansheets is run.<p>
- * 
- * 
- * 
- * <p>
- * 
- * 
- * <b>These parts (1 to 3) were focused about the creation of the extension and prototypes, the next part is focused about the use case</b><p>
- * 
- * <p>
- *
- * <b>Part 4 - Use case: Insert image</b><p>
- * This is a full sequence diagram about the respective use case<p>
- * 
- * 
+ * <img src="lang04.2_design_part2.png" alt="image">
  * 
  * <p>
  * 
