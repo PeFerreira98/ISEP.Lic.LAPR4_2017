@@ -1,0 +1,41 @@
+@startuml lang04.2_design_part1.png
+
+actor User
+participant "WizardFunctionUI" as ui
+participant "WizardFunctionController" as ctrl
+participant "Language" as lang
+participant "UIController" as uic
+participant "Cell: activeCell" as cell
+
+User -> ui : Initiates use case
+activate ui
+ui -> ctrl : getFunctions()
+activate ctrl
+ctrl -> lang : getFunctions()
+activate lang
+lang --> ctrl : Function[]: functions
+deactivate lang
+ctrl --> ui : Function[]: functions
+deactivate ctrl
+ui --> User : Shows functions
+User -> ui : Chooses function
+ui -> ui : createFieldsFunction(function)
+User -> ui : Inserts parameters
+ui -> ui : RunTimeCompiler()
+ui -> ctrl : getSource(getActiveIdentifier(), operationParams)
+activate ctrl
+ctrl --> ui : String : source
+deactivate ctrl
+ui --> User : Shows formula and its results
+User -> ui : Accepts results
+ui -> ctrl : setContent(source)
+activate ctrl
+ctrl -> uic : getActiveCell()
+activate uic
+uic --> ctrl : Cell: activeCell
+deactivate uic
+ctrl -> cell : setContent(source)
+deactivate ctrl
+deactivate ui
+
+@enduml

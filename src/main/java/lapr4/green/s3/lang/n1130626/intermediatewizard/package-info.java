@@ -106,8 +106,8 @@
  * 
  * <b>Code</b><p>
  * The following classes and interfaces implement this use case.<p>
- * Package lapr4.green.s3.lang.n1130626.intermediatewizard:
- *
+ * Package lapr4.green.s3.lang.n1130626.intermediatewizard.controller:
+ * Package lapr4.green.s3.lang.n1130626.intermediatewizard.ui:
  *
  * @author Pedro Pereira
  */
