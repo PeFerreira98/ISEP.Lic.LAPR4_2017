@@ -116,16 +116,6 @@ public class CellRenderer extends DefaultTableCellRenderer {
                             getExtension(CommentsExtension.NAME);
                     setToolTipText(commentCell.getTooltip());
                     }
-                        
-//                    MouseListener ml = new MouseAdapter()
-//                    {
-//                        @Override
-//                        public void mouseEntered(MouseEvent me)
-//                        {
-//                            ImageOverlayUI imageOverlayUI = new ImageOverlayUI((ImagenableCell) cell.getExtension(ImagesExtension.NAME), CellRenderer.this);
-//                        }
-//                    };
-//                    addMouseListener(ml);
             }
 		return this;
 	}

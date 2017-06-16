@@ -11,7 +11,6 @@ import java.util.Observer;
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import lapr4.blue.s3.core.n1141233.image.imageoverlay.ui.ImageOverlayUI;
 import lapr4.blue.s3.core.n1141233.image.insertimage.ImagenableCell;
 import lapr4.blue.s3.core.n1141233.image.insertimage.ImagenableCellListener;
 import lapr4.blue.s3.core.n1141233.image.insertimage.Images;
@@ -194,7 +193,7 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
         }
         else
         {
-            JOptionPane.showMessageDialog(this, "Please select an url", "Warning", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Please select an image", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_jButtonRemoveImageActionPerformed
 
@@ -239,10 +238,10 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
             ImagenableCell activeCell = (ImagenableCell) selectedCell.getExtension(ImagesExtension.NAME);
             activeCell.addImagenableCellListener(this);
             imageChanged(activeCell);
-            if (activeCell.hasImages())
-            {
-                ImageOverlayUI imageOverlayUI = new ImageOverlayUI(activeCell, this);
-            }
+//            if (activeCell.hasImages())
+//            {
+//                ImageOverlayUI imageOverlayUI = new ImageOverlayUI(activeCell, this.getLocation());
+//            }
         }
 
         if (event.getPreviousCell() != null)

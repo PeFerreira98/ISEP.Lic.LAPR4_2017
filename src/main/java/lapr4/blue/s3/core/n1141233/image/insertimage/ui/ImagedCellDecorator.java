@@ -63,18 +63,6 @@ public class ImagedCellDecorator extends CellDecorator
                 // Restores graphics context properties
                 g2.setColor(oldPaint);
                 g2.setFont(oldFont);
-
-                MouseListener ml = new MouseAdapter()
-                {
-                    @Override
-                    public void mouseEntered(MouseEvent me)
-                    {
-                        super.mouseEntered(me);
-                        ImageOverlayUI imageOverlayUI = new ImageOverlayUI((ImagenableCell) cell.getExtension(ImagesExtension.NAME), component);
-                    }
-
-                };
-                component.addMouseListener(ml);
             }
         }
     }

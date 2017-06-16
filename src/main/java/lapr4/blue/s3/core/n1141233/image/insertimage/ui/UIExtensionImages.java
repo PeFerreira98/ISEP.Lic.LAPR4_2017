@@ -9,6 +9,7 @@ import javax.swing.Icon;
 import javax.swing.JComponent;
 import javax.swing.JMenu;
 import javax.swing.JToolBar;
+import lapr4.blue.s3.core.n1141233.image.imageoverlay.OverlayTableDecorator;
 
 /**
  * This class implements the UI interface extension for the images extension. A
@@ -24,6 +25,11 @@ public class UIExtensionImages extends UIExtension
      * A cell decorator that visualizes images on cells
      */
     private CellDecorator cellDecorator;
+
+    /**
+     * A cell decorator that opens the images overlay
+     */
+    private TableDecorator tableDecorator;
 
     /**
      * A side bar that provides editing of comments
@@ -87,7 +93,11 @@ public class UIExtensionImages extends UIExtension
     @Override
     public TableDecorator getTableDecorator()
     {
-        return null;
+        if (tableDecorator == null)
+        {
+            tableDecorator = new OverlayTableDecorator();
+        }
+        return tableDecorator;
     }
 
     /**

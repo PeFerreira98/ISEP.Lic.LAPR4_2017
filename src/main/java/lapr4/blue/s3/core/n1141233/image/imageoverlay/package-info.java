@@ -52,7 +52,12 @@
  * <h3>3.1 User Stories</h3>
  *
  * <p>
- * <b>US1.</b> As a User I want to be able to 
+ * <b>US1.</b> As a User I want to be able to add images to cell's
+ * <br>
+ * <b>US2.</b> As a User I want to be able to remove images from cell's
+ * <br>
+ * <b>US1.</b> As a User I want to be able view the cell's associated images in
+ * an overlay window when i hover the mouse over a cell that contains images
  * <br>
  * </p>
  *
@@ -67,13 +72,13 @@
  * <h3>3.3 Use Cases (Scenarios)</h3>
  *
  * <p>
- * <b>UC1  (from US1)</b>
+ * <b>UC1 (from US1)</b>
  * <br>
  * <img src="ipc04.2_analysis1.png" alt="analysis">
  * <br>
  * Alternative and Exception Scenarios
  * <br>
- * Exception 1: 
+ * Exception 1:
  * <br>
  * </p>
  *
@@ -89,7 +94,7 @@
  * <p>
  * <b>Import data link from a text file Test:</b>
  * 1. The user should start the CleanSheets Application<br>
- * 2. Selects the first cell he wants to be used for 
+ * 2. Selects the first cell he wants to be used for
  * </p>
  *
  * <h4>4.1.2 Unit Tests</h4>
@@ -142,7 +147,7 @@
  * <h2>5. Implementation</h2>
  * <p>
  * TODO
- * <br> 
+ * <br>
  * </p>
  *
  *
@@ -169,7 +174,7 @@
  * <p>
  * Please also check Jira issue LAPR4E17DL-85 for time logging.
  * <br>
- * 
+ *
  * Work notes/log: S3 13-06-2017 (terça)
  * <br>
  * - During the morning we had a meeting with the client.
@@ -182,8 +187,8 @@
  * <br>
  * - Analysis was initiated.
  * <br>
- * 
- * 
+ *
+ *
  * </p>
  *
  *

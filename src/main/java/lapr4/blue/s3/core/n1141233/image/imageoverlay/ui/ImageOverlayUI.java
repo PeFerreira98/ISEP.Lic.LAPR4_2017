@@ -1,13 +1,16 @@
 package lapr4.blue.s3.core.n1141233.image.imageoverlay.ui;
 
 import java.awt.Image;
+import java.awt.Point;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.IOException;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import lapr4.blue.s3.core.n1141233.image.imageoverlay.OverlayMouseMotionListener;
 import lapr4.blue.s3.core.n1141233.image.imageoverlay.controller.ImageOverlayController;
 import lapr4.blue.s3.core.n1141233.image.insertimage.ImagenableCell;
 
@@ -19,20 +22,20 @@ public class ImageOverlayUI extends javax.swing.JFrame
 {
 
     private final ImageOverlayController controller;
-
     private int index;
 
     /**
      * Creates new form ImageOverlayUI
      *
      * @param cell the selected cell
-     * @param component
+     * @param point location to open the window
      */
-    public ImageOverlayUI(ImagenableCell cell, JComponent component)
+    public ImageOverlayUI(ImagenableCell cell, Point point)
     {
         initComponents();
-        this.setLocationRelativeTo(component);
-        setVisible(true);
+        this.setLocation(point);
+        this.setVisible(true);
+        this.setAlwaysOnTop(true);
 
         // dont exit on close
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -45,20 +48,12 @@ public class ImageOverlayUI extends javax.swing.JFrame
             }
         };
         this.addWindowListener(exitListener);
+        // dont exit on close
 
-//        MouseListener ml = new MouseAdapter()
-//        {
-//            @Override
-//            public void mouseExited(MouseEvent me)
-//            {
-//                dispose();
-//            }
-//        };
-//        this.addMouseListener(ml);
-        index = 0;
+        this.index = 0;
         this.controller = new ImageOverlayController(cell);
-        updateLabel();
-        updateButtons();
+        this.updateLabel();
+        this.updateButtons();
         try
         {
             drawImage(controller.getImage());
@@ -67,6 +62,7 @@ public class ImageOverlayUI extends javax.swing.JFrame
         {
             JOptionPane.showMessageDialog(this, "Couldn't load image", "Warning", JOptionPane.WARNING_MESSAGE);
         }
+        repaint();
     }
 
     /**
@@ -85,6 +81,7 @@ public class ImageOverlayUI extends javax.swing.JFrame
         imageIndex = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         previousButton.setText("<");
         previousButton.addActionListener(new java.awt.event.ActionListener()
@@ -190,6 +187,7 @@ public class ImageOverlayUI extends javax.swing.JFrame
     private void drawImage(Image image)
     {
         this.imagePanel.getGraphics().drawImage(image, 0, 0, this.imagePanel.getWidth(), this.imagePanel.getHeight(), null);
+        imagePanel.repaint();
     }
 
     private void updateLabel()
@@ -215,6 +213,20 @@ public class ImageOverlayUI extends javax.swing.JFrame
         else
         {
             nextButton.setEnabled(true);
+        }
+    }
+
+    @Override
+    public void repaint()
+    {
+        super.repaint();
+        try
+        {
+            drawImage(controller.getImage());
+        }
+        catch (IOException ex)
+        {
+            JOptionPane.showMessageDialog(this, "Couldn't load image", "Warning", JOptionPane.WARNING_MESSAGE);
         }
     }
 }
