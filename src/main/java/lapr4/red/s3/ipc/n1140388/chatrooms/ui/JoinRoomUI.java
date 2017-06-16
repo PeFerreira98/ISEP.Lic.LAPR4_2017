@@ -279,5 +279,30 @@ public class JoinRoomUI extends javax.swing.JFrame implements Observer{
 
     }
 
-    
+//    public void updateList(List<ChatRoom> list) {
+//
+//        DefaultListModel model = new DefaultListModel();
+//        int flag = 0;
+////        for (String onlineUser : list) {
+////            model.addElement(onlineUser);
+////        }
+//        list.stream().forEach((object) -> {
+//            if (object.equals(this.controller.owner())) {
+//
+//                
+//            } else if (object.isOnline()) {
+//                if (!object.getNickname().equalsIgnoreCase("")) {
+//                    model.addElement(object.getNickname() + "(Online)");
+//                } else {
+//                    model.addElement(object.getMachineName() + object.getIp() + "(Online)");
+//                }
+//            } else if (!object.getNickname().equalsIgnoreCase("")) {
+//                model.addElement(object.getNickname() + "(Offline)");
+//            } else {
+//                model.addElement(object.getMachineName() + object.getIp() + "(Offline)");
+//            }
+//        });
+//
+//        publicList.setModel(model);
+//    }
 }

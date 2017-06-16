@@ -121,22 +121,15 @@ public class ChatRoomApplicationController implements CommHandler2 {
      *
      * @param oUser
      */
-    public void sendMessage(String oUser) {
-        this.mess = new Message();
-        mess.setIdDest(oUser);
+    public void sendMessage(ChatRoom room, String message) {
+        for(ChatUser oUser :room.participants()){
+            this.mess = new Message();
+        
+        mess.setIdDest(oUser.getInfo());
         mess.setIdOrig(peerId);
 
-        String tmp[] = oUser.split("@");
-        String machineName = tmp[0] + "@";
-        String id = tmp[1];
-
-        ChatUser chatUser2 = new ChatUser(machineName, id);
-
-        // SendMessage sm
-        //         = new SendMessage(this, chatUser2, this.lst_Conversations.getConversationUsersTest(chatUser2));
-//        User user = new User(machineName, id);
-//        SendMessage sm 
-//                = new SendMessage(this, user, this.lst_Conversations.getConversationUsersTest(chatUser2));
+        messageSend(message);
+        }
     }
 
     /**

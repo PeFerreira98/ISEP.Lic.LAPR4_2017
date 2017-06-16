@@ -45,9 +45,9 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
      *
      * @param cntrl the chat room controller
      */
-    public CreateChatRoomUI() {
+    public CreateChatRoomUI(ChatRoomApplicationController controller) {
 
-        chatRoomcontroller = new ChatRoomApplicationController();
+        chatRoomcontroller =controller;
         ChatUser activeParticipant = chatRoomcontroller.owner();
         
         if (activeParticipant != null) {

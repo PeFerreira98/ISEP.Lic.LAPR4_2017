@@ -7,6 +7,7 @@ package lapr4.red.s3.ipc.n1140388.chatrooms.ui;
 
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
+import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.controller.ChatApplicationController;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
@@ -34,7 +35,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame {
         this.chatRoom = room;
         this.controller = cntrl;
         this.activeParticipant = controller.owner();
-
+        controller.getListener().addHandler(Message.class, cntrl);
         if (activeParticipant != null) {
 
             initComponents();
@@ -169,7 +170,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame {
     private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed
         if (!txtMessageArea.getText().isEmpty()) {
             String message = txtMessageArea.getText();
-            this.controller.sendMessage(message);
+             this.controller.sendMessage(chatRoom,message);
             txtMessageArea.setText("");
         }
     }//GEN-LAST:event_sendBtnActionPerformed
