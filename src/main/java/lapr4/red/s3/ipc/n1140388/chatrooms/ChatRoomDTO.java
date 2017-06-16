@@ -5,6 +5,7 @@
  */
 package lapr4.red.s3.ipc.n1140388.chatrooms;
 
+import java.io.Serializable;
 import java.util.List;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 
@@ -12,7 +13,7 @@ import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
  *
  * @author Alexandra Ferreira 1140388
  */
-public class ChatRoomDTO {
+public class ChatRoomDTO implements Serializable{
 
     private String name;
     private ChatUser owner;

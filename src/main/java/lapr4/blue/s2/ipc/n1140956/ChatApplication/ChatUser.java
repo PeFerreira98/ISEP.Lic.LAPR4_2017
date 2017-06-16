@@ -5,13 +5,14 @@
  */
 package lapr4.blue.s2.ipc.n1140956.ChatApplication;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
  *
  * @author Marcos
  */
-public class ChatUser {
+public class ChatUser implements Serializable{
 
     private String nickname;
     private String machineName;
