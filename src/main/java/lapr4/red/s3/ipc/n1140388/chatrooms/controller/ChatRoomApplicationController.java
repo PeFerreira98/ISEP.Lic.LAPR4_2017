@@ -16,7 +16,6 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUsersStorage;
-import lapr4.blue.s2.ipc.n1140956.ChatApplication.ConversationStorage;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
 import lapr4.green.s1.ipc.n1151211.comm.BroadcastServer;
 import lapr4.green.s1.ipc.n1151211.comm.CommClientWorker2;
@@ -124,7 +123,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
                 mess.setIdDest(oUser.getInfo());
                 mess.setIdOrig(peerId);
 
-                messageSend(room,message);
+                messageSend(room, message);
             }
         }
         if (room instanceof PublicChatRoom) {
@@ -134,7 +133,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
                 mess.setIdDest(oUser.getInfo());
                 mess.setIdOrig(peerId);
 
-                messageSend(room,message);
+                messageSend(room, message);
             }
         }
 
@@ -145,7 +144,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
      *
      * @param text
      */
-    public void messageSend(ChatRoom chat,String text) {
+    public void messageSend(ChatRoom chat, String text) {
         mess.setContent(text);
 
         CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(mess.getIdDest());
@@ -188,12 +187,22 @@ public class ChatRoomApplicationController implements CommHandler2 {
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
         //this.mess = (Message) dto;
-        ChatRoomDTO room = (ChatRoomDTO) dto;
+        if (dto instanceof ChatRoomDTO) {
+            ChatRoomDTO room = (ChatRoomDTO) dto;
+            handleChatRoomDTO(room, commWorker);
+        }
 
-        // String tmp = commWorker.peerAddress();
-        // String sourceIP = this.mess.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
-        // this.mess.setIdOrig(sourceIP);
-        // this.lst_Conversations.addMessage(mess);
+        if (dto instanceof Message) {
+
+            Message message = (Message) dto;
+
+            handleMessageDTO(message, commWorker);
+
+        }
+
+    }
+
+    public void handleChatRoomDTO(ChatRoomDTO room, SendDto commWorker) {
         if (room.getType().equals("private")) {
             ChatRoom newRoom = new PrivateChatRoom(room.getName(), room.getOwner(), null);
 
@@ -212,6 +221,14 @@ public class ChatRoomApplicationController implements CommHandler2 {
                 this.roomsList.add(newRoom);
             }
         }
+    }
+
+    public void handleMessageDTO(Message message, SendDto commWorker) {
+        String tmp = commWorker.peerAddress();
+        String sourceIP = message.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
+        message.setIdOrig(sourceIP);
+        //this.lst_Conversations.addMessage(mess);
+        System.out.println(mess);
         //    ReceiveMessage rm = new ReceiveMessage(this, sourceIP);
     }
 
@@ -228,7 +245,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         return this.lst_Users;
     }
 
-    public ArrayList<Message> refreshConversation(ChatRoom room,ChatUser user) {
+    public ArrayList<Message> refreshConversation(ChatRoom room, ChatUser user) {
         return room.getLst_Conversations().getConversationUsersTest(user);
     }
 
@@ -321,8 +338,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         return ((PrivateChatRoom) chatRoom).invitations().remove(owner());
     }
 
-    public void roomSend(ChatRoomDTO text, String oUser) {
-//        room.setContent(text);
+    public void roomSend(ChatRoomDTO room, String oUser) {
 
         String ipDestination = oUser;
 
@@ -333,7 +349,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
             return;
         }
 
-        if (toPeer.sendDto(text) == false) {
+        if (toPeer.sendDto(room) == false) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
         } else {
 //            this.lst_Conversations.addChatRoom(room);

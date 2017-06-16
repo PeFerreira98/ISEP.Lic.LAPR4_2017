@@ -15,6 +15,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -28,7 +30,7 @@ import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationControl
  *
  * @author Alexandra Ferreira 1140388
  */
-public class ChatRoomPanel extends JPanel implements SelectionListener {
+public class ChatRoomPanel extends JPanel implements SelectionListener ,Observer{
 
     private JButton btnUpdate;
     private JButton btnCreate;
@@ -53,6 +55,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
 
         // Creates controller
         this.controller = new ChatRoomApplicationController();
+        this.controller.getListener().addObserver(this);
         uiController.addSelectionListener(this);
         setName(ChatRoomExtension.NAME);
 
@@ -231,7 +234,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                CreateChatRoomUI ui = new CreateChatRoomUI(controller);
+                new CreateChatRoomUI(controller);
             }
         });
 
@@ -259,6 +262,11 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     @Override
     public void selectionChanged(SelectionEvent event) {
 
+    }
+
+    @Override
+    public void update(Observable o, Object o1) {
+      
     }
 
 }
