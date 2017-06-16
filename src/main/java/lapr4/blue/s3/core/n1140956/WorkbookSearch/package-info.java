@@ -25,7 +25,7 @@ by a formula).
  * <b>Test1:</b> 
  * 
  * <b>Design</b><p>
- * 
+ * <img src="core07.1_design.png" alt="image"> 
  * <p>
  * 
  * <b>Code</b><p>
