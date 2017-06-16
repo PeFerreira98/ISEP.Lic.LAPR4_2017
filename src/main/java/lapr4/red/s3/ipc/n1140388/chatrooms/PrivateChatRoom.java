@@ -27,7 +27,7 @@ public class PrivateChatRoom extends ChatRoom implements Serializable {
      */
     public PrivateChatRoom(String name, ChatUser owner, List<ChatUser> inv) {
         super(name, owner);
-        invitations = new ArrayList<>();
+        invitations = inv;
     }
 
     /**
