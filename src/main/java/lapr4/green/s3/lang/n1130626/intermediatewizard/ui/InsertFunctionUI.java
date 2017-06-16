@@ -15,7 +15,9 @@ import csheets.ui.ctrl.UIController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 import lapr4.green.s3.lang.n1130626.intermediatewizard.controller.InsertFunctionController;
 
 /**
@@ -46,6 +48,7 @@ public class InsertFunctionUI extends javax.swing.JFrame {
         this.functionListString = new DefaultListModel<>();
         addFunctionsToList();
         this.jListFunctions.setModel(functionListString);
+        this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 
     private void addFunctionsToList(){
