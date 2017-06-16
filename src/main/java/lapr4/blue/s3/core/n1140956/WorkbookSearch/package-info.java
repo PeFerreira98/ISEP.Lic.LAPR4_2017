@@ -29,6 +29,15 @@ by a formula).
  * <p>
  * 
  * <b>Code</b><p>
+ * The following classes and interfaces implement this use case.<p>
+ * Package lapr4.blue.s3.core.n1140956.WorkbookSearch:<p>
+ * {@link lapr4.blue.s3.core.n1140956.WorkbookSearch.SearchExtension}
+ * {@link lapr4.blue.s3.core.n1140956.WorkbookSearch.WorkbookSearchController}
+ * 
+ * <p>
+ * Package lapr4.blue.s3.core.n1140956.WorkbookSearch.ui:<p>
+ * {@link lapr4.blue.s3.core.n1140956.WorkbookSearch.ui.SearchPanel}
+ * {@link lapr4.blue.s3.core.n1140956.WorkbookSearch.ui.UIEctensionSearch}
  * 
  * @author Marcos Dourado (1140956)
  */
