@@ -55,7 +55,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener ,Observer
 
         // Creates controller
         this.controller = new ChatRoomApplicationController();
-        this.controller.getListener().addObserver(this);
+        //this.controller.getListener().addObserver(this);
         uiController.addSelectionListener(this);
         setName(ChatRoomExtension.NAME);
 

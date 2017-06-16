@@ -27,12 +27,13 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomDTO;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomsList;
+import lapr4.red.s3.ipc.n1140388.chatrooms.MessageToRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.PrivateChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.PublicChatRoom;
 
 /**
  *
- * @author Tiago
+ * @author Alexandra Ferreira 1140388
  */
 public class ChatRoomApplicationController implements CommHandler2 {
 
@@ -46,8 +47,8 @@ public class ChatRoomApplicationController implements CommHandler2 {
 
     private boolean status = true;
 
-    private Message mess;
-
+    private Message lastMessage;
+    
     private ChatRoomsList roomsList;
 
     private ChatUsersStorage lst_Users;
@@ -72,7 +73,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         this.broadcastServer = BroadcastServer.getServer();
         this.lst_Users = new ChatUsersStorage();
         commServer.addHandler(ChatRoomDTO.class, this);
-        commServer.addHandler(Message.class, this);
+        commServer.addHandler(MessageToRoom.class, this);
         broadcastServer.broadcastThisService(new PeerService("ChatRoom", true));
         this.roomsList = new ChatRoomsList();
 
@@ -113,27 +114,26 @@ public class ChatRoomApplicationController implements CommHandler2 {
      * Especify the user to who the message will be sent, creating a frame for
      * enter text
      *
-     * @param oUser
      */
     public void sendMessage(ChatRoom room, String message) {
         if (room instanceof PrivateChatRoom) {
             for (ChatUser oUser : room.participants()) {
-                this.mess = new Message();
+                MessageToRoom messToRoom = new MessageToRoom();
 
-                mess.setIdDest(oUser.getInfo());
-                mess.setIdOrig(peerId);
-
-                messageSend(room, message);
+                messToRoom.setIdDest(oUser.getInfo());
+                messToRoom.setIdOrig(peerId);
+                messToRoom.setContent(message);
+                messageSend(room, messToRoom);
             }
         }
         if (room instanceof PublicChatRoom) {
             for (ChatUser oUser : room.participants()) {
-                this.mess = new Message();
+                MessageToRoom messToRoom = new MessageToRoom();
 
-                mess.setIdDest(oUser.getInfo());
-                mess.setIdOrig(peerId);
+                messToRoom.setIdDest(oUser.getInfo());
+                messToRoom.setIdOrig(peerId);
 
-                messageSend(room, message);
+                messageSend(room, messToRoom);
             }
         }
 
@@ -144,19 +144,22 @@ public class ChatRoomApplicationController implements CommHandler2 {
      *
      * @param text
      */
-    public void messageSend(ChatRoom chat, String text) {
-        mess.setContent(text);
+    public void messageSend(ChatRoom chat, MessageToRoom message) {
 
-        CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(mess.getIdDest());
+        CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(message.getIdDest());
         if (toPeer == null) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION TO PEER!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
             return;
         }
 
-        if (toPeer.sendDto(mess) == false) {
+        if (toPeer.sendDto(message) == false) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            chat.getLst_Conversations().addMessage(mess);
+            lastMessage = new Message();
+            lastMessage.setContent(message.getContent());
+            lastMessage.setIdDest(message.getIdDest());
+            lastMessage.setIdOrig(message.getIdOrig());
+            chat.getLst_Conversations().addMessage(lastMessage);
         }
 
     }
@@ -165,8 +168,8 @@ public class ChatRoomApplicationController implements CommHandler2 {
         return this.lst_Users.getUserByIP(peerId.split("@")[1]);
     }
 
-    public Message getMessage() {
-        return this.mess;
+   public Message getLastMessage() {
+       return this.lastMessage;
     }
 
     public ListenerServer getListener() {
@@ -228,13 +231,13 @@ public class ChatRoomApplicationController implements CommHandler2 {
         String sourceIP = message.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
         message.setIdOrig(sourceIP);
         //this.lst_Conversations.addMessage(mess);
-        System.out.println(mess);
+        System.out.println(message);
         //    ReceiveMessage rm = new ReceiveMessage(this, sourceIP);
     }
 
     @Override
     public Message getLastReceivedDTO() {
-        return this.mess;
+        return this.lastMessage;
     }
 
     public void addChatUser(ChatUser cu) {

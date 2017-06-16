@@ -39,7 +39,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
         this.chatRoom = room;
         this.controller = cntrl;
         this.activeParticipant = controller.owner();
-        controller.getListener().addHandler(Message.class, cntrl);
+        //controller.getListener().addHandler(Message.class, cntrl);
         if (activeParticipant != null) {
 
             initComponents();
