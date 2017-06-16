@@ -5,7 +5,9 @@
  */
 package lapr4.blue.s2.ipc.n1140956.ChatApplication;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  *
@@ -39,7 +41,7 @@ public class ChatUsersStorage {
         }
         return null;
     }
-    
+
     public ChatUser getUserByMachineName(String nick) {
         for (ChatUser cUser : this.chatUsersList.values()) {
             if (cUser.getMachineName().equals(nick)) {
@@ -53,4 +55,11 @@ public class ChatUsersStorage {
         return this.chatUsersList;
     }
 
+    public List<ChatUser> getAllUsers() {
+        List<ChatUser> users = new ArrayList< ChatUser>();
+        for (ChatUser cUser : this.chatUsersList.values()) {
+            users.add(cUser);
+        }
+        return users;
+    }
 }

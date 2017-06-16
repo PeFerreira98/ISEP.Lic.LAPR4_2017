@@ -47,9 +47,9 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
      */
     public CreateChatRoomUI(ChatRoomApplicationController controller) {
 
-        chatRoomcontroller =controller;
+        chatRoomcontroller = controller;
         ChatUser activeParticipant = chatRoomcontroller.owner();
-        
+
         if (activeParticipant != null) {
             invites = new ArrayList<>();
             initComponents();
@@ -223,7 +223,7 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
         if (jList1.getSelectedValue() != null) {
             String selected = jList1.getSelectedValue();
             String nick = selected.split("/")[0];
-           // String ip = "/" + nick;
+            // String ip = "/" + nick;
             //System.out.println(this.chatRoomcontroller.getChatUsersList());
             ChatUser user = this.chatRoomcontroller.getChatUsersList().getUserByMachineName(nick);
 
@@ -236,7 +236,7 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
     private void btnCreateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateRoomActionPerformed
         if (!this.txtName.getText().trim().isEmpty()) {
             if (this.btnPublic.isSelected()) {
-                room = chatRoomcontroller.createChatRoom(this.txtName.getText().trim(), 1, invites);
+                room = chatRoomcontroller.createChatRoom(this.txtName.getText().trim(), 1, chatRoomcontroller.getChatUsersList().getAllUsers());
             } else if (this.btnPrivate.isSelected()) {
                 room = chatRoomcontroller.createChatRoom(this.txtName.getText().trim(), 2, invites);
             }
