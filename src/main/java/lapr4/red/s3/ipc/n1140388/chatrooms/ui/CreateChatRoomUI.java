@@ -6,18 +6,22 @@
 package lapr4.red.s3.ipc.n1140388.chatrooms.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
-import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUsersStorage;
+import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
-import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomController;
+import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
 
 /**
  *
  * @author Alexandra Ferreira 1140388
  */
-public class CreateChatRoomUI extends javax.swing.JFrame {
+public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
 
     /**
      * The chat room created
@@ -32,32 +36,31 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
     /**
      * The Login Participant Controller
      */
-    private ChatRoomController controller;
+    // private ChatRoomController controller;
+    private ChatRoomApplicationController chatRoomcontroller;
 
+    // private CommunicateController cont;
     /**
      * Creates new form CreateChatRoomUI
      *
      * @param cntrl the chat room controller
      */
-    public CreateChatRoomUI(ChatRoomController cntrl) {
+    public CreateChatRoomUI(ChatRoomApplicationController controller) {
 
-        this.controller = cntrl;
-        ChatUser activeParticipant = controller.owner();
+        chatRoomcontroller = controller;
+        ChatUser activeParticipant = chatRoomcontroller.owner();
 
         if (activeParticipant != null) {
             invites = new ArrayList<>();
             initComponents();
 
-            ChatUsersStorage list = new ChatUsersStorage();
-
-            for (ChatUser participants : list.getUserList().values()) {
-                comboBoxInvites.addItem(participants);
-            }
-
             this.btnPublic.setSelected(true);
             this.btnAddInvite.setVisible(false);
             this.lblInvites.setVisible(false);
-            this.comboBoxInvites.setVisible(false);
+            this.jList1.setVisible(false);
+
+            //  cont.getListener().addObserver(this);
+            chatRoomcontroller.getListener().addObserver(this);
 
             setResizable(false);
             setLocationRelativeTo(null);
@@ -85,9 +88,10 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
         btnPublic = new javax.swing.JRadioButton();
         btnPrivate = new javax.swing.JRadioButton();
         lblInvites = new javax.swing.JLabel();
-        comboBoxInvites = new javax.swing.JComboBox();
         btnAddInvite = new javax.swing.JButton();
         btnCreateRoom = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -111,8 +115,6 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
 
         lblInvites.setText("Invites:");
 
-        comboBoxInvites.setModel(new javax.swing.DefaultComboBoxModel());
-
         btnAddInvite.setText("Add Invite");
         btnAddInvite.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -127,6 +129,10 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
             }
         });
 
+        jList1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jList1.setToolTipText("");
+        jScrollPane1.setViewportView(jList1);
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -140,23 +146,21 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
                         .addComponent(txtName))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblType)
+                            .addComponent(lblInvites))
+                        .addGap(34, 34, 34)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblType)
-                                .addGap(43, 43, 43)
                                 .addComponent(btnPublic)
                                 .addGap(59, 59, 59)
                                 .addComponent(btnPrivate))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lblInvites)
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(comboBoxInvites, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btnAddInvite)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(btnCreateRoom)))))
-                        .addGap(9, 9, 9)))
-                .addContainerGap(32, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(jPanel1Layout.createSequentialGroup()
+                                    .addComponent(btnAddInvite)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnCreateRoom))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 234, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addContainerGap(59, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,15 +174,15 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
                     .addComponent(lblType)
                     .addComponent(btnPublic)
                     .addComponent(btnPrivate))
-                .addGap(30, 30, 30)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(33, 33, 33)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblInvites)
-                    .addComponent(comboBoxInvites, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 198, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAddInvite)
                     .addComponent(btnCreateRoom))
-                .addContainerGap())
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -188,14 +192,14 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -205,20 +209,26 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
         this.btnPrivate.setSelected(false);
         this.btnAddInvite.setVisible(false);
         this.lblInvites.setVisible(false);
-        this.comboBoxInvites.setVisible(false);
+        this.jList1.setVisible(false);
     }//GEN-LAST:event_btnPublicActionPerformed
 
     private void btnPrivateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrivateActionPerformed
         this.btnPublic.setSelected(false);
         this.btnAddInvite.setVisible(true);
         this.lblInvites.setVisible(true);
-        this.comboBoxInvites.setVisible(true);
+        this.jList1.setVisible(true);
     }//GEN-LAST:event_btnPrivateActionPerformed
 
     private void btnAddInviteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddInviteActionPerformed
-        if (comboBoxInvites.getSelectedItem() != null) {
-            invites.add((ChatUser) comboBoxInvites.getSelectedItem());
-            comboBoxInvites.removeItem(comboBoxInvites.getSelectedItem());
+        if (jList1.getSelectedValue() != null) {
+            String selected = jList1.getSelectedValue();
+            String nick = selected.split("/")[0];
+            // String ip = "/" + nick;
+            //System.out.println(this.chatRoomcontroller.getChatUsersList());
+            ChatUser user = this.chatRoomcontroller.getChatUsersList().getUserByMachineName(nick);
+
+            invites.add(user);
+            //  jList1.removeItem(jList1.getSelectedValue());
             JOptionPane.showMessageDialog(this, "Participant Added", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddInviteActionPerformed
@@ -226,13 +236,13 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
     private void btnCreateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateRoomActionPerformed
         if (!this.txtName.getText().trim().isEmpty()) {
             if (this.btnPublic.isSelected()) {
-                room = controller.createChatRoom(this.txtName.getText().trim(), 1, invites);
+                room = chatRoomcontroller.createChatRoom(this.txtName.getText().trim(), 1, chatRoomcontroller.getChatUsersList().getAllUsers());
             } else if (this.btnPrivate.isSelected()) {
-                room = controller.createChatRoom(this.txtName.getText().trim(), 2, invites);
+                room = chatRoomcontroller.createChatRoom(this.txtName.getText().trim(), 2, invites);
             }
 
             if (room != null) {
-                controller.startChat(room);
+                chatRoomcontroller.startChat(room);
                 JOptionPane.showMessageDialog(this, "You have succesfully created your Chat Room", "Success", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
             }
@@ -244,11 +254,81 @@ public class CreateChatRoomUI extends javax.swing.JFrame {
     private javax.swing.JButton btnCreateRoom;
     private javax.swing.JRadioButton btnPrivate;
     private javax.swing.JRadioButton btnPublic;
-    private javax.swing.JComboBox comboBoxInvites;
+    private javax.swing.JList<String> jList1;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblInvites;
     private javax.swing.JLabel lblName;
     private javax.swing.JLabel lblType;
     private javax.swing.JTextField txtName;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void update(Observable o, Object arg) {
+        ArrayList<String> peers = chatRoomcontroller.getListener().getServicePeers(CommExtension2.NAME);
+
+        for (String user : peers) {
+            String tmp[] = user.split("@");
+
+            String machineName = tmp[0] + "@";
+            String id = tmp[1];
+
+            ChatUser chatUser = new ChatUser(machineName, id);
+            if (!this.chatRoomcontroller.getUsers().containsKey(id)) {
+                chatUser.setStatus(true);
+                this.chatRoomcontroller.addChatUser(chatUser);
+            } else {
+                this.chatRoomcontroller.getChatUsersList().getUserByIP(id).setStatus(true);
+            }
+
+            //with persistence
+//            User user = new User(machineName,ip);
+//            this.controller.changeUserStatus(user,true);
+        }
+
+        for (ChatUser user : this.chatRoomcontroller.getUsers().values()) {
+
+            String aux = user.getMachineName() + user.getIp();
+            if (!peers.contains(aux)) {
+                user.setStatus(false);
+            }
+        }
+
+        //with persistence
+//        for (User user : this.controller.getUsers()) {
+//            String aux = user.getMachineName() + user.getIp();
+//            if (!peers.contains(aux)) {
+//                this.controller.changeUserStatus(user, false)
+//            }
+//        }
+        updateList(this.chatRoomcontroller.getChatUsersList().getUserList());
+//        updateList(peers);
+
+    }
+
+    public void updateList(HashMap<String, ChatUser> list) {
+
+        DefaultListModel model = new DefaultListModel();
+        int flag = 0;
+//        for (String onlineUser : list) {
+//            model.addElement(onlineUser);
+//        }
+        list.values().stream().forEach((object) -> {
+            if (object.equals(this.chatRoomcontroller.owner())) {
+
+            } else if (object.isOnline()) {
+                if (!object.getNickname().equalsIgnoreCase("")) {
+                    model.addElement(object.getNickname() + "(Online)");
+                } else {
+                    model.addElement(object.getMachineName() + object.getIp() + "(Online)");
+                }
+            } else if (!object.getNickname().equalsIgnoreCase("")) {
+                model.addElement(object.getNickname() + "(Offline)");
+            } else {
+                model.addElement(object.getMachineName() + object.getIp() + "(Offline)");
+            }
+        });
+
+        jList1.setModel(model);
+    }
 }

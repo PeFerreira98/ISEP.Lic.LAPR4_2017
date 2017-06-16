@@ -24,7 +24,16 @@
  * Analysis + Some design. <br>
  * Skeleton implementation of arrays. Grammar and visitor and 2 classes.<br>
  * Test: Functional testing and debug.<br>
- * Analysis documentation <br>
+ * Design documentation <br>
+ * <br>
+ * Work notes/log: S3 15-06-2017 (quinta) <br>
+ * Ui and some classes implemented. Implementation: of Empty Sidebar, UI + controllers barebones skeleton. <br>
+ * Designing.<br>
+ * Implementation: Sidebard list with AutoUpdate, new VariableEditorWatchdog , testing.<br>
+ * 
+ * Work notes/log: S3 16-06-2017 (sexta) <br>
+ * Design documentation. Showing the 2 SD's<br>
+ * Implementation: Sidebard variable editing <br>
  * 
  * <h2>2. Requirement</h2>
  * 
@@ -203,10 +212,23 @@
  * 
  * <h3>4.2.2 Sequence Diagrams </h3>
  * 
+ * <b> Array global variable creation and assignment </b> <p>
+ * This SD shows the creation of an ArrayItem object, and how the value is transfered to it.
+ * It also show the warning of the Watchdog that a variable has changed.<p>
+ * <br>
+ * <img src="image04.png" alt="image failed to load"><p>
+ * <br>
+ * <b> Sidebar auto updating </b> <p>
+ * This SD shows how we auto update the UI everytime a Array is changed.<p>
+ * <br>
+ * <img src="image04.png" alt="image failed to load"><p>
+ * <br>
  * <h2>4.3 Classes</h2>
  * 
  * The following image represents the classes used for this use case. <p>
- * <img src="image03.png" alt="image failed to load">
+ * <br>
+ * <img src="image03.png" alt="image failed to load"><p>
+ * <br>
  *
  * 
  * <h3>4.4. Design Patterns and Best Practices</h3>

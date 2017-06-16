@@ -10,6 +10,7 @@ import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
 import csheets.ui.ext.UIExtension;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.Icon;
@@ -131,16 +132,36 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
     }
 
     private String selectedPeer;
+    private List<String> selectedPeers;
 
     void addSpreadsheetListener() {
         SharingAutomaticUpdateCellListener sharingAutomaticUpdateCellListener = new SharingAutomaticUpdateCellListener(this);
         uiController.getActiveSpreadsheet().addCellListener(sharingAutomaticUpdateCellListener);
     }
     
+//    void addCellListener(){
+//        SharingAutomaticUpdateCellListener sharingAutomaticUpdateCellListener = new SharingAutomaticUpdateCellListener(this);
+//        uiController.
+//    }
+    
+    /**
+     * Lock a peer
+     * @param peer peer
+     */
     void lockPeer(String peer){
         this.selectedPeer = peer;
     }
-
+    /**
+     * Lock the peers
+     * @param peers peers selected
+     */
+    void lockPeers(List<String> peers){
+        this.selectedPeers = peers;
+    }
+    /**
+     * Method to share 1 cell
+     * @param cell Cell to be shared
+     */
     public void quickShare(Cell cell) {
         System.out.println("QuickSharing to " + this.selectedPeer + "...");
         
@@ -150,7 +171,30 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
         }
         System.out.println("Selected Peer is empty or null...");
     }
-    
+    /**
+     * Method to share Cells
+     * @param cell cell that is going to be shared
+     */
+      public void multiQuickShare(Cell cell){
+        if (!selectedPeers.isEmpty()) {
+            for (int i = 0; i < selectedPeers.size(); i++) {
+
+                System.out.println("QuickSharing to " + this.selectedPeers.get(i) + "...");
+
+                if (this.selectedPeers.get(i) != null && !this.selectedPeers.get(i).isEmpty()) {
+                    System.out.println(multiShareStylableCells(cell,this.selectedPeers.get(i)));
+                    return;
+                }
+            }
+        }
+        System.out.println("No peers selected");
+    }
+                
+    /**
+     * Share a stylable cell
+     * @param cell Cell to be shared
+     * @return shared or not
+     */
     private String shareStylableCells(Cell cell) {
         CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(this.selectedPeer);
         if (toPeer == null) {
@@ -172,5 +216,36 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
         }
         return "Waiting for peer response";
     }
+    /**
+     * Method to share mutiple stylable cells
+     * @param cell cell to share
+     * @param peer peer to shate to
+     * @return if the connection is done or not
+     */
+     private String multiShareStylableCells(Cell cell, String peer) {
+        CommClientWorker2 toPeer = ListenerServer.getServer().getCommClientWorker2(peer);
+        if (toPeer == null) {
+            return "ERROR: Could not connect to peer!";
+        }
+
+        ListenerServer.getServer().addHandler(ReplySendSharedCellsDTO.class, this);
+        BroadcastServer.getServer().broadcastThisService(NAME, status);
+        
+        Cell[][] cells = new Cell[1][1];
+        cells[0][0] = cell;
+        SendSharedCellsDTO dto = new SendSharedCellsDTO(cells);
+        
+//        CellDTO dto = CellDTO.createFromCell(cell);
+//        StylableCellDTO dto = StylableCellDTO.createFromCell(cell);
+        
+        if (!toPeer.sendDto(dto)) {
+            return "ERROR: Communication failure in sending the cells";
+        }
+        
+        return "Waiting for peer response";
+        
+    }
 
 }
+
+

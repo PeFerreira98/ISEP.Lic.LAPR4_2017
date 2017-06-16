@@ -46,12 +46,12 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 	/**
 	 * The assertion controller
 	 */
-	private CommentController controller;
+	private final CommentController controller;
 
 	private final UIController uiController;
 
-	private JPanel jPanel2;
-	private BoxLayout layout;
+	private final JPanel jPanel2;
+	private final BoxLayout layout;
 
 	/**
 	 * Creates new form CommentsPanel
@@ -93,7 +93,7 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 		this.jPanel2.removeAll();
 		List<Comment> commentsList = controller.getCommentList(this.cell);
 		for (Comment comment : commentsList) {
-			CommentPanel cmtPanel = new CommentPanel(comment, uiController);
+			CommentPanel cmtPanel = new CommentPanel(comment);
 
 			jPanel2.add(cmtPanel);
 			jTextField1.setText("");
@@ -227,7 +227,7 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 		this.jPanel2.removeAll();
 		List<Comment> commentsList = controller.getCommentList(this.cell);
 		for (Comment comment : commentsList) {
-			CommentPanel cmtPanel = new CommentPanel(comment, uiController);
+			CommentPanel cmtPanel = new CommentPanel(comment);
 
 			jPanel2.add(cmtPanel);
 			jTextField1.setText("");
@@ -253,7 +253,7 @@ public class CommentsPanel extends JPanel implements SelectionListener,
 			if (!comment.isEmpty() && !"".equalsIgnoreCase(comment)) {
 				try {
 					controller.setComment(cell, jTextField1.getText());
-				} catch (Exception ex) {
+				} catch (IllegalArgumentException ex) {
 					// nothing to do here yet
 				}
 			}

@@ -1,0 +1,8 @@
+@startuml
+actor User
+
+User->System: open sidebar window 
+System->User: ask expression
+User->System: insert expression
+System->User :display results
+@enduml

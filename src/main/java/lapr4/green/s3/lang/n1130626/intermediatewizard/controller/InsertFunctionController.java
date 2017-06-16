@@ -53,6 +53,14 @@ public class InsertFunctionController {
     
     /**
      * 
+     * @return 
+     */
+    public BinaryOperator[] getListSupportedOperators(){
+        return this.language.getOperators();
+    }
+    
+    /**
+     * 
      * @param identifier
      * @return 
      * @throws csheets.core.formula.lang.UnknownElementException 

@@ -155,7 +155,7 @@
  *
  * <h3>Communicate in a Chat Room</h3>
  * <p>
- * <img src="" alt="image">
+ * <img src="design_communicateChatRoom_ipc05.3.png" alt="image">
  * </p>
  *
  *
@@ -169,7 +169,7 @@
  * <h3>4.4. Design Patterns and Best Practices</h3>
  *
  * -nothing-
- * 
+ *
  *
  *
  * <h2>5. Implementation</h2>
@@ -250,9 +250,7 @@
  * <p>
  * Today
  * <p>
- * 1. Started the implementation.
- * <p>
- * 2. Started the planning of tests implementation.
+ * 1. Analysis, design, implementation and tests.
  * <p>
  * Blocking:
  * <p>
@@ -262,17 +260,17 @@
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Analysis, Design and Implemetation
+ * 1. Analysis, design, implementation and tests.
  * <p>
  * Today
  * <p>
- * 1. Implementation of UI.
+ * 1. Implementation.
  * <p>
  * Blocking:
  * <p>
- * 1. -nothing-
+ * 1. I can't run the program on other computer, so I don't have all the
+ * possibilities to test what I am doing.
  * <p>
- *
  * <b>Friday</b>
  * <p>
  * Yesterday I worked on:

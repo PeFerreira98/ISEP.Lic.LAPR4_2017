@@ -146,7 +146,7 @@ public class Frame extends JFrame implements SelectionListener {
 		actionManager.registerAction("removerow", new RemoveRowAction());
                 
                 //Registers funtions actions
-                actionManager.registerAction("functionWizard", new FunctionWizardAction(uiController));
+                //actionManager.registerAction("functionWizard", new FunctionWizardAction(uiController));
 
 		// Registers help actions
 		actionManager.registerAction("help", new HelpAction());

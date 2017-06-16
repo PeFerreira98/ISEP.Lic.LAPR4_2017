@@ -48,7 +48,7 @@ import lapr4.white.s1.core.n1234567.comments.CommentsExtension;
 public class CellRenderer extends DefaultTableCellRenderer {
 
 	/** The cell decorators invoked by the renderer */
-	private LinkedList<CellDecorator> decorators = new LinkedList<CellDecorator>();
+	private final LinkedList<CellDecorator> decorators = new LinkedList<>();
 
 	/** The cell currently being rendered */
 	private Cell cell;
@@ -72,6 +72,7 @@ public class CellRenderer extends DefaultTableCellRenderer {
 		}
 	}
 
+        @Override
 	public Component getTableCellRendererComponent(JTable table, Object o,
 			boolean selected, boolean hasFocus, int row, int column) {
 		super.getTableCellRendererComponent(table, o, selected, hasFocus, row, column);
@@ -114,7 +115,17 @@ public class CellRenderer extends DefaultTableCellRenderer {
                     CommentableCell commentCell = (CommentableCell) cell.
                             getExtension(CommentsExtension.NAME);
                     setToolTipText(commentCell.getTooltip());
-                }
+                    }
+                        
+//                    MouseListener ml = new MouseAdapter()
+//                    {
+//                        @Override
+//                        public void mouseEntered(MouseEvent me)
+//                        {
+//                            ImageOverlayUI imageOverlayUI = new ImageOverlayUI((ImagenableCell) cell.getExtension(ImagesExtension.NAME), CellRenderer.this);
+//                        }
+//                    };
+//                    addMouseListener(ml);
             }
 		return this;
 	}
@@ -123,6 +134,7 @@ public class CellRenderer extends DefaultTableCellRenderer {
 	 * Overridden to delegate painting to decorators.
 	 * @param g the Graphics object to protect
 	 */
+        @Override
     protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 

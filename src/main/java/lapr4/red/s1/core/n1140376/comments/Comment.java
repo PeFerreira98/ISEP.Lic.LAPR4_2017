@@ -5,15 +5,8 @@
  */
 package lapr4.red.s1.core.n1140376.comments;
 
-import java.awt.Color;
-import java.awt.Font;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
-import javax.swing.BorderFactory;
-import javax.swing.UIManager;
-import javax.swing.border.Border;
 
 /**
  *

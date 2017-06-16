@@ -176,4 +176,12 @@ public class Language {
 	public Function[] getFunctions() {
 		return functions.toArray(new Function[functions.size()]);
 	}
+        
+        /**
+         * Returns the binary operators that are supported by the syntax
+         * @return the binary operators that are supported by the syntax
+         */
+        public BinaryOperator[] getOperators() {
+                return binaryOperators.toArray(new BinaryOperator[binaryOperators.size()]);
+        }
 }

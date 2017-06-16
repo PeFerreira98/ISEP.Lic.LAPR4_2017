@@ -23,12 +23,12 @@ public class SharingAutomaticUpdateCellListener implements CellListener {
 
     @Override
     public void valueChanged(Cell cell) {
-        this.controller.quickShare(cell);
+        this.controller.multiQuickShare(cell);
     }
 
     @Override
     public void contentChanged(Cell cell) {
-        this.controller.quickShare(cell);
+        this.controller.multiQuickShare(cell);
     }
 
     @Override

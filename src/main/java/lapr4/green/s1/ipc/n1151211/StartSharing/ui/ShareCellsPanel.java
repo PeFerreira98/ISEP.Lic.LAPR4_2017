@@ -11,6 +11,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -93,7 +94,7 @@ public class ShareCellsPanel extends JPanel {
             
             String oneSelected = peerList.getSelectedValue();
             if (oneSelected == null) {
-                answer.setText("No peer selected!");
+                answer.setText("No peer(s) selected!");
                 return;
             }
             
@@ -114,19 +115,20 @@ public class ShareCellsPanel extends JPanel {
             changesColorButtons();
         });
 
-        JButton btRefresh = new JButton("Lock Peer");
+        JButton btRefresh = new JButton("Lock Peers");
         btRefresh.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
         btRefresh.addActionListener((ActionEvent e) ->
         {
-            String oneSelected = peerList.getSelectedValue();
-            if (oneSelected == null) {
-                answer.setText("No peer selected!");
+            //String oneSelected = peerList.getSelectedValue();
+            List<String> onesSelected = peerList.getSelectedValuesList();
+            if (onesSelected.isEmpty()) {
+                answer.setText("No peer(s) selected!");
                 return;
             }
             
-            controller.lockPeer(oneSelected);
+            controller.lockPeers(onesSelected);
             controller.addSpreadsheetListener();
-            answer.setText("Selected Peer Locked!");
+            answer.setText("Selected Peer(s) Locked!");
         });
 
         JPanel pPanel = new JPanel();

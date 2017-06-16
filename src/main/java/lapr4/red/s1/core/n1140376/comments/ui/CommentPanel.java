@@ -5,12 +5,10 @@
  */
 package lapr4.red.s1.core.n1140376.comments.ui;
 
-import csheets.ui.ctrl.UIController;
 import java.util.Observable;
 import java.util.Observer;
 import lapr4.red.s1.core.n1140376.comments.Comment;
 import lapr4.white.s1.core.n1234567.comments.CommentsExtension;
-import lapr4.white.s1.core.n1234567.comments.ui.CommentController;
 
 /**
  *
@@ -19,24 +17,19 @@ import lapr4.white.s1.core.n1234567.comments.ui.CommentController;
 public class CommentPanel extends javax.swing.JPanel implements Observer {
    
     private final String userName;
-    private String commentText;
-    private Comment comment;
-    private final UIController uiController;
-    private CommentController controller;
+    private final String commentText;
+    private final Comment comment;
     
     /**
      * Creates new form Comment
      *
      * @param comment commentText
-     * @param uiController UIController
      */
-    public CommentPanel(Comment comment, UIController uiController) {
+    public CommentPanel(Comment comment) {
                 setName(CommentsExtension.NAME);
 		this.userName = comment.userName();
 		this.commentText = comment.text();
 		this.comment = comment;
-		this.uiController = uiController;
-		this.controller = new CommentController(uiController);
 		this.initComponents();
 		this.update(null, null);
     }
