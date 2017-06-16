@@ -12,7 +12,6 @@ import java.util.Observer;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.ArrayItemDTO;
-import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.VariableEditorWatchdog;
 import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.controller.VariableEditorController;
 
 /**
@@ -21,6 +20,8 @@ import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.controller.VariableE
  */
 public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
 
+    /** edit variable title */
+    private final String EDIT_VARIABLE_TITLE = "Edit variable";
     
      /**
      * The ui Controller of the main window
@@ -58,16 +59,55 @@ public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
         jScrollPane1 = new javax.swing.JScrollPane();
         jListDTO = new javax.swing.JList();
         jToggleButtonAutoUpdate = new javax.swing.JToggleButton();
+        jTextFieldEditText = new javax.swing.JTextField();
+        jButtonEdit = new javax.swing.JButton();
+        jTextFieldShowValue = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+
+        setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Variable Editor", javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP));
 
         jListDTO.setModel(new DefaultListModel<ArrayItemDTO>());
+        jListDTO.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jListDTOMouseClicked(evt);
+            }
+        });
+        jListDTO.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jListDTOValueChanged(evt);
+            }
+        });
         jScrollPane1.setViewportView(jListDTO);
 
         jToggleButtonAutoUpdate.setText("Auto Update");
+        jToggleButtonAutoUpdate.setToolTipText("Tougle to autoupdate the variables.");
         jToggleButtonAutoUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jToggleButtonAutoUpdateActionPerformed(evt);
             }
         });
+
+        jTextFieldEditText.setText("EDIT FIELD");
+
+        jButtonEdit.setText("Edit");
+        jButtonEdit.setToolTipText("Select the variable with mouse and fill the EDIT field before pressing me.");
+        jButtonEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEditActionPerformed(evt);
+            }
+        });
+
+        jTextFieldShowValue.setEditable(false);
+        jTextFieldShowValue.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldShowValueActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setText("New value:");
+
+        jLabel2.setText("value:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -76,20 +116,37 @@ public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jToggleButtonAutoUpdate)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jTextFieldShowValue))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jButtonEdit)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jTextFieldEditText)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldShowValue, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jToggleButtonAutoUpdate)
+                    .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jToggleButtonAutoUpdate)
-                .addContainerGap(92, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextFieldEditText, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButtonEdit))
+                .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -101,10 +158,46 @@ public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
         else this.unregisterInWatchdog();
     }//GEN-LAST:event_jToggleButtonAutoUpdateActionPerformed
 
+    private void jListDTOMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jListDTOMouseClicked
+        // TODO add your handling code here:
+        if (this.jListDTO.isSelectionEmpty()) return;
+        ArrayItemDTO dto = (ArrayItemDTO)this.jListDTO.getSelectedValue();
+        this.jTextFieldShowValue.setText(dto.value());
+        this.jTextFieldEditText.setText(dto.value());
+        
+    }//GEN-LAST:event_jListDTOMouseClicked
+
+    private void jTextFieldShowValueActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldShowValueActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldShowValueActionPerformed
+
+    private void jListDTOValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jListDTOValueChanged
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jListDTOValueChanged
+
+    private void jButtonEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEditActionPerformed
+        // TODO add your handling code here:
+        if (this.jListDTO.isSelectionEmpty()) return;
+        ArrayItemDTO dto = (ArrayItemDTO)this.jListDTO.getSelectedValue();
+        String newString = this.jTextFieldEditText.getText();
+        String mesage = "Accept this edit of " + dto.name() + "\nfrom: "+ dto.value() + "\nto: " + newString;
+        int answer = 0;  // NO = 1 , YES = 0
+        answer = JOptionPane.showConfirmDialog(this, mesage , EDIT_VARIABLE_TITLE , JOptionPane.YES_NO_OPTION);
+        if(answer == 1) return;
+        boolean sucess = this.controller.editArrayItem(dto, newString);
+        if (!sucess) JOptionPane.showMessageDialog(this, "ERROR");
+    }//GEN-LAST:event_jButtonEditActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonEdit;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JList jListDTO;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextFieldEditText;
+    private javax.swing.JTextField jTextFieldShowValue;
     private javax.swing.JToggleButton jToggleButtonAutoUpdate;
     // End of variables declaration//GEN-END:variables
 
@@ -121,6 +214,7 @@ public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
             for(ArrayItemDTO dto : listOfDTO){
                 this.list.addElement(dto);
             }
+            
         }
         catch(NullPointerException ex){
             JOptionPane.showMessageDialog(this, ex, "Error", JOptionPane.ERROR_MESSAGE);
@@ -131,7 +225,7 @@ public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
      * Register in the watch dog to start receiving updates.
      */
     public void registerInWatchdog(){
-        VariableEditorWatchdog.instance().addObserver(this);
+        this.controller.registerInWatchdog(this);
         this.updateList();
     }
 
@@ -139,7 +233,7 @@ public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
      * Unregister, to stop receiving updates.
      */
     public void unregisterInWatchdog(){
-        VariableEditorWatchdog.instance().deleteObserver(this);
+        this.controller.unregisterInWatchdog(this);
     }
 
     @Override

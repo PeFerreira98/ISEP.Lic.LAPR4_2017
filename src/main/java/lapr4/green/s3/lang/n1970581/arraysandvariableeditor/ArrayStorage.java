@@ -59,4 +59,21 @@ public class ArrayStorage {
         return list;
     }
     
+    /**
+     * Allows the edition of an ArrayItem
+     * @param dto the DTO that originates the change
+     * @param newValue the new value
+     * @return true is sucess else false (cannnot find that arrayItem)
+     */
+    public synchronized boolean editArrayItem(ArrayItemDTO dto, Value newValue){
+        String name = dto.name();
+        
+        ArrayItem toModify = this.variableMap.get(name);
+        if(toModify == null) return false;
+        
+        toModify.setValue(newValue);
+        
+        return true;
+    }
+    
 }

@@ -33,6 +33,7 @@
  * 
  * Work notes/log: S3 16-06-2017 (sexta) <br>
  * Design documentation. Showing the 2 SD's<br>
+ * Implementation: Sidebard variable editing <br>
  * 
  * <h2>2. Requirement</h2>
  * 

@@ -27,6 +27,17 @@ public class ArrayItemDTO implements Comparable<ArrayItemDTO>{
         this.name = name;
         this.value = value;
     }
+    
+    /**
+     * returns the name
+     * @return the name
+     */
+    public String name() {return this.name;}
+    /**
+     * returns the value as string
+     * @return the value as string
+     */
+    public String value() {return this.value;}
 
     @Override
     public int compareTo(ArrayItemDTO o) {
@@ -57,7 +68,11 @@ public class ArrayItemDTO implements Comparable<ArrayItemDTO>{
 
    
 
-    
+    /**
+     * Clones this object
+     * @return a clone of htis
+     * @throws CloneNotSupportedException  doesn't throws.
+     */
     protected Object clone() throws CloneNotSupportedException {
         return new ArrayItemDTO(this.name, this.value);
     }
