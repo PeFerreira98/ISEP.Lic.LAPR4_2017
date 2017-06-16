@@ -15,7 +15,7 @@ import lapr4.red.s1.core.n1140376.comments.Comment;
 public class CommentController {
 
 	/** The user interface controller */
-	private UIController uiController;
+	private final UIController uiController;
         
         /** User interface panel **/
         private Cell cell;

@@ -220,4 +220,4 @@
  *
  * @author Rafael Vieira
  */
-package lapr4.blue.s3.core.n1141233.imageoverlay;
+package lapr4.blue.s3.core.n1141233.image.imageoverlay;

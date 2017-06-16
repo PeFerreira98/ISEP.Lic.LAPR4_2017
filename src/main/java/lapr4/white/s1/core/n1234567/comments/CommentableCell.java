@@ -11,9 +11,6 @@ import java.util.List;
 
 import csheets.core.Cell;
 import csheets.ext.CellExtension;
-import java.awt.Color;
-import java.awt.Font;
-import javax.swing.border.Border;
 import lapr4.green.s2.core.n1140618.richComments.CommentChange;
 import lapr4.green.s2.core.n1140618.richComments.CommentNew;
 import lapr4.red.s1.core.n1140376.comments.Comment;
@@ -36,13 +33,13 @@ public class CommentableCell extends CellExtension {
     /**
      * The cell's user-specified comments list
      */
-    private List<Comment> commentsList = new ArrayList<>();
+    private final List<Comment> commentsList = new ArrayList<>();
     
     
     /**
      * The cell's user-specified comments
      */
-    private ArrayList<CommentNew> userComments = new ArrayList<CommentNew>();
+    private final ArrayList<CommentNew> userComments = new ArrayList<>();
 
     /**
      * The listeners registered to receive events from the comentable cell
@@ -203,14 +200,15 @@ public class CommentableCell extends CellExtension {
      */
     public String getTooltip() {
 
-        String tooltip = null;;
+        String tooltip = null;
         if (this.hasComments()) {
 
             tooltip = "<html>";
-            for (Comment cmt : commentsList) {
+//            for (Comment cmt : commentsList) {
+            for (CommentNew cmt : userComments) {
                 tooltip += "<b>";
-                tooltip += cmt.userName() + ":</b> ";
-                tooltip += cmt.text();
+                tooltip += cmt.getAuthor() + ":</b> ";
+                tooltip += cmt.getContent();
                 tooltip += "<br/>";
             }
             tooltip += "</html>";
@@ -231,7 +229,7 @@ public class CommentableCell extends CellExtension {
     private void readObject(java.io.ObjectInputStream stream)
             throws java.io.IOException, ClassNotFoundException {
         stream.defaultReadObject();
-        listeners = new ArrayList<CommentableCellListener>();
+        listeners = new ArrayList<>();
     }
 
     /**
@@ -245,7 +243,7 @@ public class CommentableCell extends CellExtension {
         for (CommentNew c : userComments) {
             history.add("Comment: " + c.getContent());
             ArrayList<CommentChange> old = c.getHistory();
-            if (old.size() != 0) {
+            if (!old.isEmpty()) {
                 for (CommentChange old1 : old) {
                     history.add("History: " + old1.getComment().getContent());
                 }
