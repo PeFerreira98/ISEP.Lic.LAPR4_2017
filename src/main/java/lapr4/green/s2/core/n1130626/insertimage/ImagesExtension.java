@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package lapr4.green.s2.core.n1130626.insertimage;
 
 import csheets.core.Cell;
@@ -22,12 +17,14 @@ public class ImagesExtension extends Extension {
     
         /** The name of the extension */
 	public static final String NAME = "Images";
+        public static final int VERSION = 1;
+        public static final String DESCRIPTION = "Original Images Extension, allows to add images references to cell's";
 
         /**
          * Creates a new Image Extension.
          */
         public ImagesExtension() {
-            super(NAME);
+            super(NAME, VERSION, DESCRIPTION);
         }
     
         /**
@@ -35,7 +32,8 @@ public class ImagesExtension extends Extension {
          * @param cell the cell to accept images
          * @return a imagenable cell
          */
-        public ImagenableCell extend(Cell cell){
+        @Override
+        public ImagenableCell extend(Cell cell) {
             return new ImagenableCell(cell);
         }
         
@@ -44,7 +42,8 @@ public class ImagesExtension extends Extension {
          * @param uiController the user interface controller
          * @return a user interface extension, or null if none is provided
          */
-        public UIExtension getUIExtension(UIController uiController){
+        @Override
+        public UIExtension getUIExtension(UIController uiController) {
             return new UIExtensionImages(this, uiController);
         }
 }

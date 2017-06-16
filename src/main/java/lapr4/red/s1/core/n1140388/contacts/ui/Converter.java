@@ -5,7 +5,6 @@
  */
 package lapr4.red.s1.core.n1140388.contacts.ui;
 
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,7 +22,7 @@ import org.jfree.xml.util.Base64;
  */
 public final class Converter {
 
-    static public Image getImage(byte[] bytes) throws IOException {
+    static public BufferedImage getImage(byte[] bytes) throws IOException {
 
         InputStream in = new ByteArrayInputStream(bytes);
         BufferedImage bImageFromConvert = ImageIO.read(in);
