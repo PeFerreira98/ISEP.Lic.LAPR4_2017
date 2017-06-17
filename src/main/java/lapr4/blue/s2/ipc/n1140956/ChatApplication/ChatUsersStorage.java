@@ -5,6 +5,7 @@
  */
 package lapr4.blue.s2.ipc.n1140956.ChatApplication;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  *
  * @author Marcos
  */
-public class ChatUsersStorage {
+public class ChatUsersStorage implements Serializable{
 
     private static HashMap<String, ChatUser> chatUsersList;
 
