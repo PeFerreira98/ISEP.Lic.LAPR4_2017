@@ -28,6 +28,7 @@ import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomDTO;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomsList;
 import lapr4.red.s3.ipc.n1140388.chatrooms.MessageToRoom;
+import lapr4.red.s3.ipc.n1140388.chatrooms.Notification;
 import lapr4.red.s3.ipc.n1140388.chatrooms.PrivateChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.PublicChatRoom;
 
@@ -48,7 +49,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
     private boolean status = true;
 
     private Message lastMessage;
-    
+
     private ChatRoomsList roomsList;
 
     private ChatUsersStorage lst_Users;
@@ -117,23 +118,33 @@ public class ChatRoomApplicationController implements CommHandler2 {
      */
     public void sendMessage(ChatRoom room, String message) {
         if (room instanceof PrivateChatRoom) {
+//            boolean flag = true;
             for (ChatUser oUser : room.participants()) {
-                MessageToRoom messToRoom = new MessageToRoom();
+                if (!oUser.getInfo().equals(peerId)) {
+                    MessageToRoom messToRoom = new MessageToRoom();
 
-                messToRoom.setIdDest(oUser.getInfo());
-                messToRoom.setIdOrig(peerId);
-                messToRoom.setContent(message);
-                messageSend(room, messToRoom);
+                    messToRoom.setIdDest(oUser.getInfo());
+                    messToRoom.setIdOrig(peerId);
+                    messToRoom.setContent(message);
+                    messageSend(room, messToRoom);
+                }
+
             }
         }
         if (room instanceof PublicChatRoom) {
+
             for (ChatUser oUser : room.participants()) {
-                MessageToRoom messToRoom = new MessageToRoom();
 
-                messToRoom.setIdDest(oUser.getInfo());
-                messToRoom.setIdOrig(peerId);
+                if (!oUser.getInfo().equals(peerId)) {
+                    MessageToRoom messToRoom = new MessageToRoom();
 
-                messageSend(room, messToRoom);
+                    messToRoom.setIdDest(oUser.getInfo());
+                    messToRoom.setIdOrig(peerId);
+                    messToRoom.setContent(message);
+
+                    messageSend(room, messToRoom);
+                }
+
             }
         }
 
@@ -160,6 +171,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
             lastMessage.setIdDest(message.getIdDest());
             lastMessage.setIdOrig(message.getIdOrig());
             chat.getLst_Conversations().addMessage(lastMessage);
+            Notification.chatInformer().notifyChange(chat);
         }
 
     }
@@ -168,8 +180,8 @@ public class ChatRoomApplicationController implements CommHandler2 {
         return this.lst_Users.getUserByIP(peerId.split("@")[1]);
     }
 
-   public Message getLastMessage() {
-       return this.lastMessage;
+    public Message getLastMessage() {
+        return this.lastMessage;
     }
 
     public ListenerServer getListener() {
@@ -189,7 +201,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
      */
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
-        //this.mess = (Message) dto;
+
         if (dto instanceof ChatRoomDTO) {
             ChatRoomDTO room = (ChatRoomDTO) dto;
             handleChatRoomDTO(room, commWorker);
@@ -285,21 +297,22 @@ public class ChatRoomApplicationController implements CommHandler2 {
      */
     public void startChat(ChatRoom cr) {
         roomsList.add(cr);
-        boolean flagfirst = true;
+
         if (cr instanceof PrivateChatRoom) {
+
             ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), "private");
             for (ChatUser user : ((PrivateChatRoom) cr).invitations()) {
-
-                roomSend(roomDto, user.getInfo());
+                if (!user.equals(cr.owner())) {
+                    roomSend(roomDto, user.getInfo());
+                }
             }
         } else {
             ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), "public");
 
             for (ChatUser user : lst_Users.getUserList().values()) {
-                if (!flagfirst) {
+                if (!user.equals(cr.owner())) {
                     roomSend(roomDto, user.getInfo());
                 }
-                flagfirst = false;
             }
 
         }
@@ -318,12 +331,20 @@ public class ChatRoomApplicationController implements CommHandler2 {
         if (chatRoom instanceof PrivateChatRoom) {
             ChatRoomDTO roomDto = new ChatRoomDTO(chatRoom.name(), chatRoom.owner(), chatRoom.participants(), chatRoom.isOnline(), "private");
 
-            roomSend(roomDto, ((PrivateChatRoom) chatRoom).participants().get(0).getInfo());
+            for (ChatUser user : chatRoom.participants()) {
+                if (!user.equals(owner())) {
+                    roomSend(roomDto, user.getInfo());
+                }
+            }
 
         } else {
             ChatRoomDTO roomDto = new ChatRoomDTO(chatRoom.name(), chatRoom.owner(), chatRoom.participants(), chatRoom.isOnline(), "public");
 
-            roomSend(roomDto, ((PublicChatRoom) chatRoom).participants().get(0).getInfo());
+            for (ChatUser user : chatRoom.participants()) {
+                if (!user.equals(owner())) {
+                    roomSend(roomDto, user.getInfo());
+                }
+            }
 
         }
 

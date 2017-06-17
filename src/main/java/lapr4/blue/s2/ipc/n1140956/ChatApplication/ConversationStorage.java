@@ -52,4 +52,13 @@ public class ConversationStorage {
         return tmp;
     }
     
+    @Override
+    public String toString(){
+        String str="";
+       while( this.lst_Conversations.iterator().hasNext()){
+           Message message= this.lst_Conversations.iterator().next();
+           str+=message.toString();
+       }
+       return str;
+    }
 }

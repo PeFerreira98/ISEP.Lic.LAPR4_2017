@@ -93,7 +93,7 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
         jScrollPane1 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lblName.setText("Name: ");
 
@@ -236,7 +236,7 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
     private void btnCreateRoomActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCreateRoomActionPerformed
         if (!this.txtName.getText().trim().isEmpty()) {
             if (this.btnPublic.isSelected()) {
-                room = chatRoomcontroller.createChatRoom(this.txtName.getText().trim(), 1, chatRoomcontroller.getChatUsersList().getAllUsers());
+                room = chatRoomcontroller.createChatRoom(this.txtName.getText().trim(), 1, null);
             } else if (this.btnPrivate.isSelected()) {
                 room = chatRoomcontroller.createChatRoom(this.txtName.getText().trim(), 2, invites);
             }

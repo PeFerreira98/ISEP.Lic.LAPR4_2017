@@ -15,6 +15,7 @@ import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
 import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
+import lapr4.red.s3.ipc.n1140388.chatrooms.Notification;
 import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
 
 /**
@@ -39,7 +40,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
         this.chatRoom = room;
         this.controller = cntrl;
         this.activeParticipant = controller.owner();
-        //controller.getListener().addHandler(Message.class, cntrl);
+        Notification.chatInformer().addObserver(this);
         if (activeParticipant != null) {
 
             initComponents();
@@ -200,7 +201,11 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
     // End of variables declaration//GEN-END:variables
 @Override
     public void update(Observable o, Object arg) {
-        ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
+        if (arg instanceof ChatRoom) {
+            ChatRoom chat = (ChatRoom) arg;
+            messagesTextArea.setText(chat.getLst_Conversations().getLst_Conversations().toString());
+        } else {
+            ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
 
         for (String user : peers) {
             String tmp[] = user.split("@");
@@ -226,7 +231,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
         }
 
         updateList(this.controller.getChatUsersList().getUserList());
-
+        }
     }
 
     public void updateList(HashMap<String, ChatUser> list) {
@@ -235,9 +240,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
 
         for (ChatUser participant : list.values()) {
             if (chatRoom.hasParticipant(participant)) {
-                if (participant.equals(this.controller.owner())) {
-
-                } else if (participant.isOnline()) {
+                 if (participant.isOnline()) {
                     if (!participant.getNickname().equalsIgnoreCase("")) {
                         model.addElement(participant.getNickname() + "(Online)");
                     } else {
