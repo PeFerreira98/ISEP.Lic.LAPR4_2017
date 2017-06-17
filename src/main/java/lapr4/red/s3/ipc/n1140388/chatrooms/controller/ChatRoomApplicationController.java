@@ -104,6 +104,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
     /**
      * Get the user that are connected
      *
+     * @param ui
      * @return
      */
     public Iterable<String> getOnlineUsers(Observer ui) {
@@ -153,7 +154,8 @@ public class ChatRoomApplicationController implements CommHandler2 {
     /**
      * Method that will send the message to another user
      *
-     * @param text
+     * @param chat
+     * @param message
      */
     public void messageSend(ChatRoom chat, MessageToRoom message) {
 
@@ -223,18 +225,31 @@ public class ChatRoomApplicationController implements CommHandler2 {
     public void handleChatRoomDTO(ChatRoomDTO room, SendDto commWorker) {
         if (room.getType().equals("private")) {
             ChatRoom newRoom = new PrivateChatRoom(room.getName(), room.getOwner(), null);
+            for (ChatUser user : room.getParticipants()) {
+                if (!room.getParticipants().contains(user)) {
+                    newRoom.participants().add(user);
+                }
+            }
 
             if (roomsList.contains(newRoom)) {
                 roomsList.getChatRoomsList().set(roomsList.getChatRoomsList().indexOf(newRoom), newRoom);
+                Notification.chatInformer().notifyChange(newRoom);
             } else {
                 this.roomsList.add(newRoom);
             }
-
         }
+        
         if (room.getType().equals("public")) {
             ChatRoom newRoom = new PublicChatRoom(room.getName(), room.getOwner());
+            for (ChatUser user : room.getParticipants()) {
+                if (!room.getParticipants().contains(user)) {
+                    newRoom.participants().add(user);
+                }
+            }
+
             if (roomsList.contains(newRoom)) {
                 roomsList.getChatRoomsList().set(roomsList.getChatRoomsList().indexOf(newRoom), newRoom);
+                Notification.chatInformer().notifyChange(newRoom);
             } else {
                 this.roomsList.add(newRoom);
             }
@@ -245,7 +260,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         String tmp = commWorker.peerAddress();
         String sourceIP = message.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
         message.setIdOrig(sourceIP);
-        
+
         Notification.chatInformer().notifyChange(message);
     }
 
