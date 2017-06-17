@@ -172,7 +172,9 @@ public class ChatRoomApplicationController implements CommHandler2 {
         if (toPeer.sendDto(chat) == false) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            Notification.chatInformer().notifyChange(chat);
+            ChatRoom chatRoom =this.roomsList.findChatRoomByName(chat.getName());
+            chatRoom.setLst_Conversations(chat.getConversations());
+            Notification.chatInformer().notifyChange(chatRoom);
         }
 
     }
@@ -223,6 +225,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
     public void handleChatRoomDTO(ChatRoomDTO room, SendDto commWorker) {
         if (room.getType().equals("private")) {
             ChatRoom newRoom = new PrivateChatRoom(room.getName(), room.getOwner(), room.getInvitates());
+            newRoom.setLst_Conversations(room.getConversations());
             for (ChatUser user : room.getParticipants()) {
                 if (!newRoom.participants().contains(user)) {
                     newRoom.participants().add(user);
@@ -239,6 +242,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
 
         if (room.getType().equals("public")) {
             ChatRoom newRoom = new PublicChatRoom(room.getName(), room.getOwner(), room.getInvitates());
+            newRoom.setLst_Conversations(room.getConversations());
             for (ChatUser user : room.getParticipants()) {
                 if (!newRoom.participants().contains(user)) {
                     newRoom.participants().add(user);
@@ -254,13 +258,13 @@ public class ChatRoomApplicationController implements CommHandler2 {
         }
     }
 
-    public void handleMessageDTO(Message message, SendDto commWorker) {
-        String tmp = commWorker.peerAddress();
-        String sourceIP = message.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
-        message.setIdOrig(sourceIP);
-
-        Notification.chatInformer().notifyChange(message);
-    }
+//    public void handleMessageDTO(Message message, SendDto commWorker) {
+//        String tmp = commWorker.peerAddress();
+//        String sourceIP = message.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
+//        message.setIdOrig(sourceIP);
+//
+//        Notification.chatInformer().notifyChange(message);
+//    }
 
     @Override
     public Message getLastReceivedDTO() {

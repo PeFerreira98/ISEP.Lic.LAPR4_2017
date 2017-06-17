@@ -16,6 +16,8 @@ import lapr4.green.s1.ipc.n1140618.ChatApplication.Message;
 import lapr4.green.s1.ipc.n1151211.comm.CommExtension2;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.Notification;
+import lapr4.red.s3.ipc.n1140388.chatrooms.PrivateChatRoom;
+import lapr4.red.s3.ipc.n1140388.chatrooms.PublicChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
 
 /**
@@ -202,13 +204,14 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
     // End of variables declaration//GEN-END:variables
 @Override
     public void update(Observable o, Object arg) {
-        if (arg instanceof ChatRoom) {
+        if (arg instanceof ChatRoom || arg instanceof PrivateChatRoom || arg instanceof PublicChatRoom) {
             ChatRoom chat = (ChatRoom) arg;
-            messagesTextArea.setText(chat.getLst_Conversations().getLst_Conversations().toString());
-        }
-        if (arg instanceof Message) {
-            String str = messagesTextArea.getText();
-            messagesTextArea.setText(str + " " + ((Message) arg).getIdOrig() + ": " + ((Message) arg).getContent());
+            String str = "";
+            while (chat.getLst_Conversations().getLst_Conversations().iterator().next()!=null) {
+                Message message = chat.getLst_Conversations().getLst_Conversations().iterator().next();
+                str += message.toString();
+            }
+            messagesTextArea.setText(str);
         } else {
             ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
 
