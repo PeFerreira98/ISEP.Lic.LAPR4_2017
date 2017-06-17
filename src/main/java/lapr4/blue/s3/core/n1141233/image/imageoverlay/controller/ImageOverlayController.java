@@ -38,7 +38,7 @@ public class ImageOverlayController
      *
      * @return the actual image
      *
-     * @throws IOException
+     * @throws IOException could not get the image
      */
     public Image getImage() throws IOException
     {
@@ -50,7 +50,7 @@ public class ImageOverlayController
      *
      * @return the next image in the list
      *
-     * @throws IOException
+     * @throws IOException could not get the image
      */
     public Image getNextImage() throws IOException
     {
@@ -64,7 +64,7 @@ public class ImageOverlayController
      *
      * @return the previous image in the list
      *
-     * @throws IOException
+     * @throws IOException could not get the image
      */
     public Image getPreviousImage() throws IOException
     {

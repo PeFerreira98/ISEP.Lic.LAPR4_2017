@@ -37,7 +37,7 @@ by a formula).
  * <p>
  * Package lapr4.blue.s3.core.n1140956.WorkbookSearch.ui:<p>
  * {@link lapr4.blue.s3.core.n1140956.WorkbookSearch.ui.SearchPanel}
- * {@link lapr4.blue.s3.core.n1140956.WorkbookSearch.ui.UIEctensionSearch}
+ * {@link lapr4.blue.s3.core.n1140956.WorkbookSearch.ui.UIExtensionSearch}
  * 
  * @author Marcos Dourado (1140956)
  */

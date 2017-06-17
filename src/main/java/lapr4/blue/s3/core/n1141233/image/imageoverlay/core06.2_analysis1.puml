@@ -1,0 +1,10 @@
+@startuml
+actor User
+
+User->System: moves the mouse pointer over a cell that contains images
+System-->User: opens overlay window
+loop until the user moves the mouse outside the overlay window
+User->System: presses the buttons previous or next to navigate through the images
+end
+System-->User: overlay window closes
+@enduml
