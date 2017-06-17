@@ -21,13 +21,11 @@ import javax.swing.WindowConstants;
 import lapr4.green.s3.lang.n1130626.intermediatewizard.controller.InsertFunctionController;
 
 /**
- *
+ * User Interface of the wizard
  * @author Pedro Pereira
  */
 public class InsertFunctionUI extends javax.swing.JFrame {
 
-    //private final UIController uiController;
-    
     private InsertFunctionController controller;
     
     DefaultListModel<Function> functionList;
@@ -43,7 +41,6 @@ public class InsertFunctionUI extends javax.swing.JFrame {
     public InsertFunctionUI(InsertFunctionController controller) {
         initComponents();
         this.controller = controller;
-        //controller = new InsertFunctionController(uiController);
         this.functionList = new DefaultListModel<>();
         this.functionListString = new DefaultListModel<>();
         addFunctionsToList();

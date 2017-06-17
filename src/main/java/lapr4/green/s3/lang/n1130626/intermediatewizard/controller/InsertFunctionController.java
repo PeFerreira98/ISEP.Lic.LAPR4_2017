@@ -16,13 +16,18 @@ import csheets.core.formula.lang.UnknownElementException;
 import csheets.ui.ctrl.UIController;
 
 /**
- *
+ * Controller for use case: Lang04.2 Insert Function Intermediate Wizard
  * @author Pedro Pereira
  */
 public class InsertFunctionController {
     
+    /**The User Interface controller*/
     private final UIController uiController;
+    
+    /**The Language class*/
     private final Language language;
+    
+    /**The Formula Compiler class*/
     private final FormulaCompiler formulaCompiler;
     
     /**
@@ -44,25 +49,25 @@ public class InsertFunctionController {
     }
     
     /**
-     * 
-     * @return 
+     * Obtain the supported functions that can be used on CleanSheets
+     * @return The list of supported functions
      */
     public Function[] getListSupportedFunctions(){
         return this.language.getFunctions();
     }
     
     /**
-     * 
-     * @return 
+     * Obtain the supported binary operators that can be used on CleanSheets
+     * @return The list of supported binary operators
      */
     public BinaryOperator[] getListSupportedOperators(){
         return this.language.getOperators();
     }
     
     /**
-     * 
-     * @param identifier
-     * @return 
+     * Returns the function for the given identifier
+     * @param identifier identifier of the respective function
+     * @return the respective function of the given identifier
      * @throws csheets.core.formula.lang.UnknownElementException 
      */
     public Function getFunction(String identifier) throws UnknownElementException{
@@ -70,18 +75,18 @@ public class InsertFunctionController {
     }
     
     /**
-     * 
-     * @param identifier
-     * @return 
+     * Checks if it has the function with the selected identifier
+     * @param identifier identifier of a function
+     * @return true if the function exists otherwise return false
      */
     public boolean hasFunction(String identifier){
         return this.language.hasFunction(identifier);
     }
     
     /**
-     * 
-     * @param identifier
-     * @return
+     * Returns the binary operator for the given identifier
+     * @param identifier identifier of the respective operator
+     * @return the respective operator of the given identifier
      * @throws csheets.core.formula.lang.UnknownElementException
      */
     public BinaryOperator getOperator(String identifier) throws UnknownElementException{
@@ -89,9 +94,9 @@ public class InsertFunctionController {
     }
     
     /**
-     * 
-     * @param formulaData
-     * @return
+     * Compiles the formula with the given data
+     * @param formulaData parameters to compile the formula
+     * @return a compiled formula
      * @throws csheets.core.formula.compiler.FormulaCompilationException
      * 
      */
@@ -100,8 +105,8 @@ public class InsertFunctionController {
     }
     
     /**
-     * 
-     * @param content
+     * Copies the content for the active cell
+     * @param content the content to copy
      * @throws csheets.core.formula.compiler.FormulaCompilationException 
      */
     public void copyContentToCell(String content) throws FormulaCompilationException{
