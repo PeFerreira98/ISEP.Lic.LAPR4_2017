@@ -8,6 +8,7 @@ package lapr4.green.s3.lang.n1970581.arraysandvariableeditor;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.util.ExpressionVisitor;
+import java.io.Serializable;
 import java.util.Objects;
 import lapr4.blue.s1.lang.n1140953.variables.Variable;
 
@@ -15,7 +16,7 @@ import lapr4.blue.s1.lang.n1140953.variables.Variable;
  * Class representing an Array Item, a form of global variable
  * @author Hugo
  */
-public class ArrayItem implements Variable , Comparable<ArrayItem>{
+public class ArrayItem implements Variable , Comparable<ArrayItem> , Serializable{
     
     /** the name */
     private String name;

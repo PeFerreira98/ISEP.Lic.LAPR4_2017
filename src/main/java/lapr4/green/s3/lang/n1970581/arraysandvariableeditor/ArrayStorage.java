@@ -7,6 +7,7 @@ package lapr4.green.s3.lang.n1970581.arraysandvariableeditor;
 
 import csheets.core.Value;
 import csheets.core.Workbook;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -16,10 +17,8 @@ import java.util.Map;
  * Class the replicates the storage of Arrays items in a workbook
  * @author Hugo
  */
-public class ArrayStorage {
+public class ArrayStorage implements Serializable{
     
-    /** The workbook */
-    Workbook workbook;
     
     /** The ArrayItems inside this storage */
     Map <String , ArrayItem> variableMap;

@@ -65,7 +65,8 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
     private static List<GlobalVariable> list = new ArrayList<GlobalVariable>();
 
     /** Storage for Array Variables */
-    private transient ArrayStorage arrayStorage;
+    private ArrayStorage arrayStorage;
+    //private transient ArrayStorage arrayStorage;
     
     /**
      * Creates a new empty workbook.

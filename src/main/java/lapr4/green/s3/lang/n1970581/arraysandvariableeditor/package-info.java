@@ -36,7 +36,11 @@
  * Implementation: Sidebard variable editing <br>
  * Design documentation. Showing the edit SD <br>
  *
+ * Work notes/log: S3 17-06-2017 (sabado) <br>
+ * Implementation: Variables Index are now presistent. Saved on workbook. Minor debuging. <br>
  *
+ *
+ * <br>
  * 
  * <h2>2. Requirement</h2>
  * 

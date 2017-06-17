@@ -185,7 +185,15 @@ public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
         int answer = 0;  // NO = 1 , YES = 0
         answer = JOptionPane.showConfirmDialog(this, mesage , EDIT_VARIABLE_TITLE , JOptionPane.YES_NO_OPTION);
         if(answer == 1) return;
-        boolean sucess = this.controller.editArrayItem(dto, newString);
+        boolean sucess = false;
+        try {
+            sucess = this.controller.editArrayItem(dto, newString);
+        }
+        catch(NullPointerException ex){
+            JOptionPane.showMessageDialog(this, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            this.list.clear();
+            return;
+        }
         if (!sucess) JOptionPane.showMessageDialog(this, "ERROR");
     }//GEN-LAST:event_jButtonEditActionPerformed
 
@@ -218,6 +226,7 @@ public class VariableEditorPanel extends javax.swing.JPanel implements Observer{
         }
         catch(NullPointerException ex){
             JOptionPane.showMessageDialog(this, ex, "Error", JOptionPane.ERROR_MESSAGE);
+            this.list.clear();
         }
     }
 
