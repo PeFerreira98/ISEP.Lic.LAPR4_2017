@@ -9,6 +9,8 @@ import csheets.core.Cell;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
+import csheets.core.formula.Function;
+import csheets.core.formula.FunctionParameter;
 import csheets.core.formula.compiler.FormulaCompiler;
 import csheets.ui.ctrl.UIController;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
@@ -17,12 +19,14 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
  *
  * @author Tiago
  */
-public class Eval implements NaryOperator {
+public class Eval implements Function  {
     
-    private UIController ui;
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+		new FunctionParameter(Value.Type.TEXT, "Formula", false,
+							  "Expression to be executed by the function as formula")
+	};
     
-    public Eval(UIController ui){
-        this.ui=ui;
+    public Eval(){
     }
 
     @Override
@@ -33,9 +37,11 @@ public class Eval implements NaryOperator {
 				content = content.substring(1, content.length() - 1);
 			}
 			content = "=" + content;
-			Cell cell =  ui.getActiveCell();
-			return FormulaCompiler.getInstance().compile(cell, content).
-				evaluate();
+//			Cell cell =  UIController.getUIController().getActiveWorkbook().
+//				getSpreadsheet(0).getCell(0, 0);
+//			return FormulaCompiler.getInstance().compile(cell, content).
+//				evaluate();
+return null;
 		} catch (Exception ex) {
 			return new Value();
 		}
@@ -47,8 +53,13 @@ public class Eval implements NaryOperator {
     }
 
     @Override
-    public Value.Type getOperandValueType() {
-        return Value.Type.UNDEFINED;
+    public FunctionParameter[] getPARAMETERS() {
+        return parameters;
+    }
+
+    @Override
+    public boolean isVarArg() {
+        return false;
     }
     
 }

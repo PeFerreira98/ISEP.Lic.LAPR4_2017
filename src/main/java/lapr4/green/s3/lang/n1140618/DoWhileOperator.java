@@ -8,6 +8,8 @@ package lapr4.green.s3.lang.n1140618;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
+import csheets.core.formula.Function;
+import csheets.core.formula.FunctionParameter;
 import java.util.Arrays;
 import lapr4.blue.s1.lang.n1141233.formula.lang.Language;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
@@ -16,35 +18,25 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
  *
  * @author Tiago
  */
-public class DoWhileOperator  implements NaryOperator{
+public class DoWhileOperator  implements Function{
 
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+		new FunctionParameter(Value.Type.UNDEFINED, "Expression", false,
+							  "A number to be included in the sum"),
+		new FunctionParameter(Value.Type.BOOLEAN, "Condition", false,
+							  "A condition to evaluate before proceeding")};
+    
     public DoWhileOperator(){
     
     }
     @Override
     public Value applyTo(Expression[] operands) throws IllegalValueTypeException {
         if(operands.length==2){
-            try
-            {
-                Value value;
-                // Get the sequence operator to execute the body as a block
-                
-                NaryOperator naryOperator = Language.getInstance().getNaryOperator("{");
-
-                // Copy arguments to be executed in each iteration of the loop
-                Expression[] body = Arrays.copyOfRange(operands, 0, 1);
-
-                do
-                {
-                    // Loop body instructions
-                    value = naryOperator.applyTo(body); 
-                }
-                while (operands[1].evaluate().toBoolean());
-
-                return value; 
-            } catch (csheets.core.formula.lang.UnknownElementException ex) {
-                return new Value(ex);
-            }
+            Value value = new Value();
+		do {
+			value = operands[0].evaluate();
+		} while (operands[1].evaluate().toBoolean());
+		return value;
         }
         return new Value(new IllegalArgumentException("not enough arguments"));
     }
@@ -55,8 +47,13 @@ public class DoWhileOperator  implements NaryOperator{
     }
 
     @Override
-    public Value.Type getOperandValueType() {
-        return Value.Type.UNDEFINED;
+    public FunctionParameter[] getPARAMETERS() {
+        return this.parameters;
+    }
+
+    @Override
+    public boolean isVarArg() {
+        return false;
     }
     
 }

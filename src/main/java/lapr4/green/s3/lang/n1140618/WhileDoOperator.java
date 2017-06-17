@@ -8,6 +8,8 @@ package lapr4.green.s3.lang.n1140618;
 import csheets.core.IllegalValueTypeException;
 import csheets.core.Value;
 import csheets.core.formula.Expression;
+import csheets.core.formula.Function;
+import csheets.core.formula.FunctionParameter;
 import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -19,32 +21,27 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
  *
  * @author Tiago
  */
-public class WhileDoOperator implements NaryOperator{
+public class WhileDoOperator implements Function{
 
+    public static final FunctionParameter[] parameters = new FunctionParameter[]{
+		new FunctionParameter(Value.Type.BOOLEAN, "Condition", false,
+							  "A condition to evaluate before proceeding"),
+		new FunctionParameter(Value.Type.UNDEFINED, "Expression", false,
+							  "A number to be included in the sum")
+	};
+    
+    
     public WhileDoOperator(){
     
     }
     @Override
     public Value applyTo(Expression[] operands) throws IllegalValueTypeException {
         if(operands.length==2){
-            try
-            {
-                Value value = new Value();
-                // Get the sequence operator to execute the body as a block
-                
-                NaryOperator naryOperator = Language.getInstance().getNaryOperator("{");
-
-                // Copy arguments to be executed in each iteration of the loop
-                Expression[] body = Arrays.copyOfRange(operands, 2, operands.length);
-
-                while (operands[0].evaluate().toBoolean()) {
-			value = naryOperator.applyTo(body);
+            Value value = new Value();
+		while (operands[0].evaluate().toBoolean()) {
+			value = operands[1].evaluate();
 		}
-
-                return value; 
-            } catch (csheets.core.formula.lang.UnknownElementException ex) {
-                return new Value(ex);
-            }
+		return value;
         }
         return new Value(new IllegalArgumentException("not enough arguments"));
     }
@@ -53,10 +50,15 @@ public class WhileDoOperator implements NaryOperator{
     public String getIdentifier() {
         return "WhileDo";
     }
+    
+    @Override
+    public FunctionParameter[] getPARAMETERS() {
+        return this.parameters;
+    }
 
     @Override
-    public Value.Type getOperandValueType() {
-        return Value.Type.UNDEFINED;
+    public boolean isVarArg() {
+        return false;
     }
     
 }

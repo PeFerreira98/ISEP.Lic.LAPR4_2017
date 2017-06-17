@@ -36,8 +36,6 @@ public class Language
 
         // IMP: Need to add new function (FOR)
         naryOperators.add(new ForOperator());
-        naryOperators.add(new WhileDoOperator());
-        naryOperators.add(new DoWhileOperator());
     }
 
     /**
