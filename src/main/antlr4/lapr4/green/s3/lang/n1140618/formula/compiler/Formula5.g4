@@ -1,6 +1,6 @@
-grammar Formula4;
+grammar Formula5;
 @header {
-    package lapr4.green.s3.lang.n1970581.formula.compiler;
+    package lapr4.green.s3.lang.n1140618.formula.compiler;
 }	         
 expression
 	: EQ comparison EOF
