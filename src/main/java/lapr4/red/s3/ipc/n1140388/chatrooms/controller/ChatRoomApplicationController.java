@@ -27,7 +27,6 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomDTO;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomsList;
-import lapr4.red.s3.ipc.n1140388.chatrooms.MessageToRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.Notification;
 import lapr4.red.s3.ipc.n1140388.chatrooms.PrivateChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.PublicChatRoom;
@@ -74,7 +73,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         this.broadcastServer = BroadcastServer.getServer();
         this.lst_Users = new ChatUsersStorage();
         commServer.addHandler(ChatRoomDTO.class, this);
-        commServer.addHandler(MessageToRoom.class, this);
+        // commServer.addHandler(MessageToRoom.class, this);
         broadcastServer.broadcastThisService(new PeerService("ChatRoom", true));
         this.roomsList = new ChatRoomsList();
 
@@ -122,12 +121,15 @@ public class ChatRoomApplicationController implements CommHandler2 {
 //            boolean flag = true;
             for (ChatUser oUser : room.participants()) {
                 if (!oUser.getInfo().equals(peerId)) {
-                    MessageToRoom messToRoom = new MessageToRoom();
-
+                    Message messToRoom = new Message();
                     messToRoom.setIdDest(oUser.getInfo());
                     messToRoom.setIdOrig(peerId);
                     messToRoom.setContent(message);
-                    messageSend(room, messToRoom);
+                    lastMessage =messToRoom;
+                    room.getLst_Conversations().addMessage(lastMessage);
+                    ChatRoomDTO roomDto=new ChatRoomDTO(room.name(), room.owner(), room.participants(), room.isOnline(), ((PrivateChatRoom) room).invitations(), "private");
+                    roomDto.setConversations(room.getLst_Conversations());
+                    messageSend(roomDto, messToRoom);
                 }
 
             }
@@ -137,13 +139,15 @@ public class ChatRoomApplicationController implements CommHandler2 {
             for (ChatUser oUser : room.participants()) {
 
                 if (!oUser.getInfo().equals(peerId)) {
-                    MessageToRoom messToRoom = new MessageToRoom();
-
+                    Message messToRoom = new Message();
                     messToRoom.setIdDest(oUser.getInfo());
                     messToRoom.setIdOrig(peerId);
                     messToRoom.setContent(message);
-
-                    messageSend(room, messToRoom);
+                    lastMessage =messToRoom;
+                    room.getLst_Conversations().addMessage(lastMessage);
+                    ChatRoomDTO roomDto=new ChatRoomDTO(room.name(), room.owner(), room.participants(), room.isOnline(), ((PublicChatRoom) room).invitations(), "public");
+                    roomDto.setConversations(room.getLst_Conversations());
+                    messageSend(roomDto, messToRoom);
                 }
 
             }
@@ -157,7 +161,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
      * @param chat
      * @param message
      */
-    public void messageSend(ChatRoom chat, MessageToRoom message) {
+    public void messageSend(ChatRoomDTO chat, Message message) {
 
         CommClientWorker2 toPeer = listenerServer.getCommClientWorker2(message.getIdDest());
         if (toPeer == null) {
@@ -165,14 +169,9 @@ public class ChatRoomApplicationController implements CommHandler2 {
             return;
         }
 
-        if (toPeer.sendDto(message) == false) {
+        if (toPeer.sendDto(chat) == false) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            lastMessage = new Message();
-            lastMessage.setContent(message.getContent());
-            lastMessage.setIdDest(message.getIdDest());
-            lastMessage.setIdOrig(message.getIdOrig());
-            chat.getLst_Conversations().addMessage(lastMessage);
             Notification.chatInformer().notifyChange(chat);
         }
 
@@ -209,17 +208,16 @@ public class ChatRoomApplicationController implements CommHandler2 {
             handleChatRoomDTO(room, commWorker);
         }
 
-        if (dto instanceof MessageToRoom) {
-
-            MessageToRoom messageDto = (MessageToRoom) dto;
-            Message newMessage = new Message();
-            newMessage.setContent(messageDto.getContent());
-            newMessage.setIdDest(messageDto.getIdDest());
-            newMessage.setIdOrig(messageDto.getIdOrig());
-            handleMessageDTO(newMessage, commWorker);
-
-        }
-
+//        if (dto instanceof MessageToRoom) {
+//
+//            MessageToRoom messageDto = (MessageToRoom) dto;
+//            Message newMessage = new Message();
+//            newMessage.setContent(messageDto.getContent());
+//            newMessage.setIdDest(messageDto.getIdDest());
+//            newMessage.setIdOrig(messageDto.getIdOrig());
+//            handleMessageDTO(newMessage, commWorker);
+//
+//        }
     }
 
     public void handleChatRoomDTO(ChatRoomDTO room, SendDto commWorker) {

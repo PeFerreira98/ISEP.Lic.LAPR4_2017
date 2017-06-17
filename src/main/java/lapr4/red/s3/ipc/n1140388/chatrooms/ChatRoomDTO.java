@@ -8,6 +8,7 @@ package lapr4.red.s3.ipc.n1140388.chatrooms;
 import java.io.Serializable;
 import java.util.List;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
+import lapr4.blue.s2.ipc.n1140956.ChatApplication.ConversationStorage;
 
 /**
  *
@@ -21,6 +22,7 @@ public class ChatRoomDTO implements Serializable {
     private boolean online;
     private String type;
     private List<ChatUser> invitates;
+    private ConversationStorage lst_Conversations;
 
     public ChatRoomDTO(String name, ChatUser owner, List<ChatUser> participants, boolean online, List<ChatUser> invitates, String type) {
         this.name = name;
@@ -29,6 +31,7 @@ public class ChatRoomDTO implements Serializable {
         this.online = online;
         this.type = type;
         this.invitates = invitates;
+        this.lst_Conversations=new ConversationStorage();
     }
 
     /**
@@ -68,5 +71,19 @@ public class ChatRoomDTO implements Serializable {
 
     public List<ChatUser> getInvitates() {
         return invitates;
+    }
+    
+      /**
+     * @return the lst_Conversations
+     */
+    public ConversationStorage getConversations() {
+        return lst_Conversations;
+    }
+
+    /**
+     * @param lst_Conversations the lst_Conversations to set
+     */
+    public void setConversations(ConversationStorage lst_Conversations) {
+        this.lst_Conversations = lst_Conversations;
     }
 }
