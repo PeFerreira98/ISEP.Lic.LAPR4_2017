@@ -224,7 +224,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
 
     public void handleChatRoomDTO(ChatRoomDTO room, SendDto commWorker) {
         if (room.getType().equals("private")) {
-            ChatRoom newRoom = new PrivateChatRoom(room.getName(), room.getOwner(), null);
+            ChatRoom newRoom = new PrivateChatRoom(room.getName(), room.getOwner(), room.getInvitates());
             for (ChatUser user : room.getParticipants()) {
                 if (!newRoom.participants().contains(user)) {
                     newRoom.participants().add(user);
@@ -238,9 +238,9 @@ public class ChatRoomApplicationController implements CommHandler2 {
                 this.roomsList.add(newRoom);
             }
         }
-        
+
         if (room.getType().equals("public")) {
-            ChatRoom newRoom = new PublicChatRoom(room.getName(), room.getOwner());
+            ChatRoom newRoom = new PublicChatRoom(room.getName(), room.getOwner(), room.getInvitates());
             for (ChatUser user : room.getParticipants()) {
                 if (!newRoom.participants().contains(user)) {
                     newRoom.participants().add(user);
@@ -299,7 +299,13 @@ public class ChatRoomApplicationController implements CommHandler2 {
         }
 
         if (type == 1) {
-            return new PublicChatRoom(name, owner());
+            List<ChatUser> users = new ArrayList<>();
+
+            for (ChatUser user : lst_Users.getUserList().values()) {
+                users.add(user);
+            }
+
+            return new PublicChatRoom(name, owner(), users);
         } else if (type == 2) {
             return new PrivateChatRoom(name, owner(), invites);
         }
@@ -317,14 +323,14 @@ public class ChatRoomApplicationController implements CommHandler2 {
 
         if (cr instanceof PrivateChatRoom) {
 
-            ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), "private");
+            ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), ((PrivateChatRoom) cr).invitations(), "private");
             for (ChatUser user : ((PrivateChatRoom) cr).invitations()) {
                 if (!user.equals(cr.owner())) {
                     roomSend(roomDto, user.getInfo());
                 }
             }
         } else {
-            ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), "public");
+            ChatRoomDTO roomDto = new ChatRoomDTO(cr.name(), cr.owner(), cr.participants(), cr.isOnline(), ((PublicChatRoom) cr).invitations(), "public");
 
             for (ChatUser user : lst_Users.getUserList().values()) {
                 if (!user.equals(cr.owner())) {
@@ -346,7 +352,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         chatRoom.addParticipant(owner());
 
         if (chatRoom instanceof PrivateChatRoom) {
-            ChatRoomDTO roomDto = new ChatRoomDTO(chatRoom.name(), chatRoom.owner(), chatRoom.participants(), chatRoom.isOnline(), "private");
+            ChatRoomDTO roomDto = new ChatRoomDTO(chatRoom.name(), chatRoom.owner(), chatRoom.participants(), chatRoom.isOnline(), ((PrivateChatRoom) chatRoom).invitations(), "private");
 
             for (ChatUser user : chatRoom.participants()) {
                 if (!user.equals(owner())) {
@@ -355,7 +361,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
             }
 
         } else {
-            ChatRoomDTO roomDto = new ChatRoomDTO(chatRoom.name(), chatRoom.owner(), chatRoom.participants(), chatRoom.isOnline(), "public");
+            ChatRoomDTO roomDto = new ChatRoomDTO(chatRoom.name(), chatRoom.owner(), chatRoom.participants(), chatRoom.isOnline(), ((PublicChatRoom) chatRoom).invitations(), "public");
 
             for (ChatUser user : chatRoom.participants()) {
                 if (!user.equals(owner())) {
@@ -376,7 +382,16 @@ public class ChatRoomApplicationController implements CommHandler2 {
      * @return true if the invatation was rejected, false if was not
      */
     public boolean rejectChatRoom(ChatRoom chatRoom) {
-        return ((PrivateChatRoom) chatRoom).invitations().remove(owner());
+
+        if (chatRoom instanceof PrivateChatRoom) {
+            return ((PrivateChatRoom) chatRoom).invitations().remove(owner());
+        }
+
+        if (chatRoom instanceof PublicChatRoom) {
+            return ((PublicChatRoom) chatRoom).invitations().remove(owner());
+        }
+        return false;
+
     }
 
     public void roomSend(ChatRoomDTO room, String oUser) {

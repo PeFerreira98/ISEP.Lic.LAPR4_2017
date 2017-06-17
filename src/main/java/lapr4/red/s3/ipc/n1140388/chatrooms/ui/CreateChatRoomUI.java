@@ -224,7 +224,6 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
             ChatUser user = this.chatRoomcontroller.getChatUsersList().getUserByMachineName(nick);
 
             invites.add(user);
-            jList1.remove(jList1.getSelectedValue().indexOf(user.getInfo()));
             JOptionPane.showMessageDialog(this, "Participant Added", "Success", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_btnAddInviteActionPerformed

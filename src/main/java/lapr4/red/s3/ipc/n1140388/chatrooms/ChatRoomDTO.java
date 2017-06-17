@@ -20,13 +20,15 @@ public class ChatRoomDTO implements Serializable {
     private List<ChatUser> participants;
     private boolean online;
     private String type;
+    private List<ChatUser> invitates;
 
-    public ChatRoomDTO(String name, ChatUser owner, List<ChatUser> participants, boolean online, String type) {
+    public ChatRoomDTO(String name, ChatUser owner, List<ChatUser> participants, boolean online, List<ChatUser> invitates, String type) {
         this.name = name;
         this.owner = owner;
         this.participants = participants;
         this.online = online;
         this.type = type;
+        this.invitates = invitates;
     }
 
     /**
@@ -62,5 +64,9 @@ public class ChatRoomDTO implements Serializable {
      */
     public String getType() {
         return type;
+    }
+
+    public List<ChatUser> getInvitates() {
+        return invitates;
     }
 }
