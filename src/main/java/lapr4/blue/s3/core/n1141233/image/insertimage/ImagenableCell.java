@@ -96,34 +96,50 @@ public class ImagenableCell extends CellExtension
     }
 
     /**
-     * Adds a image to this cell images list
+     * Adds a image to this cell's images list
      *
-     * @param urlLink the url or the link of the image
+     * @param path the path to the image
      *
-     * @throws java.io.IOException error opening the file
+     * @return the added image or null case the image was not added
      */
-    public Images addImage(String urlLink) throws IOException
+    public Images addImage(String path)
     {
-//        Image newImage = Converter.getImage(Converter.setImage(new File(urlLink)));
-        Images newImage = new Images(urlLink);
-        imagesList.add(newImage);
-
-        // Notifies listeners
-        fireImagesChanged();
-        return newImage;
+        try
+        {
+            Images newImage = new Images(path);
+            if (imagesList.add(newImage))
+            {
+                // Notifies listeners
+                fireImagesChanged();
+                return newImage;
+            }
+        }
+        catch (IOException ex)
+        {
+        }
+        return null;
     }
 
     /**
      * Remove an image from the cell images list
      *
      * @param image the image to be removed
+     *
+     * @return true if the image was removed, false if the image was null or was
+     * not removed
      */
-    public void removeImage(Images image)
+    public boolean removeImage(Images image)
     {
-        imagesList.remove(image);
-
-        // Notifies listeners
-        fireImagesChanged();
+        if (image != null)
+        {
+            if (imagesList.remove(image))
+            {
+                // Notifies listeners
+                fireImagesChanged();
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

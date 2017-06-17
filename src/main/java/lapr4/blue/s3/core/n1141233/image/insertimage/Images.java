@@ -15,6 +15,9 @@ import lapr4.red.s1.core.n1140388.contacts.ui.Converter;
 public class Images implements Serializable
 {
 
+    /**
+     * The image's name
+     */
     private final String name;
 
     /**
@@ -25,27 +28,43 @@ public class Images implements Serializable
     /**
      * The constructor
      *
-     * @param url_link link of the image
+     * @param path path to the image
      *
      * @throws java.io.IOException
      */
-    public Images(String url_link) throws IOException
+    public Images(String path) throws IOException, NullPointerException, IllegalArgumentException
     {
-        File f = new File(url_link);
+        if (path == null)
+        {
+            throw new NullPointerException("image path can't be null");
+        }
+        if (path.isEmpty())
+        {
+            throw new IllegalArgumentException("image path can't be empty");
+        }
+
+        File f = new File(path);
         this.name = f.getName();
-        image = Converter.setImage(f);
+        this.image = Converter.setImage(f);
     }
 
     /**
-     * Returns the url/link of the image
+     * Returns the name of the image
      *
-     * @return String of the url/link
+     * @return String of the image's name
      */
     public String name()
     {
         return name;
     }
 
+    /**
+     * Returns the image as a BufferedImage
+     *
+     * @return the image itself
+     *
+     * @throws java.io.IOException
+     */
     public BufferedImage image() throws IOException
     {
         return Converter.getImage(image);

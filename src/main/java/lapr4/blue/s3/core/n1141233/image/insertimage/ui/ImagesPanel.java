@@ -179,16 +179,18 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
                 }
             }
         }
-
     }//GEN-LAST:event_jButtonAddImageActionPerformed
 
     private void jButtonRemoveImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonRemoveImageActionPerformed
         Images goodByeImage = this.imagesList.getSelectedValue();
-        if (image != null)
+        if (goodByeImage != null)
         {
             if (cell != null)
             {
-                controller.removeImage(cell, goodByeImage);
+                if (!controller.removeImage(cell, goodByeImage))
+                {
+                    JOptionPane.showMessageDialog(this, "the selected image could not be removed", "Warning", JOptionPane.WARNING_MESSAGE);
+                }
             }
         }
         else
@@ -238,10 +240,6 @@ public class ImagesPanel extends javax.swing.JPanel implements SelectionListener
             ImagenableCell activeCell = (ImagenableCell) selectedCell.getExtension(ImagesExtension.NAME);
             activeCell.addImagenableCellListener(this);
             imageChanged(activeCell);
-//            if (activeCell.hasImages())
-//            {
-//                ImageOverlayUI imageOverlayUI = new ImageOverlayUI(activeCell, this.getLocation());
-//            }
         }
 
         if (event.getPreviousCell() != null)

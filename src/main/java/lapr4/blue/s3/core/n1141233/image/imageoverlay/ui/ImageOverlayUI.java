@@ -21,7 +21,7 @@ public class ImageOverlayUI extends javax.swing.JFrame
     /**
      * Creates new form ImageOverlayUI
      *
-     * @param cell the selected cell
+     * @param cell currently being hovered cell
      * @param point location to open the window
      */
     public ImageOverlayUI(ImagenableCell cell, Point point)
@@ -174,11 +174,19 @@ public class ImageOverlayUI extends javax.swing.JFrame
         this.imagePanel.getGraphics().drawImage(image, 0, 0, this.imagePanel.getWidth(), this.imagePanel.getHeight(), null);
     }
 
+    /**
+     * updates the label content according to the actual image and the number of
+     * images available
+     */
     private void updateLabel()
     {
         this.imageIndex.setText(index + 1 + " / " + controller.getImagesNum());
     }
 
+    /**
+     * enables and disables the next and previous buttons according to the
+     * actual image and the number of images available
+     */
     private void updateButtons()
     {
         if (index <= 0)

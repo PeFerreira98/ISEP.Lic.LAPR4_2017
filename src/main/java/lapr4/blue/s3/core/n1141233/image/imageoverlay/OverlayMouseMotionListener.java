@@ -19,9 +19,11 @@ import lapr4.blue.s3.core.n1141233.image.insertimage.ImagesExtension;
 public class OverlayMouseMotionListener extends MouseMotionAdapter
 {
 
-    private SpreadsheetTable table;
     private static boolean active = true;
 
+    /**
+     * creates a new OverlayMouseMotionListener
+     */
     public OverlayMouseMotionListener()
     {
         //EMPTY CONSTRUCTOR
@@ -32,7 +34,7 @@ public class OverlayMouseMotionListener extends MouseMotionAdapter
     {
         if (active)
         {
-            table = (SpreadsheetTable) e.getSource();
+            SpreadsheetTable table = (SpreadsheetTable) e.getSource();
             int row = table.rowAtPoint(e.getPoint());
             int column = table.columnAtPoint(e.getPoint());
             Cell cell = table.getSpreadsheet().getCell(column, row);
@@ -41,6 +43,7 @@ public class OverlayMouseMotionListener extends MouseMotionAdapter
 
             if (choosedCell.hasImages())
             {
+                // stop all other overlay listeners
                 active = false;
 
                 table.removeMouseMotionListener(this);
@@ -67,6 +70,7 @@ public class OverlayMouseMotionListener extends MouseMotionAdapter
                         if (!bounds.contains(mousePos))
                         {
                             ui.dispose();
+                            // reactivate the overlay listeners
                             OverlayMouseMotionListener.setActive();
                         }
                     }
@@ -75,11 +79,19 @@ public class OverlayMouseMotionListener extends MouseMotionAdapter
         }
     }
 
+    /**
+     * sets the listener status to active
+     */
     public static void setActive()
     {
         active = true;
     }
 
+    /**
+     * checks the active status of the listener
+     *
+     * @return true if active, false otherwise
+     */
     public static boolean isActive()
     {
         return active;

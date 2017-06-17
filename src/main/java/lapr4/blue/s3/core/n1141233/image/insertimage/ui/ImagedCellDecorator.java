@@ -6,11 +6,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.JComponent;
-import lapr4.blue.s3.core.n1141233.image.imageoverlay.ui.ImageOverlayUI;
 import lapr4.blue.s3.core.n1141233.image.insertimage.ImagenableCell;
 import lapr4.blue.s3.core.n1141233.image.insertimage.ImagesExtension;
 

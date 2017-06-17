@@ -38,7 +38,7 @@ public class ImageController
      * @param cell the cell for which the image should be set
      * @param location the location of the image, as entered by the user
      *
-     * @return true if the cell's image was changed
+     * @return the image that was added
      *
      * @throws java.io.IOException if file couldn't be found or opened
      */
@@ -55,23 +55,27 @@ public class ImageController
 
     /**
      * Attempts to remove the old image from the given location (string). If
-     * successful, removes the image to the given cell. If the input string is
-     * empty or null, the image is set to null.
+     * successful, removes the image to the given cell. If the image is null
+     * does nothing.
      *
      * @param cell the cell for which the image should be removed
      * @param image the image
      *
-     * @return true if the cell's image was removed
+     * @return true if the cell's image was removed false otherwise
      */
     public boolean removeImage(ImagenableCell cell, Images image)
     {
         //Removes the image
-        cell.removeImage(image);
-        if (uiController != null)
+        if (cell != null && image != null)
         {
-            uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+            cell.removeImage(image);
+            if (uiController != null)
+            {
+                uiController.setWorkbookModified(cell.getSpreadsheet().getWorkbook());
+            }
+            return true;
         }
-        return true;
+        return false;
     }
 
     /**

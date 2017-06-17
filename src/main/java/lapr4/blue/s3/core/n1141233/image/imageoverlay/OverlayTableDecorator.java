@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import java.awt.event.MouseMotionListener;
 
 /**
- * Adds a MouseMotionListener to the SpreadsheetTable it is decorating
+ * Adds an OverlayMouseMotionListener to the SpreadsheetTable it is decorating
  *
  * @author Rafael Vieira
  */
@@ -16,7 +16,7 @@ public class OverlayTableDecorator extends TableDecorator
     public static final OverlayMouseMotionListener OVERLAY_MOUSE_MOTION_LISTENER = new OverlayMouseMotionListener();
 
     /**
-     * empty constructor
+     * creates a new OverlayTableDecorator
      */
     public OverlayTableDecorator()
     {
