@@ -2,15 +2,9 @@ package lapr4.blue.s3.core.n1141233.image.imageoverlay.ui;
 
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import lapr4.blue.s3.core.n1141233.image.imageoverlay.OverlayMouseMotionListener;
 import lapr4.blue.s3.core.n1141233.image.imageoverlay.controller.ImageOverlayController;
 import lapr4.blue.s3.core.n1141233.image.insertimage.ImagenableCell;
 
@@ -34,20 +28,9 @@ public class ImageOverlayUI extends javax.swing.JFrame
     {
         initComponents();
         this.setLocation(point);
-        this.setVisible(true);
-        this.setAlwaysOnTop(true);
 
         // dont exit on close
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-        WindowListener exitListener = new WindowAdapter()
-        {
-            @Override
-            public void windowClosing(WindowEvent e)
-            {
-                dispose();
-            }
-        };
-        this.addWindowListener(exitListener);
         // dont exit on close
 
         this.index = 0;
@@ -60,9 +43,10 @@ public class ImageOverlayUI extends javax.swing.JFrame
         }
         catch (IOException ex)
         {
-            JOptionPane.showMessageDialog(this, "Couldn't load image", "Warning", JOptionPane.WARNING_MESSAGE);
+            warning("Couldn't load image");
         }
-        repaint();
+
+        this.setVisible(true);
     }
 
     /**
@@ -81,6 +65,7 @@ public class ImageOverlayUI extends javax.swing.JFrame
         imageIndex = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setResizable(false);
 
         previousButton.setText("<");
@@ -158,7 +143,7 @@ public class ImageOverlayUI extends javax.swing.JFrame
         }
         catch (IOException ex)
         {
-            JOptionPane.showMessageDialog(this, "Couldn't load image", "Warning", JOptionPane.WARNING_MESSAGE);
+            warning("Couldn't load image");
         }
     }//GEN-LAST:event_previousButtonActionPerformed
 
@@ -173,7 +158,7 @@ public class ImageOverlayUI extends javax.swing.JFrame
         }
         catch (IOException ex)
         {
-            JOptionPane.showMessageDialog(this, "Couldn't load image", "Warning", JOptionPane.WARNING_MESSAGE);
+            warning("Couldn't load image");
         }
     }//GEN-LAST:event_nextButtonActionPerformed
 
@@ -187,7 +172,6 @@ public class ImageOverlayUI extends javax.swing.JFrame
     private void drawImage(Image image)
     {
         this.imagePanel.getGraphics().drawImage(image, 0, 0, this.imagePanel.getWidth(), this.imagePanel.getHeight(), null);
-        imagePanel.repaint();
     }
 
     private void updateLabel()
@@ -216,17 +200,8 @@ public class ImageOverlayUI extends javax.swing.JFrame
         }
     }
 
-    @Override
-    public void repaint()
+    private void warning(String message)
     {
-        super.repaint();
-        try
-        {
-            drawImage(controller.getImage());
-        }
-        catch (IOException ex)
-        {
-            JOptionPane.showMessageDialog(this, "Couldn't load image", "Warning", JOptionPane.WARNING_MESSAGE);
-        }
+        JOptionPane.showMessageDialog(this, message, "Warning", JOptionPane.WARNING_MESSAGE);
     }
 }

@@ -55,11 +55,6 @@ public class OverlayMouseMotionListener extends MouseMotionAdapter
                         Point mousePos = MouseInfo.getPointerInfo().getLocation();
                         Rectangle bounds = ui.getBounds();
                         bounds.setLocation(ui.getLocationOnScreen());
-
-                        if (bounds.contains(mousePos))
-                        {
-                            // do nothing
-                        }
                     }
 
                     @Override
