@@ -15,8 +15,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
@@ -30,7 +28,7 @@ import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationControl
  *
  * @author Alexandra Ferreira 1140388
  */
-public class ChatRoomPanel extends JPanel implements SelectionListener ,Observer{
+public class ChatRoomPanel extends JPanel implements SelectionListener {
 
     private JButton btnUpdate;
     private JButton btnCreate;
@@ -108,7 +106,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener ,Observer
         int i = 0;
 
         List<ChatRoom> list = controller.getRoomsList().getChatRoomsList();
-        
+
         String[] names = new String[list.size()];
 
         if (list.isEmpty()) {
@@ -143,7 +141,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener ,Observer
 
                 if (roomsComboBox.getSelectedItem() != null) {
                     ChatRoom room = getRoom(roomsComboBox.getSelectedIndex());
-                     new CommunicationChatRoomUI(controller, room);
+                    new CommunicationChatRoomUI(controller, room);
                 } else {
                     JOptionPane.showMessageDialog(ChatRoomPanel.this,
                             "Please select a chat room",
@@ -263,10 +261,4 @@ public class ChatRoomPanel extends JPanel implements SelectionListener ,Observer
     public void selectionChanged(SelectionEvent event) {
 
     }
-
-    @Override
-    public void update(Observable o, Object o1) {
-      
-    }
-
 }

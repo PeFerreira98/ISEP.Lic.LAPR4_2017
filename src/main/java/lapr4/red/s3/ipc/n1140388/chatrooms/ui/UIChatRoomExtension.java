@@ -24,7 +24,7 @@ public class UIChatRoomExtension extends UIExtension {
      * A sidebar that provides to create a chat room
      */
     private JComponent sidebar;
-    
+
     /**
      * The menu of the extension
      *
@@ -34,7 +34,7 @@ public class UIChatRoomExtension extends UIExtension {
     public UIChatRoomExtension(Extension extension, UIController uiController) {
         super(extension, uiController);
     }
-    
+
     /**
      * Returns a side bar that provides received messages
      *

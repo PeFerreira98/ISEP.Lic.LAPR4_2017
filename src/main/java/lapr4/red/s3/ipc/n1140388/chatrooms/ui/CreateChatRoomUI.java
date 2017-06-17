@@ -36,10 +36,8 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
     /**
      * The Login Participant Controller
      */
-    // private ChatRoomController controller;
     private ChatRoomApplicationController chatRoomcontroller;
 
-    // private CommunicateController cont;
     /**
      * Creates new form CreateChatRoomUI
      *
@@ -59,7 +57,6 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
             this.lblInvites.setVisible(false);
             this.jList1.setVisible(false);
 
-            //  cont.getListener().addObserver(this);
             chatRoomcontroller.getListener().addObserver(this);
 
             setResizable(false);
@@ -223,8 +220,7 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
         if (jList1.getSelectedValue() != null) {
             String selected = jList1.getSelectedValue();
             String nick = selected.split("/")[0];
-            // String ip = "/" + nick;
-            //System.out.println(this.chatRoomcontroller.getChatUsersList());
+
             ChatUser user = this.chatRoomcontroller.getChatUsersList().getUserByMachineName(nick);
 
             invites.add(user);
@@ -280,10 +276,6 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
             } else {
                 this.chatRoomcontroller.getChatUsersList().getUserByIP(id).setStatus(true);
             }
-
-            //with persistence
-//            User user = new User(machineName,ip);
-//            this.controller.changeUserStatus(user,true);
         }
 
         for (ChatUser user : this.chatRoomcontroller.getUsers().values()) {
@@ -294,25 +286,13 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
             }
         }
 
-        //with persistence
-//        for (User user : this.controller.getUsers()) {
-//            String aux = user.getMachineName() + user.getIp();
-//            if (!peers.contains(aux)) {
-//                this.controller.changeUserStatus(user, false)
-//            }
-//        }
         updateList(this.chatRoomcontroller.getChatUsersList().getUserList());
-//        updateList(peers);
-
     }
 
     public void updateList(HashMap<String, ChatUser> list) {
 
         DefaultListModel model = new DefaultListModel();
-        int flag = 0;
-//        for (String onlineUser : list) {
-//            model.addElement(onlineUser);
-//        }
+
         list.values().stream().forEach((object) -> {
             if (object.equals(this.chatRoomcontroller.owner())) {
 

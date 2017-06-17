@@ -13,7 +13,7 @@ import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
  *
  * @author Alexandra Ferreira 1140388
  */
-public class ChatRoomDTO implements Serializable{
+public class ChatRoomDTO implements Serializable {
 
     private String name;
     private ChatUser owner;
@@ -26,7 +26,7 @@ public class ChatRoomDTO implements Serializable{
         this.owner = owner;
         this.participants = participants;
         this.online = online;
-        this.type=type;
+        this.type = type;
     }
 
     /**

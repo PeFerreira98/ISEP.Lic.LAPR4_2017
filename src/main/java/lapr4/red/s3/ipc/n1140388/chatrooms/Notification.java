@@ -11,7 +11,6 @@ package lapr4.red.s3.ipc.n1140388.chatrooms;
  */
 public class Notification {
 
-    
     private static Notifier chatNotifier = new Notifier() {
     };
 

@@ -5,41 +5,39 @@
  */
 package lapr4.red.s3.ipc.n1140388.chatrooms;
 
-import lapr4.green.s1.ipc.n1140618.ChatApplication.*;
 import java.io.Serializable;
-import lapr4.green.s1.ipc.n1151211.comm.CommHandler2;
-import lapr4.green.s1.ipc.n1151211.comm.SendDto;
 
 /**
  *
  * @author Alexandra Ferreira 1140388
  */
-public class MessageToRoom implements Serializable{
-    
-    
+public class MessageToRoom implements Serializable {
+
     private String content;
-    
+
     private String idDest;
-    
+
     private String idOrig;
-    
-    public MessageToRoom(){
-        
+
+    public MessageToRoom() {
+
     }
-    
+
     /**
      * COntent to be sent
+     *
      * @param content the content
      */
-    public void setContent(String content){
-        this.content=content;
+    public void setContent(String content) {
+        this.content = content;
     }
-    
+
     /**
      * Get the Content
+     *
      * @return the content
      */
-    public String getContent(){
+    public String getContent() {
         return this.content;
     }
 
@@ -70,5 +68,5 @@ public class MessageToRoom implements Serializable{
     public void setIdOrig(String idOrig) {
         this.idOrig = idOrig;
     }
-   
+
 }

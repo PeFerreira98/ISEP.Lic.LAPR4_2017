@@ -6,7 +6,6 @@
 package lapr4.red.s3.ipc.n1140388.chatrooms;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 

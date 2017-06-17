@@ -205,12 +205,11 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
         if (arg instanceof ChatRoom) {
             ChatRoom chat = (ChatRoom) arg;
             messagesTextArea.setText(chat.getLst_Conversations().getLst_Conversations().toString());
-        } 
-        if(arg instanceof Message){
-            String str=messagesTextArea.getText();
-            messagesTextArea.setText(str+" "+((Message) arg).getIdOrig()+": "+((Message) arg).getContent()+"\n");
         }
-        else {
+        if (arg instanceof Message) {
+            String str = messagesTextArea.getText();
+            messagesTextArea.setText(str + " " + ((Message) arg).getIdOrig() + ": " + ((Message) arg).getContent() + "\n");
+        } else {
             ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
 
             for (String user : peers) {
