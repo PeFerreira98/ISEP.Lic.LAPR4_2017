@@ -31,16 +31,13 @@ public class DoWhileOperator  implements NaryOperator{
                 
                 NaryOperator naryOperator = Language.getInstance().getNaryOperator("{");
 
-                // Initialization
-                value = operands[0].evaluate();
-
                 // Copy arguments to be executed in each iteration of the loop
-                Expression[] body = Arrays.copyOfRange(operands, 2, operands.length);
+                Expression[] body = Arrays.copyOfRange(operands, 0, 1);
 
                 do
                 {
                     // Loop body instructions
-                    value = naryOperator.applyTo(body);
+                    value = naryOperator.applyTo(body); 
                 }
                 while (operands[1].evaluate().toBoolean());
 

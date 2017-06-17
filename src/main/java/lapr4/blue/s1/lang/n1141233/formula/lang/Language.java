@@ -9,6 +9,8 @@ import java.util.List;
 
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
 import lapr4.blue.s1.lang.n1141233.formula.ForOperator;
+import lapr4.green.s3.lang.n1140618.DoWhileOperator;
+import lapr4.green.s3.lang.n1140618.Eval;
 import lapr4.green.s3.lang.n1140618.WhileDoOperator;
 
 /**
@@ -35,6 +37,7 @@ public class Language
         // IMP: Need to add new function (FOR)
         naryOperators.add(new ForOperator());
         naryOperators.add(new WhileDoOperator());
+        naryOperators.add(new DoWhileOperator());
     }
 
     /**

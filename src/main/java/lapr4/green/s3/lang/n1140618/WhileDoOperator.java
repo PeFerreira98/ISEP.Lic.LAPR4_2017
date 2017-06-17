@@ -29,23 +29,17 @@ public class WhileDoOperator implements NaryOperator{
         if(operands.length==2){
             try
             {
-                Value value;
+                Value value = new Value();
                 // Get the sequence operator to execute the body as a block
                 
                 NaryOperator naryOperator = Language.getInstance().getNaryOperator("{");
 
-                // Initialization
-                value = operands[0].evaluate();
-
                 // Copy arguments to be executed in each iteration of the loop
                 Expression[] body = Arrays.copyOfRange(operands, 2, operands.length);
 
-                do
-                {
-                    // Loop body instructions
-                    value = naryOperator.applyTo(body);
-                }
-                while (operands[1].evaluate().toBoolean());
+                while (operands[0].evaluate().toBoolean()) {
+			value = naryOperator.applyTo(body);
+		}
 
                 return value; 
             } catch (csheets.core.formula.lang.UnknownElementException ex) {
