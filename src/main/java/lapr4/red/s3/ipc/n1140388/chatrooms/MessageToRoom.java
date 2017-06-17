@@ -29,7 +29,7 @@ public class MessageToRoom implements Serializable{
     
     /**
      * COntent to be sent
-     * @param content 
+     * @param content the content
      */
     public void setContent(String content){
         this.content=content;
@@ -37,7 +37,7 @@ public class MessageToRoom implements Serializable{
     
     /**
      * Get the Content
-     * @return 
+     * @return the content
      */
     public String getContent(){
         return this.content;

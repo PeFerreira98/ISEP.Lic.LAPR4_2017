@@ -43,7 +43,7 @@ public class CreateChatRoomUI extends javax.swing.JFrame implements Observer {
     /**
      * Creates new form CreateChatRoomUI
      *
-     * @param cntrl the chat room controller
+     * @param controller the controller
      */
     public CreateChatRoomUI(ChatRoomApplicationController controller) {
 
