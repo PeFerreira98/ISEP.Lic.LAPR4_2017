@@ -91,11 +91,9 @@ public class ChatRoomsList implements Serializable {
         List<ChatRoom> list = new ArrayList<>();
 
         for (ChatRoom cr : chatRoomsList) {
-            if (cr instanceof PublicChatRoom) {
-                if (!cr.hasParticipant(participant) && 
-                        ((PublicChatRoom) cr).invitations().contains(cr.owner())) {
-                    list.add(cr);
-                }
+            if (!cr.hasParticipant(participant)
+                    && ((PublicChatRoom) cr).invitations().contains(participant)) {
+                list.add(cr);
             }
         }
 
@@ -113,11 +111,9 @@ public class ChatRoomsList implements Serializable {
         List<ChatRoom> list = new ArrayList<>();
 
         for (ChatRoom cr : chatRoomsList) {
-            if (cr instanceof PrivateChatRoom) {
-                if (!cr.hasParticipant(participant) && 
-                        ((PrivateChatRoom) cr).invitations().contains(cr.owner())) {
-                    list.add(cr);
-                }
+            if (!cr.hasParticipant(participant)
+                    && ((PrivateChatRoom) cr).invitations().contains(participant)) {
+                list.add(cr);
             }
         }
 
