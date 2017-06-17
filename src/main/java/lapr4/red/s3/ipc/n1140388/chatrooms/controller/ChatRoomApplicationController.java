@@ -207,11 +207,14 @@ public class ChatRoomApplicationController implements CommHandler2 {
             handleChatRoomDTO(room, commWorker);
         }
 
-        if (dto instanceof Message) {
+        if (dto instanceof MessageToRoom) {
 
-            Message message = (Message) dto;
-
-            handleMessageDTO(message, commWorker);
+            MessageToRoom messageDto = (MessageToRoom) dto;
+            Message newMessage = new Message();
+            newMessage.setContent(messageDto.getContent());
+            newMessage.setIdDest(messageDto.getIdDest());
+            newMessage.setIdOrig(messageDto.getIdOrig());
+            handleMessageDTO(newMessage, commWorker);
 
         }
 
@@ -242,9 +245,8 @@ public class ChatRoomApplicationController implements CommHandler2 {
         String tmp = commWorker.peerAddress();
         String sourceIP = message.getIdOrig().split("@")[0] + "@" + tmp.split("@")[1];
         message.setIdOrig(sourceIP);
-        //this.lst_Conversations.addMessage(mess);
-        System.out.println(message);
-        //    ReceiveMessage rm = new ReceiveMessage(this, sourceIP);
+        
+        Notification.chatInformer().notifyChange(message);
     }
 
     @Override

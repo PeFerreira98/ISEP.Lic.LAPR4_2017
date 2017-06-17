@@ -40,14 +40,15 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
         this.chatRoom = room;
         this.controller = cntrl;
         this.activeParticipant = controller.owner();
-        Notification.chatInformer().addObserver(this);
+
         if (activeParticipant != null) {
 
             initComponents();
 
             serverLabel.setText(chatRoom.name());
 
-            controller.getListener().addObserver(this);
+            this.controller.getListener().addObserver(this);
+            Notification.chatInformer().addObserver(this);
 
             setResizable(false);
             setLocationRelativeTo(null);
@@ -204,33 +205,39 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
         if (arg instanceof ChatRoom) {
             ChatRoom chat = (ChatRoom) arg;
             messagesTextArea.setText(chat.getLst_Conversations().getLst_Conversations().toString());
-        } else {
+        } 
+        if(arg instanceof Message){
+            String str=messagesTextArea.getText();
+            messagesTextArea.setText(str+" "+((Message) arg).getIdOrig()+": "+((Message) arg).getContent()+"\n");
+        }
+        else {
             ArrayList<String> peers = controller.getListener().getServicePeers(CommExtension2.NAME);
 
-        for (String user : peers) {
-            String tmp[] = user.split("@");
+            for (String user : peers) {
+                String tmp[] = user.split("@");
 
-            String machineName = tmp[0] + "@";
-            String id = tmp[1];
+                String machineName = tmp[0] + "@";
+                String id = tmp[1];
 
-            ChatUser chatUser = new ChatUser(machineName, id);
-            if (!this.controller.getUsers().containsKey(id)) {
-                chatUser.setStatus(true);
-                this.controller.addChatUser(chatUser);
-            } else {
-                this.controller.getChatUsersList().getUserByIP(id).setStatus(true);
+                ChatUser chatUser = new ChatUser(machineName, id);
+                // controller.
+                if (!this.controller.getUsers().containsKey(id)) {
+                    chatUser.setStatus(true);
+                    this.controller.addChatUser(chatUser);
+                } else {
+                    this.controller.getChatUsersList().getUserByIP(id).setStatus(true);
+                }
             }
-        }
 
-        for (ChatUser user : this.controller.getUsers().values()) {
+            for (ChatUser user : this.controller.getUsers().values()) {
 
-            String aux = user.getMachineName() + user.getIp();
-            if (!peers.contains(aux)) {
-                user.setStatus(false);
+                String aux = user.getMachineName() + user.getIp();
+                if (!peers.contains(aux)) {
+                    user.setStatus(false);
+                }
             }
-        }
 
-        updateList(this.controller.getChatUsersList().getUserList());
+            updateList(this.controller.getChatUsersList().getUserList());
         }
     }
 
@@ -240,7 +247,7 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
 
         for (ChatUser participant : list.values()) {
             if (chatRoom.hasParticipant(participant)) {
-                 if (participant.isOnline()) {
+                if (participant.isOnline()) {
                     if (!participant.getNickname().equalsIgnoreCase("")) {
                         model.addElement(participant.getNickname() + "(Online)");
                     } else {
