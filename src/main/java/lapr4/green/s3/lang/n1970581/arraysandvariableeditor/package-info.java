@@ -38,6 +38,8 @@
  *
  * Work notes/log: S3 17-06-2017 (sabado) <br>
  * Implementation: Variables Index are now presistent. Saved on workbook. Minor debuging. <br>
+ * Implementation: varname defaults to varname[1] Grammar extremely uncooperative. <br>
+ * Unit Test to ArrayStora including expression test.
  *
  *
  * <br>
