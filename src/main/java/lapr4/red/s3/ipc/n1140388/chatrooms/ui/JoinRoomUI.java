@@ -5,6 +5,8 @@
  */
 package lapr4.red.s3.ipc.n1140388.chatrooms.ui;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
@@ -40,13 +42,23 @@ public class JoinRoomUI extends javax.swing.JFrame implements Observer {
         if (activeParticipant != null) {
             initComponents();
 
-            publicList.setListData(controller.getRoomsList().publicRoomsWithoutParticipant(activeParticipant).toArray());
+            Object[] publicRooms = new Object[controller.getRoomsList().publicRoomsWithoutParticipant(activeParticipant).size()];
+
+            for (int i = 0; i < publicRooms.length; i++) {
+                publicRooms[i] = controller.getRoomsList().publicRoomsWithoutParticipant(activeParticipant).get(i).name();
+            }
+
+            publicList.setListData(publicRooms);
             publicList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-            privateList.setListData(controller.getRoomsList().privateRoomsWithInvationWithoutParticipant(activeParticipant).toArray());
-            privateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+            Object[] privateRooms = new Object[controller.getRoomsList().privateRoomsWithInvationWithoutParticipant(activeParticipant).size()];
 
-            btnReject.setVisible(false);
+            for (int i = 0; i < privateRooms.length; i++) {
+                privateRooms[i] = controller.getRoomsList().privateRoomsWithInvationWithoutParticipant(activeParticipant).get(i).name();
+            }
+
+            privateList.setListData(privateRooms);
+            privateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
             this.controller.getListener().addObserver(this);
 
@@ -194,7 +206,7 @@ public class JoinRoomUI extends javax.swing.JFrame implements Observer {
             JOptionPane.showMessageDialog(this, "You need to select one chat room!",
                     "Error", JOptionPane.WARNING_MESSAGE);
         } else if (privateList.getSelectedValue() != null) {
-            boolean verify = controller.joinChatRoom((ChatRoom) privateList.getSelectedValue());
+            boolean verify = controller.joinChatRoom(controller.getRoomsList().findChatRoomByName((String) privateList.getSelectedValue()));
             if (verify) {
                 JOptionPane.showMessageDialog(this, "You join this Chat Room!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -204,7 +216,7 @@ public class JoinRoomUI extends javax.swing.JFrame implements Observer {
                         "Error", JOptionPane.WARNING_MESSAGE);
             }
         } else if (publicList.getSelectedValue() != null) {
-            boolean verify = controller.joinChatRoom((ChatRoom) publicList.getSelectedValue());
+            boolean verify = controller.joinChatRoom(controller.getRoomsList().findChatRoomByName((String) publicList.getSelectedValue()));
             if (verify) {
                 JOptionPane.showMessageDialog(this, "You join this Chat Room!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
@@ -226,15 +238,17 @@ public class JoinRoomUI extends javax.swing.JFrame implements Observer {
             JOptionPane.showMessageDialog(this, "You need to select one chat room!",
                     "Error", JOptionPane.WARNING_MESSAGE);
         } else if (privateList.getSelectedValue() != null) {
-            this.btnReject.setVisible(true);
-            boolean verify = controller.rejectChatRoom((ChatRoom) privateList.getSelectedValue());
+            boolean verify = controller.rejectChatRoom(controller.getRoomsList().findChatRoomByName((String) privateList.getSelectedValue()));
             if (verify) {
-                JOptionPane.showMessageDialog(this, "You join this Chat Room!",
+                JOptionPane.showMessageDialog(this, "You rejected this Chat Room!",
+                        "Success", JOptionPane.INFORMATION_MESSAGE);
+            }
+        } else if (publicList.getSelectedValue() != null) {
+            boolean verify = controller.rejectChatRoom(controller.getRoomsList().findChatRoomByName((String) publicList.getSelectedValue()));
+            if (verify) {
+                JOptionPane.showMessageDialog(this, "You rejected this Chat Room!",
                         "Success", JOptionPane.INFORMATION_MESSAGE);
 
-            } else {
-                JOptionPane.showMessageDialog(this, "You are already in this Chat Room!",
-                        "Error", JOptionPane.WARNING_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnRejectActionPerformed
@@ -254,10 +268,22 @@ public class JoinRoomUI extends javax.swing.JFrame implements Observer {
 
     @Override
     public void update(Observable o, Object arg) {
-        publicList.setListData(controller.getRoomsList().publicRoomsWithoutParticipant(activeParticipant).toArray());
+        Object[] publicRooms = new Object[controller.getRoomsList().publicRoomsWithoutParticipant(activeParticipant).size()];
+
+        for (int i = 0; i < publicRooms.length; i++) {
+            publicRooms[i] = controller.getRoomsList().publicRoomsWithoutParticipant(activeParticipant).get(i).name();
+        }
+
+        publicList.setListData(publicRooms);
         publicList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
-        privateList.setListData(controller.getRoomsList().privateRoomsWithInvationWithoutParticipant(activeParticipant).toArray());
+        Object[] privateRooms = new Object[controller.getRoomsList().privateRoomsWithInvationWithoutParticipant(activeParticipant).size()];
+
+        for (int i = 0; i < privateRooms.length; i++) {
+            privateRooms[i] = controller.getRoomsList().privateRoomsWithInvationWithoutParticipant(activeParticipant).get(i).name();
+        }
+
+        privateList.setListData(privateRooms);
         privateList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
 }

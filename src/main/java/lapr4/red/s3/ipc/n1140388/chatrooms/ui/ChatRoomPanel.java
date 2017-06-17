@@ -105,7 +105,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     private String[] showAllRooms() {
         int i = 0;
 
-        List<ChatRoom> list = controller.getRoomsList().getChatRoomsList();
+        List<ChatRoom> list = controller.getRoomsList().chatRoomsList(controller.owner());
 
         String[] names = new String[list.size()];
 
