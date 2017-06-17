@@ -186,11 +186,17 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
 
     @Override
     public Expression visitVariable(Formula4Parser.VariableContext ctx) {
-        if(ctx.getText() != null && !ctx.getText().isEmpty() && ctx.getText().charAt(0) == '@'){
+        // FIXME Have to use the ARROBA hardcoded here, because the grammar completely breaks if I try to use more tokens inside the "variable" token. Had to give up after 6 hours of tries.
+        if(ctx.getText() != null && !ctx.getText().isEmpty() && ctx.getText().charAt(0) == '@'){ 
             System.out.println(ctx.getText());
-            return this.cell.getSpreadsheet().getWorkbook().retrieveArrayStorage().retrieveArrayItem(ctx.getText());
+            String name = ctx.getText();
+            return this.cell.getSpreadsheet().getWorkbook().retrieveArrayStorage().retrieveArrayItem(name);
         }
-        return new TemporaryReference(cell, ctx.getText());
+         String nameTemp = ctx.getText();   // Enforcing "_a" => "_a[1]" without changing code in the other studend package.
+         if(!nameTemp.contains("[")){       // FIXME again, grammar is very inflexible.
+             nameTemp = nameTemp.concat("[1]");
+         }
+        return new TemporaryReference(cell, nameTemp);
     }
 
     public Expression visitGlobalVariableReference(Formula4Parser.VariableContext ctx) {

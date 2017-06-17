@@ -34,6 +34,9 @@ public class ArrayStorage implements Serializable{
      * @return the ArrayItem
      */
     public synchronized ArrayItem retrieveArrayItem(String name){
+        if(!name.contains("[")){       // FIXME again, grammar is very inflexible.
+             name = name.concat("[1]");
+         }
         ArrayItem aux = this.variableMap.get(name);
         //Value aux = this.variableMap.get(name);
         if (aux == null) {

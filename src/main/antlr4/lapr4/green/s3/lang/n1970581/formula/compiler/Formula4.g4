@@ -58,6 +58,7 @@ reference
 
 variable
         :       TEMPORARY
+        |       TEMPORARYINDEX            
         |       GLOBAL
         |       GLOBALINDEX        
         ;
@@ -73,7 +74,11 @@ fragment LETTER: ('a'..'z'|'A'..'Z') ;
 TEMPORARY
         :       UNDSCR ( NUMBER | LETTER )+
         ;
-		
+
+TEMPORARYINDEX
+        : UNDSCR ( NUMBER | LETTER )+ L_SQR_BRACKET INTEIRO  R_SQR_BRACKET
+        ;
+
 GLOBAL
         :       ARROBA ( NUMBER | LETTER )+
         ;
@@ -104,7 +109,7 @@ QUOT: '"'
 /* Numeric literals */
 NUMBER: ( DIGIT )+ ( COMMA ( DIGIT )+ )? ;
 
-INTEIRO: DIGIT | (DIGIT_NON_ZERO ( DIGIT )+);
+INTEIRO: DIGIT_NON_ZERO | (DIGIT_NON_ZERO ( DIGIT )+);
 
 fragment 
 DIGIT : '0'..'9' ;
