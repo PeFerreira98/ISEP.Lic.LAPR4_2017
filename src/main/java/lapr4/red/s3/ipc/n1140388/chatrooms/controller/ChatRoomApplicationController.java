@@ -226,7 +226,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         if (room.getType().equals("private")) {
             ChatRoom newRoom = new PrivateChatRoom(room.getName(), room.getOwner(), null);
             for (ChatUser user : room.getParticipants()) {
-                if (!room.getParticipants().contains(user)) {
+                if (!newRoom.participants().contains(user)) {
                     newRoom.participants().add(user);
                 }
             }
@@ -242,7 +242,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         if (room.getType().equals("public")) {
             ChatRoom newRoom = new PublicChatRoom(room.getName(), room.getOwner());
             for (ChatUser user : room.getParticipants()) {
-                if (!room.getParticipants().contains(user)) {
+                if (!newRoom.participants().contains(user)) {
                     newRoom.participants().add(user);
                 }
             }
