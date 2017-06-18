@@ -15,12 +15,13 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 
 /**
  *
  * @author Alexandra Ferreira 1140388
  */
-public class ChatRoomDTOTest {
+@Ignore public class ChatRoomDTOTest {
     
     public ChatRoomDTOTest() {
     }
