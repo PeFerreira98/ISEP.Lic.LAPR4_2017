@@ -198,24 +198,31 @@
  * Code snippet:
  *   {@code 
  * variable
- *         :       TEMPORARY
- *         |       GLOBAL
- *         |       GLOBALINDEX        
- *         ;
- *    TEMPORARY
- *         :       UNDSCR ( NUMBER | LETTER )+
- *         ;
- * 		
- * GLOBAL
- *         :       ARROBA ( NUMBER | LETTER )+
- *         ;
+ *       :       TEMPORARY
+ *       |       TEMPORARYINDEX            
+ *       |       GLOBAL
+ *       |       GLOBALINDEX        
+ *       ;
  * 
+ * TEMPORARY
+ *       :       UNDSCR ( NUMBER | LETTER )+
+ *       ;
+ *
+ * TEMPORARYINDEX
+ *        : UNDSCR ( NUMBER | LETTER )+ L_SQR_BRACKET INTEIRO  R_SQR_BRACKET
+ *        ;
+ * 
+ * GLOBAL
+ *        :       ARROBA ( NUMBER | LETTER )+
+ *        ;
+ *
  * GLOBALINDEX
- *         :       ARROBA ( INTEIRO | LETTER )+ L_SQR_BRACKET INTEIRO  R_SQR_BRACKET
- *         ;
+ *        :       ARROBA ( INTEIRO | LETTER )+ L_SQR_BRACKET INTEIRO  R_SQR_BRACKET
+ *        ;
+ *        * 
  * NUMBER: ( DIGIT )+ ( COMMA ( DIGIT )+ )? ;
  * 
- * INTEIRO: DIGIT | (DIGIT_NON_ZERO ( DIGIT )+);
+ * INTEIRO: DIGIT_NON_ZERO | (DIGIT_NON_ZERO ( DIGIT )+);
  *
  * fragment 
  * DIGIT : '0'..'9' ;
@@ -253,12 +260,97 @@
  * <br>
  * <img src="image03.png" alt="image failed to load"><p>
  * <br>
- *
+ * ArrayItem represents the global variable position.
+ * The ArrayStorage stores the ArrayItems inside the workbook. 
+ * The VariableEditorWatchdog is warned by the ArrayItem of changes to it's value and passes the warning of changes to observers.
+ * <p>
  * 
  * <h3>4.4. Design Patterns and Best Practices</h3>
  * 
+ * <h4>4.4.1 Observer  Event </h4>
+ * We used this pattern to signal the change of an ArrayItem value. It produces an event and warns the Watchdog. The watchdog warns all observers. In this case the UI.
+ * <p>
+ * 
+ * <h4>4.4.2 Singleton </h4> 
+ * We made the Watchdog a singleton, that only has a single instance. This allows to always be able to get it from anywhere in the code and to make sure it's always the same object and thus more importantly the same information shared.<p>
+ * 
+ * <h4>4.4.3 DTO</h4>
+ * We have a need to send information to the ArrayItem to the UI to show the user. Thus we create an immutable object ArrayItemDTO which has the information the user needs to make decisions.
+ * It shows the name and value, while avoiding the sharing of real ArrayItem with the UI.<p>
+ * 
+ * <h2>5. Implementation</h2>
+ * 
+ * All the implementation commits can be seen by searching for LAPR4E17DL-208 <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/14fd449e68490fc48486ab7817856cbaf65b4f08">#LAPR4E17DL-208 #time 3h grammar tranfer to new package #comment Core01.2 Implementation: grammar tranfer to new package</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/700f33732f40fbc777b862864000a4c6eb6dbc14">#LAPR4E17DL-208 #time 3h Skeleton of arrays #comment Core01.2 Implementation: Skeleton implementation of arrays. Grammar and visitor and 2 classes</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/b16ce186cb8a4fd4452f76194ec101257c0585bf">#LAPR4E17DL-208 #time 1h 30m Empty Sidebar creation #comment Core01.2 Implementation: of Empty Sidebar, UI + controllers barebones skeleton.</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/992ba898e72320c3df37daf02f39d1c456fdc137">#LAPR4E17DL-208 #time 2h 30m Sidebard list with AutoUpdate #comment Core01.2 Implementation: Sidebard list with AutoUpdate, new VariableEditorWatchdog</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/968fd711e369d0d2b0b76ad47435593b2ee9006c">#LAPR4E17DL-208 #time 2h 30m Sidebard variable editing #comment Core01.2 Implementation: Sidebard variable editing</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/2475d52103e648e6aa0906cb036f5c89972eb8e4">#LAPR4E17DL-208 #time 1h Presistence fixed #comment Core01.2 Implementation: Variables Index are now presistent. Saved on workbook. Minor debuging.</a> <br>
+ * <a href="https://bitbucket.org/lei-isep/lapr4-2017-2dl/commits/b5a097b9301ebde7576e906880e716652f7c907c">#LAPR4E17DL-208 #time 6h varname defaults to varname[1] #comment Core01.2 Implementation: varname defaults to varname[1] Grammar extremely uncooperative.</a> <br>
+ * Implementation took a lot longer than expected. And is still lacking some things, and a final polish. More details in final remarks section bellow.<p> 
  * 
  * 
+ * <h2>6. Integration/Demonstration</h2>
+ * 
+ * This use case was extremely difficult to integrate with previous use cases and the other Sprint 3 use case that also used the grammar.
+ * The grammar would break at the most simple change, stoping the recognition of formulas. 
+ * Aggravated by having another person editing the grammar for another use case. 
+ * In the end, changes to the grammar were reduced to a minimum in order to guarantee the stability of the application.
+ * <p>
+ * 
+ * <h2>7. Final Remarks</h2>* 
+ *
+ * This use case was extremely hard. Not because the concepts are hard. They are easy. But because of the grammar.
+ * The grammar breaks at the minimum coerent change, and our lack of expertise with ANTLR doesn't allow us to know why.
+ * I changed it using TestRig and after six hours had to settle for an working non ideal option. I suspect some weakness on previous grammar code.
+ * Some checks that should be done on the grammar are done by the visitor code due to this. 
+ * I wished to have tokens under "variable" to allow me to distinguish global from locals.
+ * And another token in each one to capture the Index and the name.<br> 
+ * Such as the following example:<p>
+ * <pre>
+ * Code snippet:
+ *   {@code 
+ * variable :      temp | glob ;
+ *
+ * temp :    UNDSCR name (L_SQR_BRACKET vindex  R_SQR_BRACKET )? ;
+ *
+ * glob :    UNDSCR name (L_SQR_BRACKET vindex  R_SQR_BRACKET )? ;
+ *
+ * vindex :      INTEIRO_NON_ZERO ;
+ *
+ * name : NAME_TERM ;
+ * }
+ * </pre>
+ * <p>
+ * Unfourtnly due to the frailty of the implementation of sprint 2, most previous implementation has to be corrected, consuming time.
+ * Not allowing me to implement some things, such as auto-updating the cells upon a variable change. 
+ * Although this would be extremely problematic, due to the need to check circular references, and having to treat variables change as a cell change.
+ * Perhaps an alternative design approach of having the variables being cells, not present in the workbook, would solve much of the complexity of this.<br>
+ * But most features were implemented. Even the change to have a:=1 default to a[1]:=1. Index zero was also eliminated, by use of the grammar.
+ * <p>
+ *  
+ * <h2>8. Work Log</h2> 
+ * 
+ * Please check notes at item 2 at the top of this page, or the Jira issues for time logging.
+ * 
+ * <h2>9. Self Assessment</h2> 
+ * 
+ * Self-assessment of the work during this sprint regarding Rubrics R3, R6 and R7.
+ * 
+ * <h3>R3. Rubric Requirements Fulfilment: 3</h3>
+ * 
+ * 3- some defects. The student did fulfil all the requirements and also did justify the eventual options related to the interpretation/analysis of the problem.
+ * 
+ * <h3>R6. Rubric Requirements Analysis: 3 </h3>
+ * 
+ * 3- some defects. There is a robust analisys of the problem with well chosen technical artifacts (diagrams, grammars, etc.) for its documentation although some may have erros, such as referencing inexistent artifacts or having small notation errors. <br>
+ * 
+ * 
+ * <h3>R7. Rubric Design and Implement: 3</h3>
+ * 
+ * 3- some defects. Unit tests do cover a significant amount of functionalities (e.g., more than 80%) and there are some evidences of a test first approach. The code does not "break" the design options of the original project code and the code follows the good practices of the technical area (e.g., synchronization for IPC, design patterns, grammar design for Lang). Also, the technical documentation (e.g., diagrams) is very complete and without significant errors.
+ *  
  * 
  * @author Hugo Bento 1970581
  */
