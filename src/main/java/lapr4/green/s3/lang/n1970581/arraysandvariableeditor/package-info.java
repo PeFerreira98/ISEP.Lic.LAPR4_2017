@@ -39,8 +39,11 @@
  * Work notes/log: S3 17-06-2017 (sabado) <br>
  * Implementation: Variables Index are now presistent. Saved on workbook. Minor debuging. <br>
  * Implementation: varname defaults to varname[1] Grammar extremely uncooperative. <br>
- * Unit Test to ArrayStora including expression test.
+ * Unit Test to ArrayStorage including expression test.
  *
+ * Work notes/log: S3 18-06-2017 (domingo) <br>
+ * Analysis: finish documenting. Draft of ui placed.<br>
+ * 
  *
  * <br>
  * 
@@ -72,7 +75,7 @@
  * <b> What we need to do in order of priority:</b> <p>
  * 1) Change global variables to an array of variables, only as numeric.<br>
  * 2) Create a sidebar window (and extension) to show the global variables.<br>
- * 3) Allow the sidebar to show the local variables.<br>
+ * 3) Allow the sidebar to show the global variables.<br>
  * 4) Make global variables presistent.<br>
  * 5) Make the sidebar display auto-update.<br>
  * 6) Allow the edition of variables.<br>
@@ -98,6 +101,8 @@
  * <img src="image02.png" alt="image failed to load">
  * 
  * 
+ * 
+ * 
  * <h2>3. Analysis</h2>
  *
  * The workbook will have an object that needs to be serializable , the ArrayStorage. This storage will contain the ArrayItems.
@@ -114,12 +119,16 @@
  *
  * <p>
  * 
- * <h3>3.1 First "Analysis" class diagram</h3>* 
+ * <h3>3.1 First "Analysis" class diagram</h3> 
  * 
- *  <img src="image01.png" alt="image failed to load">
+ *  <img src="image01.png" alt="image failed to load"><br>
+ * We will need several classes. An ArrayItem to represent the variables.
+ * A ArrayStorage to store them inside the workbook. 
+ * An VariableEditorWatchdog to pass warning of changes.
+ * And the regular classes associated with the sidebar extension.<p>
  * 
- * <h3> Draft of what the user should see in the sidebar</h3>
- * <img src="image00.png" alt="image failed to load">
+ * <h3> 3.2 Draft of what the user should see in the sidebar</h3>
+ * <img src=" data:image/png;base64,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" alt="image failed to load">
  * <p>
  * 
  * 
