@@ -19,47 +19,41 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
  *
  * @author Tiago
  */
-public class Eval implements Function  {
-    
-    public static final FunctionParameter[] parameters = new FunctionParameter[]{
-		new FunctionParameter(Value.Type.TEXT, "Formula", false,
-							  "Expression to be executed by the function as formula")
-	};
-    
-    public Eval(){
+public class Eval implements NaryOperator {
+
+    public Eval() {
     }
 
     @Override
     public Value applyTo(Expression[] operands) throws IllegalValueTypeException {
         try {
-			String content = operands[0].toString();
-			if (content.charAt(0) == '"' && content.charAt(content.length() - 1) == '"') {
-				content = content.substring(1, content.length() - 1);
-			}
-			content = "=" + content;
-//			Cell cell =  UIController.getUIController().getActiveWorkbook().
-//				getSpreadsheet(0).getCell(0, 0);
-//			return FormulaCompiler.getInstance().compile(cell, content).
-//				evaluate();
-return null;
-		} catch (Exception ex) {
-			return new Value();
-		}
+            Value value;
+            
+            String content = operands[0].toString();
+            if (content.charAt(0) == '"' && content.charAt(content.length() - 1) == '"') {
+                content = content.substring(1, content.length() - 1);
+            }
+            
+            Expression test[] = new Expression[1];
+            
+            test[0] = Expression.class.cast(content);
+            
+            value = test[0].evaluate();
+
+            return null;
+        } catch (Exception ex) {
+            return new Value();
+        }
     }
 
     @Override
     public String getIdentifier() {
-        return "Eval";
+        return "EVAL";
     }
 
     @Override
-    public FunctionParameter[] getPARAMETERS() {
-        return parameters;
+    public Value.Type getOperandValueType() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    @Override
-    public boolean isVarArg() {
-        return false;
-    }
-    
 }

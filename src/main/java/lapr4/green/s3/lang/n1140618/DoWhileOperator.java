@@ -18,17 +18,13 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
  *
  * @author Tiago
  */
-public class DoWhileOperator  implements Function{
-
-    public static final FunctionParameter[] parameters = new FunctionParameter[]{
-		new FunctionParameter(Value.Type.UNDEFINED, "Expression", false,
-							  "A number to be included in the sum"),
-		new FunctionParameter(Value.Type.BOOLEAN, "Condition", false,
-							  "A condition to evaluate before proceeding")};
+public class DoWhileOperator  implements NaryOperator{
     
     public DoWhileOperator(){
     
     }
+    
+    
     @Override
     public Value applyTo(Expression[] operands) throws IllegalValueTypeException {
         if(operands.length==2){
@@ -43,17 +39,12 @@ public class DoWhileOperator  implements Function{
 
     @Override
     public String getIdentifier() {
-        return "DoWhile";
+        return "DOWHILE";
     }
 
     @Override
-    public FunctionParameter[] getPARAMETERS() {
-        return this.parameters;
-    }
-
-    @Override
-    public boolean isVarArg() {
-        return false;
+    public Value.Type getOperandValueType() {
+        return Value.Type.UNDEFINED;
     }
     
 }

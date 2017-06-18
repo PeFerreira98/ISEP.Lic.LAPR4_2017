@@ -5,6 +5,7 @@ grammar Formula4;
 expression
 	: EQ comparison EOF
         | EQ for_loop EOF
+        | EQ dowhile EOF
 	;
 
 block
@@ -13,6 +14,10 @@ block
 
 for_loop
         : FUNCTION L_CURLY_BRACKET comparison SEMI comparison SEMI comparison ( SEMI comparison )* R_CURLY_BRACKET
+        ;
+
+dowhile
+        : FUNCTION L_CURLY_BRACKET comparison SEMI comparison ( SEMI comparison )* R_CURLY_BRACKET
         ;
 
 comparison

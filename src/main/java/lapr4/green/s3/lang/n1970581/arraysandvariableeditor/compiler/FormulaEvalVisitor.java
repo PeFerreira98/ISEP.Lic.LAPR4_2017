@@ -251,6 +251,38 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
     }
 
     @Override
+    public Expression visitDowhile(Formula4Parser.DowhileContext ctx){
+        //TODO FINISH THIS!
+        if (ctx.FUNCTION() != null) {
+            try {
+                // The dowhile is the father node
+                // The next is L_CURLY_BRACKET
+                // All the other nodes of the FOR are children.
+                // The last children node is always the R_CURLY_BRACKET
+                // Therefore all the other children will be expressions to be also converted and
+                // executed by a "block executor"
+
+                Expression expressions[] = new Expression[(ctx.getChildCount() - 1) / 2];
+
+                // #1 Convert all the child nodes
+                for (int nChild = 2; nChild < ctx.getChildCount(); nChild += 2) {
+                    expressions[(nChild / 2) - 1] = visit(ctx.getChild(nChild));
+                }
+
+                // #2 return an instance of the new NaryOperation Class
+                NaryOperator operator = Language.getInstance().getNaryOperator(ctx.getChild(0).getText());
+                
+                return new NaryOperation(operator, expressions);
+                
+                
+            } catch (UnknownElementException ex) {
+                addVisitError(ex.getMessage());
+            }
+        }
+        return visitChildren(ctx);
+    }
+    
+    @Override
     public Expression visitFor_loop(Formula4Parser.For_loopContext ctx) {
         //TODO FINISH THIS!
         if (ctx.FUNCTION() != null) {
@@ -278,7 +310,7 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
         }
         return visitChildren(ctx);
     }
-
+    
     private void addVisitError(String msg) {
         errorBuffer.append(msg).append("\n");
         numberOfErros++;

@@ -21,14 +21,7 @@ import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
  *
  * @author Tiago
  */
-public class WhileDoOperator implements Function{
-
-    public static final FunctionParameter[] parameters = new FunctionParameter[]{
-		new FunctionParameter(Value.Type.BOOLEAN, "Condition", false,
-							  "A condition to evaluate before proceeding"),
-		new FunctionParameter(Value.Type.UNDEFINED, "Expression", false,
-							  "A number to be included in the sum")
-	};
+public class WhileDoOperator implements NaryOperator{
     
     
     public WhileDoOperator(){
@@ -48,17 +41,12 @@ public class WhileDoOperator implements Function{
 
     @Override
     public String getIdentifier() {
-        return "WhileDo";
-    }
-    
-    @Override
-    public FunctionParameter[] getPARAMETERS() {
-        return this.parameters;
+        return "WHILEDO";
     }
 
     @Override
-    public boolean isVarArg() {
-        return false;
+    public Value.Type getOperandValueType() {
+        return Value.Type.UNDEFINED;
     }
     
 }
