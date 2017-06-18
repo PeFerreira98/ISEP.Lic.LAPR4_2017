@@ -46,6 +46,8 @@ public class OverlayMouseMotionListener extends MouseMotionAdapter
                 // stop all other overlay listeners
                 active = false;
 
+                table.removeMouseMotionListener(this);
+
                 Point point = MouseInfo.getPointerInfo().getLocation();
                 ImageOverlayUI ui = new ImageOverlayUI(choosedCell, point);
                 ui.addMouseListener(new MouseAdapter()

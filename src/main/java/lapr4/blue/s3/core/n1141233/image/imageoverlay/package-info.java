@@ -21,6 +21,7 @@
  * during the sprint. For instance, if you spend significant time helping a
  * colleague or if you work in more than one feature.-
  * <br>
+ * <br>
  * </p>
  *
  *
@@ -57,7 +58,14 @@
  * </p>
  *
  *
- * <h3>3.2 Use Cases (Scenarios)</h3>
+ * <h3>3.2 Domain Model</h3>
+ *
+ * <p>
+ * <img src="core06.2_dm.png" alt="domain model">
+ * </p>
+ *
+ *
+ * <h3>3.3 Use Cases (Scenarios)</h3>
  *
  * <p>
  * <b>UC1 Open Overlay Window(from US1)</b>
@@ -83,10 +91,9 @@
  * <b>Open Overlay Window file Test:</b>
  * 1. The user should start the CleanSheets Application<br>
  * 2. He moves the mouse pointer over a cell that contains images<br>
- * 3. The overlay window opens allowing him to navigate through the images in
- * the cell using the buttons in the window<br>
- * 4. The user presses the buttons previous or next to navigate through the
- * images<br>
+ * 3. The overlay window opens allowing him to navigate through the images in the
+ * cell using the buttons in the window<br>
+ * 4. The user presses the buttons previous or next to navigate through the images<br>
  * 5. The user moves the mouse outside the overlay window to close it<br>
  * 6. No error should occur<br>
  * </p>
