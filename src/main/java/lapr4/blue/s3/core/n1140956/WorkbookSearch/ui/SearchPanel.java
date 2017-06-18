@@ -25,7 +25,7 @@ public class SearchPanel extends javax.swing.JPanel {
     public SearchPanel(UIController uiController) {
         this.uiCtrl = uiController;
         this.ctrl = new WorkbookSearchController(uiController);
-        
+
         setName(SearchExtension.NAME);
         initComponents();
         setVisible(true);
@@ -89,10 +89,12 @@ public class SearchPanel extends javax.swing.JPanel {
         String input = txtData.getText();
 
         this.ctrl.clear();
-        try {
-            this.ctrl.search(input);
-        } catch (java.util.regex.PatternSyntaxException ex) {
-            JOptionPane.showMessageDialog(null, "The regular expression is poorly formed", "Error on reading regular expression", JOptionPane.ERROR_MESSAGE);
+        if (!txtData.getText().isEmpty()) {         
+            try {
+                this.ctrl.search(input);
+            } catch (java.util.regex.PatternSyntaxException ex) {
+                JOptionPane.showMessageDialog(null, "The regular expression is poorly formed", "Error on reading regular expression", JOptionPane.ERROR_MESSAGE);
+            }
         }
         updateList(this.ctrl.getCellList());
     }//GEN-LAST:event_btnSearchActionPerformed
