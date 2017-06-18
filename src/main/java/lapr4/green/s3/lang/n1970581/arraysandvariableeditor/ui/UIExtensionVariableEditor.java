@@ -47,6 +47,7 @@ public class UIExtensionVariableEditor extends UIExtension{
 	 * functionality.
 	 * @return a component, or null if the extension does not provide one
 	 */
+    @Override
 	public JComponent getSideBar() {
             if (sideBar == null){
         	

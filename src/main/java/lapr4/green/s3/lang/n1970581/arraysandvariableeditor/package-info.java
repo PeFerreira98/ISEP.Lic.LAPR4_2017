@@ -43,7 +43,7 @@
  *
  * Work notes/log: S3 18-06-2017 (domingo) <br>
  * Analysis: finish documenting. Draft of ui placed.<br>
- * 
+ * Test: improving unit testing coverage, formula compilation coverage added to unit test.<br>
  *
  * <br>
  * 
@@ -139,11 +139,11 @@
  * Basically, from requirements and also analysis, we see that the core functionality of this use case is to be able to use global variables as arrays in formula expressions and edit them in an GUI.<p>
  * What should we test: <br> 
  * <ul>
- * <li> 1 </li> 
- * <li> 2 </li> 
- * <li> 3 </li> 
- * <li> 4 </li> 
- * <li> 5 </li> 
+ * <li> That we have arrays and that they work. </li> 
+ * <li> That we can save the workbook and load without problems. </li> 
+ * <li> That variables without index, default to index 1 </li> 
+ * <li> That index 0 is invalid. </li> 
+ * <li> That the editing works and we autoupdate after an edit. </li> 
  * </ul>
  * 
  * Blockages: <br>
@@ -183,7 +183,8 @@
  * 
  *  Unit Test: <br>
  *   
- *  Ongoing <p>
+ *  Classes ArrayItem, ArrayItemDTO, VariableEditorWatchdog and ArrayStorage were testes.<br>
+ * The watchdog was even tested to check the signal to the observer. And we used The ArrayStorage tests to test Function compilation.<p>
  * 
  * <h2>4.2 UC Realization</h2>
  * 

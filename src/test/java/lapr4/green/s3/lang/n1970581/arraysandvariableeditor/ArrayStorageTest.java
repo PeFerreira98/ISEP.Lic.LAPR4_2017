@@ -155,4 +155,111 @@ public class ArrayStorageTest {
         
     }
     
+    /**
+     * Test of editArrayItem method, of class ArrayStorage.
+     */
+    @Test
+    public void testExpressionsWork() {
+        
+        System.out.println("Testing Expressions");
+        
+        String content = "=(@a[1]:=2)";
+        Cell cellA1 = app.getWorkbooks()[0].getSpreadsheet(0).getCell(new Address(0, 0));
+        ArrayStorage storage = app.getWorkbooks()[0].retrieveArrayStorage();
+        
+        try{
+            cellA1.setContent(content);
+        }
+        catch(FormulaCompilationException ex){
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("");
+            System.out.println("ArrayItem creation test ERROR: FormulaCompilationException error GRAMATIC PROBABLY BROKEN");
+            System.out.println("Formula used: " + content);
+            fail();
+        }
+        
+        
+        content = "=(@a[12]:=2)";
+        try{
+            cellA1.setContent(content);
+        }
+        catch(FormulaCompilationException ex){
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("");
+            System.out.println("ArrayItem creation test ERROR: FormulaCompilationException error GRAMATIC PROBABLY BROKEN");
+            System.out.println("Formula used: " + content);
+            fail();
+        }
+        content = "=(_a[12]:=2)";
+        try{
+            cellA1.setContent(content);
+        }
+        catch(FormulaCompilationException ex){
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("");
+            System.out.println("ArrayItem creation test ERROR: FormulaCompilationException error GRAMATIC PROBABLY BROKEN");
+            System.out.println("Formula used: " + content);
+            fail();
+        }
+        
+        
+        content = "=(_a:=2)";
+        try{
+            cellA1.setContent(content);
+        }
+        catch(FormulaCompilationException ex){
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("*******************************************************************************************");
+            System.out.println("");
+            System.out.println("ArrayItem creation test ERROR: FormulaCompilationException error GRAMATIC PROBABLY BROKEN");
+            System.out.println("Formula used: " + content);
+            fail();
+        }
+        
+        
+        
+        content = "=(@a[0]:=2)";
+        try{
+            cellA1.setContent(content);
+            fail();
+        }
+        catch(FormulaCompilationException ex){
+            assertTrue(true);
+        }
+        content = "=(_a[0]:=2)";
+        try{
+            cellA1.setContent(content);
+            fail();
+        }
+        catch(FormulaCompilationException ex){
+            assertTrue(true);
+        }
+        
+        
+        
+        content = "=(@cc:=2)";
+        try{
+            cellA1.setContent(content);
+        }
+        catch(FormulaCompilationException ex){
+            System.out.println("Grammar broke Formula used: " + content);
+            fail();
+        }
+        String name2 = "@cc[1]";
+        assertTrue(storage.retrieveArrayItem(name2) != null);
+        
+    }
+    
+    
 }
