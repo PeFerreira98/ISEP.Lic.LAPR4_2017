@@ -184,8 +184,8 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
     private void sendBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendBtnActionPerformed
         if (!txtMessageArea.getText().isEmpty()) {
             String message = txtMessageArea.getText();
-            //txtMessageArea.setText("");
             this.controller.sendMessage(chatRoom, message);
+            txtMessageArea.setText("");
         }
     }//GEN-LAST:event_sendBtnActionPerformed
 
@@ -205,9 +205,9 @@ public class CommunicationChatRoomUI extends javax.swing.JFrame implements Obser
 @Override
     public void update(Observable o, Object arg) {
         if (arg instanceof ChatRoom || arg instanceof PrivateChatRoom || arg instanceof PublicChatRoom) {
-            ChatRoom chat = (ChatRoom) arg;
+            chatRoom = (ChatRoom) arg;
             String str = "";
-            for (Message mess : chat.getLst_Conversations().getLst_Conversations()) {
+            for (Message mess : chatRoom.getLst_Conversations().getLst_Conversations()) {
                 str += mess.toString();
             }
 

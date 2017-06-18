@@ -10,6 +10,7 @@ import java.util.Observer;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
+import lapr4.red.s3.ipc.n1140388.chatrooms.Notification;
 import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
 
 /**
@@ -223,6 +224,7 @@ public class JoinRoomUI extends javax.swing.JFrame implements Observer {
                         "Error", JOptionPane.WARNING_MESSAGE);
             }
         }
+        Notification.chatInformer().notifyChange(controller);
     }//GEN-LAST:event_btnAcceptActionPerformed
 
     private void btnRejectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRejectActionPerformed
@@ -248,6 +250,7 @@ public class JoinRoomUI extends javax.swing.JFrame implements Observer {
 
             }
         }
+        Notification.chatInformer().notifyChange(controller);
     }//GEN-LAST:event_btnRejectActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -171,7 +171,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
         } else {
             ChatRoom chatRoom = this.roomsList.findChatRoomByName(chat.getName());
-            chatRoom.setLst_Conversations(chat.getConversations());
+            //chatRoom.setLst_Conversations(chat.getConversations());
             Notification.chatInformer().notifyChange(chatRoom);
         }
 
