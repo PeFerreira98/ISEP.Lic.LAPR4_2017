@@ -281,21 +281,35 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
         return visitChildren(ctx);
     }
 
-//    @Override
-//    public Expression visitEval(Formula4Parser.EvalContext ctx) {
-//        if (ctx.FUNCTION() != null) {
-//            try {
-//                List<Expression> args = new ArrayList<>();
-//                args.add(visit(ctx.getChild(3)));
-//
-//                Expression[] argArray = args.toArray(new Expression[args.size()]);
-//                return new FunctionCall(function, argArray);
-//            } catch (IllegalFunctionCallException ex) {
-//                addVisitError(ex.getMessage());
-//            }
-//        }
-//        return visitChildren(ctx);
-//    }
+    @Override
+    public Expression visitEval(Formula4Parser.EvalContext ctx) {
+        if (ctx.FUNCTION() != null) {
+            try {
+            if (ctx.getChild(3).getChildCount() == 2) { // Convert unary operation
+                int operatorid = 0, operand = 1;  // Assume operator on the left
+
+
+                return new UnaryOperation(
+                        Language.getInstance().getUnaryOperator(ctx.getChild(3).getChild(operatorid).getText()),
+                        visit(ctx.getChild(3).getChild(operand))
+                );
+
+            } else if (ctx.getChild(3).getChildCount() == 3) {
+                // Convert binary operation
+                BinaryOperator operator = Language.getInstance().getBinaryOperator(ctx.getChild(3).getChild(1).getText());
+                return new BinaryOperation(
+                        visit(ctx.getChild(3).getChild(0)),
+                        operator,
+                        visit(ctx.getChild(3).getChild(2))
+                );
+            }
+
+        } catch (FormulaCompilationException ex) {
+            addVisitError(ex.getMessage());
+        }
+        }
+        return visitChildren(ctx);
+    }
 
     @Override
     public Expression visitFor_loop(Formula4Parser.For_loopContext ctx) {

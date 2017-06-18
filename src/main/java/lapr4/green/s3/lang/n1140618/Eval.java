@@ -13,8 +13,6 @@ import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
 import csheets.core.formula.compiler.FormulaCompiler;
 import csheets.ui.ctrl.UIController;
-import java.util.Arrays;
-import lapr4.blue.s1.lang.n1141233.formula.lang.Language;
 import lapr4.gray.s1.lang.n3456789.formula.NaryOperator;
 
 /**
@@ -30,15 +28,19 @@ public class Eval implements NaryOperator {
     public Value applyTo(Expression[] operands) throws IllegalValueTypeException {
         try {
             Value value;
-            // Get the sequence operator to execute the body as a block
-            NaryOperator naryOperator = Language.getInstance().getNaryOperator("{");
+            
+            String content = operands[0].toString();
+            if (content.charAt(0) == '"' && content.charAt(content.length() - 1) == '"') {
+                content = content.substring(1, content.length() - 1);
+            }
+            
+            Expression test[] = new Expression[1];
+            
+            test[0] = Expression.class.cast(content);
+            
+            value = test[0].evaluate();
 
-            // Copy arguments to be executed in each iteration of the loop
-            Expression[] body = Arrays.copyOfRange(operands, 0, operands.length - 1);
-
-            value = naryOperator.applyTo(body);
-
-            return value;
+            return null;
         } catch (Exception ex) {
             return new Value();
         }

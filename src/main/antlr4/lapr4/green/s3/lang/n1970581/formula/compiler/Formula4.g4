@@ -23,7 +23,7 @@ dowhile
 
 eval
     : FUNCTION LPAR
-		QUOT comparison QUOT
+		QUOT concatenation QUOT
 		RPAR
     ;
 
