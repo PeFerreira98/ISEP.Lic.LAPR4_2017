@@ -5,14 +5,11 @@
  */
 package lapr4.red.s3.ipc.n1140388.chatrooms.ui;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.JOptionPane;
 import javax.swing.ListSelectionModel;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
-import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
 
 /**
