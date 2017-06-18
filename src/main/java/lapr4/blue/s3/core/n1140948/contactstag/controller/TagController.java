@@ -25,26 +25,46 @@ public class TagController {
     private RepositoryFactory m_factory = PersistenceContext.jparepositories();
     private ContactRepository m_contacts = m_factory.contacts();
 
-//    private TagRepository rep = PersistenceContext.repositories()
     public TagController() {
     }
 
+    /**
+     * Constructor with type of Contact
+     * @param type type of contact (Personal or Company)
+     */
     public TagController(String type) {
         this.contactType = type;
     }
 
+    /**
+     * Setter of contact
+     * @param contact 
+     */
     public void setContact(Contact contact) {
         this.contact = contact;
     }
 
+    /**
+     * Adds a tag to a contact
+     * @param t tag to add
+     * @return 
+     */
     public boolean addTag(Tag t) {
         return contact.addTag(t);
     }
 
+    /**
+     * Gets the type of contact
+     * @return 
+     */
     public String getContactType() {
         return contactType;
     }
 
+    /**
+     * Gets all tags registered
+     * @return 
+     */
     public List<Tag> getAllTags() {
         List<Tag> tagList = new ArrayList<>();
         for (Contact c : m_contacts.findAll()) {
@@ -55,6 +75,11 @@ public class TagController {
         return tagList;
     }
 
+    /**
+     * Finds a tag
+     * @param tag tag to find
+     * @return 
+     */
     public Tag findTagByString(String tag) {
         for (Contact c : m_contacts.findAll()) {
             for (Tag t : c.getTagList()) {
@@ -66,6 +91,11 @@ public class TagController {
         return null;
     }
 
+    /**
+     * Finds a contact by a tag
+     * @param tag the tag to search
+     * @return 
+     */
     public List<Contact> findContactByTag(String tag) {
         List<Contact> contactList = new ArrayList<>();
         for (Contact c : m_contacts.findAll()) {
@@ -78,6 +108,10 @@ public class TagController {
         return contactList;
     }
 
+    /**
+     * Verifies if the List of tags is empty
+     * @return 
+     */
     public boolean tagListIsEmpty() {
         for (Contact c : m_contacts.findAll()) {
             if (!c.getTagList().isEmpty()) {
@@ -86,7 +120,25 @@ public class TagController {
         }
         return true;
     }
+    
+    /**
+     * Verifies if the contact already has that tag
+     * @param t tag to validate
+     * @return 
+     */
+    public boolean validateTag(Tag t){
+        for(Contact c : m_contacts.findAll()){
+            if(c.getTagList().contains(t)){
+                return false;
+            }
+        }
+        return true;
+    }   
 
+    /**
+     * Method that searches the frequency of a tag usage
+     * @return 
+     */
     public HashMap<Integer, Tag> tagFrequency() {
         if (!tagListIsEmpty()) {
             int cont = 0;
