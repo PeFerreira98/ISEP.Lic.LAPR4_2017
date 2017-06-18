@@ -14,19 +14,19 @@ import lapr4.blue.s3.core.n1140953.address.ui.UIAddressExtension;
  *
  * @author zero_
  */
-public class AddressExtension extends Extension{
-    
+public class AddressExtension extends Extension {
+
     public static final String NAME = "Address";
     public static final int VERSION = 1;
     public static final String DESCRIPTION = "Address related extension from sprint 3.";
-    
+
     public AddressExtension() {
         super(NAME, VERSION, DESCRIPTION);
     }
-    
+
     @Override
     public UIExtension getUIExtension(UIController uiController) {
         return new UIAddressExtension(this, uiController);
     }
-    
+
 }

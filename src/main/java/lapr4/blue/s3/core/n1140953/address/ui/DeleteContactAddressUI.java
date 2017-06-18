@@ -5,6 +5,9 @@
  */
 package lapr4.blue.s3.core.n1140953.address.ui;
 
+import eapli.framework.persistence.DataIntegrityViolationException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import lapr4.blue.s3.core.n1140953.address.AddressController;
@@ -101,10 +104,14 @@ public class DeleteContactAddressUI extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Address address = jList1.getSelectedValue();
         if (address != null) {
-            if (this.addressController.removeAddress(address)) {
-                JOptionPane.showMessageDialog(this, "Address Removed successfully!", "Info", JOptionPane.INFORMATION_MESSAGE);
-                updateList();
-                return;
+            try {
+                if (this.addressController.removeAddress(address)) {
+                    JOptionPane.showMessageDialog(this, "Address Removed successfully!", "Info", JOptionPane.INFORMATION_MESSAGE);
+                    updateList();
+                    return;
+                }
+            } catch (DataIntegrityViolationException ex) {
+                Logger.getLogger(DeleteContactAddressUI.class.getName()).log(Level.SEVERE, null, ex);
             }
             JOptionPane.showMessageDialog(this, "Error deleting Address!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {

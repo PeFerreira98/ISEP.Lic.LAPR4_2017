@@ -71,34 +71,34 @@ public class AddressPanel extends JPanel {
 
         createAddressButton.addActionListener((ActionEvent e) -> {
             Contact selectedContact = contactsList.getSelectedValue();
-            
+
             if (selectedContact != null) {
                 new AddContactAddressUI(addressController, selectedContact);
                 return;
             }
-            
+
             JOptionPane.showMessageDialog(this, "Please Select a Contact", "Warning", JOptionPane.WARNING_MESSAGE);
         });
 
         editAddressButton.addActionListener((ActionEvent e) -> {
             Contact selectedContact = contactsList.getSelectedValue();
-            
+
             if (selectedContact != null) {
                 new EditListContactAddressUI(addressController, selectedContact);
                 return;
             }
-            
+
             JOptionPane.showMessageDialog(this, "Please Select a Contact", "Warning", JOptionPane.WARNING_MESSAGE);
         });
 
         removeAddressButton.addActionListener((ActionEvent e) -> {
             Contact selectedContact = contactsList.getSelectedValue();
-            
+
             if (selectedContact != null) {
                 new DeleteContactAddressUI(addressController, selectedContact);
                 return;
             }
-            
+
             JOptionPane.showMessageDialog(this, "Please Select a Contact", "Warning", JOptionPane.WARNING_MESSAGE);
         });
 
@@ -116,8 +116,10 @@ public class AddressPanel extends JPanel {
         }
 
         //FIX ME - Delete after fixing contact repo.
-        Contact temp = new Contact("dummy", "dum", "my");
-        listModel.addElement(temp);
+        if (!contacts.iterator().hasNext()) {
+            Contact temp = new Contact("dummy", "dum", "my");
+            listModel.addElement(temp);
+        }
     }
 
 }

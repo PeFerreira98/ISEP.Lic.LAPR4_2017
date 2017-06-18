@@ -14,14 +14,14 @@ import javax.swing.JComponent;
  *
  * @author zero_
  */
-public class UIAddressExtension extends UIExtension{
-    
+public class UIAddressExtension extends UIExtension {
+
     private JComponent sidebar;
-    
+
     public UIAddressExtension(Extension extension, UIController uiController) {
         super(extension, uiController);
     }
-    
+
     @Override
     public JComponent getSideBar() {
         if (sidebar == null) {

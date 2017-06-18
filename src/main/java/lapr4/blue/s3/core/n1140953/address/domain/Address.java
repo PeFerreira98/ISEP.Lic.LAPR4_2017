@@ -22,8 +22,8 @@ public class Address {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    
-    //@ManyToOne
+
+    @ManyToOne
     private Contact contact;
 
     private String street;
@@ -65,7 +65,7 @@ public class Address {
             throw new IllegalArgumentException("Null Parameter found!");
         }
     }
-    
+
     @Override
     public String toString() {
         return "\n" + contact.name() + " Address{" + id + ", " + street + ", " + town + ", " + postalCode + ", " + city + ", " + country + '}';

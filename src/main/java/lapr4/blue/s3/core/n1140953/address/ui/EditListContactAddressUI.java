@@ -18,18 +18,18 @@ import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 public class EditListContactAddressUI extends javax.swing.JFrame {
 
     private final AddressController addressController;
-    private final Contact contactSelected;     
-    
+    private final Contact contactSelected;
+
     /**
      * Creates new form EditListContactAddressUI
      */
     public EditListContactAddressUI(AddressController addressController, Contact contactSelected) {
         this.addressController = addressController;
         this.contactSelected = contactSelected;
-        
+
         initComponents();
         updateList();
-        
+
         this.setVisible(true);
     }
 
@@ -106,8 +106,8 @@ public class EditListContactAddressUI extends javax.swing.JFrame {
         }
         JOptionPane.showMessageDialog(this, "Please select an Address!", "Warning", JOptionPane.WARNING_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
-    
-    private void updateList(){
+
+    private void updateList() {
         final DefaultListModel<Address> listModel = new DefaultListModel<>();
         final Iterable<Address> addresses = this.addressController.getContactAddress(this.contactSelected);
         for (Address a : addresses) {

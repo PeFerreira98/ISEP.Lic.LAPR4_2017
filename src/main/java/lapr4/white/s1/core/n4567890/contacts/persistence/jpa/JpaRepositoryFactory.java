@@ -9,6 +9,8 @@ package lapr4.white.s1.core.n4567890.contacts.persistence.jpa;
  *
  * @author alexandrebraganca
  */
+import lapr4.blue.s3.core.n1140953.address.persistence.AddressRepository;
+import lapr4.blue.s3.core.n1140953.address.persistence.jpa.JpaAddressRepository;
 import lapr4.green.s2.core.n1151211.CompanyContact.persistence.CompanyContactRepository;
 import lapr4.green.s2.core.n1151211.CompanyContact.persistence.PersonalContactRepository;
 import lapr4.green.s2.core.n1151211.CompanyContact.persistence.jpa.JpaCompanyContactRepository;
@@ -23,10 +25,10 @@ import lapr4.white.s1.core.n4567890.contacts.persistence.RepositoryFactory;
  */
 public class JpaRepositoryFactory implements RepositoryFactory {
 
-    private ExtensionSettings settings=null;
-    
+    private ExtensionSettings settings = null;
+
     public ExtensionSettings setSettings(ExtensionSettings settings) {
-        return this.settings=settings;
+        return this.settings = settings;
     }
 
     @Override
@@ -42,6 +44,11 @@ public class JpaRepositoryFactory implements RepositoryFactory {
     @Override
     public PersonalContactRepository personalContact() {
         return new JpaPersonalContactRepository(this.settings);
+    }
+
+    @Override
+    public AddressRepository addresses() {
+        return new JpaAddressRepository(this.settings);
     }
 
 }

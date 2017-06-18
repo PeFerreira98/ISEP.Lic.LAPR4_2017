@@ -5,7 +5,10 @@
  */
 package lapr4.blue.s3.core.n1140953.address.ui;
 
-import csheets.ui.ctrl.UIController;
+import eapli.framework.persistence.DataConcurrencyException;
+import eapli.framework.persistence.DataIntegrityViolationException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import lapr4.blue.s3.core.n1140953.address.AddressController;
 import lapr4.blue.s3.core.n1140953.address.domain.Address;
@@ -19,14 +22,14 @@ public class AddContactAddressUI extends javax.swing.JFrame {
 
     private final AddressController addressController;
     private Contact contactSelected;
-    
+
     /**
      * Creates new form AddContactAddressUI
      */
     public AddContactAddressUI(AddressController addressController, Contact contactSelected) {
         this.addressController = addressController;
         this.contactSelected = contactSelected;
-        
+
         initComponents();
         this.setVisible(true);
     }
@@ -141,43 +144,48 @@ public class AddContactAddressUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (textFieldValidation()) {
-            Address address = this.addressController.addAddress(
-                this.contactSelected,
-                streetTextField.getText(), 
-                townTextField.getText(), 
-                postalTextField.getText(), 
-                cityTextField.getText(), 
-                countryTextField.getText()
-            );
+            Address address = null;
+            try {
+                address = this.addressController.addAddress(
+                        this.contactSelected,
+                        streetTextField.getText(),
+                        townTextField.getText(),
+                        postalTextField.getText(),
+                        cityTextField.getText(),
+                        countryTextField.getText()
+                );
+            } catch (DataConcurrencyException ex) {
+                Logger.getLogger(AddContactAddressUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DataIntegrityViolationException ex) {
+                Logger.getLogger(AddContactAddressUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (address != null) {
                 JOptionPane.showMessageDialog(this, "Address Added!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
-                
+
                 System.out.println(this.addressController.allAddresses());
                 return;
             }
             JOptionPane.showMessageDialog(this, "Error adding address!", "Warning", JOptionPane.WARNING_MESSAGE);
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
-    
-    private boolean textFieldValidation(){
-        if (
-                streetTextField.getText() == null || 
-                townTextField.getText() == null || 
-                postalTextField.getText() == null || 
-                cityTextField.getText() == null || 
-                countryTextField.getText() == null ||
-                streetTextField.getText().isEmpty() || 
-                townTextField.getText().isEmpty() || 
-                postalTextField.getText().isEmpty() || 
-                cityTextField.getText().isEmpty() || 
-                countryTextField.getText().isEmpty()) 
-        {
+
+    private boolean textFieldValidation() {
+        if (streetTextField.getText() == null
+                || townTextField.getText() == null
+                || postalTextField.getText() == null
+                || cityTextField.getText() == null
+                || countryTextField.getText() == null
+                || streetTextField.getText().isEmpty()
+                || townTextField.getText().isEmpty()
+                || postalTextField.getText().isEmpty()
+                || cityTextField.getText().isEmpty()
+                || countryTextField.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Empty Field Detected!", "Warning", JOptionPane.WARNING_MESSAGE);
             return false;
         }

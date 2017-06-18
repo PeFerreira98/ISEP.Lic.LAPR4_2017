@@ -6,9 +6,11 @@
 package lapr4.blue.s3.core.n1140953.address;
 
 import csheets.ui.ctrl.UIController;
+import eapli.framework.persistence.DataConcurrencyException;
+import eapli.framework.persistence.DataIntegrityViolationException;
 import java.util.Properties;
 import lapr4.blue.s3.core.n1140953.address.domain.Address;
-import lapr4.blue.s3.core.n1140953.address.persistence.AddressRepoDummy;
+import lapr4.blue.s3.core.n1140953.address.persistence.AddressRepository;
 import lapr4.white.s1.core.n4567890.contacts.ExtensionSettings;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 import lapr4.white.s1.core.n4567890.contacts.persistence.ContactRepository;
@@ -22,7 +24,7 @@ public class AddressController {
 
     private final UIController uiController;
     private final ContactRepository contactsRepository;
-    //private final AddressRepository addressRepository;
+    private final AddressRepository addressRepository;
 
     public AddressController(UIController uiController, Properties props) {
         this.uiController = uiController;
@@ -31,42 +33,32 @@ public class AddressController {
         ExtensionSettings extensionSettings = new ExtensionSettings(appProps);
         PersistenceContext persistenceContext = new PersistenceContext(extensionSettings);
         this.contactsRepository = persistenceContext.repositories().contacts();
-        //this.addressRepository = persistenceContext.repositories().addresses();
+        this.addressRepository = persistenceContext.repositories().addresses();
     }
-    
-    public Address addAddress(Contact contact, String street, String town, String postalCode, String city, String country){
+
+    public Address addAddress(Contact contact, String street, String town, String postalCode, String city, String country) throws DataConcurrencyException, DataIntegrityViolationException {
         final Address address = new Address(contact, street, town, postalCode, city, country);
-        
-        AddressRepoDummy.create(address);
-        
-        return address;
+        return addressRepository.save(address);
     }
-    
-    public Address editAddress(Address address, String street, String town, String postalCode, String city, String country){
-        
+
+    public Address editAddress(Address address, String street, String town, String postalCode, String city, String country) throws DataConcurrencyException, DataIntegrityViolationException {
         address.update(street, town, postalCode, city, country);
-        
-        AddressRepoDummy.edit(address);
-        
-        return address;
+        return addressRepository.save(address);
     }
-    
-    public boolean removeAddress(Address address){
-        
-        return AddressRepoDummy.remove(address);
+
+    public boolean removeAddress(Address address) throws DataIntegrityViolationException {
+        return addressRepository.removeAddress(address);
     }
 
     public Iterable<Contact> allContacts() {
         return this.contactsRepository.findAll();
     }
-    
+
     public Iterable<Address> allAddresses() {
-        //return this.contactsRepository.findAll();
-        return AddressRepoDummy.getAllAddresses();
+        return this.addressRepository.findAll();
     }
-    
-    public Iterable<Address> getContactAddress(Contact contact){
-        
-        return AddressRepoDummy.getAllAddresses();
+
+    public Iterable<Address> getContactAddress(Contact contact) {
+        return addressRepository.getAddressByContact(contact);
     }
 }

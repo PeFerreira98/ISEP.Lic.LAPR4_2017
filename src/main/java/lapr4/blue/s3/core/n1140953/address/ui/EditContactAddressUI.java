@@ -5,11 +5,13 @@
  */
 package lapr4.blue.s3.core.n1140953.address.ui;
 
-import csheets.ui.ctrl.UIController;
+import eapli.framework.persistence.DataConcurrencyException;
+import eapli.framework.persistence.DataIntegrityViolationException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import lapr4.blue.s3.core.n1140953.address.AddressController;
 import lapr4.blue.s3.core.n1140953.address.domain.Address;
-import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 
 /**
  *
@@ -29,7 +31,7 @@ public class EditContactAddressUI extends javax.swing.JFrame {
 
         initComponents();
         initTextFields();
-        
+
         this.setVisible(true);
     }
 
@@ -143,14 +145,21 @@ public class EditContactAddressUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         if (textFieldValidation()) {
-            Address address = this.addressController.editAddress(
-                    this.addressSelected,
-                    streetTextField.getText(),
-                    townTextField.getText(),
-                    postalTextField.getText(),
-                    cityTextField.getText(),
-                    countryTextField.getText()
-            );
+            Address address = null;
+            try {
+                address = this.addressController.editAddress(
+                        this.addressSelected,
+                        streetTextField.getText(),
+                        townTextField.getText(),
+                        postalTextField.getText(),
+                        cityTextField.getText(),
+                        countryTextField.getText()
+                );
+            } catch (DataConcurrencyException ex) {
+                Logger.getLogger(EditContactAddressUI.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (DataIntegrityViolationException ex) {
+                Logger.getLogger(EditContactAddressUI.class.getName()).log(Level.SEVERE, null, ex);
+            }
             if (address != null) {
                 JOptionPane.showMessageDialog(this, "Address Edited!", "Info", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
