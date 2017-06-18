@@ -1,0 +1,81 @@
+@startuml
+
+skinparam sequenceMessageAlign center
+
+actor User
+
+participant OverlayMouseMotionListener as omml
+participant MouseEvent as me
+participant SpreadsheetTable as st
+participant Spreadsheet as s
+participant Cell as c
+participant ImagenableCell as ic
+participant ImageOverlayUI as ioui
+participant MouseListener as ml
+participant ImageOverlayController as ioc
+
+activate User
+User->omml: mouseMoved(MouseEvent e)
+activate omml
+
+alt active = true
+    omml->me: getSource()
+    activate me
+    omml->me: getPoint()
+    deactivate me
+    omml->st: rowAtPoint(point)
+    activate st
+    omml->st: columnAtPoint(point)
+    omml->st: getSpreadsheet()
+    deactivate st
+    omml->s: getCell(column, row)
+    activate s
+    deactivate s
+    omml->c: getExtension(ImagesExtension.NAME)
+    activate c
+    deactivate c
+    omml->ic: hasImages()
+    activate ic
+    deactivate ic
+    alt hasImages = true
+        omml-->ioui: create
+        activate ioui
+        ioui-->ioc: create
+        activate ioc
+        omml-->ml: create
+        activate ml
+        deactivate ml
+        omml->ioui: addMouseListener(mouseListener)
+    end
+end
+deactivate omml
+
+
+ioui-->User: opens overlay window
+loop until the user moves the mouse outside the overlay window
+    alt presses the button next
+    User->ioui: nextButtonActionPerformed(ActionEvent evt)
+    ioui->ioui: updateLabel()
+    ioui->ioc: getImagesNum()
+    ioui->ioui: updateButtons()
+    ioui->ioc: getNextImage()
+    ioc->ioui: image
+    ioui->ioui: drawImage(image)
+    else presses the button previous
+    User->ioui: previousButtonActionPerformed(ActionEvent evt) 
+    ioui->ioui: updateLabel()
+    ioui->ioc: getImagesNum()
+    ioui->ioui: updateButtons()
+    ioui->ioc: getPreviousImage()
+    ioc->ioui: image
+    ioui->ioui: drawImage(image)
+    end
+end
+
+User->ml: mouseExited(MouseEvent e)
+activate ml
+ml->ioui: dispose()
+deactivate ml
+ioui-->User: overlay window closes
+
+@enduml
