@@ -5,6 +5,7 @@
  */
 package lapr4.red.s3.ipc.n1140388.chatrooms;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
@@ -113,51 +114,74 @@ public class ChatRoomsListTest {
         assertEquals(expResult, result);
     }
 
-//    /**
-//     * Test of publicRoomsWithoutParticipant method, of class ChatRoomsList.
-//     */
-//    @Test
-//    public void testPublicRoomsWithoutParticipant() {
-//        System.out.println("publicRoomsWithoutParticipant");
-//        ChatUser user = new ChatUser("machineName", "ip");
-//        ChatRoom cr = new PublicChatRoom("name", user);
-//        
-//        ChatUser participant = new ChatUser("machineName2121", "ip");
-//        
-//        ChatRoomsList instance = new ChatRoomsList();
-//        instance.add(cr);
-//        
-//        List<ChatRoom> expResult = new LinkedList<>();
-//        expResult.add(cr);
-//        
-//        List<ChatRoom> result = instance.publicRoomsWithoutParticipant(participant);
-//        assertEquals(expResult, result);
-//    }
-//
-//    /**
-//     * Test of privateRoomsWithInvationWithoutParticipant method, of class
-//     * ChatRoomsList.
-//     */
-//    @Test
-//    public void testPrivateRoomsWithInvationWithoutParticipant() {
-//        System.out.println("privateRoomsWithInvationWithoutParticipant");
-//        
-//        ChatUser user = new ChatUser("machineName", "ip");
-//        
-//        ChatUser participant = new ChatUser("machineName2121", "ip");
-//        List<ChatUser> inv = new LinkedList<>();
-//        inv.add(participant);
-//        
-//        ChatRoom cr = new PrivateChatRoom("name", user, inv);
-//        
-//        ChatRoomsList instance = new ChatRoomsList();
-//        instance.add(cr);
-//        
-//        List<ChatRoom> expResult = new LinkedList<>();
-//        expResult.add(cr);
-//        
-//        List<ChatRoom> result = instance.privateRoomsWithInvationWithoutParticipant(participant);
-//        assertEquals(expResult, result);
-//    }
+    /**
+     * Test of publicRoomsWithoutParticipant method, of class ChatRoomsList.
+     */
+    @Test
+    public void testPublicRoomsWithoutParticipant() {
+        System.out.println("publicRoomsWithoutParticipant");
+        ChatUser user = new ChatUser("machineName", "ip");
+        
+        ChatUser participant = new ChatUser("machineName2121", "ip");
+        
+        List<ChatUser> inv = new LinkedList<>();
+        inv.add(participant);
+        
+        ChatRoom cr = new PublicChatRoom("name", user, inv);
 
+        ChatRoomsList instance = new ChatRoomsList();
+        instance.add(cr);
+        
+        List<ChatRoom> expResult = new LinkedList<>();
+        expResult.add(cr);
+        
+        List<ChatRoom> result = instance.publicRoomsWithoutParticipant(participant);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of privateRoomsWithInvationWithoutParticipant method, of class
+     * ChatRoomsList.
+     */
+    @Test
+    public void testPrivateRoomsWithInvationWithoutParticipant() {
+        System.out.println("privateRoomsWithInvationWithoutParticipant");
+        
+        ChatUser user = new ChatUser("machineName", "ip");
+        
+        ChatUser participant = new ChatUser("machineName2121", "ip");
+        
+        List<ChatUser> inv = new LinkedList<>();
+        inv.add(participant);
+        
+        ChatRoom cr = new PrivateChatRoom("name", user, inv);
+        
+        ChatRoomsList instance = new ChatRoomsList();
+        instance.add(cr);
+        
+        List<ChatRoom> expResult = new LinkedList<>();
+        expResult.add(cr);
+        
+        List<ChatRoom> result = instance.privateRoomsWithInvationWithoutParticipant(participant);
+        assertEquals(expResult, result);
+    }
+
+    /**
+     * Test of getChatRoomsList method, of class ChatRoomsList.
+     */
+    @Test
+    public void testGetChatRoomsList() {
+        System.out.println("getChatRoomsList");
+        ChatRoomsList instance = new ChatRoomsList();
+        
+        ChatUser user = new ChatUser("machineName", "ip");
+        PublicChatRoom romm = new PublicChatRoom("name", user);
+        
+        instance.add(romm);
+        
+        List<ChatRoom> expResult = new ArrayList<>();
+        expResult.add(romm);
+        List<ChatRoom> result = instance.getChatRoomsList();
+        assertEquals(expResult, result);
+    }
 }

@@ -163,7 +163,7 @@
  *
  * <h3>4.3. Classes</h3>
  *
- * <img src="domain_model_formulas.png" alt="image">
+ * <img src="classDiagram_ipc05.3.png" alt="image">
  *
  *
  * <h3>4.4. Design Patterns and Best Practices</h3>
@@ -176,15 +176,34 @@
  *
  *
  *
- * {@link lapr4.red.s2.lang.n1140388.formula.compiler.CurrencyEvalVisitor}
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom}
  * <p>
- * {@link lapr4.red.s2.lang.n1140388.formula.compiler.MonetaryExpressionCompiler}
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomDTO}
  * <p>
- * {@link lapr4.red.s2.lang.n1140388.formula.MoneyRate}
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomExtension}
  * <p>
- * {@link lapr4.red.s2.lang.n1140388.formula.ui.MoneyRateUI}
- *
- *
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomsList}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.Notification}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.Notifier}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.PrivateChatRoom}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.PublicChatRoom}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.ui.ChatRoomPanel}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.ui.CommunicationChatRoomUI}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.ui.CreateChatRoomUI}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.ui.JoinRoomUI}
+ * <p>
+ * {@link lapr4.red.s3.ipc.n1140388.chatrooms.ui.UIChatRoomExtension}
+ * 
  *
  * <h2>6. Integration/Demonstration</h2>
  *
@@ -279,23 +298,25 @@
  * <p>
  * Today
  * <p>
- * 1. Unit test.
+ * 1. Implementation.
  * <p>
  * Blocking:
+ * <p>
+ * 1. Services of internet
  * <p>
  * <b>Saturday</b>
  * <p>
  * Yesterday I worked on:
  * <p>
- * 1. Implementation and Unit test
+ * 1. Implementation
  * <p>
  * Today
  * <p>
- * 1. -nothing-
+ * 1. Implementation
  * <p>
  * Blocking:
  * <p>
- * 1. -nothing-
+ * 1. Socket not created, internet wifi problems.
  *
  *
  * <h2>9. Self Assessment</h2>
