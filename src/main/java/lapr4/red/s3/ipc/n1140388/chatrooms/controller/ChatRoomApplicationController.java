@@ -101,7 +101,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
     }
 
     /**
-     * Get the user that are connected
+     * Get the users that are connected
      *
      * @param ui
      * @return
@@ -112,40 +112,38 @@ public class ChatRoomApplicationController implements CommHandler2 {
     }
 
     /**
-     * Especify the user to who the message will be sent, creating a frame for
-     * enter text
+     * Especify the room to who the message will be sent.
      *
+     * @param room the room
+     * @param message the message
      */
     public void sendMessage(ChatRoom room, String message) {
         if (room instanceof PrivateChatRoom) {
-//            boolean flag = true;
             for (ChatUser oUser : room.participants()) {
                 if (!oUser.getInfo().equals(peerId)) {
                     Message messToRoom = new Message();
                     messToRoom.setIdDest(oUser.getInfo());
                     messToRoom.setIdOrig(peerId);
                     messToRoom.setContent(message);
-                    lastMessage =messToRoom;
+                    lastMessage = messToRoom;
                     room.getLst_Conversations().addMessage(lastMessage);
-                    ChatRoomDTO roomDto=new ChatRoomDTO(room.name(), room.owner(), room.participants(), room.isOnline(), ((PrivateChatRoom) room).invitations(), "private");
+                    ChatRoomDTO roomDto = new ChatRoomDTO(room.name(), room.owner(), room.participants(), room.isOnline(), ((PrivateChatRoom) room).invitations(), "private");
                     roomDto.setConversations(room.getLst_Conversations());
                     messageSend(roomDto, messToRoom);
                 }
-
             }
         }
+
         if (room instanceof PublicChatRoom) {
-
             for (ChatUser oUser : room.participants()) {
-
                 if (!oUser.getInfo().equals(peerId)) {
                     Message messToRoom = new Message();
                     messToRoom.setIdDest(oUser.getInfo());
                     messToRoom.setIdOrig(peerId);
                     messToRoom.setContent(message);
-                    lastMessage =messToRoom;
+                    lastMessage = messToRoom;
                     room.getLst_Conversations().addMessage(lastMessage);
-                    ChatRoomDTO roomDto=new ChatRoomDTO(room.name(), room.owner(), room.participants(), room.isOnline(), ((PublicChatRoom) room).invitations(), "public");
+                    ChatRoomDTO roomDto = new ChatRoomDTO(room.name(), room.owner(), room.participants(), room.isOnline(), ((PublicChatRoom) room).invitations(), "public");
                     roomDto.setConversations(room.getLst_Conversations());
                     messageSend(roomDto, messToRoom);
                 }
@@ -158,8 +156,8 @@ public class ChatRoomApplicationController implements CommHandler2 {
     /**
      * Method that will send the message to another user
      *
-     * @param chat
-     * @param message
+     * @param chat the room
+     * @param message the message
      */
     public void messageSend(ChatRoomDTO chat, Message message) {
 
@@ -172,7 +170,7 @@ public class ChatRoomApplicationController implements CommHandler2 {
         if (toPeer.sendDto(chat) == false) {
             JOptionPane.showMessageDialog(null, "NO COMUNICATION!", "Alert!", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            ChatRoom chatRoom =this.roomsList.findChatRoomByName(chat.getName());
+            ChatRoom chatRoom = this.roomsList.findChatRoomByName(chat.getName());
             chatRoom.setLst_Conversations(chat.getConversations());
             Notification.chatInformer().notifyChange(chatRoom);
         }
@@ -196,11 +194,10 @@ public class ChatRoomApplicationController implements CommHandler2 {
     }
 
     /**
-     * method to receive the message from others. In this case, the destiny of
-     * the message is my ip.
+     * Method to receive the room from others.
      *
-     * @param dto the message
-     * @param commWorker
+     * @param dto the room object
+     * @param commWorker the worker
      */
     @Override
     public void handleDTO(Object dto, SendDto commWorker) {
@@ -222,6 +219,12 @@ public class ChatRoomApplicationController implements CommHandler2 {
 //        }
     }
 
+    /**
+     * Receive the chat information.
+     * 
+     * @param room the room 
+     * @param commWorker the worker
+     */
     public void handleChatRoomDTO(ChatRoomDTO room, SendDto commWorker) {
         if (room.getType().equals("private")) {
             ChatRoom newRoom = new PrivateChatRoom(room.getName(), room.getOwner(), room.getInvitates());
@@ -265,7 +268,6 @@ public class ChatRoomApplicationController implements CommHandler2 {
 //
 //        Notification.chatInformer().notifyChange(message);
 //    }
-
     @Override
     public Message getLastReceivedDTO() {
         return this.lastMessage;
