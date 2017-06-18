@@ -6,6 +6,7 @@ expression
 	: EQ comparison EOF
         | EQ for_loop EOF
         | EQ dowhile EOF
+        | EQ eval EOF
 	;
 
 block
@@ -19,6 +20,12 @@ for_loop
 dowhile
         : FUNCTION L_CURLY_BRACKET comparison SEMI comparison ( SEMI comparison )* R_CURLY_BRACKET
         ;
+
+eval
+    : FUNCTION LPAR
+		QUOT comparison QUOT
+		RPAR
+    ;
 
 comparison
 	:   concatenation

@@ -27,12 +27,28 @@ public class DoWhileOperator  implements NaryOperator{
     
     @Override
     public Value applyTo(Expression[] operands) throws IllegalValueTypeException {
-        if(operands.length==2){
-            Value value = new Value();
-		do {
-			value = operands[0].evaluate();
-		} while (operands[1].evaluate().toBoolean());
+        if(operands.length>=2){
+            try{
+                Value value;
+                // Get the sequence operator to execute the body as a block
+                NaryOperator naryOperator = Language.getInstance().getNaryOperator("{");
+
+                // Initialization
+                value = operands[operands.length-1].evaluate();
+
+                // Copy arguments to be executed in each iteration of the loop
+                Expression[] body = Arrays.copyOfRange(operands, 0, operands.length-1);
+                
+		while (operands[operands.length-1].evaluate().toBoolean()) {
+                    
+			value = naryOperator.applyTo(body);
+		}
 		return value;
+                
+            }catch (csheets.core.formula.lang.UnknownElementException e)
+            {
+                return new Value(e);
+            }
         }
         return new Value(new IllegalArgumentException("not enough arguments"));
     }

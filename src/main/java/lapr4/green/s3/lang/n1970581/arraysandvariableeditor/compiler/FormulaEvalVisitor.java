@@ -187,15 +187,15 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
     @Override
     public Expression visitVariable(Formula4Parser.VariableContext ctx) {
         // FIXME Have to use the ARROBA hardcoded here, because the grammar completely breaks if I try to use more tokens inside the "variable" token. Had to give up after 6 hours of tries.
-        if(ctx.getText() != null && !ctx.getText().isEmpty() && ctx.getText().charAt(0) == '@'){ 
+        if (ctx.getText() != null && !ctx.getText().isEmpty() && ctx.getText().charAt(0) == '@') {
             System.out.println(ctx.getText());
             String name = ctx.getText();
             return this.cell.getSpreadsheet().getWorkbook().retrieveArrayStorage().retrieveArrayItem(name);
         }
-         String nameTemp = ctx.getText();   // Enforcing "_a" => "_a[1]" without changing code in the other studend package.
-         if(!nameTemp.contains("[")){       // FIXME again, grammar is very inflexible.
-             nameTemp = nameTemp.concat("[1]");
-         }
+        String nameTemp = ctx.getText();   // Enforcing "_a" => "_a[1]" without changing code in the other studend package.
+        if (!nameTemp.contains("[")) {       // FIXME again, grammar is very inflexible.
+            nameTemp = nameTemp.concat("[1]");
+        }
         return new TemporaryReference(cell, nameTemp);
     }
 
@@ -251,7 +251,7 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
     }
 
     @Override
-    public Expression visitDowhile(Formula4Parser.DowhileContext ctx){
+    public Expression visitDowhile(Formula4Parser.DowhileContext ctx) {
         //TODO FINISH THIS!
         if (ctx.FUNCTION() != null) {
             try {
@@ -271,17 +271,32 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
 
                 // #2 return an instance of the new NaryOperation Class
                 NaryOperator operator = Language.getInstance().getNaryOperator(ctx.getChild(0).getText());
-                
+
                 return new NaryOperation(operator, expressions);
-                
-                
+
             } catch (UnknownElementException ex) {
                 addVisitError(ex.getMessage());
             }
         }
         return visitChildren(ctx);
     }
-    
+
+//    @Override
+//    public Expression visitEval(Formula4Parser.EvalContext ctx) {
+//        if (ctx.FUNCTION() != null) {
+//            try {
+//                List<Expression> args = new ArrayList<>();
+//                args.add(visit(ctx.getChild(3)));
+//
+//                Expression[] argArray = args.toArray(new Expression[args.size()]);
+//                return new FunctionCall(function, argArray);
+//            } catch (IllegalFunctionCallException ex) {
+//                addVisitError(ex.getMessage());
+//            }
+//        }
+//        return visitChildren(ctx);
+//    }
+
     @Override
     public Expression visitFor_loop(Formula4Parser.For_loopContext ctx) {
         //TODO FINISH THIS!
@@ -310,7 +325,7 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
         }
         return visitChildren(ctx);
     }
-    
+
     private void addVisitError(String msg) {
         errorBuffer.append(msg).append("\n");
         numberOfErros++;
