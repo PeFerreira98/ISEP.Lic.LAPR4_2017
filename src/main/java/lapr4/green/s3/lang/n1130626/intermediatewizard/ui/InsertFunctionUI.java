@@ -32,6 +32,10 @@ public class InsertFunctionUI extends javax.swing.JFrame {
     
     DefaultListModel<String> functionListString;
     
+    DefaultListModel<BinaryOperator> operatorList;
+    
+    DefaultListModel<String> operatorListString;
+    
     Formula form = null;
     
     /**
@@ -45,6 +49,10 @@ public class InsertFunctionUI extends javax.swing.JFrame {
         this.functionListString = new DefaultListModel<>();
         addFunctionsToList();
         this.jListFunctions.setModel(functionListString);
+        this.operatorList = new DefaultListModel<>();
+        this.operatorListString = new DefaultListModel<>();
+        addOperatorsToList();
+        this.jListOperators.setModel(operatorListString);
         this.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
     }
 
@@ -53,8 +61,12 @@ public class InsertFunctionUI extends javax.swing.JFrame {
             this.functionList.addElement(function);
             this.functionListString.addElement(function.getIdentifier());
         }
-        for(BinaryOperator binaryOperator : this.controller.getListSupportedOperators()){
-            this.functionListString.addElement(binaryOperator.getIdentifier());
+    }
+    
+    private void addOperatorsToList(){
+        for(BinaryOperator operators : this.controller.getListSupportedOperators()){
+            this.operatorList.addElement(operators);
+            this.operatorListString.addElement(operators.getIdentifier());
         }
     }
     
@@ -80,6 +92,10 @@ public class InsertFunctionUI extends javax.swing.JFrame {
         resultLabel = new javax.swing.JLabel();
         insertButton = new javax.swing.JButton();
         helpButton = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jListOperators = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -131,6 +147,12 @@ public class InsertFunctionUI extends javax.swing.JFrame {
             }
         });
 
+        jLabel5.setText("Functions:");
+
+        jLabel6.setText("Operators:");
+
+        jScrollPane2.setViewportView(jListOperators);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -138,6 +160,7 @@ public class InsertFunctionUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2)
                     .addComponent(jScrollPane1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(insertButton)
@@ -154,27 +177,32 @@ public class InsertFunctionUI extends javax.swing.JFrame {
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(previewLabel)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 305, Short.MAX_VALUE)
                                 .addComponent(helpButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(resultLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(previewButton)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(resultLabel)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(previewButton))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addGap(166, 166, 166)
+                                .addComponent(jLabel1))
+                            .addComponent(jLabel6))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(228, 228, 228)
-                .addComponent(jLabel1)
-                .addContainerGap(229, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
+                .addGap(11, 11, 11)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -190,7 +218,11 @@ public class InsertFunctionUI extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(resultLabel)
                     .addComponent(previewButton))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel6)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 73, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cancelButton)
                     .addComponent(insertButton))
@@ -299,8 +331,12 @@ public class InsertFunctionUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JList<String> jListFunctions;
+    private javax.swing.JList<String> jListOperators;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton previewButton;
     private javax.swing.JLabel previewLabel;
     private javax.swing.JLabel resultLabel;
