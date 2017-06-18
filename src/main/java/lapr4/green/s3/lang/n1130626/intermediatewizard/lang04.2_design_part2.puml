@@ -4,9 +4,12 @@
     -InsertFunctionController controller;
     -DefaultListModel<Function> functionList;
     -DefaultListModel<String> functionListString;
+    -DefaultListModel<BinaryOperator> operatorList;
+    -DefaultListModel<String> operatorListString;
     -Formula form;
     -initComponents();
     -addFunctionsToList();
+    -addOperatorsToList();
     -buildSyntax(Function func, FunctionParameter param[]);
   }
 
