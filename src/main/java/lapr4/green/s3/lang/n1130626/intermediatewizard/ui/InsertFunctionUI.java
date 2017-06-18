@@ -11,13 +11,11 @@ import csheets.core.formula.Formula;
 import csheets.core.formula.Function;
 import csheets.core.formula.FunctionParameter;
 import csheets.core.formula.compiler.FormulaCompilationException;
-import csheets.ui.ctrl.UIController;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.WindowConstants;
 import lapr4.green.s3.lang.n1130626.intermediatewizard.controller.InsertFunctionController;
 
 /**
