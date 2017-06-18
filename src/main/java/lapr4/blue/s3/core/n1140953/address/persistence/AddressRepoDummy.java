@@ -14,12 +14,13 @@ import lapr4.blue.s3.core.n1140953.address.domain.Address;
  * @author zero_
  */
 public class AddressRepoDummy {
-        private static List<Address> addressList = new ArrayList<>();
+
+    private static List<Address> addressList = new ArrayList<>();
 
     public static boolean create(Address address) {
         return addressList.add(address);
     }
-    
+
     public static boolean remove(Address address) {
         if (addressList.contains(address)) {
             return addressList.remove(address);
@@ -37,5 +38,9 @@ public class AddressRepoDummy {
 
     public static void clearList() {
         addressList.clear();
+    }
+
+    public static Iterable<Address> getAllAddresses() {
+        return addressList;
     }
 }

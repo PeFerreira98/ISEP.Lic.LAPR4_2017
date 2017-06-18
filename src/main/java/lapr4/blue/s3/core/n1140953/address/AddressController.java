@@ -34,8 +34,8 @@ public class AddressController {
         //this.addressRepository = persistenceContext.repositories().addresses();
     }
     
-    public Address addAddress(String street, String town, String postalCode, String city, String country){
-        final Address address = new Address(street, town, postalCode, city, country);
+    public Address addAddress(Contact contact, String street, String town, String postalCode, String city, String country){
+        final Address address = new Address(contact, street, town, postalCode, city, country);
         
         AddressRepoDummy.create(address);
         
@@ -58,5 +58,15 @@ public class AddressController {
 
     public Iterable<Contact> allContacts() {
         return this.contactsRepository.findAll();
+    }
+    
+    public Iterable<Address> allAddresses() {
+        //return this.contactsRepository.findAll();
+        return AddressRepoDummy.getAllAddresses();
+    }
+    
+    public Iterable<Address> getContactAddress(Contact contact){
+        
+        return AddressRepoDummy.getAllAddresses();
     }
 }

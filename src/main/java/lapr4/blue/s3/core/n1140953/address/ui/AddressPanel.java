@@ -13,11 +13,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import lapr4.blue.s3.core.n1140953.address.AddressController;
 import lapr4.blue.s3.core.n1140953.address.AddressExtension;
+import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 
 /**
  *
@@ -26,13 +28,13 @@ import lapr4.blue.s3.core.n1140953.address.AddressExtension;
 public class AddressPanel extends JPanel {
 
     private final AddressController addressController;
-    private final DefaultListModel<String> listModel = new DefaultListModel<>();
-    private JList<String> contactsList;
-    
+    private final DefaultListModel<Contact> listModel = new DefaultListModel<>();
+    private JList<Contact> contactsList;
+
     public AddressPanel(UIController uiController) {
         super(new BorderLayout());
         setName(AddressExtension.NAME);
-        
+
         addressController = new AddressController(uiController, uiController.getUserProperties());
 
         buildComponents();
@@ -44,12 +46,13 @@ public class AddressPanel extends JPanel {
 
         topPanel.add(new JLabel("Select Contact", JLabel.CENTER));
 
+        updateList();
         contactsList = new JList<>(listModel);
         contactsList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         JScrollPane scrollPane = new JScrollPane(contactsList);
-        
+
         bottomPanel.add(makeButtons());
-        
+
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane);
         add(bottomPanel, BorderLayout.SOUTH);
@@ -65,27 +68,56 @@ public class AddressPanel extends JPanel {
         createAddressButton.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
         editAddressButton.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
         removeAddressButton.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_ALTURA));
-        
-        createAddressButton.addActionListener((ActionEvent e) ->
-        {
-            //TODO 
+
+        createAddressButton.addActionListener((ActionEvent e) -> {
+            Contact selectedContact = contactsList.getSelectedValue();
+            
+            if (selectedContact != null) {
+                new AddContactAddressUI(addressController, selectedContact);
+                return;
+            }
+            
+            JOptionPane.showMessageDialog(this, "Please Select a Contact", "Warning", JOptionPane.WARNING_MESSAGE);
         });
-        
-        editAddressButton.addActionListener((ActionEvent e) ->
-        {
-            //TODO 
+
+        editAddressButton.addActionListener((ActionEvent e) -> {
+            Contact selectedContact = contactsList.getSelectedValue();
+            
+            if (selectedContact != null) {
+                new EditListContactAddressUI(addressController, selectedContact);
+                return;
+            }
+            
+            JOptionPane.showMessageDialog(this, "Please Select a Contact", "Warning", JOptionPane.WARNING_MESSAGE);
         });
-        
-        removeAddressButton.addActionListener((ActionEvent e) ->
-        {
-            //TODO 
+
+        removeAddressButton.addActionListener((ActionEvent e) -> {
+            Contact selectedContact = contactsList.getSelectedValue();
+            
+            if (selectedContact != null) {
+                new DeleteContactAddressUI(addressController, selectedContact);
+                return;
+            }
+            
+            JOptionPane.showMessageDialog(this, "Please Select a Contact", "Warning", JOptionPane.WARNING_MESSAGE);
         });
-        
+
         pPanel.add(createAddressButton);
         pPanel.add(editAddressButton);
         pPanel.add(removeAddressButton);
         return pPanel;
     }
-    
+
+    private void updateList() {
+        listModel.clear();
+        Iterable<Contact> contacts = addressController.allContacts();
+        for (Contact c : contacts) {
+            listModel.addElement(c);
+        }
+
+        //FIX ME - Delete after fixing contact repo.
+        Contact temp = new Contact("dummy", "dum", "my");
+        listModel.addElement(temp);
+    }
 
 }
