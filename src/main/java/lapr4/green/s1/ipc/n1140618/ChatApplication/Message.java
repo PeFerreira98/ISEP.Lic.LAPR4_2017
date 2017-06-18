@@ -13,32 +13,33 @@ import lapr4.green.s1.ipc.n1151211.comm.SendDto;
  *
  * @author Tiago
  */
-public class Message implements Serializable{
-    
-    
+public class Message implements Serializable {
+
     private String content;
-    
+
     private String idDest;
-    
+
     private String idOrig;
-    
-    public Message(){
-        
+
+    public Message() {
+
     }
-    
+
     /**
      * COntent to be sent
-     * @param content 
+     *
+     * @param content
      */
-    public void setContent(String content){
-        this.content=content;
+    public void setContent(String content) {
+        this.content = content;
     }
-    
+
     /**
      * Get the Content
-     * @return 
+     *
+     * @return
      */
-    public String getContent(){
+    public String getContent() {
         return this.content;
     }
 
@@ -69,5 +70,9 @@ public class Message implements Serializable{
     public void setIdOrig(String idOrig) {
         this.idOrig = idOrig;
     }
-   
+
+    @Override
+    public String toString() {
+        return this.idOrig + ": " + this.content + "\n";
+    }
 }

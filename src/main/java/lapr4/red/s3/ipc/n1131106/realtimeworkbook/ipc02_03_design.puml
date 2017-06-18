@@ -31,7 +31,7 @@ realTimeUI --> realTimeUI : model.remove(String path)
 end opt
 
 User --> realTimeUI : search
-realTimeUI --> realTime : create(SearchWorkbookController controller, ArrayList<String> list, JList jList, ArrayList<JButton> btsList)
+realTimeUI --> realTime : create(SearchWorkbookController controller, ArrayList<String> list, JList jList)
 note right: Different Threads will realize\n the search of workbooks in folders.\n These folders will be permanently covered\n in order to find new instances of Workbooks.
 
 loop for(String str : list )

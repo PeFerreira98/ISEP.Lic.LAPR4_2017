@@ -26,9 +26,6 @@
  * first expression is the first to be evaluated. The 'WhileDo' executes the
  * second expression in loop while the first evaluates to true. In each
  * iteration of the loop the the first expression is the first to be evaluated.
- * Example: '= {* @Counter:=1; WhileDo(Eval( “A“&@Counter)> 0; {C1:=C1+Eval(“B“&@Counter); @Counter:=@Counter+1 })}'.
- * In this example, the cell C1 will get the sum of all the values of
- * column B in that the corresponding values in column A are greater than zero.
  * <p>
  * 
  * For instance, when we use Eval there must set the cell to the result of the expression used.

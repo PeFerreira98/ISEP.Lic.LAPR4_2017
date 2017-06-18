@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
+import lapr4.blue.s2.ipc.n1140956.ChatApplication.ConversationStorage;
 
 /**
  * This class creates a chat room.
@@ -21,6 +22,7 @@ public abstract class ChatRoom implements Serializable {
     private ChatUser owner;
     private List<ChatUser> participants;
     private boolean online;
+    private ConversationStorage lst_Conversations;
 
     /**
      * Creates a chat room.
@@ -34,6 +36,7 @@ public abstract class ChatRoom implements Serializable {
         this.online = false;
         this.participants = new ArrayList<>();
         this.participants.add(owner);
+        this.lst_Conversations = new ConversationStorage();
     }
 
     /**
@@ -129,5 +132,19 @@ public abstract class ChatRoom implements Serializable {
             return true;
         }
         return false;
+    }
+
+    /**
+     * @return the lst_Conversations
+     */
+    public ConversationStorage getLst_Conversations() {
+        return lst_Conversations;
+    }
+
+    /**
+     * @param lst_Conversations the lst_Conversations to set
+     */
+    public void setLst_Conversations(ConversationStorage lst_Conversations) {
+        this.lst_Conversations = lst_Conversations;
     }
 }

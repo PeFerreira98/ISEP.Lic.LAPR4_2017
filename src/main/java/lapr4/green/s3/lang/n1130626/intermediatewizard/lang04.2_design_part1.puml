@@ -1,0 +1,45 @@
+@startuml lang04.2_design_part1.png
+
+actor User
+participant "InsertFunctionUI" as ui
+participant "InsertFunctionController" as ctrl
+participant "Language" as lang
+participant "Formula" as form
+participant "UIController" as uic
+participant "Cell: activeCell" as cell
+
+User -> ui : Opens wizard
+activate ui
+ui -> ctrl : getFunctions()
+activate ctrl
+ctrl -> lang : getFunctions()
+activate lang
+lang --> ctrl : Function[]: functions
+deactivate lang
+ctrl --> ui : Function[]: functions
+deactivate ctrl
+ui --> User : Shows functions
+User -> ui : Chooses function
+ui -> ui : jListFunctionMouseClicked()
+User -> ui : Inserts parameters
+ui -> ui : buildSyntax(function, function.getPARAMETERS());
+ui -> ui : this.editFunctionText.setText(buildSyntax(f, f.getPARAMETERS()))
+ui --> User : Shows formula and its results
+User -> ui : Preview results (Preview Button)
+ui -> ctrl : compileFormula(data)
+ui -> form : evaluate.toString(text)
+ui -> ui : this.resultLabel.setText(text)
+User -> ui : Accepts results (Insert Button)
+ui -> ui : data = this.editFunctionText.getText()
+ui -> ctrl : compileFormula(data)
+ui -> ctrl : copyContentToCell(data)
+activate ctrl
+ctrl -> uic : obtainActiveCell()
+activate uic
+uic --> ctrl : Cell: activeCell
+deactivate uic
+ctrl -> cell : copyContentToCell(data)
+deactivate ctrl
+deactivate ui
+
+@enduml

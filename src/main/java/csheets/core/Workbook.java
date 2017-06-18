@@ -26,6 +26,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.ArrayStorage;
 import lapr4.red.s2.lang.n1131106.globalvariables.domain.GlobalVariable;
 
@@ -63,7 +65,8 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
     private static List<GlobalVariable> list = new ArrayList<GlobalVariable>();
 
     /** Storage for Array Variables */
-    private transient final ArrayStorage arrayStorage;
+    private ArrayStorage arrayStorage;
+    //private transient ArrayStorage arrayStorage;
     
     /**
      * Creates a new empty workbook.
@@ -100,8 +103,17 @@ public class Workbook implements Iterable<Spreadsheet>, Serializable {
         this.arrayStorage = new ArrayStorage();
     }
 
-    
-    public ArrayStorage retrieveArrayStorage(){return this.arrayStorage;}
+    /**
+     * Retrieves the ArrayStorage for this workbook.
+     * @return the ArrayStorage for this workbook.
+     */
+    public ArrayStorage retrieveArrayStorage(){
+        if(this.arrayStorage == null){
+            Logger.getGlobal().log(Level.SEVERE, "Workbook with null ArrayStorage. Creating new one.");
+            this.arrayStorage = new ArrayStorage();
+        }
+        return this.arrayStorage;
+    }
     
     /**
      * Adds a blank spreadsheet to the end of the workbook.

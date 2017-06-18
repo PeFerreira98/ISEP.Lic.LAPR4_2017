@@ -92,10 +92,12 @@ public class ChatRoomsList implements Serializable {
 
         for (ChatRoom cr : chatRoomsList) {
             if (cr instanceof PublicChatRoom) {
-                if (!cr.hasParticipant(participant)) {
+                if (!cr.hasParticipant(participant)
+                        && ((PublicChatRoom) cr).invitations().contains(participant)) {
                     list.add(cr);
                 }
             }
+
         }
 
         return list;
@@ -121,5 +123,14 @@ public class ChatRoomsList implements Serializable {
         }
 
         return list;
+    }
+
+    /**
+     * Return the room list
+     *
+     * @return the room list
+     */
+    public List<ChatRoom> getChatRoomsList() {
+        return chatRoomsList;
     }
 }

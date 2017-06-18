@@ -55,16 +55,22 @@ class VariableEditorController {
  }
 
 class VariableEditorController {
+    + retriveActiveWorkbookVariableList()
  }
 class VariableEditorExtension {
  }
-class VariableEditorPanel {
+class VariableEditorPanel <<Observer>>{
  }
 class UIExtensionVariableEditor {
  }
-class VariableEditorWatchdog  <<Singleton>>{
+class VariableEditorWatchdog  <<Singleton>><<Observable>>{
+    + signalChange()
  }
 
+class UiController{
+ - activeWorkbook
+ + getActiveWorkbook()
+}
 
 'Workbook
 'ArrayStorage
@@ -86,22 +92,28 @@ FormulaEvalVisitor --> Cell
 Cell --> Spreadsheet
 Spreadsheet --> Workbook
 FormulaEvalVisitor --> ArrayItem
-
+UiController --> Workbook
 
 ArrayItem --> Value
 ArrayItem --> ArrayItemDTO
 
-ArrayStorage --> VariableEditorWatchdog
+ArrayItem --> VariableEditorWatchdog
 
-VariableEditorController --> VariableEditorExtension
 
-VariableEditorController --> UIExtensionVariableEditor
 
-VariableEditorExtension --> VariableEditorPanel
+VariableEditorController --> UiController
+VariableEditorController --> ArrayStorage
+
+'VariableEditorController --> UIExtensionVariableEditor
+
+VariableEditorExtension --> UIExtensionVariableEditor
+UIExtensionVariableEditor --> VariableEditorPanel
+VariableEditorPanel --> VariableEditorController
 
 VariableEditorWatchdog --> VariableEditorPanel
 
 VariableEditorPanel --> ArrayItemDTO
+
 
 
 @enduml

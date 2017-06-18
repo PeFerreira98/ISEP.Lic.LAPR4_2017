@@ -1,0 +1,27 @@
+@startuml core06_01_design_part4.png
+
+actor User
+participant "<<Design>>\nImagesPanel" as UIPanel
+participant "<<Design>>\nDefaultListModel" as List
+participant "<<Design>>\nUIController" as UICtrl
+participant "<<Design>>\nImageController" as Ctrl
+
+UIPanel -> Ctrl : create()
+UIPanel -> UICtrl : create()
+UICtrl -> UICtrl : addSelectionListener()
+UIPanel -> List : create()
+UIPanel -> UIPanel : update()
+User -> UIPanel : AddImageActionPerformed(event)
+UIPanel -> List : addElement(String)
+UIPanel -> Ctrl : setImage(cell, String)
+UIPanel -> UIPanel : refreshUI()
+UIPanel -> UIPanel : revalidate();
+UIPanel -> UIPanel : repaint()
+User -> UIPanel : RemoveImageActionPerformed(event)
+UIPanel -> List : remove(urlIndex)
+UIPanel -> Ctrl : removingImage(cell, String)
+UIPanel -> UIPanel : refreshUI()
+UIPanel -> UIPanel : revalidate();
+UIPanel -> UIPanel : repaint()
+@enduml
+

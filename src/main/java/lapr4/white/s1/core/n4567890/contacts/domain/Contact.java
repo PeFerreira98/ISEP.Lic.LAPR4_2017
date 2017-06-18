@@ -12,6 +12,8 @@ package lapr4.white.s1.core.n4567890.contacts.domain;
 //import eapli.framework.domain.AggregateRoot;
 import eapli.framework.domain.AggregateRoot;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -22,7 +24,9 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Lob;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import lapr4.blue.s3.core.n1140948.contactstag.domain.Tag;
 
 /**
  * Contact
@@ -53,6 +57,9 @@ public class Contact implements AggregateRoot<Long>, Serializable {
 
     @OneToOne(cascade = CascadeType.ALL) //(cascade = CascadeType.MERGE)
     private Agenda agenda = null;
+    
+    @OneToMany(mappedBy = "myContact", orphanRemoval = true, cascade = {CascadeType.ALL})
+    private List<Tag> tagList;
 
     protected Contact() {
         // for ORM
@@ -68,6 +75,7 @@ public class Contact implements AggregateRoot<Long>, Serializable {
 
         // Create a the contact Agenda
         this.agenda = agenda;
+        this.tagList = new ArrayList();
     }
 
     public Contact(final String name, final String firstName, final String lastName, byte[]  photo, final Agenda agenda) {
@@ -81,6 +89,7 @@ public class Contact implements AggregateRoot<Long>, Serializable {
 
         // Create a the contact Agenda
         this.agenda = agenda;
+        this.tagList = new ArrayList();
     }
 
     @Override
@@ -96,6 +105,19 @@ public class Contact implements AggregateRoot<Long>, Serializable {
 
         // create with empty agenda
         this(name, firstName, lastName, new Agenda());
+    }
+    
+    /**
+     * Contact constructor
+     *
+     * @param tg List of Tags
+     */
+    public Contact(final String name, final String firstName, final String lastName, List<Tag> tg) {
+        this(name, firstName, lastName, new Agenda());
+        this.tagList = new ArrayList<>();
+        for (Tag t : tg) {
+            this.tagList.add(t);
+        }
     }
 
     public String name() {
@@ -124,6 +146,14 @@ public class Contact implements AggregateRoot<Long>, Serializable {
 
     public Agenda agenda() {
         return this.agenda;
+    }
+    
+    public List<Tag> getTagList() {
+        return this.tagList;
+    }
+    
+    public boolean addTag(Tag tag) {
+        return this.tagList.add(tag);
     }
 
     @Override

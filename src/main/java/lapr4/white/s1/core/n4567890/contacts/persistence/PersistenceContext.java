@@ -13,6 +13,7 @@ package lapr4.white.s1.core.n4567890.contacts.persistence;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import lapr4.white.s1.core.n4567890.contacts.ExtensionSettings;
+import lapr4.white.s1.core.n4567890.contacts.persistence.jpa.JpaRepositoryFactory;
 
 /**
  * provides easy access to the persistence layer. works as a factory of
@@ -43,4 +44,8 @@ public class PersistenceContext {
 			return null;
 		}
 	}
+        
+        public static JpaRepositoryFactory jparepositories() {
+            return new JpaRepositoryFactory();
+        }
 }

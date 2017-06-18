@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JToolBar;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoom;
 import lapr4.red.s3.ipc.n1140388.chatrooms.ChatRoomExtension;
-import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomController;
+import lapr4.red.s3.ipc.n1140388.chatrooms.controller.ChatRoomApplicationController;
 
 /**
  *
@@ -40,7 +40,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
 
     private Object[] roomsList;
 
-    private ChatRoomController controller;
+    private ChatRoomApplicationController controller;
 
     /**
      * Creates a new chat room panel.
@@ -52,7 +52,8 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
         super(new BorderLayout());
 
         // Creates controller
-        this.controller = new ChatRoomController();
+        this.controller = new ChatRoomApplicationController();
+        //this.controller.getListener().addObserver(this);
         uiController.addSelectionListener(this);
         setName(ChatRoomExtension.NAME);
 
@@ -104,7 +105,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     private String[] showAllRooms() {
         int i = 0;
 
-        List<ChatRoom> list = controller.chatRoomsList();
+        List<ChatRoom> list = controller.getRoomsList().chatRoomsList(controller.owner());
 
         String[] names = new String[list.size()];
 
@@ -140,7 +141,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
 
                 if (roomsComboBox.getSelectedItem() != null) {
                     ChatRoom room = getRoom(roomsComboBox.getSelectedIndex());
-                    CommunicationChatRoomUI ui = new CommunicationChatRoomUI(controller, room);
+                    new CommunicationChatRoomUI(controller, room);
                 } else {
                     JOptionPane.showMessageDialog(ChatRoomPanel.this,
                             "Please select a chat room",
@@ -231,7 +232,7 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
         btnCreate.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                CreateChatRoomUI ui = new CreateChatRoomUI(controller);
+                new CreateChatRoomUI(controller);
             }
         });
 
@@ -260,5 +261,4 @@ public class ChatRoomPanel extends JPanel implements SelectionListener {
     public void selectionChanged(SelectionEvent event) {
 
     }
-
 }

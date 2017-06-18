@@ -7,13 +7,14 @@
     <class>lapr4.white.s1.core.n4567890.contacts.domain.Event</class>
     <class>lapr4.green.s2.core.n1151211.CompanyContact.domain.CompanyContact</class>
     <class>lapr4.green.s2.core.n1151211.CompanyContact.domain.PersonalContact</class>
+    <class>lapr4.blue.s3.core.n1140948.contactstag.domain.Tag</class>
     <properties>
       <!--<property name="javax.persistence.jdbc.url" value="jdbc:h2:../db/demoapplication;MV_STORE=FALSE"/>-->
       <property name="javax.persistence.jdbc.url" value="jdbc:h2:..\db\csheets-crm-extension;MV_STORE=FALSE"/>
       <property name="javax.persistence.jdbc.password" value=""/>
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver"/>
       <property name="javax.persistence.jdbc.user" value=""/>
-      <property name="javax.persistence.schema-generation.database.action" value="create"/>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
       <property name="eclipselink.logging.level" value="FINE"/>
     </properties>
   </persistence-unit>

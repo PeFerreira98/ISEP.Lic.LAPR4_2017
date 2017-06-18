@@ -6,7 +6,6 @@
 package lapr4.red.s3.ipc.n1140388.chatrooms;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import lapr4.blue.s2.ipc.n1140956.ChatApplication.ChatUser;
 
@@ -27,7 +26,7 @@ public class PrivateChatRoom extends ChatRoom implements Serializable {
      */
     public PrivateChatRoom(String name, ChatUser owner, List<ChatUser> inv) {
         super(name, owner);
-        invitations = new ArrayList<>(inv);
+        invitations = inv;
     }
 
     /**

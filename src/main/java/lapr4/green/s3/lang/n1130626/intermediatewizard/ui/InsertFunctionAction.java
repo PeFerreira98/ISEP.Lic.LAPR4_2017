@@ -11,14 +11,21 @@ import java.awt.event.ActionEvent;
 import lapr4.green.s3.lang.n1130626.intermediatewizard.controller.InsertFunctionController;
 
 /**
- *
+ * Class necessary for the execution of the wizard
  * @author Pedro Pereira
  */
 public class InsertFunctionAction extends BaseAction {
 
+    /**User interface controller*/
     private final UIController uiController;
+    
+    /**The controller*/
     private final InsertFunctionController controller;
     
+    /**
+     * The constructor
+     * @param uiController user interface controller
+     */
     public InsertFunctionAction(UIController uiController){
         this.uiController = uiController;
         this.controller = new InsertFunctionController(this.uiController);

@@ -21,7 +21,7 @@ public class FileDTO implements Comparable<FileDTO> {
     //** The File inside this object */
     //private File file;
     /** The serialNumber of this FileDTO */
-    private final int serialNumber;
+    private int serialNumber;
     /** The filename of this File */
     private final String filename;
     /** The absolute path of this fileName */
@@ -39,7 +39,7 @@ public class FileDTO implements Comparable<FileDTO> {
         this.filename = file.getName();
         this.path = file.getAbsolutePath();
     }
-
+    
     /**
      * Allows the reading of it's serial number.
      * @return int with the serial number
