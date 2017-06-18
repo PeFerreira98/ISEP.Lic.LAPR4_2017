@@ -10,13 +10,15 @@ display the search results (cell coordinates and value or contents). The search 
 content of the cell (i.e., the text entered by the user) but also its value (that could have been calculated
 by a formula).
 * 
- * <b>Attention:</b><p> 
+ * <b>Class Diagram</b><p>
+ * <img src="core07.1_class.png" alt="image"> 
  * 
  * <b>Analysis</b><p>
  * This option will be placed on sidebar window.<p>
  * The user will be able to input the regular expression that he wants to search. The result will be displayed on a list with the cell coordinates and value or contents.
  *
  * <img src="core07.1_analysis.png" alt="image"> 
+ * <p>
  * 
  * <b>Design</b><p>
  * <img src="core07.1_design.png" alt="image"> 

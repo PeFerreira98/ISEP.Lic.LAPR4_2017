@@ -1,0 +1,60 @@
+@startuml
+class SearchExtension {
+        +String NAME;
+        +int VERSION;
+        +String DESCRIPTION;
+        +UIExtension getUIExtension(UIController uiController);
+    }
+
+    abstract Extension {
+    }
+
+    abstract UIExtension {
+    }
+
+abstract FocusOwnerAction{
+}
+
+class UIController{
+}
+
+
+
+class UIExtensionSearch {
+        -JComponent sideBar;
+    }
+
+class SearchPanel {
+        -WorkbookSearchController ctrl;
+    -UIController uiCtrl;
+
+    }
+
+    class WorkbookSearchController {
+        -UIController uiController;
+        -ArrayList<Cell> listCells;
+-addCel(Cell cell);
++checkCell(String input, Cell c);
++search(String input);
+    }
+
+
+ 
+
+ UIExtensionSearch --|> UIExtension 
+ UIExtensionSearch-->SearchPanel
+
+ SearchExtension-->UIExtensionSearch
+ SearchExtension--|>Extension
+ SearchPanel-->WorkbookSearchController 
+
+ JPanel <|-- SearchPanel 
+
+ WorkbookSearchController --> UIController
+
+ UIController--|> FocusOwnerAction
+ UIController-->Workbook
+ UIController-->UIExtension
+
+ Workbook-->Spreadsheet
+@enduml
