@@ -9,6 +9,7 @@ import org.junit.After;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -61,7 +62,7 @@ public class FormulaLoopTest
      * @throws csheets.core.formula.compiler.FormulaCompilationException
      * @throws csheets.core.IllegalValueTypeException
      */
-    @Test
+    @Ignore @Test
     public void testForOperatorNotEnoughArguments() throws FormulaCompilationException, IllegalValueTypeException
     {
         String content = "=for{(A1:=23);A1<20}";
