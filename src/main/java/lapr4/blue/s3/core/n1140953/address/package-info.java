@@ -61,7 +61,7 @@
  * Implementation partially done. Jpa Repository methods missing.<p>
  * 
  * <b>Daily Log (Sunday 18/06/2017) - </b>
- * Implementation done. Testing done. Design done. <p>
+ * Implementation done. Testing done. Design done. Analysis Done. Resolving Issue.<p>
  *
  * <b>Daily Log (Monday 19/06/2017) - </b><p>
  *
