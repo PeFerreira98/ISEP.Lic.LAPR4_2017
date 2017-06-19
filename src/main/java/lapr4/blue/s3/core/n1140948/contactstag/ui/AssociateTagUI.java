@@ -5,17 +5,69 @@
  */
 package lapr4.blue.s3.core.n1140948.contactstag.ui;
 
+import csheets.ui.ctrl.UIController;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import lapr4.blue.s3.core.n1140948.contactstag.controller.TagController;
+import lapr4.blue.s3.core.n1140948.contactstag.domain.Tag;
+import lapr4.blue.s3.core.n1140948.contactstag.persistance.TagRepository;
+import lapr4.white.s1.core.n4567890.contacts.application.ContactController;
+import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
+import lapr4.white.s1.core.n4567890.contacts.persistence.PersistenceContext;
+
 /**
  *
  * @author Tiago Silvestre
  */
 public class AssociateTagUI extends javax.swing.JFrame {
+    
+    private UIController uiController;
+    private List<Tag> tagList;
+    private String aux;
+    private TagController tagController;
+    private DefaultListModel<Contact> lstContacts;
+    private DefaultListModel<Tag> lstTags;
+    private Contact contact;
+    private Properties props = new Properties();
+    private ContactController contactController = new ContactController(props);
 
     /**
-     * Creates new form AssociateTagUI
+     * Creates new form AssociateTagUI for a Contact
      */
     public AssociateTagUI() {
+        this.tagController = new TagController();
+        this.tagList = new ArrayList<>();
+        this.lstTags = new DefaultListModel<Tag>();
+        this.lstContacts = new DefaultListModel<Contact>();
+        
         initComponents();
+        initContactList();
+        initTagList();
+        
+        pack();
+        setResizable(false);
+        setLocationRelativeTo(null);
+        setVisible(true);
+    }
+    
+    private void initTagList() {
+        if (!tagController.tagListIsEmpty()) {
+            for (Tag t : tagController.getAllTags()) {
+                lstTags.addElement(t);
+            }
+            jListTags.setModel(lstTags);
+        }
+        jListTags.setModel(lstTags);
+    }
+    
+    private void initContactList(){
+        for(Contact c : contactController.allContacts()){
+            lstContacts.addElement(c);
+        }
+        jContactList.setModel(lstContacts);
     }
 
     /**
@@ -27,16 +79,23 @@ public class AssociateTagUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanelTop = new javax.swing.JPanel();
+        jPanelTag = new javax.swing.JPanel();
         TagLbl = new javax.swing.JLabel();
         tagTxt = new javax.swing.JTextField();
+        btnSearch = new javax.swing.JButton();
         jPanelButtons = new javax.swing.JPanel();
         btnCancel = new javax.swing.JButton();
         btnSelectTag = new javax.swing.JButton();
         btnAddNew = new javax.swing.JButton();
+        btnTagFrequency = new javax.swing.JButton();
         jPanelList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListTags = new javax.swing.JList<>();
+        jListTags = new javax.swing.JList();
+        jPanelContactList = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jContactList = new javax.swing.JList();
+        jPanelContacts = new javax.swing.JPanel();
+        contactLbl = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Associate Tag to Contact");
@@ -45,24 +104,37 @@ public class AssociateTagUI extends javax.swing.JFrame {
         TagLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         TagLbl.setText("Tag: ");
 
-        javax.swing.GroupLayout jPanelTopLayout = new javax.swing.GroupLayout(jPanelTop);
-        jPanelTop.setLayout(jPanelTopLayout);
-        jPanelTopLayout.setHorizontalGroup(
-            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTopLayout.createSequentialGroup()
+        btnSearch.setText("Search");
+        btnSearch.setMaximumSize(new java.awt.Dimension(80, 25));
+        btnSearch.setMinimumSize(new java.awt.Dimension(80, 25));
+        btnSearch.setPreferredSize(new java.awt.Dimension(80, 25));
+        btnSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSearchActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelTagLayout = new javax.swing.GroupLayout(jPanelTag);
+        jPanelTag.setLayout(jPanelTagLayout);
+        jPanelTagLayout.setHorizontalGroup(
+            jPanelTagLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTagLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(TagLbl)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(tagTxt)
+                .addComponent(tagTxt, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
-        jPanelTopLayout.setVerticalGroup(
-            jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelTopLayout.createSequentialGroup()
+        jPanelTagLayout.setVerticalGroup(
+            jPanelTagLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelTagLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelTopLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanelTagLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(TagLbl)
-                    .addComponent(tagTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(tagTxt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -80,22 +152,44 @@ public class AssociateTagUI extends javax.swing.JFrame {
         btnSelectTag.setMaximumSize(new java.awt.Dimension(80, 25));
         btnSelectTag.setMinimumSize(new java.awt.Dimension(80, 25));
         btnSelectTag.setPreferredSize(new java.awt.Dimension(80, 25));
+        btnSelectTag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSelectTagActionPerformed(evt);
+            }
+        });
 
         btnAddNew.setText("Add New");
         btnAddNew.setMaximumSize(new java.awt.Dimension(80, 25));
         btnAddNew.setMinimumSize(new java.awt.Dimension(80, 25));
         btnAddNew.setPreferredSize(new java.awt.Dimension(80, 25));
+        btnAddNew.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddNewActionPerformed(evt);
+            }
+        });
+
+        btnTagFrequency.setText("Tag Frequency");
+        btnTagFrequency.setMaximumSize(new java.awt.Dimension(105, 25));
+        btnTagFrequency.setMinimumSize(new java.awt.Dimension(105, 25));
+        btnTagFrequency.setPreferredSize(new java.awt.Dimension(105, 25));
+        btnTagFrequency.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTagFrequencyActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelButtonsLayout = new javax.swing.GroupLayout(jPanelButtons);
         jPanelButtons.setLayout(jPanelButtonsLayout);
         jPanelButtonsLayout.setHorizontalGroup(
             jPanelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelButtonsLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(btnTagFrequency, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(10, 10, 10)
                 .addComponent(btnSelectTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -106,11 +200,13 @@ public class AssociateTagUI extends javax.swing.JFrame {
                 .addGroup(jPanelButtonsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnSelectTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnAddNew, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTagFrequency, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
         jScrollPane1.setViewportView(jListTags);
+        jListTags.getAccessibleContext().setAccessibleDescription("");
 
         javax.swing.GroupLayout jPanelListLayout = new javax.swing.GroupLayout(jPanelList);
         jPanelList.setLayout(jPanelListLayout);
@@ -118,7 +214,7 @@ public class AssociateTagUI extends javax.swing.JFrame {
             jPanelListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelListLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 360, Short.MAX_VALUE)
+                .addComponent(jScrollPane1)
                 .addContainerGap())
         );
         jPanelListLayout.setVerticalGroup(
@@ -128,6 +224,42 @@ public class AssociateTagUI extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        jScrollPane2.setViewportView(jContactList);
+
+        javax.swing.GroupLayout jPanelContactListLayout = new javax.swing.GroupLayout(jPanelContactList);
+        jPanelContactList.setLayout(jPanelContactListLayout);
+        jPanelContactListLayout.setHorizontalGroup(
+            jPanelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelContactListLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane2))
+        );
+        jPanelContactListLayout.setVerticalGroup(
+            jPanelContactListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelContactListLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        contactLbl.setText("Contacts");
+
+        javax.swing.GroupLayout jPanelContactsLayout = new javax.swing.GroupLayout(jPanelContacts);
+        jPanelContacts.setLayout(jPanelContactsLayout);
+        jPanelContactsLayout.setHorizontalGroup(
+            jPanelContactsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelContactsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contactLbl)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanelContactsLayout.setVerticalGroup(
+            jPanelContactsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelContactsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(contactLbl)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -135,20 +267,29 @@ public class AssociateTagUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelTop, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelTag, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanelButtons, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanelList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jPanelList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelContactList, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelContacts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jPanelTop, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap()
+                .addComponent(jPanelContacts, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelContactList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelTag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jPanelButtons, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -158,51 +299,60 @@ public class AssociateTagUI extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AssociateTagUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AssociateTagUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AssociateTagUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AssociateTagUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+    private void btnSelectTagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectTagActionPerformed
+        tagList.add((Tag) jListTags.getSelectedValue());
+        aux = "";
+        for (Tag t : tagList) {
+            aux += t.toString() + " ";
         }
-        //</editor-fold>
+        tagTxt.setText(aux);
+    }//GEN-LAST:event_btnSelectTagActionPerformed
 
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AssociateTagUI().setVisible(true);
-            }
-        });
-    }
+    private void btnAddNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewActionPerformed
+        String auxTextTag = JOptionPane.showInputDialog("Insert New Tag");
+        Tag t = new Tag(auxTextTag, contact);
+
+        if (!tagController.addTag(t)) {
+            JOptionPane.showMessageDialog(rootPane, "New Tag not added!");
+        } else {
+            this.lstTags.addElement(t);
+            contact.addTag(t);
+            this.tagController.addTag(t);     
+            
+            TagRepository tag_rep = PersistenceContext.jparepositories().tags();
+            tag_rep.saveTag(t);
+            
+            this.repaint();
+            
+            System.out.println(tag_rep.allTags());
+        }
+    }//GEN-LAST:event_btnAddNewActionPerformed
+
+    private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
+        new DisplaySearchedContacts(tagController, tagTxt.getText());
+    }//GEN-LAST:event_btnSearchActionPerformed
+
+    private void btnTagFrequencyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTagFrequencyActionPerformed
+        new TagFrequency(tagController);
+    }//GEN-LAST:event_btnTagFrequencyActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel TagLbl;
     private javax.swing.JButton btnAddNew;
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnSearch;
     private javax.swing.JButton btnSelectTag;
-    private javax.swing.JList<String> jListTags;
+    private javax.swing.JButton btnTagFrequency;
+    private javax.swing.JLabel contactLbl;
+    private javax.swing.JList jContactList;
+    private javax.swing.JList jListTags;
     private javax.swing.JPanel jPanelButtons;
+    private javax.swing.JPanel jPanelContactList;
+    private javax.swing.JPanel jPanelContacts;
     private javax.swing.JPanel jPanelList;
-    private javax.swing.JPanel jPanelTop;
+    private javax.swing.JPanel jPanelTag;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField tagTxt;
     // End of variables declaration//GEN-END:variables
 }

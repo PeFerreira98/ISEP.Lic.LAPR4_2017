@@ -5,6 +5,7 @@
  */
 package lapr4.blue.s3.core.n1140948.contactstag.controller;
 
+import csheets.ui.ctrl.UIController;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,6 +21,7 @@ import lapr4.white.s1.core.n4567890.contacts.persistence.RepositoryFactory;
  */
 public class TagController {
 
+    private UIController uiController;
     private Contact contact;
     private String contactType;
     private RepositoryFactory m_factory = PersistenceContext.jparepositories();
