@@ -22,6 +22,8 @@
  * colleague or if you work in more than one feature.-
  * <br>
  * <br>
+ * -Someone messed with my documentation and code and that caused me quite some
+ * delay in my work and a lot of wasted time.
  * </p>
  *
  *
@@ -58,14 +60,7 @@
  * </p>
  *
  *
- * <h3>3.2 Domain Model</h3>
- *
- * <p>
- * <img src="core06.2_dm.png" alt="domain model">
- * </p>
- *
- *
- * <h3>3.3 Use Cases (Scenarios)</h3>
+ * <h3>3.2 Use Cases (Scenarios)</h3>
  *
  * <p>
  * <b>UC1 Open Overlay Window(from US1)</b>
@@ -91,16 +86,20 @@
  * <b>Open Overlay Window file Test:</b>
  * 1. The user should start the CleanSheets Application<br>
  * 2. He moves the mouse pointer over a cell that contains images<br>
- * 3. The overlay window opens allowing him to navigate through the images in the
- * cell using the buttons in the window<br>
- * 4. The user presses the buttons previous or next to navigate through the images<br>
+ * 3. The overlay window opens allowing him to navigate through the images in
+ * the cell using the buttons in the window<br>
+ * 4. The user presses the buttons previous or next to navigate through the
+ * images<br>
  * 5. The user moves the mouse outside the overlay window to close it<br>
  * 6. No error should occur<br>
  * </p>
  *
  * <h4>4.1.2 Unit Tests</h4>
  *
- * TODO.
+ * The unit testing coverage is very low because even though the images are now
+ * persisted inside de workbook, they must come from a file, which means that
+ * it's not possible to create an image without a file, therefore it's not
+ * possible to cover most of the code with unit tests.
  *
  * <h4>4.1.3 Acceptance Tests</h4>
  *
@@ -146,8 +145,77 @@
  *
  *
  * <h2>5. Implementation</h2>
+ *
  * <p>
- * TODO
+ * {@link lapr4.blue.s3.core.n1141233.image.insertimage.ImagesExtension}
+ * <br>
+ * {@link lapr4.blue.s3.core.n1141233.image.insertimage.ImmagenableCellListener}
+ * <br> {@link lapr4.blue.s3.core.n1141233.image.insertimage.ImmagenableCell}
+ * <br> {@link lapr4.blue.s3.core.n1141233.image.insertimage.Images}
+ * <br>
+ * {@link lapr4.blue.s3.core.n1141233.image.insertimage.ui.UIExtensionImages}
+ * <br> {@link lapr4.blue.s3.core.n1141233.image.insertimage.ui.ImageController}
+ * <br> {@link lapr4.blue.s3.core.n1141233.image.insertimage.ui.ImagesPanel}
+ * <br>
+ * {@link lapr4.blue.s3.core.n1141233.image.insertimage.ui.ImagedCellDecorator}
+ * <br>
+ * {@link lapr4.blue.s3.core.n1141233.image.imageoverlay.OverlayMouseMotionListener}
+ * <br>
+ * {@link lapr4.blue.s3.core.n1141233.image.imageoverlay.OverlayTableDecorator}
+ * <br> {@link lapr4.blue.s3.core.n1141233.image.imageoverlay.ui.ImageOverlayUI}
+ * <br>
+ * {@link lapr4.blue.s3.core.n1141233.image.imageoverlay.controller.ImageOverlayController}
+ * <br>
+ * This is a small code snippet showing how the mouse motion listener detects a
+ * cell with images and opens the overlay window<br>
+ * <pre>
+ * Code snippet:
+ * {@code
+ *     if (active)
+ *       {
+ *           SpreadsheetTable table = (SpreadsheetTable) e.getSource();
+ *           int row = table.rowAtPoint(e.getPoint());
+ *           int column = table.columnAtPoint(e.getPoint());
+ *           Cell cell = table.getSpreadsheet().getCell(column, row);
+ *
+ *           ImagenableCell choosedCell = (ImagenableCell) cell.getExtension(ImagesExtension.NAME);
+ *
+ *           if (choosedCell.hasImages())
+ *            {
+ *                // stop all other overlay listeners
+ *                active = false;
+ *
+ *               Point point = MouseInfo.getPointerInfo().getLocation();
+ *               ImageOverlayUI ui = new ImageOverlayUI(choosedCell, point);
+ *               ui.addMouseListener(new MouseAdapter()
+ *               {
+ *                   @Override
+ *                   public void mouseEntered(MouseEvent e)
+ *                   {
+ *                       Point mousePos = MouseInfo.getPointerInfo().getLocation();
+ *                       Rectangle bounds = ui.getBounds();
+ *                       bounds.setLocation(ui.getLocationOnScreen());
+ *                   }
+ *
+ *                   @Override
+ *                   public void mouseExited(MouseEvent e)
+ *                   {
+ *                       Point mousePos = MouseInfo.getPointerInfo().getLocation();
+ *                        Rectangle bounds = ui.getBounds();
+ *                        bounds.setLocation(ui.getLocationOnScreen());
+ *
+ *                       if (!bounds.contains(mousePos))
+ *                       {
+ *                           ui.dispose();
+ *                           // reactivate the overlay listeners
+ *                           OverlayMouseMotionListener.setActive();
+ *                       }
+ *                   }
+ *               });
+ *           }
+ *       }
+ * }
+ * </pre>
  * <br>
  * </p>
  *
@@ -173,7 +241,7 @@
  * <h2>8. Work Log</h2>
  *
  * <p>
- * Please also check Jira issue LAPR4E17DL-85 for time logging.
+ * Please also check Jira issue LAPR4E17DL-19 for time logging.
  * <br>
  *
  * Work notes/log: S3 13-06-2017 (terça)
@@ -220,6 +288,14 @@
  * <br>
  * - Design was updated.
  * <br>
+ *
+ * <br>
+ * Work notes/log: S3 18-06-2017 (domingo)
+ * <br>
+ * - Testing was concluded.
+ * <br>
+ * - Analysis and Design were updated (and restored after being tempered with).
+ * <br>
  * </p>
  *
  *
@@ -235,21 +311,32 @@
  * <h3>R3. Rubric Requirements Fulfillment: 3</h3>
  *
  * <p>
- * TODO
+ * 4- correct. The student did fulfil the requirements, justified the options
+ * and also presented a critical analysis of the requirements and options that
+ * is an evidence of his understanding of the problem domain.
  * </p>
  *
  *
  * <h3>R6. Rubric Requirements Analysis: 3 </h3>
  *
  * <p>
- * TODO
+ * 3- some defects. There is a robust analisys of the problem with well chosen
+ * technical artifacts (diagrams, grammars, etc.) for its documentation although
+ * some may have erros, such as referencing inexistent artifacts or having small
+ * notation errors.
  * </p>
  *
  *
  * <h3>R7. Rubric Design and Implement: 3</h3>
  *
  * <p>
- * TODO
+ * 3- some defects. Unit tests do cover a significant amount of functionalities
+ * (e.g., more than 80%) and there are some evidences of a test first approach.
+ * The code does not "break" the design options of the original project code and
+ * the code follows the good practices of the technical area (e.g.,
+ * synchronization for IPC, design patterns, grammar design for Lang). Also, the
+ * technical documentation (e.g., diagrams) is very complete and without
+ * significant errors.
  * </p>
  *
  *

@@ -1,0 +1,172 @@
+@startuml core06.2_class.png
+interface Extensible<T> {
+        +T getExtension(String name);
+    }
+
+    interface "Cell : Extensible<Cell>" as Cell {
+    }
+
+    class CellImpl {
+        -transient Map<String, CellExtension> extensions;
+        +Cell getExtension(String name);
+    }
+
+    abstract CellExtension {
+	-Cell delegate;
+	-String name;
+        +CellExtension(Cell delegate, String name)
+    }
+
+    interface CellListener{
+    }
+
+    interface EventListener {
+    }
+
+    abstract Extension {
+    }
+
+    abstract UIExtension {
+    }
+
+    interface SelectionListener {
+    }
+
+    abstract MouseMotionAdapter {
+    }
+
+
+
+
+    class ImagenableCell {
+        -List<Images> imagesList;
+        -transient List<ImagenableCellListener> listeners;
+        +boolean hasImages();
+        +List<Images> getImagesList();
+        +Images addImage(String path);
+        +boolean removeImage(Images image);
+    }
+
+    class ImagenableCellListener {
+        +void imageChanged(ImagenableCell cell);
+    }
+
+    class ImagesExtension {
+        +String NAME;
+        +int VERSION;
+        +String DESCRIPTION;
+        +ImagenableCell extend(Cell cell)
+        +UIExtension getUIExtension(UIController uiController);
+    }
+
+
+    class UIExtensionImages {
+        -CellDecorator cellDecorator;
+        -TableDecorator tableDecorator;
+        -JComponent sideBar;
+        +CellDecorator getCellDecorator();
+        +TableDecorator getTableDecorator();
+        +JComponent getSideBar();
+    }
+
+    class ImagedCellDecorator {
+        +void decorate(JComponent component, Graphics g, Cell cell, boolean selected, boolean hasFocus);
+    }
+
+    class OverlayTableDecorator {
+        +void decorate(Graphics g, SpreadsheetTable table)
+    }
+
+    class Images {
+        -String name;
+        -byte[] image;
+    }
+
+    class Converter {
+        +BufferedImage getImage(byte[] bytes);
+    }
+
+    class OverlayMouseMotionListener {
+        +void mouseMoved(MouseEvent e);
+    }
+
+    class ImagesPanel {
+        -ImagenableCell cell;
+        -ImageController controller;
+    }
+
+    class ImageController {
+        -UIController uiController;
+    }
+
+    class ImageOverlayUI {
+        -ImageOverlayController controller;
+        -int index
+    }
+
+    class ImageOverlayController {
+        -ImagenableCell cell;
+        -int imageIndex;
+        +Image getImage();
+        +Image getPreviousImage();
+        +Image getNextImage();
+        +int getImageNum();
+    }
+
+
+
+    Extensible <|-- Cell
+
+    Cell <|.. CellExtension
+    CellListener<|.. CellExtension
+    CellImpl *-- CellExtension
+
+    EventListener <|-- CellListener
+
+    Cell <|.. CellImpl
+
+
+
+    CellExtension <|-- ImagenableCell
+    ImagenableCellListener --o ImagenableCell
+    Images --o ImagenableCell
+
+    Converter <-- Images
+
+    Extension <|-- ImagesExtension
+    ImagenableCell <-- ImagesExtension
+    UIExtensionImages <-- ImagesExtension
+
+    UIExtension <|-- UIExtensionImages
+    ImagesPanel <-- UIExtensionImages
+    ImagedCellDecorator <-- UIExtensionImages
+    OverlayTableDecorator <-- UIExtensionImages
+
+
+    TableDecorator <|-- OverlayTableDecorator
+    CellDecorator <|-- ImagedCellDecorator
+
+
+    OverlayMouseMotionListener <-- OverlayTableDecorator
+
+    MouseMotionAdapter <|-- OverlayMouseMotionListener
+    SpreadsheetTable <-- OverlayMouseMotionListener
+    Cell <-- OverlayMouseMotionListener
+    ImageOverlayUI <-- OverlayMouseMotionListener
+
+    Spreadsheet <-- SpreadsheetTable
+    Cell --o Spreadsheet
+
+    ImagenableCell <-- ImagesPanel
+    ImageController <-- ImagesPanel
+    JPanel <|-- ImagesPanel
+    SelectionListener <|.. ImagesPanel
+
+    UIController <-- ImageController
+    ImagenableCell <-- ImageController
+
+    ImageOverlayController <-- ImageOverlayUI
+    JFrame <|-- ImageOverlayUI
+
+    ImagenableCell <-- ImageOverlayController
+@enduml
