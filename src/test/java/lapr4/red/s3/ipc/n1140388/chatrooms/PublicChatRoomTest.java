@@ -21,7 +21,7 @@ import org.junit.Ignore;
  *
  * @author Alexandra Ferreira 1140388
  */
-@Ignore public class PublicChatRoomTest {
+public class PublicChatRoomTest {
     
     public PublicChatRoomTest() {
     }
