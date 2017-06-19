@@ -53,12 +53,6 @@ public class TagController {
         this.contact = contact;
     }
 
-    /**
-     * Adds a tag to a contact
-     *
-     * @param t tag to add
-     * @return
-     */
     public Tag addTag(String textTag, Contact contact) throws DataConcurrencyException, DataIntegrityViolationException { 
         return tagRepository.save(new Tag(textTag, contact));
     }
