@@ -123,7 +123,7 @@
  * The following diagram illustrates what happens when the user insert a formula
  * into the cell.
  * <p>
- * <img src="design_lang01.2.png" alt="image">
+ * <img src="design_lang01.3.png" alt="image">
  * <p>
  *
  */
