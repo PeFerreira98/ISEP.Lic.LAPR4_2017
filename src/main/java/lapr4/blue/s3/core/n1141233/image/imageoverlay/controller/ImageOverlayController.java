@@ -42,7 +42,11 @@ public class ImageOverlayController
      */
     public Image getImage() throws IOException
     {
-        return cell.getImagesList().get(imageIndex).image();
+        if (cell.hasImages())
+        {
+            return cell.getImagesList().get(imageIndex).image();
+        }
+        return null;
     }
 
     /**
@@ -54,7 +58,10 @@ public class ImageOverlayController
      */
     public Image getNextImage() throws IOException
     {
-        imageIndex++;
+        if (imageIndex < cell.getImagesList().size())
+        {
+            imageIndex++;
+        }
         return getImage();
     }
 
@@ -68,7 +75,10 @@ public class ImageOverlayController
      */
     public Image getPreviousImage() throws IOException
     {
-        imageIndex--;
+        if (imageIndex > 0)
+        {
+            imageIndex--;
+        }
         return getImage();
     }
 
