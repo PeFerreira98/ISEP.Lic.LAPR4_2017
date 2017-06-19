@@ -82,7 +82,10 @@ public class ImagenableCell extends CellExtension
      */
     public void addImagenableCellListener(ImagenableCellListener listener)
     {
-        listeners.add(listener);
+        if (listener != null)
+        {
+            listeners.add(listener);
+        }
     }
 
     /**
@@ -92,7 +95,10 @@ public class ImagenableCell extends CellExtension
      */
     public void removeImagenableCellListener(ImagenableCellListener listener)
     {
-        listeners.remove(listener);
+        if (listener != null)
+        {
+            listeners.remove(listener);
+        }
     }
 
     /**

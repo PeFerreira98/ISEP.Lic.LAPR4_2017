@@ -40,7 +40,7 @@ public class Eval implements NaryOperator {
             
             value = test[0].evaluate();
 
-            return null;
+            return value;
         } catch (Exception ex) {
             return new Value();
         }

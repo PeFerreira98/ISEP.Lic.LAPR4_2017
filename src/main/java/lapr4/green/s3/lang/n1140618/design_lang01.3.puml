@@ -5,7 +5,7 @@ skinparam sequenceMessageAlign center
 actor User
 participant "Cell" as cell
 participant "FormulaCompiler" as fc
-participant "EvalCompiler" as ec
+participant "FormulaEvalVisitor" as ec
 participant "Formula" as form
 participant "Expression" as exp
 

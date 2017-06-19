@@ -149,8 +149,8 @@
  * <p>
  * {@link lapr4.blue.s3.core.n1141233.image.insertimage.ImagesExtension}
  * <br>
- * {@link lapr4.blue.s3.core.n1141233.image.insertimage.ImmagenableCellListener}
- * <br> {@link lapr4.blue.s3.core.n1141233.image.insertimage.ImmagenableCell}
+ * {@link lapr4.blue.s3.core.n1141233.image.insertimage.ImagenableCellListener}
+ * <br> {@link lapr4.blue.s3.core.n1141233.image.insertimage.ImagenableCell}
  * <br> {@link lapr4.blue.s3.core.n1141233.image.insertimage.Images}
  * <br>
  * {@link lapr4.blue.s3.core.n1141233.image.insertimage.ui.UIExtensionImages}
@@ -166,10 +166,14 @@
  * <br>
  * {@link lapr4.blue.s3.core.n1141233.image.imageoverlay.controller.ImageOverlayController}
  * <br>
+ * <br>
  * This is a small code snippet showing how the mouse motion listener detects a
- * cell with images and opens the overlay window<br>
- * <pre>
+ * cell with images and opens the overlay window
+ * <br>
  * Code snippet:
+ * <br>
+ * </p>
+ * <pre>
  * {@code
  *     if (active)
  *       {
@@ -189,7 +193,7 @@
  *               ImageOverlayUI ui = new ImageOverlayUI(choosedCell, point);
  *               ui.addMouseListener(new MouseAdapter()
  *               {
- *                   @Override
+ *                   //@Override
  *                   public void mouseEntered(MouseEvent e)
  *                   {
  *                       Point mousePos = MouseInfo.getPointerInfo().getLocation();
@@ -197,7 +201,7 @@
  *                       bounds.setLocation(ui.getLocationOnScreen());
  *                   }
  *
- *                   @Override
+ *                   //@Override
  *                   public void mouseExited(MouseEvent e)
  *                   {
  *                       Point mousePos = MouseInfo.getPointerInfo().getLocation();
@@ -216,8 +220,6 @@
  *       }
  * }
  * </pre>
- * <br>
- * </p>
  *
  *
  * <h2>6. Integration/Demonstration</h2>
