@@ -7,8 +7,11 @@ package lapr4.blue.s3.core.n1140953.address.ui;
 
 import eapli.framework.persistence.DataConcurrencyException;
 import eapli.framework.persistence.DataIntegrityViolationException;
+import java.io.File;
+import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import lapr4.blue.s3.core.n1140953.address.AddressController;
 import lapr4.blue.s3.core.n1140953.address.domain.Address;
@@ -55,6 +58,8 @@ public class AddContactAddressUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+        postalCodePathTextField = new javax.swing.JTextField();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -82,6 +87,16 @@ public class AddContactAddressUI extends javax.swing.JFrame {
 
         jLabel5.setText("Country");
 
+        postalCodePathTextField.setEditable(false);
+        postalCodePathTextField.setText("Validate Postal Code Path");
+
+        jButton3.setText("Browse");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -106,7 +121,11 @@ public class AddContactAddressUI extends javax.swing.JFrame {
                             .addComponent(townTextField)
                             .addComponent(postalTextField)
                             .addComponent(cityTextField)
-                            .addComponent(countryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE))))
+                            .addComponent(countryTextField, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(postalCodePathTextField)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton3)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -132,7 +151,11 @@ public class AddContactAddressUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(countryTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 65, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(postalCodePathTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
@@ -152,11 +175,10 @@ public class AddContactAddressUI extends javax.swing.JFrame {
                         townTextField.getText(),
                         postalTextField.getText(),
                         cityTextField.getText(),
-                        countryTextField.getText()
+                        countryTextField.getText(),
+                        postalCodePathTextField.getText()
                 );
-            } catch (DataConcurrencyException ex) {
-                Logger.getLogger(AddContactAddressUI.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (DataIntegrityViolationException ex) {
+            } catch (DataConcurrencyException | DataIntegrityViolationException | IOException ex) {
                 Logger.getLogger(AddContactAddressUI.class.getName()).log(Level.SEVERE, null, ex);
             }
             if (address != null) {
@@ -174,6 +196,16 @@ public class AddContactAddressUI extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            
+            postalCodePathTextField.setText(fileChooser.getSelectedFile().getAbsolutePath());
+        }
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     private boolean textFieldValidation() {
         if (streetTextField.getText() == null
@@ -197,11 +229,13 @@ public class AddContactAddressUI extends javax.swing.JFrame {
     private javax.swing.JTextField countryTextField;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField postalCodePathTextField;
     private javax.swing.JTextField postalTextField;
     private javax.swing.JTextField streetTextField;
     private javax.swing.JTextField townTextField;

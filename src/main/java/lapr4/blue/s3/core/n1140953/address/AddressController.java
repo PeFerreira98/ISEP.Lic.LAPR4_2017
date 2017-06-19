@@ -8,6 +8,7 @@ package lapr4.blue.s3.core.n1140953.address;
 import csheets.ui.ctrl.UIController;
 import eapli.framework.persistence.DataConcurrencyException;
 import eapli.framework.persistence.DataIntegrityViolationException;
+import java.io.IOException;
 import java.util.Properties;
 import lapr4.blue.s3.core.n1140953.address.domain.Address;
 import lapr4.blue.s3.core.n1140953.address.persistence.AddressRepository;
@@ -36,7 +37,14 @@ public class AddressController {
         this.addressRepository = persistenceContext.repositories().addresses();
     }
 
-    public Address addAddress(Contact contact, String street, String town, String postalCode, String city, String country) throws DataConcurrencyException, DataIntegrityViolationException {
+    public Address addAddress(Contact contact, String street, String town, String postalCode, String city, String country, String filePath) throws DataConcurrencyException, DataIntegrityViolationException, IOException{
+        if (validatePostalCode(postalCode, country, filePath)) {
+            return addAddress(contact, street, town, postalCode, city, country);
+        }
+        return null;
+    }
+    
+    private Address addAddress(Contact contact, String street, String town, String postalCode, String city, String country) throws DataConcurrencyException, DataIntegrityViolationException {
         final Address address = new Address(contact, street, town, postalCode, city, country);
         return addressRepository.save(address);
     }
@@ -60,5 +68,12 @@ public class AddressController {
 
     public Iterable<Address> getContactAddress(Contact contact) {
         return addressRepository.getAddressByContact(contact);
+    }
+
+    private boolean validatePostalCode(String postalCode, String country, String filePath) throws IOException {
+        if (country.equalsIgnoreCase("Portugal")) {
+            return PostalCodeFileValidation.validatePostalCode(postalCode, filePath);
+        }
+        return true;
     }
 }

@@ -74,6 +74,7 @@ public class AddressPanel extends JPanel {
 
             if (selectedContact != null) {
                 new AddContactAddressUI(addressController, selectedContact);
+                updateList();
                 return;
             }
 
