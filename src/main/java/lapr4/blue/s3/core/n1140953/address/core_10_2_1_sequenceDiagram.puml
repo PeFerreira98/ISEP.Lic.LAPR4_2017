@@ -1,0 +1,84 @@
+@startuml
+
+skinparam sequenceMessageAlign center
+skinparam monochrome true
+
+actor user
+
+participant "CleanSheets" as main
+participant "AddressExtension" as extension
+participant "UIAddressExtension" as uiextension
+
+participant "AddressPanel" as uimain
+participant "AddContactAddressUI" as uiadd
+participant "EditListContactAddressUI" as uilist
+participant "EditContactAddressUI" as uiedit
+participant "DeleteContactAddressUI" as uidelete
+
+control "AddressController" as controller
+
+participant PersistenceContext as persistence
+database AddressRepository as repoadd
+database ContactRepository as repocont
+
+entity Address as address
+
+
+user->main: select Address View
+
+== Initialization ==
+
+main->extension: getUIExtension()
+create uiextension
+extension->uiextension: create()
+extension->uiextension: getSidebar()
+create uimain
+uiextension->uimain: create()
+
+create controller
+uimain->controller: create()
+controller->persistence: contacts()
+create repocont
+persistence->repocont: create()
+controller->persistence: addresses()
+create repoadd
+persistence->repoadd: create()
+
+uimain->uimain: updateList()
+uimain->controller: allContacts()
+controller->repocont: findall()
+
+== Add Address ==
+
+user->uimain: select add address to contact
+create uiadd
+uimain->uiadd: create()
+user->uiadd: insert data
+uiadd->controller: addAddress()
+create address
+controller->address: create()
+controller->repoadd: save(address)
+
+== Edit Address ==
+
+user->uimain: select edit address to contact
+create uilist
+uimain->uilist: create()
+user->uilist: select address to edit
+create uiedit
+uilist->uiedit: create()
+user->uiedit: edit data
+uiedit->controller: editAddress()
+controller->address: update()
+controller->repoadd: save(address)
+
+== Remove Address ==
+
+user->uimain: select delete address to contact
+create uidelete
+uimain->uidelete: create()
+user->uidelete: select address to delete
+uidelete->controller: removeAddress()
+controller->repoadd: removeAddress(address)
+
+@enduml

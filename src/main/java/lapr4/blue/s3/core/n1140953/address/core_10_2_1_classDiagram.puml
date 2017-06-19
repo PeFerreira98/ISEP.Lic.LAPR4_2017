@@ -1,0 +1,81 @@
+@startuml
+
+package address <<Folder>> { 
+    class AddressExtension {
+        +getUIExtension(UIController uiController)
+    }
+
+    class AddressController {
+        -ContactRepository contactsRepository
+        -AddressRepository addressRepository
+
+        +addAddress(Contact contact, String street, String town, String postalCode, String city, String country)
+        +editAddress(Address address, String street, String town, String postalCode, String city, String country)
+        +removeAddress(Address address)
+        +allContacts()
+        +allAddresses()
+        +getContactAddress(Contact contact)
+    }
+
+    package address.persistence <<Database>> {
+        interface AddressRepository {
+            +removeAddress(Address address)
+            +getAddressByContact(Contact contact)
+        }
+    }
+
+    package address.domain <<Folder>> {
+        class Address {
+            -String street
+            -String town
+            -String postalCode
+            -String city
+            -String country
+        }
+    }
+
+    package address.ui <<Node>> {
+        class UIAddressExtension
+        class AddressPanel
+        class AddContactAddressUI
+        class EditListContactAddressUI
+        class EditContactAddressUI
+        class DeleteContactAddressUI
+    }
+}
+
+together {
+    interface ContactRepository
+
+    class PersistenceContext {
+        +repositories()
+    }
+
+    class Contact {
+        -String name
+    }
+}
+
+
+Contact "1" *-- "2" Address : contains
+
+AddressExtension -- UIAddressExtension
+UIAddressExtension -- AddressPanel
+AddressPanel -- AddContactAddressUI
+AddressPanel -- EditListContactAddressUI
+AddressPanel -- DeleteContactAddressUI
+EditListContactAddressUI -- EditContactAddressUI
+AddContactAddressUI -- AddressController
+EditListContactAddressUI -- AddressController
+EditContactAddressUI -- AddressController
+DeleteContactAddressUI -- AddressController
+AddressPanel -- AddressController
+
+AddressController -- AddressRepository
+AddressController -- ContactRepository
+AddressController -- Address
+
+ContactRepository -- PersistenceContext
+AddressRepository -- PersistenceContext
+
+@enduml
