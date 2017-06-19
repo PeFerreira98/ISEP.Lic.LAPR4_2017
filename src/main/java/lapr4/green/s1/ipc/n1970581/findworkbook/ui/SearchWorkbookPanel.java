@@ -108,6 +108,11 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
 
         jTextFieldRoot.setEditable(false);
         jTextFieldRoot.setText("Press [Root] to select search directory...");
+        jTextFieldRoot.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldRootActionPerformed(evt);
+            }
+        });
 
         jButtonSearch.setText("Search");
         jButtonSearch.setEnabled(false);
@@ -252,6 +257,10 @@ public class SearchWorkbookPanel extends javax.swing.JPanel implements Observer 
         realTimeSearch.setVisible(true);
 
     }//GEN-LAST:event_realTimeButtonActionPerformed
+
+    private void jTextFieldRootActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldRootActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldRootActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

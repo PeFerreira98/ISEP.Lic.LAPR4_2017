@@ -1,0 +1,52 @@
+@startuml image06.png
+
+
+actor "user : User " as user
+'participant "ui : System" as ui
+participant "panel : VariableEditorPanel" as panel
+participant "c : VariableEditorController" as c
+participant " uic : UIController" as uic
+participant "w : Workbook " as w
+participant "newValue : Value " as v
+participant "store :ArrayStorage " as store
+participant "<<Expression>>\nai : ArrayItem " as ai
+
+participant "dto : ArrayItemDTO " as dto
+participant "<<Observable>>\n<< Singleton >>\n dog : VariableEditorWatchdog" as dog
+
+user -> panel : selects a variable and edits it to a new value
+activate panel #red
+
+panel -> c : editArrayItem( variableDTO , textValue)
+
+activate c #green
+c -> v : parseValue(textalue)
+v --> c : newValue
+
+
+c -> uic : getActiveWorkbook()
+c -> w : retrieveArrayStorage()
+c -> store : editArrayItem(dto, newValue)
+c -> dto : name()
+c -> ai : setValue( newValue )
+deactivate c
+
+ai -> dog : instance()
+ai -> dog : signalChange()
+
+dog -> panel : update()
+panel -> panel : updateList()
+
+panel -> c : retriveActiveWorkbookVariableList()
+activate c #blue
+c -> uic : getActiveWorkbook()
+c -> w : retrieveArrayStorage()
+c -> store : listContainerAsDTO()
+deactivate c
+
+
+panel -> user : show updated list
+deactivate panel
+
+
+@enduml

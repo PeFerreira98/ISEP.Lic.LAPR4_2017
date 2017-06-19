@@ -52,7 +52,8 @@
  * <h3>3.1 User Stories</h3>
  *
  * <p>
- * <b>US1.</b> As a User I want to be able to 
+ * <b>US1.</b> As a User I want to be able view the cell's associated images in
+ * an overlay window when i hover the mouse over a cell that contains images.
  * <br>
  * </p>
  *
@@ -67,13 +68,13 @@
  * <h3>3.3 Use Cases (Scenarios)</h3>
  *
  * <p>
- * <b>UC1  (from US1)</b>
+ * <b>UC1 Open Overlay Window(from US1)</b>
  * <br>
  * <img src="ipc04.2_analysis1.png" alt="analysis">
  * <br>
  * Alternative and Exception Scenarios
  * <br>
- * Exception 1: 
+ * Exception 1: No cells with images available.
  * <br>
  * </p>
  *
@@ -87,9 +88,14 @@
  * <h4>4.1.1 Functional/Integration Tests</h4>
  *
  * <p>
- * <b>Import data link from a text file Test:</b>
+ * <b>Open Overlay Window file Test:</b>
  * 1. The user should start the CleanSheets Application<br>
- * 2. Selects the first cell he wants to be used for 
+ * 2. He moves the mouse pointer over a cell that contains images<br>
+ * 3. The overlay window opens allowing him to navigate through the images in the
+ * cell using the buttons in the window<br>
+ * 4. The user presses the buttons previous or next to navigate through the images<br>
+ * 5. The user moves the mouse outside the overlay window to close it<br>
+ * 6. No error should occur<br>
  * </p>
  *
  * <h4>4.1.2 Unit Tests</h4>
@@ -103,9 +109,9 @@
  * <pre>
  * {@code
  * Given
- *   File already exists
+ *   No cells with images available
  * Then
- *   System throws Exception
+ *   User inserts images
  * }
  * </pre>
  *
@@ -142,7 +148,7 @@
  * <h2>5. Implementation</h2>
  * <p>
  * TODO
- * <br> 
+ * <br>
  * </p>
  *
  *
@@ -169,7 +175,7 @@
  * <p>
  * Please also check Jira issue LAPR4E17DL-85 for time logging.
  * <br>
- * 
+ *
  * Work notes/log: S3 13-06-2017 (terça)
  * <br>
  * - During the morning we had a meeting with the client.
@@ -182,8 +188,38 @@
  * <br>
  * - Analysis was initiated.
  * <br>
- * 
- * 
+ *
+ * <br>
+ * Work notes/log: S3 14-06-2017 (quarta)
+ * <br>
+ * - Analysis was conluded.
+ * <br>
+ * - Design and implementation was initiated.
+ * <br>
+ *
+ * <br>
+ * Work notes/log: S3 15-06-2017 (quinta)
+ * <br>
+ * - Design was conluded.
+ * <br>
+ * - Implementation was continued.
+ * <br>
+ * - Testing was started.
+ * <br>
+ *
+ * <br>
+ * Work notes/log: S3 16-06-2017 (sexta)
+ * <br>
+ * - Implementation and testing was continued.
+ * <br>
+ *
+ * <br>
+ * Work notes/log: S3 17-06-2017 (sábado)
+ * <br>
+ * - Implementation was concluded.
+ * <br>
+ * - Design was updated.
+ * <br>
  * </p>
  *
  *
@@ -220,4 +256,4 @@
  *
  * @author Rafael Vieira
  */
-package lapr4.blue.s3.core.n1141233.imageoverlay;
+package lapr4.blue.s3.core.n1141233.image.imageoverlay;

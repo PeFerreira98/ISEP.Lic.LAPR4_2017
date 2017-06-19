@@ -1,0 +1,46 @@
+@startuml ipc02_03_dc.png
+skinparam handwritten true
+skinparam monochrome true
+skinparam packageStyle rect
+skinparam defaultFontName FG Virgil
+skinparam shadowing false
+
+title Multiple Realtime Workbook Search Class Diagram
+
+
+class SearchWorkbookPanel{
+	-Map<String, RealTimeSearch> wbooks;
+	-JList list;
+	-RealTimeSearchUI rt;
+	-SearchdWorkbookController controller;
+	+selectionChanged(SelectionEvent event);
+	+delete();
+	+Map<String, RealTimeSearch> showWbooksFolders();
+}
+
+class RealTimeSearchUI{
+	-SearchWorkbookController controller;
+	-SearchWorkbookPanel searchWorkbookPanel;
+	-ArrayList<String> list;
+	-ArrayList<Thread> listThreads;
+	-DefaultListModel model;
+	+putMeOnTheMiddle();
+	+ArrayList<Thread> showListThreads();
+	+fillFolders();
+}
+
+class RealTimeSearch{
+	-SearchWorkbookController controller;
+        -SearchWorkbookPanel searchWorkbookPanel;
+	-ArrayList<String> list;
+	-ArrayList<Thread> listThreads;
+	-Lock mutex;
+	-Timer timer;
+	+run();
+	+findWorkbook(String path);
+	+selectionChanged(SelectionEvent event);
+}
+
+SearchWorkbookPanel --> RealTimeSearchUI
+RealTimeSearchUI --> RealTimeSearch
+@enduml

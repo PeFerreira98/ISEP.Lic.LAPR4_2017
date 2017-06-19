@@ -1,0 +1,62 @@
+@startuml lang04.02_design_part2.png
+
+  class InsertFunctionUI {
+    -InsertFunctionController controller;
+    -DefaultListModel<Function> functionList;
+    -DefaultListModel<String> functionListString;
+    -DefaultListModel<BinaryOperator> operatorList;
+    -DefaultListModel<String> operatorListString;
+    -Formula form;
+    -initComponents();
+    -addFunctionsToList();
+    -addOperatorsToList();
+    -buildSyntax(Function func, FunctionParameter param[]);
+  }
+
+  class InsertFunctionController {
+    -UIController uiController;
+    -Language language;
+    -FormulaCompiler compiler;
+    +obtainActiveCell();
+    +getListSupportedFunctions();
+    +getListSupportedOperators();
+    +getFunction(String identifier);
+    +hasFunction(String identifier);
+    +getOperator(String identifier);
+    +compileFormula(String formulaData);
+    +copyContentToCell(String content);
+  }
+
+  class Language {
+    -Language instance;
+    -String PROPERTIES_FILENAME = "res/language.props";
+    -List<UnaryOperator> unaryOperators;
+    -List<BinaryOperator> binaryOperators;
+    -List<Function> functions;
+    +getInstance();
+    +getUnaryOperator(String identifier);
+    +getBinaryOperator(String identifier);
+    +getFunction(String identifier);
+    +hasFunction(String identifier);
+    +getFunctions();
+    +getOperators();
+  }
+
+  class Formula {
+  }
+
+  class UIController {
+    -Cell activeCell;
+    +getActiveCell();
+  }
+
+  class Cell {
+  }
+
+    InsertFunctionUI --> InsertFunctionController
+    InsertFunctionUI --> Formula
+    InsertFunctionController --> Language
+    InsertFunctionController --> UIController
+    InsertFunctionController --> Cell
+    Cell --> UIController
+@enduml

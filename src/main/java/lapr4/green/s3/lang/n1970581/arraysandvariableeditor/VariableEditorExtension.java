@@ -17,7 +17,7 @@ import lapr4.green.s3.lang.n1970581.arraysandvariableeditor.ui.UIExtensionVariab
 public class VariableEditorExtension extends Extension{
     
     /** The name of the extension */
-	public static final String NAME = "VariableEditor";
+	public static final String NAME = "Variable Editor";
         /** The version number */
 	public static final int VERSION = 3;
 	/** The description */

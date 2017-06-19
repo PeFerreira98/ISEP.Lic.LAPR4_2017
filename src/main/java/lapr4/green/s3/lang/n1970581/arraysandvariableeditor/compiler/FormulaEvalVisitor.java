@@ -186,11 +186,17 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
 
     @Override
     public Expression visitVariable(Formula4Parser.VariableContext ctx) {
-        if(ctx.getText() != null && !ctx.getText().isEmpty() && ctx.getText().charAt(0) == '@'){
+        // FIXME Have to use the ARROBA hardcoded here, because the grammar completely breaks if I try to use more tokens inside the "variable" token. Had to give up after 6 hours of tries.
+        if (ctx.getText() != null && !ctx.getText().isEmpty() && ctx.getText().charAt(0) == '@') {
             System.out.println(ctx.getText());
-            return this.cell.getSpreadsheet().getWorkbook().retrieveArrayStorage().retrieveArrayItem(ctx.getText());
+            String name = ctx.getText();
+            return this.cell.getSpreadsheet().getWorkbook().retrieveArrayStorage().retrieveArrayItem(name);
         }
-        return new TemporaryReference(cell, ctx.getText());
+        String nameTemp = ctx.getText();   // Enforcing "_a" => "_a[1]" without changing code in the other studend package.
+        if (!nameTemp.contains("[")) {       // FIXME again, grammar is very inflexible.
+            nameTemp = nameTemp.concat("[1]");
+        }
+        return new TemporaryReference(cell, nameTemp);
     }
 
     public Expression visitGlobalVariableReference(Formula4Parser.VariableContext ctx) {
@@ -240,6 +246,67 @@ public class FormulaEvalVisitor extends Formula4BaseVisitor<Expression> {
             } catch (UnknownElementException ex) {
                 addVisitError(ex.getMessage());
             }
+        }
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public Expression visitDowhile(Formula4Parser.DowhileContext ctx) {
+        //TODO FINISH THIS!
+        if (ctx.FUNCTION() != null) {
+            try {
+                // The dowhile is the father node
+                // The next is L_CURLY_BRACKET
+                // All the other nodes of the FOR are children.
+                // The last children node is always the R_CURLY_BRACKET
+                // Therefore all the other children will be expressions to be also converted and
+                // executed by a "block executor"
+
+                Expression expressions[] = new Expression[(ctx.getChildCount() - 1) / 2];
+
+                // #1 Convert all the child nodes
+                for (int nChild = 2; nChild < ctx.getChildCount(); nChild += 2) {
+                    expressions[(nChild / 2) - 1] = visit(ctx.getChild(nChild));
+                }
+
+                // #2 return an instance of the new NaryOperation Class
+                NaryOperator operator = Language.getInstance().getNaryOperator(ctx.getChild(0).getText());
+
+                return new NaryOperation(operator, expressions);
+
+            } catch (UnknownElementException ex) {
+                addVisitError(ex.getMessage());
+            }
+        }
+        return visitChildren(ctx);
+    }
+
+    @Override
+    public Expression visitEval(Formula4Parser.EvalContext ctx) {
+        if (ctx.FUNCTION() != null) {
+            try {
+            if (ctx.getChild(3).getChildCount() == 2) { // Convert unary operation
+                int operatorid = 0, operand = 1;  // Assume operator on the left
+
+
+                return new UnaryOperation(
+                        Language.getInstance().getUnaryOperator(ctx.getChild(3).getChild(operatorid).getText()),
+                        visit(ctx.getChild(3).getChild(operand))
+                );
+
+            } else if (ctx.getChild(3).getChildCount() == 3) {
+                // Convert binary operation
+                BinaryOperator operator = Language.getInstance().getBinaryOperator(ctx.getChild(3).getChild(1).getText());
+                return new BinaryOperation(
+                        visit(ctx.getChild(3).getChild(0)),
+                        operator,
+                        visit(ctx.getChild(3).getChild(2))
+                );
+            }
+
+        } catch (FormulaCompilationException ex) {
+            addVisitError(ex.getMessage());
+        }
         }
         return visitChildren(ctx);
     }

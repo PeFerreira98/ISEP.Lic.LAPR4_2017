@@ -1,0 +1,35 @@
+@startuml
+
+participant User as u
+participant SearchPanel as ui
+participant WorkbookSearchController as ctrl
+
+u->ui: init search
+ui->ctrl: create
+u->ui: insert expression
+ui->ctrl: clear
+ui->ctrl: search
+ctrl->UIController: getActiveWorkbook
+UIController->Workbook: getSpreadsheetCount
+Workbook-->UIController: 
+UIController-->ctrl:count
+loop
+    ctrl->UIController:getActiveWorkbook
+    UIController->Workbook:getSpreadsheet
+    Workbook->Spreadsheet: getCells    
+    Spreadsheet-->Workbook:
+    Workbook-->UIController:
+    UIController-->ctrl:list
+    loop
+        ctrl->ctrl:checkCell
+note left: If        
+        ctrl->ctrl:addCell
+note left: then
+    end loop
+end loop
+
+ui->ui: updateList
+ui->ctrl: getCellList
+ui-->u:display results
+
+@enduml

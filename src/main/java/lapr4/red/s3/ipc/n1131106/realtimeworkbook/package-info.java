@@ -56,7 +56,7 @@
  *
  *
  * <h3>4.2. Classes</h3>
- * <img src="" alt="image">
+ * <img src="ipc02_03_dc.png" alt="image">
  *
  *
  * <h2>8. Work Log</h2>
@@ -79,28 +79,30 @@
  * <b>Wednesday:</b>
  * </p>
  * <p>
- * 1.
+ * 1. Finish the analysis of my UC
+ * 2. Start the design
  * </p>
  *
  * <p>
  * <b>Thursday:</b>
  * </p>
  * <p>
- * 1. 
+ * 1. Finish the design
+ * 2. Start the implementation
  * </p>
  *
  * <p>
  * <b>Friday:</b>
  * </p>
  * <p>
- * 1. 
+ * 1. Continue the implementation
  * </p>
  *
  * <p>
  * <b>Saturday:</b>
  * </p>
  * <p>
- * 1.
+ * 1. Finish the implementation and unit tests
  * </p>
  *
  * @author Nuno Costa 1131106

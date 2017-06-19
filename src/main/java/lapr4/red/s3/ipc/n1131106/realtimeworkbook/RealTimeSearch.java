@@ -15,6 +15,7 @@ import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import lapr4.green.s1.ipc.n1970581.findworkbook.FileDTO;
 import lapr4.green.s1.ipc.n1970581.findworkbook.controller.SearchWorkbookController;
 import lapr4.green.s1.ipc.n1970581.findworkbook.ui.SearchWorkbookPanel;
 
@@ -33,14 +34,15 @@ public class RealTimeSearch implements Runnable, SelectionListener {
 
     /**
      *
-     * @param controller FindWorkbookController
+     * @param controller searchWorkbookController
      * @param path the path of the folder
+     * @param searchWorkbookPanel searchWorkbookPanel
      */
     public RealTimeSearch(SearchWorkbookController controller,
-            String path, SearchWorkbookPanel SearchWorkbookPanel) {
+            String path, SearchWorkbookPanel searchWorkbookPanel) {
         this.controller = controller;
         this.path = path;
-        this.searchWorkbookPanel = SearchWorkbookPanel;
+        this.searchWorkbookPanel = searchWorkbookPanel;
     }
 
     /**
@@ -94,6 +96,7 @@ public class RealTimeSearch implements Runnable, SelectionListener {
             }
 
             if (flag == false) {
+                
                 ((DefaultListModel) searchWorkbookPanel.showJListWorbooks().getModel()).
                         addElement(root);
             }

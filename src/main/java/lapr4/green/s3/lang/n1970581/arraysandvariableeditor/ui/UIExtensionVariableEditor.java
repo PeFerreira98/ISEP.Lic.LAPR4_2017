@@ -7,6 +7,7 @@ package lapr4.green.s3.lang.n1970581.arraysandvariableeditor.ui;
 
 import csheets.ext.Extension;
 import csheets.ui.ctrl.UIController;
+import csheets.ui.ext.CellDecorator;
 import csheets.ui.ext.UIExtension;
 import javax.swing.Icon;
 import javax.swing.JComponent;
@@ -16,6 +17,17 @@ import javax.swing.JComponent;
  * @author Hugo
  */
 public class UIExtensionVariableEditor extends UIExtension{
+    
+    
+    /** The icon to display with the extension's name */
+    private Icon icon;
+    
+    /** A cell decorator that visualizes comments on cells */
+    private CellDecorator cellDecorator;
+	
+    /** A side bar that provides editing of comments */
+    private JComponent sideBar;
+    
     
     
         /**
@@ -35,8 +47,13 @@ public class UIExtensionVariableEditor extends UIExtension{
 	 * functionality.
 	 * @return a component, or null if the extension does not provide one
 	 */
+    @Override
 	public JComponent getSideBar() {
-		return new  VariableEditorPanel(this.uiController);
+            if (sideBar == null){
+        	
+        	sideBar = new VariableEditorPanel(uiController);}
+            return sideBar;
+		
 	}	
     
     

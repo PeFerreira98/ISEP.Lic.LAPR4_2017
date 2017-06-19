@@ -1,0 +1,75 @@
+@startuml image04.png
+
+'Workbook
+'ArrayStorage
+'ArrayItem
+'Variable
+'Value
+'VariableEditorExtension
+'VariableEditorController
+'VariableEditorPanel
+'UIExtensionVariableEditor
+
+
+actor "user : User " as user
+participant "ui : System" as ui
+participant "visitor : FormulaEvalVisitor " as visitor
+
+participant "cell : Cell " as cell
+participant "w : Workbook " as w
+participant "s : Spreasheet " as s
+participant "store :ArrayStorage " as store
+participant "<<Expression>>\nai : ArrayItem " as ai
+participant " <<BinaryOperation>>\nbi : AssignmentOperator " as bi 
+participant " ex : Expression " as ex
+participant "<<Observable>>\n<< Singleton >>\n dog : VariableEditorWatchdog" as dog
+
+user -> ui : edits cell value to =(@a[1]:=2)
+
+ui -> visitor : visitExpression()
+
+visitor -> visitor : visitAssignment()
+
+'activate visitor #FFBBBB
+activate visitor #red
+visitor -> visitor : visitVariable()
+activate visitor #DarkSalmon
+visitor -> cell : getSpreadsheet()
+cell -> s : getWorkbook()
+s -> w : retrieveArrayStorage()
+w -> store : retrieveArrayItem( name )
+'return this.cell.getSpreadsheet().getWorkbook().retrieveArrayStorage().retrieveArrayItem(ctx.getText());
+alt if there is not a variable with this name 
+    create ai
+    store -> ai : create(name)
+    note right : name = @a[1]
+    store -> store : add(ai)
+else 
+end
+store --> visitor : ai
+
+deactivate visitor
+
+create bi
+visitor -> bi : create( ai ,operator , ex)
+activate visitor #blue
+alt if ai instance of ArrayItem
+bi -> ex : evaluate()
+ex --> bi : value = 2
+note right : ex value = 2
+bi -> ai : setValue(value)
+
+ai -> dog : instance()
+ai -> dog : signalChange()
+dog -> dog : setChanged()
+dog -> dog : notifyObservers()
+bi --> visitor : return value = 2
+
+else
+end
+deactivate visitor
+
+deactivate visitor
+
+ui --> user : shows the value 2 in cell
+@enduml

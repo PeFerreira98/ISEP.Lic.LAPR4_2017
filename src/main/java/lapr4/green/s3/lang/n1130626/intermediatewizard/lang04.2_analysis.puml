@@ -6,10 +6,10 @@ participant "System" as s
 
 User->s: Select the cell that he wants to insert a function
 User->s: Select the wizard option
-s->User: Display the avaliable functions and operators
-User->s: Select the function or operators
-s->User: Display a preview of the selected function/operator
-User->s: Select the values he wants to use
+s->User: Display the avaliable functions
+User->s: Select the function
+s->User: Display a preview of the selected function
+User->s: Select the values he wants to use for the respective function
 User->s: Select the preview option
 s->User: Show the result of the function with the selected values
 User->s: Select the insert button

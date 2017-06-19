@@ -138,6 +138,12 @@ public class UIStartSharing extends UIExtension implements CommHandler2, Observe
         SharingAutomaticUpdateCellListener sharingAutomaticUpdateCellListener = new SharingAutomaticUpdateCellListener(this);
         uiController.getActiveSpreadsheet().addCellListener(sharingAutomaticUpdateCellListener);
     }
+    
+//    void addCellListener(){
+//        SharingAutomaticUpdateCellListener sharingAutomaticUpdateCellListener = new SharingAutomaticUpdateCellListener(this);
+//        uiController.
+//    }
+    
     /**
      * Lock a peer
      * @param peer peer

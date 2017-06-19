@@ -1,0 +1,59 @@
+@startuml classDiagram_ipc05.3.png
+class UIController{
+}
+
+class CreateChatRoomUI{
+}
+
+class JoinChatRoomUI{
+}
+
+class CommunicateChatRoomUI{
+}
+
+class ChatRoomController{
+    +new();
+    +bool = owner();
+    +createChatRoom(name, type);
+    +startChat();
+}
+
+class ChatUser{
+
+}
+
+class ChatRoom{
+}
+
+class PrivateChatRoom{
+    +chatR = new PrivateChatRoom(type, name, p);
+    +getInvitation(np);
+}
+
+class PublicChatRoom{
+    +chatR = new PublicChatRoom(type, name, p);
+}
+
+class ChatRoomsList{
+    +add(chatR);
+}
+
+class ConversationStorage{
+}
+
+
+CreateChatRoomUI --> ChatRoomController
+JoinChatRoomUI --> ChatRoomController
+CommunicateChatRoomUI--> ChatRoomController
+
+ChatRoomController --> UIController
+
+
+ChatRoomsList --> ChatRoom
+ChatRoom --> PrivateChatRoom
+ChatRoom --> PublicChatRoom
+ChatRoom --> ChatUserList
+ChatRoom --> ConversationStorage
+ChatUserList --> ChatUser
+ConversationStorage --> Messsage
+@enduml
