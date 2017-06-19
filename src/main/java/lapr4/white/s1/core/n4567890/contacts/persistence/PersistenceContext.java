@@ -44,8 +44,4 @@ public class PersistenceContext {
 			return null;
 		}
 	}
-        
-        public static JpaRepositoryFactory jparepositories() {
-            return new JpaRepositoryFactory();
-        }
 }

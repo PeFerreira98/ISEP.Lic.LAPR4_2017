@@ -5,6 +5,7 @@
  */
 package lapr4.white.s1.core.n4567890.contacts.persistence;
 
+import lapr4.blue.s3.core.n1140948.contactstag.persistance.TagRepository;
 import lapr4.blue.s3.core.n1140953.address.persistence.AddressRepository;
 import lapr4.green.s2.core.n1151211.CompanyContact.persistence.CompanyContactRepository;
 import lapr4.green.s2.core.n1151211.CompanyContact.persistence.PersonalContactRepository;
@@ -25,5 +26,7 @@ public interface RepositoryFactory {
     CompanyContactRepository companyContact();
     
     PersonalContactRepository personalContact();
+    
+    TagRepository tags();
 
 }

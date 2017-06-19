@@ -6,9 +6,13 @@
 package lapr4.blue.s3.core.n1140948.contactstag.ui;
 
 import csheets.ui.ctrl.UIController;
+import eapli.framework.persistence.DataConcurrencyException;
+import eapli.framework.persistence.DataIntegrityViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import lapr4.blue.s3.core.n1140948.contactstag.controller.TagController;
@@ -23,7 +27,7 @@ import lapr4.white.s1.core.n4567890.contacts.persistence.PersistenceContext;
  * @author Tiago Silvestre
  */
 public class AssociateTagUI extends javax.swing.JFrame {
-    
+
     private UIController uiController;
     private List<Tag> tagList;
     private String aux;
@@ -31,40 +35,37 @@ public class AssociateTagUI extends javax.swing.JFrame {
     private DefaultListModel<Contact> lstContacts;
     private DefaultListModel<Tag> lstTags;
     private Contact contact;
-    private Properties props = new Properties();
-    private ContactController contactController = new ContactController(props);
 
     /**
      * Creates new form AssociateTagUI for a Contact
      */
-    public AssociateTagUI() {
-        this.tagController = new TagController();
+    public AssociateTagUI(UIController uiController) {
+        this.tagController = new TagController(uiController, uiController.getUserProperties());
         this.tagList = new ArrayList<>();
         this.lstTags = new DefaultListModel<Tag>();
         this.lstContacts = new DefaultListModel<Contact>();
-        
+
         initComponents();
         initContactList();
         initTagList();
-        
+
         pack();
         setResizable(false);
         setLocationRelativeTo(null);
         setVisible(true);
     }
-    
+
     private void initTagList() {
-        if (!tagController.tagListIsEmpty()) {
-            for (Tag t : tagController.getAllTags()) {
-                lstTags.addElement(t);
-            }
-            jListTags.setModel(lstTags);
+        lstTags.clear();
+        for (Tag t : tagController.getAllTags()) {
+            lstTags.addElement(t);
         }
         jListTags.setModel(lstTags);
     }
-    
-    private void initContactList(){
-        for(Contact c : contactController.allContacts()){
+
+    private void initContactList() {
+        lstContacts.clear();
+        for (Contact c : tagController.allContacts()) {
             lstContacts.addElement(c);
         }
         jContactList.setModel(lstContacts);
@@ -90,10 +91,10 @@ public class AssociateTagUI extends javax.swing.JFrame {
         btnTagFrequency = new javax.swing.JButton();
         jPanelList = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jListTags = new javax.swing.JList();
+        jListTags = new javax.swing.JList<>();
         jPanelContactList = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jContactList = new javax.swing.JList();
+        jContactList = new javax.swing.JList<>();
         jPanelContacts = new javax.swing.JPanel();
         contactLbl = new javax.swing.JLabel();
 
@@ -300,7 +301,7 @@ public class AssociateTagUI extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnSelectTagActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectTagActionPerformed
-        tagList.add((Tag) jListTags.getSelectedValue());
+        tagList.add(jListTags.getSelectedValue());
         aux = "";
         for (Tag t : tagList) {
             aux += t.toString() + " ";
@@ -310,22 +311,19 @@ public class AssociateTagUI extends javax.swing.JFrame {
 
     private void btnAddNewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddNewActionPerformed
         String auxTextTag = JOptionPane.showInputDialog("Insert New Tag");
-        Tag t = new Tag(auxTextTag, contact);
-
-        if (!tagController.addTag(t)) {
-            JOptionPane.showMessageDialog(rootPane, "New Tag not added!");
-        } else {
-            this.lstTags.addElement(t);
-            contact.addTag(t);
-            this.tagController.addTag(t);     
-            
-            TagRepository tag_rep = PersistenceContext.jparepositories().tags();
-            tag_rep.saveTag(t);
-            
-            this.repaint();
-            
-            System.out.println(tag_rep.allTags());
+        Tag t = null;
+        try {
+            t = tagController.addTag(auxTextTag, contact);
+        } catch (DataConcurrencyException | DataIntegrityViolationException ex) {
+            Logger.getLogger(AssociateTagUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+
+        if (t != null) {
+            JOptionPane.showMessageDialog(rootPane, "New Tag added!");
+            initTagList();
+            return;
+        }
+        JOptionPane.showMessageDialog(rootPane, "New Tag not added!");
     }//GEN-LAST:event_btnAddNewActionPerformed
 
     private void btnSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSearchActionPerformed
@@ -344,8 +342,8 @@ public class AssociateTagUI extends javax.swing.JFrame {
     private javax.swing.JButton btnSelectTag;
     private javax.swing.JButton btnTagFrequency;
     private javax.swing.JLabel contactLbl;
-    private javax.swing.JList jContactList;
-    private javax.swing.JList jListTags;
+    private javax.swing.JList<Contact> jContactList;
+    private javax.swing.JList<Tag> jListTags;
     private javax.swing.JPanel jPanelButtons;
     private javax.swing.JPanel jPanelContactList;
     private javax.swing.JPanel jPanelContacts;

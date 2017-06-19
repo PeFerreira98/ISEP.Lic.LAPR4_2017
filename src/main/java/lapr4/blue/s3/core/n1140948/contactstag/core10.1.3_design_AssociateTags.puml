@@ -1,0 +1,61 @@
+@startuml core10.1.3_design_AssociateTags.png
+
+skinparam monochrome true
+skinparam sequenceMessageAlign center
+
+actor User
+
+participant "AssociateTagUI" as UI
+participant "TagController" as tagctrl
+participant "ContactController" as contctrl
+participant "ContactRepository" as contrepo
+participant "TagRepository" as tagrepo
+participant "Repository" as repo
+participant Tag
+participant Contact
+
+User->UI:Open
+UI->contctrl: create()
+contctrl->contrepo: allContacts()
+contrepo->repo: findAll()
+UI->UI: initContactList()
+
+UI->tagctrl: create()
+tagctrl->tagrepo: getAllTags()
+tagrepo->contrepo: findAll()
+contrepo->repo: findAll()
+loop **Search all Tags per Contact**
+tagctrl->Contact: create()
+tagctrl->Tag : create()
+Contact->Contact: getTagList()
+end
+UI->UI: initTagList()
+
+note left of User
+Associate a Tag to a Contact
+end note
+loop **Contact can have various Tags**
+User->UI: Selects a Contact and a Tag
+UI->tagctrl: validateTag(tag)
+note left
+    User cannot have repeated tags
+end note
+UI->tagctrl: addTag(tag)
+tagctrl->Contact: addTag(tag)
+end
+
+note left of User
+Search for a Contact by tag
+end note
+User->UI: Search For Contact
+UI->tagSearchUI: create()
+tagSearchUI->tagctrl: findContactByTag(tag)
+tagctrl->tagrepo: findContactByTag(tag)
+
+note left of User
+Gets Tags Frequency
+end note 
+User->UI: Selects Tag Frequency option
+UI->tagfreqUI: create()
+tagfreqUI->tagctrl: getTagFrequency()
+@enduml

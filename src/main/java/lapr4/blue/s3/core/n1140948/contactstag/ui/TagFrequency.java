@@ -17,16 +17,16 @@ import lapr4.blue.s3.core.n1140948.contactstag.domain.Tag;
  */
 public class TagFrequency extends javax.swing.JDialog {
 
-    private DefaultListModel<Tag> lstTag;
-    private DefaultListModel<Integer> lstFreq;
+    private DefaultListModel<Integer> lstModelFreqs;
+    private DefaultListModel<Tag> lstModelTags;
     private TagController controller;
     /**
      * Creates new form MostUsedTags
      */
     public TagFrequency(TagController ctrl) {
         this.controller = ctrl;
-        this.lstFreq = new DefaultListModel<>();
-        this.lstTag = new DefaultListModel<>();
+        this.lstModelTags = new DefaultListModel<>();
+        this.lstModelFreqs = new DefaultListModel<>();
         initComponents();
         initLists();
         setLocationRelativeTo(null);
@@ -34,13 +34,13 @@ public class TagFrequency extends javax.swing.JDialog {
     }
     
     private void initLists(){
-        SortedSet<Integer> keys = new TreeSet<>(controller.tagFrequency().keySet());
-        for (Integer key : keys) {
-            lstTag.addElement(controller.tagFrequency().get(key));
-            lstFreq.addElement(key);
+        SortedSet<Tag> keys = new TreeSet<>(controller.tagFrequency().keySet());
+        for (Tag key : keys) {
+            lstModelFreqs.addElement(controller.tagFrequency().get(key));
+            lstModelTags.addElement(key);
         }
-        listTags.setModel(lstTag);
-        listFrequency.setModel(lstFreq);
+        listFreqs.setModel(lstModelFreqs);
+        listTags.setModel(lstModelTags);
     }
 
     /**
@@ -56,11 +56,11 @@ public class TagFrequency extends javax.swing.JDialog {
         jPanel2 = new javax.swing.JPanel();
         lblTag = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        listTags = new javax.swing.JList();
+        listFreqs = new javax.swing.JList();
         jPanel3 = new javax.swing.JPanel();
         lblFrequency = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        listFrequency = new javax.swing.JList();
+        listTags = new javax.swing.JList();
         jPanel4 = new javax.swing.JPanel();
         btnClose = new javax.swing.JButton();
 
@@ -69,12 +69,12 @@ public class TagFrequency extends javax.swing.JDialog {
 
         lblTag.setText("Tag");
 
-        listTags.setModel(new javax.swing.AbstractListModel() {
+        listFreqs.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(listTags);
+        jScrollPane1.setViewportView(listFreqs);
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -101,12 +101,12 @@ public class TagFrequency extends javax.swing.JDialog {
 
         lblFrequency.setText("Frequency");
 
-        listFrequency.setModel(new javax.swing.AbstractListModel() {
+        listTags.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(listFrequency);
+        jScrollPane2.setViewportView(listTags);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -206,7 +206,7 @@ public class TagFrequency extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblFrequency;
     private javax.swing.JLabel lblTag;
-    private javax.swing.JList listFrequency;
+    private javax.swing.JList listFreqs;
     private javax.swing.JList listTags;
     // End of variables declaration//GEN-END:variables
 }

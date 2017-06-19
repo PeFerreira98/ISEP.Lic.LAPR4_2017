@@ -53,6 +53,7 @@ public class JpaRepositoryFactory implements RepositoryFactory {
         return new JpaAddressRepository(this.settings);
     }
     
+    @Override
     public TagRepository tags(){
         return new JpaTagRepository(this.settings);
     }

@@ -6,10 +6,15 @@
 package lapr4.blue.s3.core.n1140948.contactstag.controller;
 
 import csheets.ui.ctrl.UIController;
+import eapli.framework.persistence.DataConcurrencyException;
+import eapli.framework.persistence.DataIntegrityViolationException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Properties;
 import lapr4.blue.s3.core.n1140948.contactstag.domain.Tag;
+import lapr4.blue.s3.core.n1140948.contactstag.persistance.TagRepository;
+import lapr4.white.s1.core.n4567890.contacts.ExtensionSettings;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 import lapr4.white.s1.core.n4567890.contacts.persistence.ContactRepository;
 import lapr4.white.s1.core.n4567890.contacts.persistence.PersistenceContext;
@@ -24,23 +29,25 @@ public class TagController {
     private UIController uiController;
     private Contact contact;
     private String contactType;
-    private RepositoryFactory m_factory = PersistenceContext.jparepositories();
-    private ContactRepository m_contacts = m_factory.contacts();
+    private Properties appProps;
+    private final ContactRepository contactsRepository;
+    private final PersistenceContext persistenceContext;
+    private final ExtensionSettings extensionSettings;
+    private final TagRepository tagRepository;
 
-    public TagController() {
-    }
-
-    /**
-     * Constructor with type of Contact
-     * @param type type of contact (Personal or Company)
-     */
-    public TagController(String type) {
-        this.contactType = type;
+    public TagController(UIController controller, Properties props) {
+        this.uiController = controller;
+        this.appProps = props;
+        this.extensionSettings = new ExtensionSettings(this.appProps);
+        this.persistenceContext = new PersistenceContext(this.extensionSettings);
+        this.contactsRepository = this.persistenceContext.repositories().contacts();
+        this.tagRepository = this.persistenceContext.repositories().tags();
     }
 
     /**
      * Setter of contact
-     * @param contact 
+     *
+     * @param contact
      */
     public void setContact(Contact contact) {
         this.contact = contact;
@@ -48,16 +55,18 @@ public class TagController {
 
     /**
      * Adds a tag to a contact
+     *
      * @param t tag to add
-     * @return 
+     * @return
      */
-    public boolean addTag(Tag t) {
-        return contact.addTag(t);
+    public Tag addTag(String textTag, Contact contact) throws DataConcurrencyException, DataIntegrityViolationException { 
+        return tagRepository.save(new Tag(textTag, contact));
     }
 
     /**
      * Gets the type of contact
-     * @return 
+     *
+     * @return
      */
     public String getContactType() {
         return contactType;
@@ -65,98 +74,57 @@ public class TagController {
 
     /**
      * Gets all tags registered
-     * @return 
+     *
+     * @return
      */
-    public List<Tag> getAllTags() {
-        List<Tag> tagList = new ArrayList<>();
-        for (Contact c : m_contacts.findAll()) {
-            for (Tag t : c.getTagList()) {
-                tagList.add(t);
-            }
-        }
-        return tagList;
+    public Iterable<Tag> getAllTags() {
+        return this.tagRepository.findAll();
     }
 
     /**
      * Finds a tag
+     *
      * @param tag tag to find
-     * @return 
+     * @return
      */
     public Tag findTagByString(String tag) {
-        for (Contact c : m_contacts.findAll()) {
-            for (Tag t : c.getTagList()) {
-                if (tag.equals(t.toString())) {
-                    return t;
-                }
-            }
-        }
-        return null;
+        return this.tagRepository.getTagByString(tag);
     }
 
     /**
      * Finds a contact by a tag
+     *
      * @param tag the tag to search
-     * @return 
+     * @return
      */
-    public List<Contact> findContactByTag(String tag) {
-        List<Contact> contactList = new ArrayList<>();
-        for (Contact c : m_contacts.findAll()) {
-            for (Tag t : c.getTagList()) {
-                if (tag.equals(t.toString())) {
-                    contactList.add(c);
-                }
-            }
-        }
-        return contactList;
+    public List<Contact> findContactByTag(Tag tag) {
+        return contactsRepository.getContactByTag(tag);
     }
-
-    /**
-     * Verifies if the List of tags is empty
-     * @return 
-     */
-    public boolean tagListIsEmpty() {
-        for (Contact c : m_contacts.findAll()) {
-            if (!c.getTagList().isEmpty()) {
-                return false;
-            }
-        }
-        return true;
-    }
-    
-    /**
-     * Verifies if the contact already has that tag
-     * @param t tag to validate
-     * @return 
-     */
-    public boolean validateTag(Tag t){
-        for(Contact c : m_contacts.findAll()){
-            if(c.getTagList().contains(t)){
-                return false;
-            }
-        }
-        return true;
-    }   
 
     /**
      * Method that searches the frequency of a tag usage
-     * @return 
+     *
+     * @return
      */
-    public HashMap<Integer, Tag> tagFrequency() {
-        if (!tagListIsEmpty()) {
-            int cont = 0;
-            HashMap<Integer, Tag> hashMap = new HashMap<>();
-            for (Contact c : m_contacts.findAll()) {
-                for (Tag t : c.getTagList()) {
-                    for (Tag tGen : this.getAllTags()) {
-                        if (t.equals(tGen)) {
-                            cont++;
-                        }
-                    }
-                    hashMap.put(cont, t);
+    public HashMap<Tag, Integer> tagFrequency() {
+        int cont = 0;
+        HashMap<Tag, Integer> hashMap = new HashMap<>();
+        
+        if (getAllTags().iterator().hasNext()) {
+            for (Tag t : getAllTags()) {
+                if (hashMap.containsKey(t)) {
+                    cont = hashMap.get(t);
+                    hashMap.replace(t, cont++);
                 }
+                hashMap.put(t, 1);
             }
+
             return hashMap;
         }
         return null;
+    }
+
+    public Iterable<Contact> allContacts() {
+        return contactsRepository.findAll();
     }
 }

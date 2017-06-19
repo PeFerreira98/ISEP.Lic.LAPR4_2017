@@ -7,6 +7,7 @@ package lapr4.blue.s3.core.n1140948.contactstag.ui;
 
 import javax.swing.DefaultListModel;
 import lapr4.blue.s3.core.n1140948.contactstag.controller.TagController;
+import lapr4.blue.s3.core.n1140948.contactstag.domain.Tag;
 import lapr4.green.s2.core.n1151211.CompanyContact.ui.CompanyContactDialog;
 import lapr4.green.s2.core.n1151211.CompanyContact.ui.PersonalContactDialog;
 import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
@@ -27,12 +28,12 @@ public class DisplaySearchedContacts extends javax.swing.JDialog {
         this.controller = ctrl;
         this.lstCnt = new DefaultListModel<>();
         initComponents();
-        initTagList(tag);
+        initTagList(controller.findTagByString(tag));
         setLocationRelativeTo(null);
         setVisible(true);
     }
 
-    private void initTagList(String tag) {
+    private void initTagList(Tag tag) {
         for (Contact c : controller.findContactByTag(tag)) {
             lstCnt.addElement(c);
         }

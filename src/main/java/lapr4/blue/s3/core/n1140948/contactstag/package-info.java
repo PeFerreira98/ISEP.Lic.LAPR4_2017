@@ -70,21 +70,18 @@
  * 6. The system saves edited contact.
  *
  * <h2>4. Design</h2>
- * 
- *
- * <h3>4.1. Functional Tests</h3>
- * 
- *
- * <h3>4.2. UC Realization</h3>
- * 
- * 
- * <h3>4.3. Classes</h3> * 
- * 
- * 
- * <h3>4.4. Unit Tests</h3>
- * 
+ * <p>
+ * <img src="core10.1.3_design_AssociateTags.png" alt="image">
+ * <p> 
  * 
  * <h2>5. Implementation</h2>
+ * <p>
+ * {@link lapr4.blue.s3.core.n1140948.contactstag}
+ * <br> {@link lapr4.blue.s3.core.n1140948.contactstag.controller}
+ * <br> {@link lapr4.blue.s3.core.n1140948.contactstag.domain}
+ * <br> {@link lapr4.blue.s3.core.n1140948.contactstag.ui}
+ * <br> {@link lapr4.blue.s3.core.n1140948.contactstag.persistance}
+ * <br> {@link lapr4.blue.s3.core.n1140948.contactstag.persistance.jpa}
  *  
  *
  * <h2>Work Log</h2>

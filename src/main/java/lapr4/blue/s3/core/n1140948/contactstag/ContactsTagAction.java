@@ -32,7 +32,7 @@ public class ContactsTagAction extends FocusOwnerAction {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        new AssociateTagUI();
+        new AssociateTagUI(uiController);
     }
     
 }

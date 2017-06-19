@@ -5,22 +5,15 @@
  */
 package lapr4.blue.s3.core.n1140948.contactstag.persistance;
 
-import java.util.List;
+import eapli.framework.persistence.repositories.Repository;
 import lapr4.blue.s3.core.n1140948.contactstag.domain.Tag;
+import lapr4.white.s1.core.n4567890.contacts.domain.Contact;
 
 /**
  *
  * @author Tiago Silvestre
  */
-public interface TagRepository {
-
-    /**
-     * Creates a new tag
-     *
-     * @param m_tag the tag to be created
-     * @return the tag created
-     */
-    public boolean saveTag(Tag m_tag);
+public interface TagRepository extends Repository<Tag, Long>{
 
     /**
      * Deletes a tag
@@ -29,19 +22,6 @@ public interface TagRepository {
      * @return tag removed
      */
     public boolean removeTag(Tag m_tag);
-
-    /**
-     * Updates a tag.
-     *
-     * @param m_tag the tag to be updated
-     * @return the updated tag
-     */
-    public boolean updateTag(Tag m_tag);
-
-    /**
-     * Return the list of all tags
-     *
-     * @return the list of all tags
-     */
-    public List<Tag> allTags();
+    
+    Tag getTagByString(String name);
 }
